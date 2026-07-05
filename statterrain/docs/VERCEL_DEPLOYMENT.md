@@ -22,13 +22,27 @@ to Vercel unmodified.
 ```bash
 npm install
 npm run lint
+npm run typecheck
 npm run build
 npm run start
 ```
 
-All four commands should complete without errors using only this repository's
+```bash
+npx playwright install chromium   # first run only
+npm run test:e2e
+```
+
+All commands should complete without errors using only this repository's
 `package.json` — no monorepo tooling, workspace files, or Replit configuration is
-required.
+required. See `docs/TESTING.md` for what the end-to-end suite covers.
+
+## Continuous integration
+
+`.github/workflows/ci.yml` (repository root) runs the same lint/typecheck/
+build/test sequence on every push and pull request touching `statterrain/**`,
+using a plain `ubuntu-latest` GitHub-hosted runner with no Replit-specific
+setup. This is a useful reference for reproducing a clean-environment install
+outside Replit.
 
 ## Notes
 
@@ -37,3 +51,11 @@ required.
   this attribution-compliant usage tier.
 - The evidence-brief export (Markdown/JSON/CSV) runs entirely client-side using the
   Blob/URL browser APIs — no server route is involved.
+- `package-lock.json` was generated inside the Replit environment, which routes
+  npm through an internal package-firewall mirror, so its `resolved` URLs point
+  at `package-firewall.replit.local`. This is transparent to npm on any other
+  machine: `npm ci`/`npm install` re-resolve packages against whatever registry
+  is configured locally (the public npm registry by default), so it does not
+  block installs on Vercel, GitHub Actions, or a developer laptop. If you want
+  a lockfile with public-registry URLs for cleanliness, regenerate it with
+  `rm package-lock.json && npm install` from outside the Replit environment.

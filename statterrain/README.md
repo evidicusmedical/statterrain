@@ -44,9 +44,11 @@ Then open `http://localhost:3000`.
 ## Other commands
 
 ```bash
-npm run lint    # ESLint (next lint)
-npm run build   # Production build
-npm run start   # Serve the production build
+npm run lint         # ESLint (next lint)
+npm run typecheck    # TypeScript --noEmit
+npm run build        # Production build
+npm run start        # Serve the production build
+npm run test:e2e     # Playwright end-to-end smoke tests (see docs/TESTING.md)
 ```
 
 ## Project structure
@@ -69,6 +71,7 @@ src/
   lib/                  Formatting, export (MD/JSON/CSV), planning considerations
   types/                Shared TypeScript types
 docs/                   Product scope, data-source plan, deployment guide, brand notes
+tests/                  Playwright end-to-end smoke tests
 ```
 
 ## Data
@@ -78,6 +81,15 @@ metadata of real public datasets (CMS, Census ACS, CDC PLACES/SVI, USDA RUCA, SA
 and example state trauma/stroke registries). See `docs/DATA_SOURCE_PLAN.md` for the
 full mapping and `docs/FUTURE_REFRESH_ARCHITECTURE.md` for a proposed path to real
 data.
+
+## Testing
+
+End-to-end smoke tests run against a real browser via Playwright and cover the
+critical workflow: page load, map rendering, filters, facility selection,
+population overlay, and evidence-brief export. See `docs/TESTING.md` for the
+full breakdown and how to run them. A GitHub Actions workflow
+(`.github/workflows/ci.yml`) runs lint, typecheck, build, and the smoke suite
+on every push and pull request.
 
 ## Deployment
 
@@ -90,6 +102,7 @@ environment variables are required.
 - `docs/PRODUCT_SCOPE.md` — what's in and out of scope for this prototype
 - `docs/DATA_SOURCE_PLAN.md` — synthetic data provenance and future real-data plan
 - `docs/VERCEL_DEPLOYMENT.md` — deployment steps
+- `docs/TESTING.md` — end-to-end test coverage and how to run it
 - `docs/FUTURE_REFRESH_ARCHITECTURE.md` — proposed architecture for live data refresh
 - `docs/BRAND_AND_NAMING.md` — naming status and rebranding instructions
 
