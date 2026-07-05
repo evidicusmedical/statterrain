@@ -97,13 +97,33 @@ npm ls --depth=0
 
 ## 8. CI outcome
 
-- **Replacement workflow run URL:** _(recorded once the PR triggers CI — see PR #3 checks tab)_
-- **Status / job result / step completion:** _(to be confirmed once GitHub Actions completes on the PR branch)_
+- **Replacement workflow run (first, PR #3 open):** https://github.com/evidicusmedical/statterrain/actions/runs/28756248124 (job id `85263768283`) — **FAILED**, but *not* at "Install dependencies" and *not* a lockfile error. `npm ci` reported success; the very next step ("Lint") failed with `sh: 1: next: not found` (exit 127).
+- **Re-run of the identical job (no code change, to rule out a flake):** same run id, job id `85263932781` — **FAILED identically**, same signature both times. This rules out network flakiness.
+- **Root cause of this second, distinct failure:** `npm error Exit handler never called!` appears in the "Install dependencies" step's log immediately before it reports success. This is a documented upstream npm defect in npm 10.8.2 (the version bundled with the Node 20 toolchain `actions/setup-node@v4` installs) — see `npm/cli` issues #7656, #7657, #7666, #7672, #8031. The bug causes `npm ci` to exit with status 0 (misreported as "success" by GitHub Actions) while some packages — in this repo's case, `next` — never get fully written to `node_modules/.bin`. This is **unrelated to the `package-lock.json` fix**: the lockfile-sync problem (Section 2/3) was fully and correctly resolved; this is a separate, pre-existing npm-tooling bug that the original CI workflow was always exposed to once the lockfile issue was fixed and `npm ci` could get further.
+- **Fix identified (not yet applied — see Section 8a):** add a step to `.github/workflows/ci.yml` immediately after "Set up Node.js" and before "Install dependencies" to upgrade npm to a patched release:
+  ```yaml
+      - name: Upgrade npm (workaround for npm 10.8.2 "Exit handler never called" bug)
+        run: npm install -g npm@10.9.2
+  ```
+  This is a one-line, additive change to the workflow file only — no application code, dependency manifest, or lockfile is touched by this fix.
+
+### 8a. Blocked: cannot push this fix — requires manual action
+
+The GitHub connection available in this environment issues OAuth tokens with a **fixed scope set** (`read:org, read:project, read:user, repo, user:email`) that does **not** include the `workflow` scope GitHub requires to create or update any file under `.github/workflows/`. This was confirmed directly: a real content change to `ci.yml` via the GitHub Contents API returned `403: refusing to allow an OAuth App to create or update workflow .github/workflows/ci.yml without workflow scope`. Reconnecting/re-authorizing the same GitHub connection was attempted and did **not** change the granted scopes (the connector does not expose a scope-selection step).
+
+**Action required from the repository owner** — one of:
+1. Apply the 3-line diff above directly in GitHub's web editor on branch `v0.1.2-ci-lockfile-repair` (Edit `.github/workflows/ci.yml` → insert the step shown above between "Set up Node.js" and "Install dependencies" → commit directly to the branch), **or**
+2. Provide a personal access token (classic) with the `repo` + `workflow` scopes so this change can be pushed programmatically, **or**
+3. Apply the same diff to `main` directly and rebase/merge PR #3 afterward.
+
+Once the step is added and pushed to `v0.1.2-ci-lockfile-repair`, GitHub Actions will automatically re-run on PR #3; that run must show a fully green job (Lint, Typecheck, Build, Playwright e2e, upload-artifact) before merging.
+
+- **Files this environment already pushed successfully (not blocked):** `statterrain/package-lock.json`, both handoff doc copies. These are the actual lockfile repair and are unaffected by the `workflow`-scope blocker.
 
 ## 9. Scope confirmation
 
-This patch introduced no changes to: product features, public/synthetic data, backend services, database schema, authentication, AI/CMS integration, deployment configuration, or Replit-runtime-level dependencies. No application source code, tests, or product branding were touched. The only functional change is a regenerated `package-lock.json` that makes `npm ci` succeed deterministically on the Node 20 toolchain used by GitHub Actions.
+This patch introduced no changes to: product features, public/synthetic data, backend services, database schema, authentication, AI/CMS integration, deployment configuration, or Replit-runtime-level dependencies. No application source code, tests, or product branding were touched. The functional changes are (a) a regenerated `package-lock.json` that makes `npm ci` succeed deterministically on the Node 20 toolchain used by GitHub Actions (applied), and (b) a one-line `ci.yml` step to work around an unrelated upstream npm 10.8.2 bug (identified, diff provided, **not yet applied** — requires `workflow`-scope write access this environment does not have).
 
 ## 10. Final statement
 
-v0.1.2 is complete pending GitHub Actions confirming a green run on the replacement PR. Once that is verified, the repository will be ready to proceed to v0.2.0. **v0.2.0 / CMS data integration work has not been started as part of this patch.**
+v0.1.2 is **not yet complete**. The `package-lock.json` fix (the originally reported failure) is verified correct both locally and on GitHub Actions (the "Install dependencies" step no longer fails with a lockfile-sync error). However, PR #3 cannot go green yet because of a second, independent, pre-existing npm 10.8.2 bug in the CI environment, and the one-line fix for it cannot be pushed from this environment due to a `workflow`-scope OAuth limitation — see Section 8a for the exact diff and required manual action. Do not merge PR #3 until the `workflow` fix is applied and a full green Actions run is confirmed. **v0.2.0 / CMS data integration work has not been started and should not begin until this PR is green and merged.**
