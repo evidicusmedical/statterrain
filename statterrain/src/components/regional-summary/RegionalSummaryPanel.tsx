@@ -20,7 +20,11 @@ export function RegionalSummaryPanel({ facilities }: { facilities: Facility[] })
         <h2 className="mb-2 text-sm font-semibold text-slate-900">Facilities in view</h2>
         <div className="grid grid-cols-2 gap-2 sm:grid-cols-3">
           {FACILITY_COUNT_ORDER.map((type) => (
-            <div key={type} className="rounded-md border border-slate-200 p-2.5 text-center">
+            <div
+              key={type}
+              className="rounded-md border border-slate-200 p-2.5 text-center"
+              data-testid={`facility-count-${type}`}
+            >
               <p className="text-xl font-semibold text-slate-900">
                 {facilities.filter((f) => f.facilityType === type).length}
               </p>

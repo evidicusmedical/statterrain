@@ -52,7 +52,7 @@ export function MapView({
   }, [overlay]);
 
   return (
-    <div className="relative h-full w-full">
+    <div className="relative h-full w-full" data-testid="map-view">
       <MapContainer
         center={[location.lat, location.lng]}
         zoom={11}
@@ -88,7 +88,13 @@ export function MapView({
         <CircleMarker
           center={[location.lat, location.lng]}
           radius={7}
-          pathOptions={{ color: "#1f2937", fillColor: "#1f2937", fillOpacity: 1, weight: 2 }}
+          pathOptions={{
+            color: "#1f2937",
+            fillColor: "#1f2937",
+            fillOpacity: 1,
+            weight: 2,
+            className: "search-location-marker",
+          }}
         >
           <Tooltip permanent={showLabels} direction="top">
             {location.label}
@@ -106,6 +112,7 @@ export function MapView({
               weight: f.id === selectedFacilityId ? 2.5 : 1,
               fillColor: FACILITY_MARKER_COLORS[f.facilityType],
               fillOpacity: 0.9,
+              className: `facility-marker facility-marker-${f.id}`,
             }}
             eventHandlers={{ click: () => onSelectFacility(f.id) }}
           >
