@@ -7,16 +7,21 @@ import { formatDate } from "@/lib/format";
 export function FacilityDetailPanel({ facility }: { facility: Facility | null }) {
   if (!facility) {
     return (
-      <div className="flex h-full items-center justify-center p-6 text-center text-sm text-slate-500">
+      <div
+        className="flex h-full items-center justify-center p-6 text-center text-sm text-slate-500"
+        data-testid="facility-detail-empty"
+      >
         Select a facility on the map or in the list to view its detail.
       </div>
     );
   }
 
   return (
-    <div className="flex h-full flex-col overflow-y-auto p-4">
+    <div className="flex h-full flex-col overflow-y-auto p-4" data-testid="facility-detail-panel">
       <div className="mb-1 flex items-start justify-between gap-2">
-        <h2 className="text-base font-semibold text-slate-900">{facility.name}</h2>
+        <h2 className="text-base font-semibold text-slate-900" data-testid="facility-detail-name">
+          {facility.name}
+        </h2>
       </div>
       <p className="text-sm text-slate-500">{FACILITY_TYPE_LABELS[facility.facilityType]}</p>
       <p className="mt-1 text-sm text-slate-600">{facility.address}</p>
