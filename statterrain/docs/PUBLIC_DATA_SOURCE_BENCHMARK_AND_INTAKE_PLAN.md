@@ -54,3 +54,9 @@ v0.2.2 adds the first real public-data ingestion pilot for CMS Hospital General 
 The current run in this environment was fetch-blocked, so no generated CMS hospital records were published. Reports are stored in `data/reports/cms-hospitals-validation-v0.2.2.json` and `data/reports/cms-hospitals-refresh-v0.2.2.json`; raw metadata is stored in `data/raw/cms-hospitals/cms-hospitals-raw-metadata-v0.2.2.json`. If a connected environment fetch succeeds, normalized output goes to `data/normalized/cms-hospitals/cms-hospitals-normalized-v0.2.2.json`, generated output goes to `data/generated/cms-hospitals.generated.json`, and passing validation updates `data/last-known-good/cms-hospitals.generated.json`.
 
 The main app remains synthetic by default and the CMS pilot does not power the main map. Coordinates may be missing because geocoding is explicitly deferred to v0.2.3. Emergency-services and critical-access labels are source-supported only. No patient-level data, claims data, PHI, live routing/diversion/bed status, or clinical decision support is added. The next patch should be v0.2.3 Facility Geocoding and Geography Join.
+
+## v0.2.8 intake update — CMS Dialysis Facility pilot
+
+The v0.2.8 source pilot activates `cms-dialysis-facilities` as the next CMS public facility source after hospitals. The source remains planning/context only and is not used in the default app map. It is prepared for future geocoding through a deterministic geocoding-input artifact, but v0.2.8 does not call a live geocoder or enable preview display.
+
+Required limitations remain explicit: dialysis data must not be used for patient referral, routing, transfer, treatment, appointment availability, dialysis station availability, staffing status, live operational capacity, emergency capability inference, or clinical decision support.

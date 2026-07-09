@@ -73,8 +73,8 @@
           "rationale": "Best first facility source: national official hospital listing with address, phone, hospital type, ownership and emergency-services indicators."
         },
         {
-          "id": "cms-dialysis-facility-listing",
-          "name": "CMS Dialysis Facility - Listing by Facility",
+          "id": "cms-dialysis-facilities",
+          "name": "CMS Dialysis Facility Care Compare / Listing by Facility",
           "agency": "Centers for Medicare & Medicaid Services",
           "category": "facility",
           "facilityTypesSupported": [
@@ -82,11 +82,11 @@
           ],
           "summaryMetricsSupported": [],
           "sourceAuthority": "official-federal",
-          "accessPattern": "csv-download",
+          "accessPattern": "api-or-csv-download",
           "accessStatus": "verified",
           "sourceUrl": "https://data.cms.gov/provider-data/dataset/23ew-n7w9",
-          "metadataUrl": "TBD",
-          "downloadUrl": "TBD",
+          "metadataUrl": "https://data.cms.gov/provider-data/dataset/23ew-n7w9",
+          "downloadUrl": "https://data.cms.gov/provider-data/api/1/datastore/query/23ew-n7w9/0?limit=50000",
           "dataDictionaryUrl": "TBD",
           "format": "csv",
           "estimatedIngestionDifficulty": "low",
@@ -101,7 +101,9 @@
           "licenseOrUseNotes": "Public official data; confirm terms during source-specific ingestion.",
           "knownLimitations": [
             "Specialized facility type; not useful for emergency receiving capability.",
-            "Quality/service fields require careful consumer-facing definitions."
+            "Quality/service fields require careful consumer-facing definitions.",
+            "v0.2.8 does not geocode dialysis records or enable map preview.",
+            "Must not be used for patient referral, routing, treatment scheduling, appointment availability, station availability, live capacity, staffing, or clinical decision support."
           ],
           "notAllowedUse": [
             "live routing",
@@ -115,9 +117,13 @@
           ],
           "primaryUse": "planning/situational awareness",
           "redundancyRole": "primary",
-          "recommendedPatch": "v0.2.3",
+          "recommendedPatch": "v0.2.8",
           "priorityScore": 86,
-          "rationale": "Official national dialysis facility inventory with addresses and phones; strong second-wave facility class after hospitals."
+          "rationale": "Official national dialysis facility inventory with addresses and phones; strong second-wave facility class after hospitals.",
+          "ingestionStatus": "pilot pipeline added; fixture-safe; real fetch validation-gated",
+          "validationStatus": "not-run",
+          "usedInCurrentApp": false,
+          "previewLabelRequired": true
         },
         {
           "id": "cms-nursing-home-provider-information",
@@ -1218,7 +1224,7 @@
       "redundancyRole": "primary"
     },
     {
-      "id": "cms-dialysis-facility-listing",
+      "id": "cms-dialysis-facilities",
       "priorityScore": 86,
       "recommendedPatch": "v0.2.3",
       "redundancyRole": "primary"

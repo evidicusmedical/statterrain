@@ -1,0 +1,43 @@
+{
+  "schemaVersion": "cms-dialysis-geocoding-input-v0.2.8",
+  "generatedAt": "2026-07-09T23:41:59.976Z",
+  "sourceId": "cms-dialysis-facilities",
+  "dataMode": "synthetic-test-fixture",
+  "allowedUse": "future geocoding preparation only; no live geocoding performed in v0.2.8",
+  "recordCount": 3,
+  "records": [
+    {
+      "sourceFacilityId": "FXD001",
+      "facilityName": "Example Fixture Dialysis Center Alpha",
+      "address": "100 Example Fixture Way",
+      "city": "Testville",
+      "state": "TS",
+      "zip": "00001",
+      "eligibleForFutureGeocoding": true,
+      "geocodingStatus": "not-yet-geocoded",
+      "geographyJoinStatus": "not-yet-joined"
+    },
+    {
+      "sourceFacilityId": "FXD002",
+      "facilityName": "Example Fixture Dialysis Center Beta",
+      "address": "200 Schema Sample Road",
+      "city": "Mock City",
+      "state": "TS",
+      "zip": "00002",
+      "eligibleForFutureGeocoding": true,
+      "geocodingStatus": "not-yet-geocoded",
+      "geographyJoinStatus": "not-yet-joined"
+    },
+    {
+      "sourceFacilityId": "FXD003",
+      "facilityName": "Example Fixture Dialysis Center Gamma",
+      "address": "300 Nonreal Avenue",
+      "city": "Faketown",
+      "state": "TS",
+      "zip": "00003",
+      "eligibleForFutureGeocoding": true,
+      "geocodingStatus": "not-yet-geocoded",
+      "geographyJoinStatus": "not-yet-joined"
+    }
+  ]
+}

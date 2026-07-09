@@ -1,0 +1,15 @@
+{
+  "schemaVersion": "cms-dialysis-validation-v0.2.8",
+  "generatedAt": "2026-07-09T23:42:00.461Z",
+  "status": "warn",
+  "recordCount": 3,
+  "dataMode": "synthetic-test-fixture",
+  "warnings": [
+    "Fixture-only dialysis artifact is schema-test data and not real public data."
+  ],
+  "errors": [],
+  "fallback": {
+    "lastKnownGoodExists": false,
+    "lastKnownGoodUpdated": false
+  }
+}
