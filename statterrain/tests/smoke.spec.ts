@@ -134,8 +134,25 @@ test.describe("StatTerrain critical workflow", () => {
     const detail = page.getByTestId("facility-detail-panel");
     await expect(detail).toBeVisible();
     await expect(page.getByTestId("facility-detail-name")).not.toBeEmpty();
-    await expect(detail.getByText("Sources for this facility")).toBeVisible();
+    for (const heading of [
+      "Facility identity",
+      "Capability summary",
+      "Contact and access information",
+      "Source and data quality",
+      "Known limitations",
+    ]) {
+      await expect(detail.getByRole("heading", { name: heading })).toBeVisible();
+    }
+    await expect(detail.getByText("Synthetic demonstration data — not a real-world source.").first()).toBeVisible();
+    await expect(detail.getByText("Not available in current source").first()).toBeVisible();
+    await expect(detail.getByText("Missing public data is not absence of capability")).toBeVisible();
     await expect(detail.getByText(/Confidence/).first()).toBeVisible();
+
+    await detail.getByText(/What this means:/).click();
+    await expect(detail.getByText("Plain-language meaning:").first()).toBeVisible();
+
+    await detail.getByText("Hospital capability glossary").click();
+    await expect(detail.getByText(/Emergency department:/)).toBeVisible();
   });
 
   test("a population-health overlay can be changed", async ({ page }) => {

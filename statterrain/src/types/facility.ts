@@ -21,7 +21,11 @@ export type CapabilityName =
   | "stemi_pci"
   | "pediatric_emergency"
   | "obstetric_capability"
-  | "behavioral_health_receiving";
+  | "behavioral_health_receiving"
+  | "emergency_department"
+  | "critical_access_hospital"
+  | "behavioral_health_capability"
+  | "dialysis_related_capability";
 
 export interface CapabilityRecord {
   capability: CapabilityName;
@@ -46,6 +50,13 @@ export interface Facility {
   lat: number;
   lng: number;
   address: string;
+  city?: string;
+  state?: string;
+  zip?: string;
+  phone?: string;
+  website?: string;
+  email?: string;
+  fax?: string;
   distanceMiles: number;
   approxDriveTimeMinutes: number;
   criticalAccess: boolean;
@@ -80,4 +91,8 @@ export const CAPABILITY_LABELS: Record<CapabilityName, string> = {
   pediatric_emergency: "Pediatric Emergency Capability",
   obstetric_capability: "Obstetric Capability",
   behavioral_health_receiving: "Behavioral Health Receiving Facility",
+  emergency_department: "Emergency department",
+  critical_access_hospital: "Critical access hospital",
+  behavioral_health_capability: "Behavioral health capability",
+  dialysis_related_capability: "Dialysis-related capability",
 };

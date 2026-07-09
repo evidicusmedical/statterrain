@@ -47,3 +47,11 @@ documented capabilities, and population-health context for a region.
 `npm install`, `npm run dev`, `npm run lint`, and `npm run build` succeed with no
 Replit-specific configuration, environment variables, or services required. The app
 deploys unmodified to Vercel as a static/standard Next.js App Router project.
+
+## v0.1.4 facility detail scope
+
+Facility detail screens use a standardized display structure covering facility identity, capability summary, contact/access information, source and data quality, and known limitations. The UI distinguishes synthetic demonstration values from future real source-linked fields and uses explicit missing-data language such as `Not available in current source` and `Not verified in current source`.
+
+Facility category explanations cover hospitals, critical access hospitals, pharmacies, dialysis centers, skilled nursing facilities, and behavioral-health facilities. Hospital capability definitions cover emergency department, critical access hospital, trauma, stroke, STEMI/PCI, pediatric, behavioral-health, and dialysis-related capability terms. Each definition includes operational caution: this product is not live routing, diversion, transfer, destination, medical-control, bed-status, or clinical decision-support software.
+
+No real CMS, Census, CDC, SAMHSA, NPPES, or other public data ingestion was added for v0.1.4. No backend, database, authentication, PHI handling, AI API, or live operational workflow was added.

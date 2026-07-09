@@ -100,3 +100,9 @@ debugging failures without needing local reproduction.
 - If a new synthetic data field is added, and a test needs to reference a
   specific record, add a `const SAMPLE_..._ID = "..."` constant at the top of
   the spec file (see `SAMPLE_FACILITY_ID`) rather than hard-coding IDs inline.
+
+## v0.1.4 Playwright coverage
+
+The smoke suite now verifies that selecting a facility opens the standardized facility detail panel and shows the required sections: Facility identity, Capability summary, Contact and access information, Source and data quality, and Known limitations. It also checks synthetic-data labeling, unavailable-data language, category explanation access, and hospital capability glossary access.
+
+Evidence brief tests continue to verify the v0.1.3 behavior: the default brief remains geography-based, includes the scope statement, and is not silently narrowed by map display filters. Markdown, JSON, and CSV export checks remain in the end-to-end workflow, along with mobile viewport usability coverage.

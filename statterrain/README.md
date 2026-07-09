@@ -111,3 +111,13 @@ environment variables are required.
 ## License
 
 MIT — see `LICENSE`.
+
+## v0.1.4 facility detail and capability-definition framework
+
+Facility detail panels now follow a standardized structure: Facility identity, Capability summary, Contact and access information, Source and data quality, and Known limitations. Missing contact or capability fields are intentionally shown as `Not available in current source` or `Not verified in current source` rather than hidden when omission could make records appear more complete than they are.
+
+The prototype uses consistent verification language for facility details and capabilities: `Verified yes`, `Verified no`, `Not available in current source`, `Not applicable`, and `Synthetic demonstration value`. Missing public data must not be treated as absence of capability.
+
+Facility category definitions and a hospital capability glossary explain plain-language meaning, planning relevance, known limitations, and operational caution. These definitions prepare the UI for future public-data source mapping without claiming that the synthetic demonstration records are nationally verified.
+
+All facility records remain synthetic demonstration data and are labeled: `Synthetic demonstration data — not a real-world source.` StatTerrain remains planning and situational-awareness software only; it does not provide live routing, diversion, bed status, transfer, destination, medical-control, or clinical decision support.
