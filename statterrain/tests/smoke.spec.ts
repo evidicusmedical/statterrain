@@ -1,4 +1,5 @@
 import { test, expect, type Page } from "@playwright/test";
+import { product } from "../src/config/product";
 
 /**
  * StatTerrain smoke suite.
@@ -46,7 +47,7 @@ test.describe("StatTerrain critical workflow", () => {
     await expect(
       page.getByText("StatTerrain", { exact: true }).first(),
     ).toBeVisible();
-    await expect(page.getByText("v0.2.6 prototype")).toBeVisible();
+    await expect(page.getByText(product.prototypeVersion)).toBeVisible();
     const fatal = errors.fatal();
     expect(
       fatal,

@@ -25,7 +25,7 @@ test.describe("public-data source registry scaffold", () => {
 });
 
 test.describe("CMS hospital fixture safety", () => {
-  test("current CMS artifact remains blocked when live geocoding guardrails do not pass", async () => {
+  test("current CMS artifact is live-geocoded and eligible for optional preview", async () => {
     const generated = JSON.parse(
       await readFile(
         join(process.cwd(), "data/generated/cms-hospitals.generated.json"),
@@ -39,8 +39,12 @@ test.describe("CMS hospital fixture safety", () => {
     expect(generated.records).toHaveLength(5);
     for (const record of generated.records) {
       expect(record.syntheticFixtureRecord).toBeUndefined();
-      expect(record.latitude).toBeNull();
-      expect(record.longitude).toBeNull();
+      expect(typeof record.latitude).toBe("number");
+      expect(Number.isFinite(record.latitude)).toBe(true);
+      expect(typeof record.longitude).toBe("number");
+      expect(Number.isFinite(record.longitude)).toBe(true);
+      expect(record.geocodingStatus).toBe("matched");
+      expect(record.geographyJoinStatus).toBe("joined");
     }
 
     const geocodingSummary = JSON.parse(
@@ -56,10 +60,24 @@ test.describe("CMS hospital fixture safety", () => {
     expect(geocodingSummary.externalCallsEnabled).toBe(true);
     expect(geocodingSummary.liveGeocodingLimit).toBe(5);
     expect(geocodingSummary.recordCount).toBe(5);
-    expect(geocodingSummary.matchedCount).toBe(0);
-    expect(geocodingSummary.joinedCount).toBe(0);
-    expect(geocodingSummary.failedEligibleCount).toBe(5);
+    expect(geocodingSummary.matchedCount).toBe(5);
+    expect(geocodingSummary.joinedCount).toBe(5);
+    expect(geocodingSummary.failedEligibleCount).toBe(0);
   });
+  test("current live-geocoded artifact limitations do not contain stale dry-run map copy", async () => {
+    const generatedText = await readFile(
+      join(process.cwd(), "data/generated/cms-hospitals.generated.json"),
+      "utf8",
+    );
+    expect(generatedText).toContain(
+      "Coordinates were derived from a bounded live Census Geocoder run and are for public-data preview context only.",
+    );
+    expect(generatedText).toContain("CMS data do not power the main app map by default.");
+    expect(generatedText).not.toContain(
+      "Coordinates are not provided by this CMS source; the current artifact has dry-run geocoding only and is not map-ready.",
+    );
+  });
+
 });
 
 test.describe("product version guardrail", () => {
@@ -68,7 +86,8 @@ test.describe("product version guardrail", () => {
       join(process.cwd(), "src/config/product.ts"),
       "utf8",
     );
-    expect(productConfig).toContain('prototypeVersion: "v0.2.6 prototype"');
+    expect(productConfig).toContain('prototypeVersion: "v0.2.7.1 prototype"');
+    expect(productConfig).not.toContain('prototypeVersion: "v0.2.6 prototype"');
     expect(productConfig).not.toContain('prototypeVersion: "v0.2.5 prototype"');
   });
 });

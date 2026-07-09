@@ -25,9 +25,10 @@
     },
     "limitations": [
       "Does not provide live diversion, bed availability, transfer readiness, or service-line capacity.",
-      "Coordinates require geocoding or supplemental geometry.",
-      "Coordinates are not provided by this CMS source; the current artifact has dry-run geocoding only and is not map-ready.",
-      "CMS data do not power the main app map in the current prototype."
+      "Coordinates were derived from a bounded live Census Geocoder run and are for public-data preview context only.",
+      "CMS data do not power the main app map by default.",
+      "Do not use for routing, diversion, bed status, dispatch, triage, transfer, medical control, or clinical decision support.",
+      "Verify facility capability, operating status, and coordinates with official sources."
     ],
     "allowedUses": [
       "planning",
@@ -93,9 +94,10 @@
       },
       "limitations": [
         "Does not provide live diversion, bed availability, transfer readiness, or service-line capacity.",
-        "Coordinates require geocoding or supplemental geometry.",
-        "Coordinates are not provided by this CMS source; the current artifact has dry-run geocoding only and is not map-ready.",
-        "CMS data do not power the main app map in the current prototype."
+        "Coordinates were derived from a bounded live Census Geocoder run and are for public-data preview context only.",
+        "CMS data do not power the main app map by default.",
+        "Do not use for routing, diversion, bed status, dispatch, triage, transfer, medical control, or clinical decision support.",
+        "Verify facility capability, operating status, and coordinates with official sources."
       ],
       "geocodingConfidence": "street-segment",
       "geography": {
@@ -147,9 +149,10 @@
       },
       "limitations": [
         "Does not provide live diversion, bed availability, transfer readiness, or service-line capacity.",
-        "Coordinates require geocoding or supplemental geometry.",
-        "Coordinates are not provided by this CMS source; the current artifact has dry-run geocoding only and is not map-ready.",
-        "CMS data do not power the main app map in the current prototype."
+        "Coordinates were derived from a bounded live Census Geocoder run and are for public-data preview context only.",
+        "CMS data do not power the main app map by default.",
+        "Do not use for routing, diversion, bed status, dispatch, triage, transfer, medical control, or clinical decision support.",
+        "Verify facility capability, operating status, and coordinates with official sources."
       ],
       "geocodingConfidence": "street-segment",
       "geography": {
@@ -201,9 +204,10 @@
       },
       "limitations": [
         "Does not provide live diversion, bed availability, transfer readiness, or service-line capacity.",
-        "Coordinates require geocoding or supplemental geometry.",
-        "Coordinates are not provided by this CMS source; the current artifact has dry-run geocoding only and is not map-ready.",
-        "CMS data do not power the main app map in the current prototype."
+        "Coordinates were derived from a bounded live Census Geocoder run and are for public-data preview context only.",
+        "CMS data do not power the main app map by default.",
+        "Do not use for routing, diversion, bed status, dispatch, triage, transfer, medical control, or clinical decision support.",
+        "Verify facility capability, operating status, and coordinates with official sources."
       ],
       "geocodingConfidence": "street-segment",
       "geography": {
@@ -255,9 +259,10 @@
       },
       "limitations": [
         "Does not provide live diversion, bed availability, transfer readiness, or service-line capacity.",
-        "Coordinates require geocoding or supplemental geometry.",
-        "Coordinates are not provided by this CMS source; the current artifact has dry-run geocoding only and is not map-ready.",
-        "CMS data do not power the main app map in the current prototype."
+        "Coordinates were derived from a bounded live Census Geocoder run and are for public-data preview context only.",
+        "CMS data do not power the main app map by default.",
+        "Do not use for routing, diversion, bed status, dispatch, triage, transfer, medical control, or clinical decision support.",
+        "Verify facility capability, operating status, and coordinates with official sources."
       ],
       "geocodingConfidence": "street-segment",
       "geography": {
@@ -309,9 +314,10 @@
       },
       "limitations": [
         "Does not provide live diversion, bed availability, transfer readiness, or service-line capacity.",
-        "Coordinates require geocoding or supplemental geometry.",
-        "Coordinates are not provided by this CMS source; the current artifact has dry-run geocoding only and is not map-ready.",
-        "CMS data do not power the main app map in the current prototype."
+        "Coordinates were derived from a bounded live Census Geocoder run and are for public-data preview context only.",
+        "CMS data do not power the main app map by default.",
+        "Do not use for routing, diversion, bed status, dispatch, triage, transfer, medical control, or clinical decision support.",
+        "Verify facility capability, operating status, and coordinates with official sources."
       ],
       "geocodingConfidence": "street-segment",
       "geography": {

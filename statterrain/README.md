@@ -205,3 +205,9 @@ v0.2.2 adds the first real public-data ingestion pilot for CMS Hospital General 
 The current run in this environment was fetch-blocked, so no generated CMS hospital records were published. Reports are stored in `data/reports/cms-hospitals-validation-v0.2.2.json` and `data/reports/cms-hospitals-refresh-v0.2.2.json`; raw metadata is stored in `data/raw/cms-hospitals/cms-hospitals-raw-metadata-v0.2.2.json`. If a connected environment fetch succeeds, normalized output goes to `data/normalized/cms-hospitals/cms-hospitals-normalized-v0.2.2.json`, generated output goes to `data/generated/cms-hospitals.generated.json`, and passing validation updates `data/last-known-good/cms-hospitals.generated.json`.
 
 The main app remains synthetic by default and the CMS pilot does not power the main map. Coordinates may be missing because geocoding is explicitly deferred to v0.2.3. Emergency-services and critical-access labels are source-supported only. No patient-level data, claims data, PHI, live routing/diversion/bed status, or clinical decision support is added. The next patch should be v0.2.3 Facility Geocoding and Geography Join.
+
+## v0.2.7.1 release tracking and CMS preview status
+
+Release tracking rule: every patch must update `product.prototypeVersion` in `src/config/product.ts`. This visible version is used to confirm Vercel deployment freshness and prevent stale UI confusion. Tests must be updated with each patch to assert the expected visible version.
+
+PR #24 successfully produced a bounded live-geocoded CMS Hospital General Information public-data preview artifact: 5 records were matched by the Census Geocoder and joined to geography. The CMS preview remains optional and off by default; the default map remains synthetic demonstration data. The broader CMS national dataset is not complete in this prototype. The next patch after v0.2.7.1 should be v0.2.8 CMS Dialysis Facility Pilot.

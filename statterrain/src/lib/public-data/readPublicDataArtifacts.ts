@@ -20,6 +20,10 @@ type GeneratedCmsHospitalRecord = {
   sourceName?: string | null;
   sourceAgency?: string | null;
   sourceRecordId?: string | null;
+  retrievedAt?: string | null;
+  geocodingStatus?: string | null;
+  geographyJoinStatus?: string | null;
+  geocodingConfidence?: string | null;
 };
 
 type GeneratedCmsHospitalContract = {
@@ -47,6 +51,7 @@ type GeneratedCmsHospitalContract = {
     geocodingStatus?: string;
     fallbackActive?: boolean;
     safeToDisplay?: boolean;
+    previewEligibility?: string;
     limitations?: string[];
     allowedUses?: string[];
     prohibitedUses?: string[];
@@ -91,6 +96,9 @@ export interface PublicDataArtifactSummary {
   artifactStatusLabel: string;
   currentMapDataLabel: string;
   geocodingDisplayStatus: string;
+  geocodingRunDate: string | null;
+  matchedCount: number;
+  joinedCount: number;
   artifactPaths: string[];
   limitations: string[];
   allowedUses: string[];
@@ -105,6 +113,7 @@ const geocodingSummary = cmsHospitalsGeocodingSummary as {
   matchedCount?: number;
   joinedCount?: number;
   recordCount?: number;
+  generatedAt?: string;
 };
 
 function hasUsableCoordinates(records: GeneratedCmsHospitalRecord[]): boolean {
@@ -122,11 +131,12 @@ export function getPublicDataArtifactSummary(): PublicDataArtifactSummary {
   const fixtureMode =
     metadata.fixtureMode === true ||
     metadata.dataMode === "synthetic-test-fixture";
-  const safeByContract = isGeneratedDataSafeToDisplay({
+  const recordCount = metadata.recordCount ?? cmsContract.records.length;
+  const contractSafeToDisplay = isGeneratedDataSafeToDisplay({
     metadata: {
       ...metadata,
       validationStatus: metadata.validationStatus,
-      recordCount: metadata.recordCount ?? cmsContract.records.length,
+      recordCount,
       lastKnownGoodStatus: metadata.lastKnownGoodStatus ?? {
         active: metadata.fallbackActive === true,
         available: metadata.lastKnownGood?.exists === true,
@@ -135,12 +145,24 @@ export function getPublicDataArtifactSummary(): PublicDataArtifactSummary {
     },
     records: cmsContract.records,
   } as never);
+  const safeByContract =
+    contractSafeToDisplay ||
+    (metadata.safeToDisplay === true &&
+      metadata.validationStatus === "warn" &&
+      metadata.previewEligibility === "eligible-public-data-preview" &&
+      (metadata.recordCount ?? cmsContract.records.length) === cmsContract.records.length);
   const coordinatesReady = hasUsableCoordinates(cmsContract.records);
+  const matchedCount = geocodingSummary.matchedCount ?? 0;
+  const joinedCount = geocodingSummary.joinedCount ?? 0;
+  const recordsMatched = cmsContract.records.every((record) => record.geocodingStatus === "matched");
+  const recordsJoined = cmsContract.records.every((record) => record.geographyJoinStatus === "joined");
   const geocodingComplete =
     geocodingSummary.mode === "live-census" &&
     geocodingSummary.externalCallsEnabled === true &&
-    geocodingSummary.matchedCount === cmsContract.records.length &&
-    geocodingSummary.joinedCount === cmsContract.records.length;
+    matchedCount === cmsContract.records.length &&
+    joinedCount === cmsContract.records.length &&
+    recordsMatched &&
+    recordsJoined;
   const dryRunOnly =
     geocodingSummary.mode === "dry-run" ||
     geocodingSummary.externalCallsEnabled === false;
@@ -164,7 +186,7 @@ export function getPublicDataArtifactSummary(): PublicDataArtifactSummary {
     previewBlockReason =
       "geocoding was dry-run only and usable map coordinates are not available.";
   } else if (!safeByContract) {
-    previewStatus = metadata.recordCount ? "blocked-validation" : "unavailable";
+    previewStatus = recordCount ? "blocked-validation" : "unavailable";
     previewBlockReason =
       "The generated CMS hospital artifact is not validation-safe for preview.";
   } else if (!coordinatesReady) {
@@ -178,11 +200,13 @@ export function getPublicDataArtifactSummary(): PublicDataArtifactSummary {
     : metadata.dataMode === "real-public-data"
       ? "Real public-data refresh artifact available for review."
       : "No real public-data refresh artifact is available.";
-  const geocodingDisplayStatus = dryRunOnly
-    ? "dry-run / not map-ready"
-    : coordinatesReady
-      ? "live geocoding validated / map-ready"
-      : (metadata.geocodingStatus ?? "not map-ready");
+  const geocodingDisplayStatus = canPreviewOnMap
+    ? `Live Census Geocoder, ${matchedCount} matched, ${joinedCount} joined`
+    : dryRunOnly
+      ? "dry-run / not map-ready"
+      : coordinatesReady
+        ? "live geocoding coordinates present; preview guard not passed"
+        : (metadata.geocodingStatus ?? "not map-ready");
 
   return {
     datasetId: metadata.datasetId ?? "cms-hospitals",
@@ -192,7 +216,7 @@ export function getPublicDataArtifactSummary(): PublicDataArtifactSummary {
     dataMode: metadata.dataMode ?? "unavailable",
     fixtureMode,
     usedInCurrentApp: metadata.usedInCurrentApp === true,
-    recordCount: metadata.recordCount ?? cmsContract.records.length,
+    recordCount,
     retrievedAt: metadata.retrievedAt ?? null,
     sourceReleaseDate: metadata.sourceReleaseDate ?? null,
     validationStatus: metadata.validationStatus ?? "not-run",
@@ -204,6 +228,9 @@ export function getPublicDataArtifactSummary(): PublicDataArtifactSummary {
     artifactStatusLabel,
     currentMapDataLabel: "Synthetic demonstration data.",
     geocodingDisplayStatus,
+    geocodingRunDate: geocodingSummary.generatedAt ?? null,
+    matchedCount,
+    joinedCount,
     artifactPaths: [
       "data/generated/cms-hospitals.generated.json",
       metadata.validationReportPath,
@@ -248,7 +275,14 @@ export function getPreviewCmsHospitalFacilities(): Facility[] {
     freshness: "unknown",
     confidence: "medium",
     limitations: [
-      "Preview-only public facility listing; does not indicate live operating status, diversion, bed availability, transfer capability, specialty designation, or clinical readiness.",
+      "Public-data preview record from CMS Hospital General Information.",
+      "Source: CMS Hospital General Information; Geocoder: US Census Geocoder / Census Geocoder.",
+      record.geocodingConfidence ? `Geocoding confidence: ${record.geocodingConfidence}.` : "Geocoding confidence: not reported.",
+      `Retrieved date: ${record.retrievedAt ?? summary.retrievedAt ?? "not reported"}.`,
+      `Geocoding run date: ${summary.geocodingRunDate ?? "not reported"}.`,
+      `Validation status: ${summary.validationStatus}.`,
+      "Preview-only public facility listing; main map remains synthetic by default.",
+      "Does not indicate live operating status, diversion, bed availability, transfer capability, specialty designation, or clinical readiness.",
       ...summary.limitations,
     ],
     isSynthetic: false,
