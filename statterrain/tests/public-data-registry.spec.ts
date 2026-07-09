@@ -5,7 +5,10 @@ import { test, expect } from "@playwright/test";
 test.describe("public-data source registry scaffold", () => {
   test("planned sources have unique IDs and no active real-ingested data", async () => {
     const registry = JSON.parse(
-      await readFile(join(process.cwd(), "data/sources/source-registry.json"), "utf8"),
+      await readFile(
+        join(process.cwd(), "data/sources/source-registry.json"),
+        "utf8",
+      ),
     );
     const ids = registry.sources.map((source: { id: string }) => source.id);
     expect(new Set(ids).size).toBe(ids.length);
@@ -22,20 +25,46 @@ test.describe("public-data source registry scaffold", () => {
 });
 
 test.describe("CMS hospital fixture safety", () => {
-  test("fixture output is explicitly non-production and app-inactive", async () => {
+  test("current CMS artifact is real public data but blocked from map preview", async () => {
     const generated = JSON.parse(
-      await readFile(join(process.cwd(), "data/generated/cms-hospitals.generated.json"), "utf8"),
+      await readFile(
+        join(process.cwd(), "data/generated/cms-hospitals.generated.json"),
+        "utf8",
+      ),
     );
-    expect(generated.metadata.dataMode).toBe("synthetic-test-fixture");
-    expect(generated.metadata.fixtureMode).toBe(true);
+    expect(generated.metadata.dataMode).toBe("real-public-data");
+    expect(generated.metadata.fixtureMode).toBe(false);
     expect(generated.metadata.usedInCurrentApp).toBe(false);
     expect(generated.metadata.previewLabelRequired).toBe(true);
-    expect(generated.metadata.lastKnownGood.updatedThisRun).toBe(false);
-    expect(generated.records).toHaveLength(4);
+    expect(generated.records).toHaveLength(5);
     for (const record of generated.records) {
-      expect(record.syntheticFixtureRecord).toBe(true);
+      expect(record.syntheticFixtureRecord).toBeUndefined();
       expect(record.latitude).toBeNull();
       expect(record.longitude).toBeNull();
     }
+
+    const geocodingSummary = JSON.parse(
+      await readFile(
+        join(
+          process.cwd(),
+          "data/reports/cms-hospitals-geocoding-summary-v0.2.4.json",
+        ),
+        "utf8",
+      ),
+    );
+    expect(geocodingSummary.mode).toBe("dry-run");
+    expect(geocodingSummary.externalCallsEnabled).toBe(false);
+    expect(geocodingSummary.matchedCount).toBe(0);
+  });
+});
+
+test.describe("product version guardrail", () => {
+  test("visible product version is centralized and current", async () => {
+    const productConfig = await readFile(
+      join(process.cwd(), "src/config/product.ts"),
+      "utf8",
+    );
+    expect(productConfig).toContain('prototypeVersion: "v0.2.6 prototype"');
+    expect(productConfig).not.toContain('prototypeVersion: "v0.2.5 prototype"');
   });
 });

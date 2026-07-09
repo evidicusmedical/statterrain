@@ -76,7 +76,7 @@
   "limitations": [
     "Does not provide live diversion, bed availability, transfer readiness, or service-line capacity.",
     "Coordinates require geocoding or supplemental geometry.",
-    "Coordinates are not provided by this CMS source and are not geocoded in v0.2.3.",
-    "CMS data do not power the main app map in v0.2.3."
+    "Coordinates are not provided by this CMS source; the current artifact has dry-run geocoding only and is not map-ready.",
+    "CMS data do not power the main app map in the current prototype."
   ]
 }
