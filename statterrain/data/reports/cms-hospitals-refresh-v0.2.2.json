@@ -1,0 +1,26 @@
+{
+  "schemaVersion": "cms-hospitals-refresh-v0.2.2",
+  "sourceId": "cms-hospital-general-information",
+  "datasetId": "cms-hospitals-baseline-v0.2.2",
+  "refreshAttemptTimestamp": "2026-07-09T20:54:31.255Z",
+  "sourceUrl": "https://data.cms.gov/provider-data/dataset/xubh-q36u",
+  "downloadUrl": "https://data.cms.gov/provider-data/api/1/datastore/query/xubh-q36u/0?limit=50000",
+  "rawSnapshotMetadataPath": "data/raw/cms-hospitals/cms-hospitals-raw-metadata-v0.2.2.json",
+  "normalizedOutputPath": "data/normalized/cms-hospitals/cms-hospitals-normalized-v0.2.2.json",
+  "generatedOutputPath": "data/generated/cms-hospitals.generated.json",
+  "validationReportPath": "data/reports/cms-hospitals-validation-v0.2.2.json",
+  "recordCount": 0,
+  "warnings": [],
+  "errors": [
+    "fetch failed"
+  ],
+  "fallbackStatus": {
+    "fallbackActive": false,
+    "lastKnownGoodExists": false,
+    "lastKnownGoodPath": "data/last-known-good/cms-hospitals.generated.json"
+  },
+  "publishRecommendation": "do-not-publish",
+  "nextRecommendedAction": "Retry in connected environment or update source URL; no app-visible data changed.",
+  "fetchStatus": "fetch-failed",
+  "validationStatus": "fail"
+}

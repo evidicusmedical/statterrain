@@ -46,7 +46,7 @@ test.describe("StatTerrain critical workflow", () => {
     await expect(
       page.getByText("StatTerrain", { exact: true }).first(),
     ).toBeVisible();
-    await expect(page.getByText("v0.2.0 prototype")).toBeVisible();
+    await expect(page.getByText("v0.2.2 prototype")).toBeVisible();
     const fatal = errors.fatal();
     expect(
       fatal,
