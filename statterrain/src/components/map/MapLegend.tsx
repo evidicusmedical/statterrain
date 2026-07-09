@@ -12,17 +12,33 @@ const LEGEND_FACILITY_TYPES: FacilityType[] = [
   "behavioral_health",
 ];
 
-export function MapLegend({ overlay }: { overlay: OverlayMetricId | null }) {
+export function MapLegend({
+  overlay,
+  onCollapse,
+}: {
+  overlay: OverlayMetricId | null;
+  onCollapse: () => void;
+}) {
   return (
-    <div className="pointer-events-auto max-w-[220px] rounded-lg border border-slate-200 bg-white/95 p-3 text-xs shadow-panel">
-      <h3 className="mb-1.5 text-[11px] font-semibold uppercase tracking-wide text-slate-500">
-        Legend
-      </h3>
-      <ul className="flex flex-col gap-1 mb-2">
+    <div className="pointer-events-auto max-h-[42vh] w-[min(14rem,calc(100vw-1.5rem))] overflow-y-auto rounded-lg border border-slate-200 bg-white/95 p-2.5 text-[11px] shadow-panel sm:max-h-none sm:w-auto sm:max-w-[220px] sm:p-3 sm:text-xs">
+      <div className="mb-1.5 flex items-center justify-between gap-2">
+        <h3 className="text-[11px] font-semibold uppercase tracking-wide text-slate-500">
+          Legend
+        </h3>
+        <button
+          type="button"
+          onClick={onCollapse}
+          className="min-h-9 rounded-md border border-slate-200 px-2 py-1 text-[11px] font-semibold text-slate-600 hover:bg-slate-50 focus:outline-none focus:ring-2 focus:ring-terrain-500 focus:ring-offset-1"
+          aria-label="Hide legend"
+        >
+          Hide
+        </button>
+      </div>
+      <ul className="mb-2 flex flex-col gap-0.5 sm:gap-1">
         {LEGEND_FACILITY_TYPES.map((type) => (
           <li key={type} className="flex items-center gap-2 text-slate-700">
             <span
-              className="inline-block h-2.5 w-2.5 rounded-full border border-white shadow"
+              className="inline-block h-2.5 w-2.5 shrink-0 rounded-full border border-white shadow"
               style={{ backgroundColor: FACILITY_MARKER_COLORS[type] }}
               aria-hidden
             />
@@ -44,9 +60,12 @@ export function MapLegend({ overlay }: { overlay: OverlayMetricId | null }) {
           </div>
         </div>
       )}
-      <p className="mt-2 border-t border-slate-200 pt-1.5 text-[10px] leading-snug text-slate-400">
-        Synthetic demonstration data. Not verified operational status. Base map: OpenStreetMap. Map currency depends on OpenStreetMap contributor updates and tile-provider refresh. Newly developed roads, neighborhoods, facilities, or communities may not appear immediately.
-      </p>
+      <details className="mt-2 border-t border-slate-200 pt-1.5 text-[10px] leading-snug text-slate-500">
+        <summary className="cursor-pointer font-semibold text-slate-600">Map note</summary>
+        <p className="mt-1">
+          Synthetic demonstration data. Base map: OpenStreetMap. Map currency depends on contributor and tile-provider updates.
+        </p>
+      </details>
     </div>
   );
 }

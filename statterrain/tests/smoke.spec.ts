@@ -39,13 +39,14 @@ async function collectPageErrors(page: Page) {
 }
 
 test.describe("StatTerrain critical workflow", () => {
-  test("home page loads and product name is visible", async ({ page }) => {
+  test("home page loads and product version is visible", async ({ page }) => {
     const errors = await collectPageErrors(page);
     const response = await page.goto("/");
     expect(response?.status()).toBeLessThan(400);
     await expect(
       page.getByText("StatTerrain", { exact: true }).first(),
     ).toBeVisible();
+    await expect(page.getByText("v0.1.9 prototype")).toBeVisible();
     const fatal = errors.fatal();
     expect(
       fatal,
@@ -313,7 +314,18 @@ test.describe("StatTerrain critical workflow", () => {
     ).toBeVisible();
     await expect
       .poll(() => page.evaluate(() => navigator.clipboard.readText()))
-      .toContain("StatTerrain v0.1.7 prototype");
+      .toContain("StatTerrain v0.1.9 prototype");
+  });
+
+
+  test("desktop map legend is discoverable and collapsible", async ({ page }) => {
+    await page.goto("/");
+    await expect(page.getByRole("heading", { name: "Legend" })).toBeVisible();
+    await page.getByRole("button", { name: "Hide legend" }).click();
+    await expect(page.getByRole("heading", { name: "Legend" })).toHaveCount(0);
+    await expect(page.getByRole("button", { name: "Show map legend" })).toBeVisible();
+    await page.getByRole("button", { name: "Show map legend" }).click();
+    await expect(page.getByRole("heading", { name: "Legend" })).toBeVisible();
   });
 
   test("a population-health overlay can be changed", async ({ page }) => {
@@ -414,6 +426,46 @@ test.describe("StatTerrain critical workflow", () => {
 });
 
 test.describe("StatTerrain responsive layout", () => {
+  test("mobile map starts with a collapsed legend that opens and closes", async ({
+    page,
+  }) => {
+    await page.setViewportSize({ width: 390, height: 844 });
+    await page.goto("/");
+    const mapView = page.getByTestId("map-view");
+    await expect(mapView).toBeVisible();
+    await expect(page.getByRole("heading", { name: "Legend" })).toHaveCount(0);
+    await expect(page.getByRole("button", { name: "Show map legend" })).toBeVisible();
+
+    const legendButtonBox = await page
+      .getByRole("button", { name: "Show map legend" })
+      .boundingBox();
+    const mapBox = await mapView.boundingBox();
+    expect(legendButtonBox).not.toBeNull();
+    expect(mapBox).not.toBeNull();
+    expect((legendButtonBox!.width * legendButtonBox!.height) / (mapBox!.width * mapBox!.height)).toBeLessThan(0.08);
+
+    await page.getByRole("button", { name: "Show map legend" }).click();
+    await expect(page.getByRole("heading", { name: "Legend" })).toBeVisible();
+    await expect(page.getByText("Map note")).toBeVisible();
+    await page.getByRole("button", { name: "Hide legend" }).click();
+    await expect(page.getByRole("heading", { name: "Legend" })).toHaveCount(0);
+  });
+
+  test("mobile facility popup fits and View details remains reachable", async ({
+    page,
+  }) => {
+    await page.setViewportSize({ width: 390, height: 844 });
+    await page.goto("/");
+    await page.locator(`.facility-marker-${SAMPLE_FACILITY_ID}`).click({ force: true });
+    const viewDetails = page.getByRole("button", { name: "View details" });
+    await expect(viewDetails).toBeVisible();
+    const box = await page.locator(".leaflet-popup").boundingBox();
+    expect(box).not.toBeNull();
+    expect(box!.width).toBeLessThanOrEqual(340);
+    await viewDetails.click();
+    await expect(page.getByTestId("facility-detail-panel")).toBeVisible();
+  });
+
   test("no horizontal document overflow at a common mobile viewport", async ({
     page,
   }) => {

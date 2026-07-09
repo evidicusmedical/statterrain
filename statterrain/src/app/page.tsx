@@ -69,11 +69,11 @@ export default function HomePage() {
             className={`relative min-h-[55vh] flex-1 ${mobileTab === "map" ? "block" : "hidden"} lg:block lg:min-h-0`}
             aria-label="Map"
           >
-            <div className="absolute right-3 top-3 z-[800] max-w-[calc(100%-1.5rem)] rounded-lg border border-slate-200 bg-white/95 p-2 shadow-sm backdrop-blur">
+            <div className="absolute right-2 top-2 z-[800] max-w-[calc(100%-1rem)] rounded-lg border border-slate-200 bg-white/95 p-1.5 shadow-sm backdrop-blur sm:right-3 sm:top-3 sm:p-2">
               <button
                 type="button"
                 onClick={() => setSummaryOpen((open) => !open)}
-                className="min-h-11 rounded-md bg-terrain-700 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-terrain-800 focus:outline-none focus:ring-2 focus:ring-terrain-500 focus:ring-offset-2"
+                className="min-h-10 rounded-md bg-terrain-700 px-2.5 py-1.5 text-xs font-semibold text-white shadow-sm hover:bg-terrain-800 focus:outline-none focus:ring-2 focus:ring-terrain-500 focus:ring-offset-2 sm:min-h-11 sm:px-3 sm:py-2 sm:text-sm"
                 aria-expanded={summaryOpen}
                 aria-controls="regional-summary-panel"
               >

@@ -87,3 +87,11 @@ v0.1.8 is a UI refinement only. Population metric cards show a visible **Quick r
 The mobile layout is map-first and map-accessible: users can switch between Map, Summary, and Facility views with bottom tabs, open Filters from the header drawer, return to the map in one tap, and use **Hide summary / Show summary** without losing access to population context or facility details. Desktop keeps the three-area workspace, with summary collapse continuing to enlarge the map.
 
 Scope remains controlled: no real public-data pipelines, no backend, no database, no authentication, no PHI handling, no AI API integration, no live routing/diversion/bed-status features, and no clinical or medical-control guidance are included.
+
+## v0.1.9 mobile map usability and version-label scope
+
+v0.1.9 is a UI hotfix only. The current visible header/version label is **StatTerrain v0.1.9 prototype**. Every future patch must update the visible top heading/version label to match the patch version using `StatTerrain vX.X.X prototype`, or the equivalent product-title plus version-badge layout.
+
+The mobile map is intended to load in a map-first state: the legend is collapsed by default, a compact **Legend** control opens it, and the open legend includes an internal **Hide** control. The legend footprint is reduced on mobile, with the longer OpenStreetMap caveat behind a short **Map note** disclosure. Bottom mobile tabs continue to keep Map, Summary, and Facility views reachable.
+
+Scope remains unchanged from prior prototype releases: data is synthetic demonstration data only. No real public data pipeline, CMS data, Census data, CDC data, SAMHSA data, NPPES data, backend, database, authentication, AI API, PHI handling, live routing, diversion, bed status, medical-control guidance, or clinical decision support is included.

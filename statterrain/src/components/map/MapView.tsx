@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { MapContainer, TileLayer, Circle, Polygon, CircleMarker, Tooltip, Popup, useMap } from "react-leaflet";
 import type { Facility } from "@/types/facility";
 import type { SearchLocation } from "@/data/demo-region";
@@ -42,6 +42,11 @@ export function MapView({
   onSelectFacility,
 }: MapViewProps) {
   const radiusMeters = radiusMiles * 1609.34;
+  const [legendOpen, setLegendOpen] = useState(false);
+
+  useEffect(() => {
+    setLegendOpen(window.matchMedia("(min-width: 640px)").matches);
+  }, []);
 
   const polygons = useMemo(() => {
     if (!overlay) return [];
@@ -120,14 +125,14 @@ export function MapView({
               {f.name}
             </Tooltip>
             <Popup>
-              <div className="text-xs">
+              <div className="max-w-[min(16rem,calc(100vw-4rem))] text-xs">
                 <p className="font-semibold">{f.name}</p>
                 <p className="text-slate-500">{FACILITY_TYPE_LABELS[f.facilityType]}</p>
                 <p className="mt-1">{f.distanceMiles} mi away</p>
                 <button
                   type="button"
                   onClick={() => onSelectFacility(f.id)}
-                  className="mt-1 font-medium text-terrain-700 underline"
+                  className="mt-2 min-h-9 rounded-md bg-terrain-700 px-3 py-2 font-medium text-white"
                 >
                   View details
                 </button>
@@ -138,8 +143,20 @@ export function MapView({
       </MapContainer>
 
       {showLegend && (
-        <div className="pointer-events-none absolute bottom-3 left-3 z-[400]">
-          <MapLegend overlay={overlay} />
+        <div className="pointer-events-none absolute bottom-3 left-3 z-[400] max-w-[calc(100%-1.5rem)]">
+          {legendOpen ? (
+            <MapLegend overlay={overlay} onCollapse={() => setLegendOpen(false)} />
+          ) : (
+            <button
+              type="button"
+              onClick={() => setLegendOpen(true)}
+              className="pointer-events-auto min-h-10 rounded-full border border-slate-200 bg-white/95 px-3 py-2 text-xs font-semibold text-slate-700 shadow-panel hover:bg-slate-50 focus:outline-none focus:ring-2 focus:ring-terrain-500 focus:ring-offset-2"
+              aria-expanded="false"
+              aria-label="Show map legend"
+            >
+              Legend
+            </button>
+          )}
         </div>
       )}
     </div>
