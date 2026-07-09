@@ -29,6 +29,7 @@ interface MapViewProps {
   showLabels: boolean;
   selectedFacilityId: string | null;
   onSelectFacility: (id: string) => void;
+  onOpenFacilityDetails?: (id: string) => void;
 }
 
 function Recenter({ lat, lng }: { lat: number; lng: number }) {
@@ -49,6 +50,7 @@ export function MapView({
   showLabels,
   selectedFacilityId,
   onSelectFacility,
+  onOpenFacilityDetails,
 }: MapViewProps) {
   const radiusMeters = radiusMiles * 1609.34;
   const [legendOpen, setLegendOpen] = useState(false);
@@ -155,7 +157,7 @@ export function MapView({
                 <p className="mt-1">{f.distanceMiles} mi away</p>
                 <button
                   type="button"
-                  onClick={() => onSelectFacility(f.id)}
+                  onClick={() => (onOpenFacilityDetails ?? onSelectFacility)(f.id)}
                   className="mt-2 min-h-9 rounded-md bg-terrain-700 px-3 py-2 font-medium text-white"
                 >
                   View details

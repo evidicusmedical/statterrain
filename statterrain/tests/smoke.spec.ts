@@ -46,7 +46,7 @@ test.describe("StatTerrain critical workflow", () => {
     await expect(
       page.getByText("StatTerrain", { exact: true }).first(),
     ).toBeVisible();
-    await expect(page.getByText("v0.1.11 prototype")).toBeVisible();
+    await expect(page.getByText("v0.1.12 prototype")).toBeVisible();
     const fatal = errors.fatal();
     expect(
       fatal,
@@ -291,7 +291,7 @@ test.describe("StatTerrain critical workflow", () => {
     await expect(feedback).toBeVisible();
     await expect(feedback).toHaveAttribute(
       "href",
-      /mailto:mathew\.h\.lowe\+statterrain@gmail\.com\?subject=StatTerrain%20Beta%20Feedback&body=.*App%3A%20StatTerrain.*Version%3A%20v0.1.11%20prototype.*Selected%20geography/,
+      /mailto:mathew\.h\.lowe\+statterrain@gmail\.com\?subject=StatTerrain%20Beta%20Feedback&body=.*App%3A%20StatTerrain.*Version%3A%20v0.1.12%20prototype.*Selected%20geography/,
     );
 
     await page.getByRole("button", { name: "Generate Evidence Brief" }).click();
@@ -453,7 +453,7 @@ test.describe("StatTerrain responsive layout", () => {
     await expect(tabs).toBeVisible();
     await expect(page.getByTestId("mobile-tab-map")).toBeVisible();
     await expect(page.getByTestId("mobile-tab-summary")).toBeVisible();
-    await expect(page.getByTestId("mobile-tab-detail")).toBeVisible();
+    await expect(page.getByTestId("mobile-tab-facility")).toBeVisible();
 
     const tabStyles = await tabs.evaluate((node) => {
       const styles = getComputedStyle(node);
@@ -490,7 +490,7 @@ test.describe("StatTerrain responsive layout", () => {
   }) => {
     await page.setViewportSize({ width: 390, height: 844 });
     await page.goto("/");
-    await page.getByRole("button", { name: "Hide summary" }).click();
+    await expect(page.getByRole("button", { name: "Hide summary" })).toHaveCount(0);
     await page.getByTestId("mobile-tab-summary").click();
     const summary = page.getByRole("region", { name: "Regional summary" });
     await expect(summary).toBeVisible();
@@ -511,13 +511,14 @@ test.describe("StatTerrain responsive layout", () => {
   }) => {
     await page.setViewportSize({ width: 390, height: 844 });
     await page.goto("/");
-    await page.getByTestId("mobile-tab-detail").click();
+    await page.getByTestId("mobile-tab-facility").click();
     await expect(page.getByTestId("facility-detail-empty")).toContainText(
       "Select a facility on the map to view details.",
     );
     await page.getByTestId("mobile-tab-map").click();
     await page.locator(`.facility-marker-${SAMPLE_FACILITY_ID}`).click({ force: true });
-    await expect(page.getByTestId("mobile-tab-detail")).toHaveAttribute(
+    await page.getByRole("button", { name: "View details" }).click();
+    await expect(page.getByTestId("mobile-tab-facility")).toHaveAttribute(
       "aria-current",
       "true",
     );
@@ -603,11 +604,7 @@ test.describe("StatTerrain responsive layout", () => {
     ).toBeVisible();
     await expect(
       page.getByRole("button", { name: "Hide summary" }),
-    ).toBeVisible();
-    await page.getByRole("button", { name: "Hide summary" }).click();
-    await expect(
-      page.getByRole("button", { name: "Show summary" }),
-    ).toBeVisible();
+    ).toHaveCount(0);
     await expect(page.getByTestId("map-view")).toBeVisible();
     await expect(page.getByTestId("mobile-workspace-tabs")).toBeVisible();
     await expect(
@@ -623,7 +620,7 @@ test.describe("StatTerrain responsive layout", () => {
     await page.getByRole("button", { name: "Filters" }).click();
     await expect(page.getByRole("dialog", { name: "Filters" })).toBeVisible();
     await page.getByRole("button", { name: "Close panel" }).click();
-    await page.getByTestId("mobile-tab-detail").click();
+    await page.getByTestId("mobile-tab-facility").click();
     await expect(
       page.getByRole("region", { name: "Facility detail" }),
     ).toBeVisible();
