@@ -31,7 +31,7 @@ export function PublicDataFreshnessPanel({
           <p className="mt-1 font-medium text-amber-900">
             Current map data: {summary.currentMapDataLabel}
           </p>
-          <p className="mt-1 text-amber-950">Main map remains synthetic.</p>
+          <p className="mt-1 text-amber-950">Main map remains synthetic unless preview is enabled.</p>
         </div>
         <span
           className={`rounded-full px-2 py-1 font-semibold ${summary.canPreviewOnMap ? "bg-emerald-100 text-emerald-800" : "bg-slate-200 text-slate-700"}`}
@@ -69,7 +69,9 @@ export function PublicDataFreshnessPanel({
         </div>
         <div className="sm:col-span-2">
           <dt className="font-semibold">Preview status</dt>
-          <dd>{summary.canPreviewOnMap ? summary.previewBlockReason : `Blocked — ${summary.previewBlockReason}`}</dd>
+          <dd>{summary.canPreviewOnMap
+              ? `Available for ${summary.recordCount} live-geocoded CMS hospital records.`
+              : `Blocked — ${summary.previewBlockReason}`}</dd>
         </div>
       </dl>
       <label

@@ -51,3 +51,9 @@ v0.2.6 adds `.github/workflows/cms-hospital-refresh.yml`, a manual-only GitHub A
 The workflow runs `npm run data:refresh-cms-hospitals`, which validates source metadata, pulls CMS Hospital General Information, validates generated CMS records, runs geocoding in the requested mode, validates again, and regenerates the public-data readiness report. The default geocoding mode is `dry-run`, which records eligibility without making external geocoder calls. Live Census Geocoder calls require both `geocoding_mode=live-census` and `confirm_live_geocoding=true`, and are bounded by `live_geocoding_limit` with an allowed range of 1-100 records.
 
 The generated CMS artifacts remain review artifacts only. The workflow preserves `usedInCurrentApp: false`, requires preview labeling, keeps the default map synthetic, and does not change v0.2.5 fixture/unvalidated/ungeocoded artifact blocking or public-data preview guardrails.
+
+## v0.2.7.1 release tracking and PR #24 artifact status
+
+Release tracking rule: every patch must update `product.prototypeVersion` in `src/config/product.ts`. This visible version is used to confirm Vercel deployment freshness and prevent stale UI confusion. Tests must be updated with each patch to assert the expected visible version.
+
+PR #24 successfully produced a bounded live-geocoded CMS Hospital General Information artifact with 5 records, 5 Census Geocoder matches, and 5 geography joins. The artifact is preview-eligible only because those records have valid coordinates, matched geocoding status, joined geography status, real-public-data mode, non-fixture metadata, and `usedInCurrentApp: false`. The CMS preview remains optional and off by default; default app data remains synthetic. Broader CMS national data is not complete, and generated data must not be auto-merged or scheduled by cron.

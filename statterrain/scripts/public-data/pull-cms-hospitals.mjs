@@ -97,7 +97,7 @@ const headers = {
 };
 const baseLimitations = [
   ...(source.knownLimitations ?? []),
-  "Coordinates are not provided by this CMS source; the current artifact has dry-run geocoding only and is not map-ready.",
+  "Coordinates require geocoding before any map preview. Live-geocoded preview artifacts must state that coordinates were derived from a bounded live Census Geocoder run and are for public-data preview context only.",
   "CMS data do not power the main app map in the current prototype.",
 ];
 
