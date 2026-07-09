@@ -117,3 +117,9 @@ v0.1.11 is the final mobile GUI hotfix before v0.2.0 public-data-pipeline founda
 The mobile map is contained under non-map UI: Leaflet panes are isolated/clipped within the map shell, the mobile **Map / Summary / Facility** tab bar is a solid bordered white layer above map panes, and attribution remains visible inside the map instead of overlapping the tab bar. The mobile **Summary** tab shows the regional summary content even after summary hide/show has been toggled, and the mobile **Facility** tab uses readable full-width details rather than a compressed map-popup-sized panel.
 
 No real public data, backend, database, authentication, AI API, PHI workflow, live routing, diversion, bed status, dispatch, triage, transfer recommendation, medical-control guidance, clinical decision support, or v0.2.0 public-data-pipeline work is included in v0.1.11. The recommended next patch remains **v0.2.0 — Public Data Pipeline Foundation**.
+
+## v0.2.0 public-data framework scope
+
+v0.2.0 creates rails and safety gates for future public-data automation only. It adds planned source placeholders, data folders, metadata types, validation/report scaffolding, a generated-data contract, last-known-good documentation, and a manual-only workflow. It does not ingest real data, activate scheduled refresh, add CMS/Census/CDC/SAMHSA/NPPES records, add backend/database/auth/AI/PHI handling, or add live routing/diversion/bed/dispatch/triage/transfer/medical-control/clinical decision support.
+
+The app remains synthetic-demo only. Future source-specific patches must validate official source fields, dates, limitations, and allowed use before display. Next planned patch: v0.2.1 — CMS Hospital Data Pilot.

@@ -1,0 +1,102 @@
+{
+  "schemaVersion": "refresh-readiness-v0.2.0",
+  "generatedAt": "2026-07-09T00:00:00.000Z",
+  "mode": "framework-scaffold-only",
+  "externalFetchesPerformed": false,
+  "generatedPublicRecordsActive": false,
+  "appVisibleDataMode": "synthetic-demo",
+  "summary": "No external fetches are performed in v0.2.0. No generated public records are active; the app remains a synthetic demo.",
+  "sources": [
+    {
+      "id": "cms-hospitals",
+      "name": "CMS hospital/provider data",
+      "agency": "Centers for Medicare & Medicaid Services",
+      "status": "planned",
+      "automationStatus": "not-started",
+      "dataMode": "not-yet-ingested",
+      "usedInCurrentApp": false,
+      "lastSuccessfulRefresh": null
+    },
+    {
+      "id": "census-acs-demographics",
+      "name": "Census/ACS demographics",
+      "agency": "U.S. Census Bureau",
+      "status": "planned",
+      "automationStatus": "not-started",
+      "dataMode": "not-yet-ingested",
+      "usedInCurrentApp": false,
+      "lastSuccessfulRefresh": null
+    },
+    {
+      "id": "cdc-places-health-context",
+      "name": "CDC PLACES health context",
+      "agency": "Centers for Disease Control and Prevention",
+      "status": "planned",
+      "automationStatus": "not-started",
+      "dataMode": "not-yet-ingested",
+      "usedInCurrentApp": false,
+      "lastSuccessfulRefresh": null
+    },
+    {
+      "id": "cdc-atsdr-svi",
+      "name": "CDC/ATSDR SVI or equivalent vulnerability source",
+      "agency": "Centers for Disease Control and Prevention / Agency for Toxic Substances and Disease Registry",
+      "status": "planned",
+      "automationStatus": "not-started",
+      "dataMode": "not-yet-ingested",
+      "usedInCurrentApp": false,
+      "lastSuccessfulRefresh": null
+    },
+    {
+      "id": "usda-ruca-rucc-rurality",
+      "name": "USDA RUCA/RUCC or equivalent rurality source",
+      "agency": "U.S. Department of Agriculture",
+      "status": "planned",
+      "automationStatus": "not-started",
+      "dataMode": "not-yet-ingested",
+      "usedInCurrentApp": false,
+      "lastSuccessfulRefresh": null
+    },
+    {
+      "id": "samhsa-treatment-locator",
+      "name": "SAMHSA treatment locator source",
+      "agency": "Substance Abuse and Mental Health Services Administration",
+      "status": "planned",
+      "automationStatus": "not-started",
+      "dataMode": "not-yet-ingested",
+      "usedInCurrentApp": false,
+      "lastSuccessfulRefresh": null
+    },
+    {
+      "id": "nppes-npi",
+      "name": "NPPES/NPI source",
+      "agency": "Centers for Medicare & Medicaid Services",
+      "status": "planned",
+      "automationStatus": "not-started",
+      "dataMode": "not-yet-ingested",
+      "usedInCurrentApp": false,
+      "lastSuccessfulRefresh": null
+    },
+    {
+      "id": "cms-dialysis",
+      "name": "CMS dialysis source",
+      "agency": "Centers for Medicare & Medicaid Services",
+      "status": "planned",
+      "automationStatus": "not-started",
+      "dataMode": "not-yet-ingested",
+      "usedInCurrentApp": false,
+      "lastSuccessfulRefresh": null
+    },
+    {
+      "id": "cms-nursing-homes",
+      "name": "CMS nursing home source",
+      "agency": "Centers for Medicare & Medicaid Services",
+      "status": "planned",
+      "automationStatus": "not-started",
+      "dataMode": "not-yet-ingested",
+      "usedInCurrentApp": false,
+      "lastSuccessfulRefresh": null
+    }
+  ],
+  "nextRecommendedAction": "v0.2.1 — CMS Hospital Data Pilot"
+}
