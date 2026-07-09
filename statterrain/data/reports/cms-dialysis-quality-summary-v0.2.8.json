@@ -1,0 +1,16 @@
+{
+  "schemaVersion": "cms-dialysis-quality-summary-v0.2.8",
+  "generatedAt": "2026-07-09T23:41:59.976Z",
+  "sourceId": "cms-dialysis-facilities",
+  "dataMode": "synthetic-test-fixture",
+  "recordCount": 3,
+  "missingCoordinates": {
+    "count": 3,
+    "percent": 1
+  },
+  "previewReady": false,
+  "warnings": [
+    "Dialysis records are not geocoded, not geography-joined, and not map-ready in v0.2.8.",
+    "Fixture records are schema tests only and must not update last-known-good."
+  ]
+}

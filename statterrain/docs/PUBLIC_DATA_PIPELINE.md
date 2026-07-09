@@ -57,3 +57,23 @@ The generated CMS artifacts remain review artifacts only. The workflow preserves
 Release tracking rule: every patch must update `product.prototypeVersion` in `src/config/product.ts`. This visible version is used to confirm Vercel deployment freshness and prevent stale UI confusion. Tests must be updated with each patch to assert the expected visible version.
 
 PR #24 successfully produced a bounded live-geocoded CMS Hospital General Information artifact with 5 records, 5 Census Geocoder matches, and 5 geography joins. The artifact is preview-eligible only because those records have valid coordinates, matched geocoding status, joined geography status, real-public-data mode, non-fixture metadata, and `usedInCurrentApp: false`. The CMS preview remains optional and off by default; default app data remains synthetic. Broader CMS national data is not complete, and generated data must not be auto-merged or scheduled by cron.
+
+## v0.2.8 CMS Dialysis Facility pilot
+
+StatTerrain v0.2.8 adds a manual, validation-gated CMS Dialysis Facility public-data ingestion pilot. The source is the official CMS Provider Data Catalog / Care Compare dialysis facility listing (`cms-dialysis-facilities`). The pipeline is intentionally not connected to the default synthetic map.
+
+Safety constraints:
+
+- dialysis records are `usedInCurrentApp: false`;
+- fixture records are `synthetic-test-fixture` only and never update last-known-good;
+- generated dialysis records are not geocoded, not geography-joined, and not map-ready;
+- prohibited uses include patient referral, routing, treatment, appointment availability, dialysis station availability, live capacity, staffing, dispatch, triage, transfer, diversion, bed status, and clinical decision support.
+
+Manual commands:
+
+```bash
+npm run data:pull-cms-dialysis -- --fixture
+npm run data:validate-cms-dialysis
+```
+
+Real fetch mode uses the official CMS endpoint when reachable, but failed fetches report a safe no-publish state instead of fabricating records.

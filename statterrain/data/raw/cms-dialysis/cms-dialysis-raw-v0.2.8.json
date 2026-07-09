@@ -1,0 +1,42 @@
+[
+  {
+    "CMS Certification Number (CCN)": "FXD001",
+    "Facility Name": "Example Fixture Dialysis Center Alpha",
+    "Address": "100 Example Fixture Way",
+    "City": "Testville",
+    "State": "TS",
+    "ZIP Code": "00001",
+    "Phone Number": "555-0101",
+    "syntheticFixtureRecord": true,
+    "dataMode": "synthetic-test-fixture",
+    "usedInCurrentApp": false,
+    "previewLabelRequired": true
+  },
+  {
+    "CMS Certification Number (CCN)": "FXD002",
+    "Facility Name": "Example Fixture Dialysis Center Beta",
+    "Address": "200 Schema Sample Road",
+    "City": "Mock City",
+    "State": "TS",
+    "ZIP Code": "00002",
+    "Phone Number": "555-0102",
+    "syntheticFixtureRecord": true,
+    "dataMode": "synthetic-test-fixture",
+    "usedInCurrentApp": false,
+    "previewLabelRequired": true
+  },
+  {
+    "CMS Certification Number (CCN)": "FXD003",
+    "Facility Name": "Example Fixture Dialysis Center Gamma",
+    "Address": "300 Nonreal Avenue",
+    "City": "Faketown",
+    "State": "TS",
+    "ZIP Code": "00003",
+    "Phone Number": "555-0103",
+    "syntheticFixtureRecord": true,
+    "dataMode": "synthetic-test-fixture",
+    "usedInCurrentApp": false,
+    "previewLabelRequired": true
+  }
+]
+

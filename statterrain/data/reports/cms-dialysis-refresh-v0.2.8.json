@@ -1,0 +1,20 @@
+{
+  "schemaVersion": "cms-dialysis-refresh-v0.2.8",
+  "sourceId": "cms-dialysis-facilities",
+  "refreshAttemptTimestamp": "2026-07-09T23:41:59.976Z",
+  "fetchStatus": "success",
+  "fixtureMode": true,
+  "dataMode": "synthetic-test-fixture",
+  "recordCount": 3,
+  "generatedOutputPath": "data/generated/cms-dialysis.generated.json",
+  "qualitySummaryPath": "data/reports/cms-dialysis-quality-summary-v0.2.8.json",
+  "geocodingInputPath": "data/generated/geocoding-inputs/cms-dialysis-geocoding-input-v0.2.8.json",
+  "publishRecommendation": "do-not-power-main-ui; not-map-ready",
+  "warnings": [
+    "Fixture output is for deterministic tests only and did not update last-known-good."
+  ],
+  "fallbackStatus": {
+    "lastKnownGoodExists": false,
+    "lastKnownGoodPath": "data/last-known-good/cms-dialysis.generated.json"
+  }
+}

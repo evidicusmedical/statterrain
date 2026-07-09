@@ -1,0 +1,28 @@
+{
+  "schemaVersion": "cms-dialysis-raw-metadata-v0.2.8",
+  "sourceId": "cms-dialysis-facilities",
+  "sourceName": "CMS Dialysis Facility Care Compare / Listing by Facility",
+  "agency": "Centers for Medicare & Medicaid Services",
+  "sourceUrl": "https://data.cms.gov/provider-data/dataset/23ew-n7w9",
+  "endpointUrl": "https://data.cms.gov/provider-data/api/1/datastore/query/23ew-n7w9/0?limit=50000",
+  "retrievalTimestamp": "2026-07-09T23:41:59.976Z",
+  "retrievalMethod": "local-fixture",
+  "fetchStatus": "success",
+  "fixtureMode": true,
+  "dataMode": "synthetic-test-fixture",
+  "checksumSha256": "152b0bb7d1fa81083b67d076c3715a4bf15c21919c6c0aa9aa7dea4d7aa926c5",
+  "rawFilePath": "data/raw/cms-dialysis/cms-dialysis-raw-v0.2.8.json",
+  "endpointResolutionAttempts": [
+    {
+      "endpointRole": "local-fixture",
+      "requestedUrl": "data/fixtures/cms-dialysis/sample-cms-dialysis-facilities-v0.2.8.json",
+      "fetchStatus": "success"
+    }
+  ],
+  "limitations": [
+    "Not used in the default StatTerrain map.",
+    "Not preview-ready until geocoded and geography-validated in a later patch.",
+    "Does not provide emergency receiving capability.",
+    "Must not be used for patient referral, routing, treatment, appointment availability, dialysis station availability, live capacity, or clinical decision support."
+  ]
+}

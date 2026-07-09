@@ -2,7 +2,7 @@
   "name": "statterrain",
   "version": "0.1.0",
   "private": true,
-  "description": "StatTerrain — Emergency-care resources and population-health intelligence (frontend prototype).",
+  "description": "StatTerrain \u2014 Emergency-care resources and population-health intelligence (frontend prototype).",
   "scripts": {
     "dev": "next dev -p 3000 -H 0.0.0.0",
     "build": "next build",
@@ -18,7 +18,9 @@
     "data:pull-cms-hospitals": "node scripts/public-data/pull-cms-hospitals.mjs",
     "data:validate-cms-hospitals": "node scripts/public-data/validate-cms-hospitals.mjs",
     "data:geocode-cms-hospitals": "node scripts/public-data/geocode-cms-hospitals.mjs",
-    "data:refresh-cms-hospitals": "node scripts/public-data/run-cms-hospital-refresh.mjs"
+    "data:refresh-cms-hospitals": "node scripts/public-data/run-cms-hospital-refresh.mjs",
+    "data:pull-cms-dialysis": "node scripts/public-data/pull-cms-dialysis-facilities.mjs",
+    "data:validate-cms-dialysis": "node scripts/public-data/validate-cms-dialysis-facilities.mjs"
   },
   "dependencies": {
     "leaflet": "^1.9.4",

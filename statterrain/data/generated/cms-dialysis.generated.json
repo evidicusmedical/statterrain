@@ -1,0 +1,201 @@
+{
+  "metadata": {
+    "schemaVersion": "generated-public-data-v0.2.8",
+    "datasetId": "cms-dialysis-facilities-v0.2.8",
+    "sourceId": "cms-dialysis-facilities",
+    "sourceName": "CMS Dialysis Facility Care Compare / Listing by Facility",
+    "sourceAgency": "Centers for Medicare & Medicaid Services",
+    "dataMode": "synthetic-test-fixture",
+    "fixtureMode": true,
+    "usedInCurrentApp": false,
+    "previewLabelRequired": true,
+    "recordCount": 3,
+    "retrievedAt": "2026-07-09T23:41:59.976Z",
+    "sourceReleaseDate": null,
+    "validationStatus": "warn",
+    "validationReportPath": "data/reports/cms-dialysis-validation-v0.2.8.json",
+    "rawSnapshotMetadataPath": "data/raw/cms-dialysis/cms-dialysis-raw-metadata-v0.2.8.json",
+    "normalizedDatasetPath": "data/normalized/cms-dialysis/cms-dialysis-normalized-v0.2.8.json",
+    "qualitySummaryPath": "data/reports/cms-dialysis-quality-summary-v0.2.8.json",
+    "geocodingInputPath": "data/generated/geocoding-inputs/cms-dialysis-geocoding-input-v0.2.8.json",
+    "lastKnownGood": {
+      "exists": false,
+      "path": "data/last-known-good/cms-dialysis.generated.json",
+      "updatedThisRun": false
+    },
+    "limitations": [
+      "Not used in the default StatTerrain map.",
+      "Not preview-ready until geocoded and geography-validated in a later patch.",
+      "Does not provide emergency receiving capability.",
+      "Must not be used for patient referral, routing, treatment, appointment availability, dialysis station availability, live capacity, or clinical decision support."
+    ],
+    "allowedUses": [
+      "public-data planning/context only",
+      "pipeline validation"
+    ],
+    "prohibitedUses": [
+      "patient referral",
+      "dialysis routing",
+      "transfer decisions",
+      "treatment recommendations",
+      "appointment availability",
+      "dialysis station availability",
+      "live operational capacity",
+      "staffing status",
+      "bed availability",
+      "dispatch",
+      "triage",
+      "clinical decision support"
+    ],
+    "safeToDisplay": false
+  },
+  "records": [
+    {
+      "sourceFacilityId": "FXD001",
+      "facilityName": "Example Fixture Dialysis Center Alpha",
+      "facilityCategory": "dialysis",
+      "facilityTypeLabel": "Dialysis facility",
+      "address": "100 Example Fixture Way",
+      "city": "Testville",
+      "state": "TS",
+      "zip": "00001",
+      "phone": "555-0101",
+      "latitude": null,
+      "longitude": null,
+      "geocodingStatus": "not-yet-geocoded",
+      "geographyJoinStatus": "not-yet-joined",
+      "sourceId": "cms-dialysis-facilities",
+      "sourceName": "CMS Dialysis Facility Care Compare / Listing by Facility",
+      "sourceAgency": "Centers for Medicare & Medicaid Services",
+      "sourceRecordId": "FXD001",
+      "sourceFieldsUsed": [
+        "CMS Certification Number (CCN)",
+        "Facility Name",
+        "Address",
+        "City",
+        "State",
+        "ZIP Code",
+        "Phone Number",
+        "syntheticFixtureRecord",
+        "dataMode",
+        "usedInCurrentApp",
+        "previewLabelRequired"
+      ],
+      "retrievedAt": "2026-07-09T23:41:59.976Z",
+      "dataMode": "synthetic-test-fixture",
+      "confidence": "synthetic-test-fixture",
+      "syntheticFixtureRecord": true,
+      "usedInCurrentApp": false,
+      "previewLabelRequired": true,
+      "safeToDisplay": false,
+      "freshness": {
+        "retrievedAt": "2026-07-09T23:41:59.976Z",
+        "sourceReleaseDate": null
+      },
+      "limitations": [
+        "Not used in the default StatTerrain map.",
+        "Not preview-ready until geocoded and geography-validated in a later patch.",
+        "Does not provide emergency receiving capability.",
+        "Must not be used for patient referral, routing, treatment, appointment availability, dialysis station availability, live capacity, or clinical decision support."
+      ]
+    },
+    {
+      "sourceFacilityId": "FXD002",
+      "facilityName": "Example Fixture Dialysis Center Beta",
+      "facilityCategory": "dialysis",
+      "facilityTypeLabel": "Dialysis facility",
+      "address": "200 Schema Sample Road",
+      "city": "Mock City",
+      "state": "TS",
+      "zip": "00002",
+      "phone": "555-0102",
+      "latitude": null,
+      "longitude": null,
+      "geocodingStatus": "not-yet-geocoded",
+      "geographyJoinStatus": "not-yet-joined",
+      "sourceId": "cms-dialysis-facilities",
+      "sourceName": "CMS Dialysis Facility Care Compare / Listing by Facility",
+      "sourceAgency": "Centers for Medicare & Medicaid Services",
+      "sourceRecordId": "FXD002",
+      "sourceFieldsUsed": [
+        "CMS Certification Number (CCN)",
+        "Facility Name",
+        "Address",
+        "City",
+        "State",
+        "ZIP Code",
+        "Phone Number",
+        "syntheticFixtureRecord",
+        "dataMode",
+        "usedInCurrentApp",
+        "previewLabelRequired"
+      ],
+      "retrievedAt": "2026-07-09T23:41:59.976Z",
+      "dataMode": "synthetic-test-fixture",
+      "confidence": "synthetic-test-fixture",
+      "syntheticFixtureRecord": true,
+      "usedInCurrentApp": false,
+      "previewLabelRequired": true,
+      "safeToDisplay": false,
+      "freshness": {
+        "retrievedAt": "2026-07-09T23:41:59.976Z",
+        "sourceReleaseDate": null
+      },
+      "limitations": [
+        "Not used in the default StatTerrain map.",
+        "Not preview-ready until geocoded and geography-validated in a later patch.",
+        "Does not provide emergency receiving capability.",
+        "Must not be used for patient referral, routing, treatment, appointment availability, dialysis station availability, live capacity, or clinical decision support."
+      ]
+    },
+    {
+      "sourceFacilityId": "FXD003",
+      "facilityName": "Example Fixture Dialysis Center Gamma",
+      "facilityCategory": "dialysis",
+      "facilityTypeLabel": "Dialysis facility",
+      "address": "300 Nonreal Avenue",
+      "city": "Faketown",
+      "state": "TS",
+      "zip": "00003",
+      "phone": "555-0103",
+      "latitude": null,
+      "longitude": null,
+      "geocodingStatus": "not-yet-geocoded",
+      "geographyJoinStatus": "not-yet-joined",
+      "sourceId": "cms-dialysis-facilities",
+      "sourceName": "CMS Dialysis Facility Care Compare / Listing by Facility",
+      "sourceAgency": "Centers for Medicare & Medicaid Services",
+      "sourceRecordId": "FXD003",
+      "sourceFieldsUsed": [
+        "CMS Certification Number (CCN)",
+        "Facility Name",
+        "Address",
+        "City",
+        "State",
+        "ZIP Code",
+        "Phone Number",
+        "syntheticFixtureRecord",
+        "dataMode",
+        "usedInCurrentApp",
+        "previewLabelRequired"
+      ],
+      "retrievedAt": "2026-07-09T23:41:59.976Z",
+      "dataMode": "synthetic-test-fixture",
+      "confidence": "synthetic-test-fixture",
+      "syntheticFixtureRecord": true,
+      "usedInCurrentApp": false,
+      "previewLabelRequired": true,
+      "safeToDisplay": false,
+      "freshness": {
+        "retrievedAt": "2026-07-09T23:41:59.976Z",
+        "sourceReleaseDate": null
+      },
+      "limitations": [
+        "Not used in the default StatTerrain map.",
+        "Not preview-ready until geocoded and geography-validated in a later patch.",
+        "Does not provide emergency receiving capability.",
+        "Must not be used for patient referral, routing, treatment, appointment availability, dialysis station availability, live capacity, or clinical decision support."
+      ]
+    }
+  ]
+}
