@@ -10,7 +10,7 @@
     "usedInCurrentApp": false,
     "previewLabelRequired": true,
     "recordCount": 5,
-    "retrievedAt": "2026-07-09T21:54:27.796Z",
+    "retrievedAt": "2026-07-09T22:29:51.793Z",
     "sourceReleaseDate": null,
     "validationStatus": "warn",
     "validationReportPath": "data/reports/cms-hospitals-validation-v0.2.3.json",
@@ -45,7 +45,12 @@
       "clinical decision support"
     ],
     "fallbackActive": false,
-    "safeToDisplay": true
+    "safeToDisplay": true,
+    "geocodingResultPath": "data/generated/geocoding-results/cms-hospitals-geocoding-results-v0.2.7.json",
+    "geographyJoinPath": "data/generated/geocoding-results/cms-hospitals-geography-join-v0.2.7.json",
+    "geocodingSummaryPath": "data/reports/cms-hospitals-geocoding-summary-v0.2.7.json",
+    "geocodingStatus": "complete",
+    "previewEligibility": "eligible-public-data-preview"
   },
   "records": [
     {
@@ -62,10 +67,10 @@
       "zip": "36301",
       "countyName": null,
       "phone": null,
-      "latitude": null,
-      "longitude": null,
-      "geocodingStatus": "not-yet-geocoded",
-      "geographyJoinStatus": "not-yet-joined",
+      "latitude": 31.21566695385,
+      "longitude": -85.361446991439,
+      "geocodingStatus": "matched",
+      "geographyJoinStatus": "joined",
       "sourceId": "cms-hospital-general-information",
       "sourceName": "CMS Hospital General Information",
       "sourceAgency": "Centers for Medicare & Medicaid Services",
@@ -79,11 +84,11 @@
         "hospital_type",
         "emergency_services"
       ],
-      "retrievedAt": "2026-07-09T21:54:27.796Z",
+      "retrievedAt": "2026-07-09T22:29:51.793Z",
       "confidence": "source-record",
       "dataMode": "real-public-data",
       "freshness": {
-        "retrievedAt": "2026-07-09T21:54:27.796Z",
+        "retrievedAt": "2026-07-09T22:29:51.793Z",
         "sourceReleaseDate": null
       },
       "limitations": [
@@ -91,7 +96,16 @@
         "Coordinates require geocoding or supplemental geometry.",
         "Coordinates are not provided by this CMS source; the current artifact has dry-run geocoding only and is not map-ready.",
         "CMS data do not power the main app map in the current prototype."
-      ]
+      ],
+      "geocodingConfidence": "street-segment",
+      "geography": {
+        "stateFips": "01",
+        "countyFips": "069",
+        "countyName": "Houston County",
+        "censusTract": "041000",
+        "blockGroup": null
+      },
+      "geocodingResultPath": "data/generated/geocoding-results/cms-hospitals-geocoding-results-v0.2.7.json"
     },
     {
       "sourceFacilityId": "010005",
@@ -107,10 +121,10 @@
       "zip": "35957",
       "countyName": null,
       "phone": null,
-      "latitude": null,
-      "longitude": null,
-      "geocodingStatus": "not-yet-geocoded",
-      "geographyJoinStatus": "not-yet-joined",
+      "latitude": 34.221221654827,
+      "longitude": -86.159366335505,
+      "geocodingStatus": "matched",
+      "geographyJoinStatus": "joined",
       "sourceId": "cms-hospital-general-information",
       "sourceName": "CMS Hospital General Information",
       "sourceAgency": "Centers for Medicare & Medicaid Services",
@@ -124,11 +138,11 @@
         "hospital_type",
         "emergency_services"
       ],
-      "retrievedAt": "2026-07-09T21:54:27.796Z",
+      "retrievedAt": "2026-07-09T22:29:51.793Z",
       "confidence": "source-record",
       "dataMode": "real-public-data",
       "freshness": {
-        "retrievedAt": "2026-07-09T21:54:27.796Z",
+        "retrievedAt": "2026-07-09T22:29:51.793Z",
         "sourceReleaseDate": null
       },
       "limitations": [
@@ -136,7 +150,16 @@
         "Coordinates require geocoding or supplemental geometry.",
         "Coordinates are not provided by this CMS source; the current artifact has dry-run geocoding only and is not map-ready.",
         "CMS data do not power the main app map in the current prototype."
-      ]
+      ],
+      "geocodingConfidence": "street-segment",
+      "geography": {
+        "stateFips": "01",
+        "countyFips": "095",
+        "countyName": "Marshall County",
+        "censusTract": "031200",
+        "blockGroup": null
+      },
+      "geocodingResultPath": "data/generated/geocoding-results/cms-hospitals-geocoding-results-v0.2.7.json"
     },
     {
       "sourceFacilityId": "010006",
@@ -152,10 +175,10 @@
       "zip": "35630",
       "countyName": null,
       "phone": null,
-      "latitude": null,
-      "longitude": null,
-      "geocodingStatus": "not-yet-geocoded",
-      "geographyJoinStatus": "not-yet-joined",
+      "latitude": 34.803808001178,
+      "longitude": -87.649945372824,
+      "geocodingStatus": "matched",
+      "geographyJoinStatus": "joined",
       "sourceId": "cms-hospital-general-information",
       "sourceName": "CMS Hospital General Information",
       "sourceAgency": "Centers for Medicare & Medicaid Services",
@@ -169,11 +192,11 @@
         "hospital_type",
         "emergency_services"
       ],
-      "retrievedAt": "2026-07-09T21:54:27.796Z",
+      "retrievedAt": "2026-07-09T22:29:51.793Z",
       "confidence": "source-record",
       "dataMode": "real-public-data",
       "freshness": {
-        "retrievedAt": "2026-07-09T21:54:27.796Z",
+        "retrievedAt": "2026-07-09T22:29:51.793Z",
         "sourceReleaseDate": null
       },
       "limitations": [
@@ -181,7 +204,16 @@
         "Coordinates require geocoding or supplemental geometry.",
         "Coordinates are not provided by this CMS source; the current artifact has dry-run geocoding only and is not map-ready.",
         "CMS data do not power the main app map in the current prototype."
-      ]
+      ],
+      "geocodingConfidence": "street-segment",
+      "geography": {
+        "stateFips": "01",
+        "countyFips": "077",
+        "countyName": "Lauderdale County",
+        "censusTract": "010700",
+        "blockGroup": null
+      },
+      "geocodingResultPath": "data/generated/geocoding-results/cms-hospitals-geocoding-results-v0.2.7.json"
     },
     {
       "sourceFacilityId": "010007",
@@ -197,10 +229,10 @@
       "zip": "36467",
       "countyName": null,
       "phone": null,
-      "latitude": null,
-      "longitude": null,
-      "geocodingStatus": "not-yet-geocoded",
-      "geographyJoinStatus": "not-yet-joined",
+      "latitude": 31.291590951497,
+      "longitude": -86.255377693357,
+      "geocodingStatus": "matched",
+      "geographyJoinStatus": "joined",
       "sourceId": "cms-hospital-general-information",
       "sourceName": "CMS Hospital General Information",
       "sourceAgency": "Centers for Medicare & Medicaid Services",
@@ -214,11 +246,11 @@
         "hospital_type",
         "emergency_services"
       ],
-      "retrievedAt": "2026-07-09T21:54:27.796Z",
+      "retrievedAt": "2026-07-09T22:29:51.793Z",
       "confidence": "source-record",
       "dataMode": "real-public-data",
       "freshness": {
-        "retrievedAt": "2026-07-09T21:54:27.796Z",
+        "retrievedAt": "2026-07-09T22:29:51.793Z",
         "sourceReleaseDate": null
       },
       "limitations": [
@@ -226,7 +258,16 @@
         "Coordinates require geocoding or supplemental geometry.",
         "Coordinates are not provided by this CMS source; the current artifact has dry-run geocoding only and is not map-ready.",
         "CMS data do not power the main app map in the current prototype."
-      ]
+      ],
+      "geocodingConfidence": "street-segment",
+      "geography": {
+        "stateFips": "01",
+        "countyFips": "039",
+        "countyName": "Covington County",
+        "censusTract": "962400",
+        "blockGroup": null
+      },
+      "geocodingResultPath": "data/generated/geocoding-results/cms-hospitals-geocoding-results-v0.2.7.json"
     },
     {
       "sourceFacilityId": "010011",
@@ -242,10 +283,10 @@
       "zip": "35235",
       "countyName": null,
       "phone": null,
-      "latitude": null,
-      "longitude": null,
-      "geocodingStatus": "not-yet-geocoded",
-      "geographyJoinStatus": "not-yet-joined",
+      "latitude": 33.590809113008,
+      "longitude": -86.668757123224,
+      "geocodingStatus": "matched",
+      "geographyJoinStatus": "joined",
       "sourceId": "cms-hospital-general-information",
       "sourceName": "CMS Hospital General Information",
       "sourceAgency": "Centers for Medicare & Medicaid Services",
@@ -259,11 +300,11 @@
         "hospital_type",
         "emergency_services"
       ],
-      "retrievedAt": "2026-07-09T21:54:27.796Z",
+      "retrievedAt": "2026-07-09T22:29:51.793Z",
       "confidence": "source-record",
       "dataMode": "real-public-data",
       "freshness": {
-        "retrievedAt": "2026-07-09T21:54:27.796Z",
+        "retrievedAt": "2026-07-09T22:29:51.793Z",
         "sourceReleaseDate": null
       },
       "limitations": [
@@ -271,7 +312,16 @@
         "Coordinates require geocoding or supplemental geometry.",
         "Coordinates are not provided by this CMS source; the current artifact has dry-run geocoding only and is not map-ready.",
         "CMS data do not power the main app map in the current prototype."
-      ]
+      ],
+      "geocodingConfidence": "street-segment",
+      "geography": {
+        "stateFips": "01",
+        "countyFips": "073",
+        "countyName": "Jefferson County",
+        "censusTract": "005903",
+        "blockGroup": null
+      },
+      "geocodingResultPath": "data/generated/geocoding-results/cms-hospitals-geocoding-results-v0.2.7.json"
     }
   ]
 }

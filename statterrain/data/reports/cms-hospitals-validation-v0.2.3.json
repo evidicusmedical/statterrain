@@ -1,6 +1,6 @@
 {
   "schemaVersion": "cms-hospitals-validation-v0.2.3",
-  "generatedAt": "2026-07-09T22:24:32.611Z",
+  "generatedAt": "2026-07-09T22:29:55.269Z",
   "generatedPath": "data/generated/cms-hospitals.generated.json",
   "status": "warn",
   "recordCount": 5,
@@ -12,7 +12,6 @@
     "record 2 missing phone.",
     "record 3 missing phone.",
     "record 4 missing phone.",
-    "5 records require future geocoding.",
     "5 records are missing county/geography fields.",
     "Source release date is unknown/not parsed."
   ],
@@ -24,7 +23,7 @@
     "lastKnownGoodUpdated": true
   },
   "quality": {
-    "missingCoordinates": 5,
+    "missingCoordinates": 0,
     "missingGeography": 5
   }
 }

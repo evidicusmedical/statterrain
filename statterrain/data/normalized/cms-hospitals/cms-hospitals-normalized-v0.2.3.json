@@ -3,7 +3,7 @@
   "sourceId": "cms-hospital-general-information",
   "sourceName": "CMS Hospital General Information",
   "sourceAgency": "Centers for Medicare & Medicaid Services",
-  "retrievedAt": "2026-07-09T21:54:27.796Z",
+  "retrievedAt": "2026-07-09T22:29:51.793Z",
   "dataMode": "real-public-data",
   "recordCount": 5,
   "records": [
@@ -38,11 +38,11 @@
         "hospital_type",
         "emergency_services"
       ],
-      "retrievedAt": "2026-07-09T21:54:27.796Z",
+      "retrievedAt": "2026-07-09T22:29:51.793Z",
       "confidence": "source-record",
       "dataMode": "real-public-data",
       "freshness": {
-        "retrievedAt": "2026-07-09T21:54:27.796Z",
+        "retrievedAt": "2026-07-09T22:29:51.793Z",
         "sourceReleaseDate": null
       },
       "limitations": [
@@ -83,11 +83,11 @@
         "hospital_type",
         "emergency_services"
       ],
-      "retrievedAt": "2026-07-09T21:54:27.796Z",
+      "retrievedAt": "2026-07-09T22:29:51.793Z",
       "confidence": "source-record",
       "dataMode": "real-public-data",
       "freshness": {
-        "retrievedAt": "2026-07-09T21:54:27.796Z",
+        "retrievedAt": "2026-07-09T22:29:51.793Z",
         "sourceReleaseDate": null
       },
       "limitations": [
@@ -128,11 +128,11 @@
         "hospital_type",
         "emergency_services"
       ],
-      "retrievedAt": "2026-07-09T21:54:27.796Z",
+      "retrievedAt": "2026-07-09T22:29:51.793Z",
       "confidence": "source-record",
       "dataMode": "real-public-data",
       "freshness": {
-        "retrievedAt": "2026-07-09T21:54:27.796Z",
+        "retrievedAt": "2026-07-09T22:29:51.793Z",
         "sourceReleaseDate": null
       },
       "limitations": [
@@ -173,11 +173,11 @@
         "hospital_type",
         "emergency_services"
       ],
-      "retrievedAt": "2026-07-09T21:54:27.796Z",
+      "retrievedAt": "2026-07-09T22:29:51.793Z",
       "confidence": "source-record",
       "dataMode": "real-public-data",
       "freshness": {
-        "retrievedAt": "2026-07-09T21:54:27.796Z",
+        "retrievedAt": "2026-07-09T22:29:51.793Z",
         "sourceReleaseDate": null
       },
       "limitations": [
@@ -218,11 +218,11 @@
         "hospital_type",
         "emergency_services"
       ],
-      "retrievedAt": "2026-07-09T21:54:27.796Z",
+      "retrievedAt": "2026-07-09T22:29:51.793Z",
       "confidence": "source-record",
       "dataMode": "real-public-data",
       "freshness": {
-        "retrievedAt": "2026-07-09T21:54:27.796Z",
+        "retrievedAt": "2026-07-09T22:29:51.793Z",
         "sourceReleaseDate": null
       },
       "limitations": [

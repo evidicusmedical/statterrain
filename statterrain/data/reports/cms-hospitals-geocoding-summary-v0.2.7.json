@@ -1,14 +1,14 @@
 {
   "schemaVersion": "cms-hospitals-geocoding-summary-v0.2.7",
-  "generatedAt": "2026-07-09T22:23:31.432Z",
+  "generatedAt": "2026-07-09T22:29:53.474Z",
   "inputPath": "data/generated/geocoding-inputs/cms-hospitals-geocoding-input-v0.2.3.json",
   "mode": "live-census",
   "dataMode": "real-public-data",
   "recordCount": 5,
   "eligibleCount": 5,
-  "matchedCount": 0,
-  "joinedCount": 0,
-  "failedEligibleCount": 5,
+  "matchedCount": 5,
+  "joinedCount": 5,
+  "failedEligibleCount": 0,
   "skippedCount": 0,
   "externalCallsEnabled": true,
   "liveGeocodingLimit": 5,
@@ -23,5 +23,6 @@
   ],
   "warnings": [
     "Live Census geocoding was explicitly enabled and bounded to 5 eligible records."
-  ]
+  ],
+  "generatedRecordsUpdated": 5
 }
