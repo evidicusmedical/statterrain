@@ -55,3 +55,13 @@ Facility detail screens use a standardized display structure covering facility i
 Facility category explanations cover hospitals, critical access hospitals, pharmacies, dialysis centers, skilled nursing facilities, and behavioral-health facilities. Hospital capability definitions cover emergency department, critical access hospital, trauma, stroke, STEMI/PCI, pediatric, behavioral-health, and dialysis-related capability terms. Each definition includes operational caution: this product is not live routing, diversion, transfer, destination, medical-control, bed-status, or clinical decision-support software.
 
 No real CMS, Census, CDC, SAMHSA, NPPES, or other public data ingestion was added for v0.1.4. No backend, database, authentication, PHI handling, AI API, or live operational workflow was added.
+
+## v0.1.5 beta-readiness scope
+
+v0.1.5 adds interpretability and beta-review support only. Population-health metrics include plain-language definitions, denominator/source-status notes, planning relevance, known limitations, and synthetic-data caveats. Pediatric population, poverty, Social Vulnerability Index, and rurality explicitly note that real definitions must come from future connected public datasets.
+
+The app displays a source/freshness inventory for the current demonstration dataset categories and states that all current records are synthetic demonstration data. No public-data refresh is active. The base-map note identifies OpenStreetMap and explains that map currency depends on contributor and tile-provider updates, not an official government source.
+
+The beta feedback workflow is a centrally configured mailto link plus a client-only copy-context helper in the evidence brief. It does not collect feedback in a backend.
+
+StatTerrain remains a prototype for planning and situational awareness only. It is not for live routing, diversion, bed status, triage, transfer decisions, dispatch, medical-control advice, clinical decision support, or PHI handling. Real public-data ingestion has not started; future versions should connect official public datasets with source metadata and refresh validation.

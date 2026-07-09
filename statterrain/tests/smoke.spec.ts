@@ -155,6 +155,38 @@ test.describe("StatTerrain critical workflow", () => {
     await expect(detail.getByText(/Emergency department:/)).toBeVisible();
   });
 
+
+  test("population metric definitions, freshness inventory, base-map note, and feedback workflow are accessible", async ({ page, context }) => {
+    await page.goto("/");
+
+    await page.getByRole("button", { name: "What this means" }).first().click();
+    await expect(page.getByText(/Synthetic demonstration metric — not a real-world source/).first()).toBeVisible();
+
+    await page.getByRole("button", { name: "What this means" }).nth(1).click();
+    await expect(page.getByText(/pediatric age threshold depends on the source dataset/i)).toBeVisible();
+
+    await page.getByRole("button", { name: "What this means" }).nth(2).click();
+    await expect(page.getByText(/federal poverty threshold or dataset-specific poverty measure/i)).toBeVisible();
+
+    await page.getByRole("button", { name: "What this means" }).nth(9).click();
+    await expect(page.getByText(/not a direct clinical-risk score/i)).toBeVisible();
+
+    await expect(page.getByRole("heading", { name: "Data freshness and source inventory" })).toBeVisible();
+    await expect(page.getByText("No public-data refresh is active in this prototype.")).toBeVisible();
+
+    await expect(page.getByText(/Base map: OpenStreetMap/)).toBeVisible();
+
+    const feedback = page.getByRole("link", { name: "Send Feedback" }).first();
+    await expect(feedback).toBeVisible();
+    await expect(feedback).toHaveAttribute("href", /mailto:mathew\.h\.lowe@gmail\.com\?subject=StatTerrain%20Beta%20Feedback/);
+
+    await context.grantPermissions(["clipboard-read", "clipboard-write"], { origin: new URL(page.url()).origin });
+    await page.getByRole("button", { name: "Generate Evidence Brief" }).click();
+    await page.getByRole("button", { name: "Copy feedback context" }).click();
+    await expect(page.getByRole("button", { name: "Feedback context copied" })).toBeVisible();
+    await expect.poll(() => page.evaluate(() => navigator.clipboard.readText())).toContain("StatTerrain v0.1.5 prototype");
+  });
+
   test("a population-health overlay can be changed", async ({ page }) => {
     await page.goto("/");
     await page.getByRole("button", { name: "Population-health overlay" }).click();

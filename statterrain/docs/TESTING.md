@@ -106,3 +106,7 @@ debugging failures without needing local reproduction.
 The smoke suite now verifies that selecting a facility opens the standardized facility detail panel and shows the required sections: Facility identity, Capability summary, Contact and access information, Source and data quality, and Known limitations. It also checks synthetic-data labeling, unavailable-data language, category explanation access, and hospital capability glossary access.
 
 Evidence brief tests continue to verify the v0.1.3 behavior: the default brief remains geography-based, includes the scope statement, and is not silently narrowed by map display filters. Markdown, JSON, and CSV export checks remain in the end-to-end workflow, along with mobile viewport usability coverage.
+
+## v0.1.5 test coverage
+
+The Playwright smoke suite covers the v0.1.5 beta-readiness additions: population metric definition details, pediatric and poverty caveats, SVI caveat, synthetic source/freshness inventory, OpenStreetMap base-map note, Send Feedback mailto target, copy-feedback-context behavior, evidence brief opening, v0.1.3 scope preservation, v0.1.4 facility-detail sections, Markdown/JSON/CSV exports, and mobile usability.

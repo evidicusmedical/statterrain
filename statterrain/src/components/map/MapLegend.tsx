@@ -45,7 +45,7 @@ export function MapLegend({ overlay }: { overlay: OverlayMetricId | null }) {
         </div>
       )}
       <p className="mt-2 border-t border-slate-200 pt-1.5 text-[10px] leading-snug text-slate-400">
-        Synthetic demonstration data. Not verified operational status.
+        Synthetic demonstration data. Not verified operational status. Base map: OpenStreetMap. Map currency depends on OpenStreetMap contributor updates and tile-provider refresh. Newly developed roads, neighborhoods, facilities, or communities may not appear immediately.
       </p>
     </div>
   );

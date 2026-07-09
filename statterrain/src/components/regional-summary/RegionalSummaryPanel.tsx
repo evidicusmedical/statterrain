@@ -3,6 +3,7 @@ import { PLANNING_CONSIDERATIONS } from "@/lib/planning-considerations";
 import { SummaryCard } from "./SummaryCard";
 import type { Facility } from "@/types/facility";
 import { FACILITY_TYPE_LABELS } from "@/types/facility";
+import { DataFreshnessSummary } from "@/components/sources/DataFreshnessSummary";
 
 const FACILITY_COUNT_ORDER: Facility["facilityType"][] = [
   "hospital",
@@ -40,6 +41,16 @@ export function RegionalSummaryPanel({ facilities }: { facilities: Facility[] })
           {populationMetrics.map((m) => (
             <SummaryCard key={m.metricId} metric={m} />
           ))}
+        </div>
+      </section>
+
+      <DataFreshnessSummary />
+
+      <section>
+        <h2 className="mb-2 text-sm font-semibold text-slate-900">Beta prototype limitations</h2>
+        <div className="rounded-md bg-amber-50 p-2.5 text-xs leading-relaxed text-amber-900">
+          <p>StatTerrain is currently a prototype. Current data are synthetic demonstration data, and real public-data ingestion has not started yet.</p>
+          <p className="mt-1">Use for planning and situational awareness only — not for live routing, diversion, bed status, triage, transfer decisions, dispatch, or medical-control advice. Future versions will connect official public datasets with source metadata and refresh validation.</p>
         </div>
       </section>
 

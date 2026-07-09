@@ -4,6 +4,7 @@ import { useMemo, useState } from "react";
 import { product } from "@/config/product";
 import { searchLocations, type SearchLocation } from "@/data/demo-region";
 import { SyntheticBadge } from "@/components/ui/Badge";
+import { FeedbackButton } from "@/components/feedback/FeedbackButton";
 
 interface HeaderProps {
   location: SearchLocation;
@@ -106,6 +107,8 @@ export function Header({ location, onSelectLocation, onGenerateBrief, onOpenFilt
         </div>
 
         <SyntheticBadge />
+
+        <FeedbackButton className="hidden md:inline-flex" />
 
         <button
           type="button"

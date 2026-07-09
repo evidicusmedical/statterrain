@@ -1,6 +1,7 @@
 import type { PopulationMetric } from "@/types/metric";
 import { ConfidenceBadge, FreshnessBadge } from "@/components/ui/Badge";
 import { getSourceById } from "@/data/sources";
+import { MetricDefinitionPanel } from "@/components/population/MetricDefinitionPanel";
 
 export function SummaryCard({ metric }: { metric: PopulationMetric }) {
   const source = getSourceById(metric.sourceId);
@@ -33,6 +34,7 @@ export function SummaryCard({ metric }: { metric: PopulationMetric }) {
       {metric.marginOfError !== null && (
         <p className="text-[11px] text-slate-400">Margin of error: ±{metric.marginOfError}</p>
       )}
+      <MetricDefinitionPanel metric={metric} />
     </div>
   );
 }

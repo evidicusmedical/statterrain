@@ -5,6 +5,8 @@ import { product } from "@/config/product";
 import type { BriefContext } from "@/lib/export";
 import { BRIEF_SCOPE_STATEMENT, buildMarkdownBrief, downloadCsvBrief, downloadJsonBrief, downloadMarkdownBrief } from "@/lib/export";
 import { useMemo, useState } from "react";
+import { FeedbackButton } from "@/components/feedback/FeedbackButton";
+import { CopyFeedbackContextButton } from "@/components/feedback/CopyFeedbackContextButton";
 
 interface EvidenceBriefDrawerProps {
   open: boolean;
@@ -55,6 +57,8 @@ export function EvidenceBriefDrawer({ open, onClose, context }: EvidenceBriefDra
           >
             Download CSV
           </button>
+          <FeedbackButton className="text-xs" />
+          <CopyFeedbackContextButton locationLabel={context.locationLabel} radiusMiles={context.radiusMiles} />
           <button
             type="button"
             onClick={handleCopy}

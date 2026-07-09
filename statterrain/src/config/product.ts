@@ -15,10 +15,14 @@ export const product = {
   description:
     "StatTerrain is a public-data mapping and evidence-brief platform for emergency and EMS clinicians, medical directors, quality-improvement teams, and regional planners to understand nearby facilities, publicly documented capabilities, and population-health context.",
   status: "Working product name -- final trademark and domain clearance pending.",
-  prototypeVersion: "v0.1.0 prototype",
+  prototypeVersion: "v0.1.5 prototype",
   repositoryNamePlaceholder: "statterrain",
   repositoryUrlPlaceholder: "https://github.com/<your-org>/statterrain",
   supportContactPlaceholder: "support@example.com (placeholder -- update before real use)",
+  feedback: {
+    href: "mailto:mathew.h.lowe@gmail.com?subject=StatTerrain%20Beta%20Feedback",
+    label: "Send Feedback",
+  },
   disclaimer:
     "StatTerrain summarizes public datasets for education, planning, quality improvement, orientation, and evidence-based write-ups. It is not intended for patient-specific triage, transfer decisions, medical direction, live diversion status, bed availability, or emergency response. Facility capabilities and operating status must be verified through official local channels.",
   syntheticDataNotice:
