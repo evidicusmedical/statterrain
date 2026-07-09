@@ -155,3 +155,11 @@ Population-health cards now keep a **Quick read** line visible so users can scan
 The mobile workspace is more map-first. The map appears early with useful height, a bottom tab switcher keeps Map / Summary / Facility views reachable, the Filters drawer remains available from the header, and one tap returns users to the map after reviewing summary or facility details. The existing **Hide summary / Show summary** control still works; on desktop it enlarges the map by removing the right summary column, while on mobile it keeps summary access intentional instead of forcing a long stacked page.
 
 StatTerrain remains a frontend prototype with synthetic demonstration data only. This release does not add real CMS, Census, CDC, SAMHSA, NPPES, or other public-data ingestion, and it does not add live routing, diversion status, bed status, medical-control guidance, clinical decision support, backend services, database storage, authentication, AI APIs, or PHI handling.
+
+## v0.1.9 mobile map usability and version-label hotfix
+
+The visible application header now uses the central product configuration and must read **StatTerrain v0.1.9 prototype** for this patch. Every future patch must update the visible top heading/version label to match the patch version using `StatTerrain vX.X.X prototype`, or the equivalent `StatTerrain` product title plus `vX.X.X prototype` version-badge layout.
+
+The mobile map now starts in a cleaner map-first state: the map appears early, the bottom **Map / Summary / Facility** tabs remain reachable, and the map legend is collapsed by default on fresh mobile page loads. A compact **Legend** button opens the key, and an obvious **Hide** control inside the legend collapses it again. The open legend uses shorter mobile copy, keeps marker labels readable, and moves the longer base-map caveat behind a **Map note** disclosure.
+
+StatTerrain remains a synthetic-data frontend prototype. v0.1.9 does not add real CMS, Census, CDC, SAMHSA, NPPES, or other public-data ingestion; does not add live routing, diversion, bed status, or medical-control guidance; and does not add a backend, database, authentication, AI API, or PHI workflow.
