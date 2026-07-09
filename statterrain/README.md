@@ -131,3 +131,11 @@ The data freshness/source inventory clearly labels all current datasets as synth
 Beta feedback is available through the **Send Feedback** mailto link and a client-only evidence-brief helper that copies app version, selected geography, selected radius, synthetic-data status, brief scope, and current page URL. No backend collection is added.
 
 Current prototype limitations remain: no real CMS, Census, CDC, SAMHSA, NPPES, or other public-data ingestion; no backend, database, authentication, PHI handling, live routing, diversion, bed-status, triage, transfer, dispatch, medical-control, or clinical-decision-support functionality.
+
+## v0.1.6 population metric explanation refinement
+
+Population-health cards now include always-visible quick meaning text and expandable **What this means** details. Each metric explanation covers what it measures, how the synthetic prototype represents it, the future real-source definition requirement, denominator or population basis, planning relevance, limitations, synthetic-data status, and what not to infer.
+
+Specific caveats were expanded for pediatric population age-band uncertainty; poverty definitions and federal-threshold or dataset-specific measures; limited English proficiency source fields; households without vehicle access; COPD, coronary heart disease, stroke, and poor mental-health prevalence as population-level estimates rather than individual diagnoses; SVI as a relative vulnerability index rather than a clinical-risk, danger, crime, or individual-risk score; and rurality as a source-defined classification that must name the classification system when real data are connected.
+
+Evidence brief exports now include a concise metric definitions and limitations section. No real public data, backend, database, authentication, live routing, diversion, bed status, medical-control guidance, clinical decision support, or v0.2.0 public-data pipeline work was added.
