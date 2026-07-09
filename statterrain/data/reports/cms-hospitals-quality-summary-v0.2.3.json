@@ -1,0 +1,19 @@
+{
+  "schemaVersion": "cms-hospitals-quality-summary-v0.2.3",
+  "generatedAt": "2026-07-09T21:08:22.383Z",
+  "sourceId": "cms-hospital-general-information",
+  "dataMode": "synthetic-test-fixture",
+  "recordCount": 4,
+  "missingCoordinates": {
+    "count": 4,
+    "percent": 1
+  },
+  "missingGeography": {
+    "count": 1,
+    "percent": 0.25
+  },
+  "warnings": [
+    "Coordinates are intentionally null pending a future geocoding patch.",
+    "Geography joins are not performed in v0.2.3."
+  ]
+}

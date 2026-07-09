@@ -29,6 +29,24 @@ The pilot does not ingest patient-level data, claims data, PHI, live routing, li
 - `npm run data:pull-cms-hospitals`
 - `npm run data:validate-cms-hospitals`
 
-## Recommended next patch
+## v0.2.3 fetch hardening and coordinate readiness
 
-v0.2.3 — Facility Geocoding and Geography Join.
+v0.2.3 keeps the main application synthetic by default while hardening the CMS pull path. Endpoint resolution now records each attempted source in priority order: benchmark `downloadUrl`, benchmark `metadataUrl`, benchmark `sourceUrl`, the known CMS Provider Data datastore query for `xubh-q36u`, and a small-limit probe endpoint. Fetch diagnostics record the final URL, HTTP status text, selected response headers, retry attempts, and a classified fetch status (`network-blocked`, `timeout`, `non-2xx`, `invalid-json`, `empty-records`, `schema-unrecognized`, or `success`). Failed fetches still produce no fabricated CMS records.
+
+A deterministic fixture mode is available for tests:
+
+- `npm run data:pull-cms-hospitals -- --fixture`
+- `npm run data:validate-cms-hospitals`
+
+Fixture output is explicitly marked `synthetic-test-fixture`, requires preview labeling, remains `usedInCurrentApp: false`, and never updates last-known-good real CMS data. The fixture exists only to test schema normalization, validation, quality summaries, and geocoding input generation without claiming that dummy records are production public data.
+
+v0.2.3 also emits coordinate/geography readiness artifacts:
+
+- Quality summary: `data/reports/cms-hospitals-quality-summary-v0.2.3.json`
+- Geocoding input: `data/generated/geocoding-inputs/cms-hospitals-geocoding-input-v0.2.3.json`
+
+These files prepare for a future geocoding/geography-join patch but do not perform geocoding, do not join geography, and do not switch the main map to CMS data.
+
+## Future work not included in v0.2.3
+
+Facility geocoding, geography joins, real facility UI switching, source-freshness UI, and automated CMS refresh remain future patches and are intentionally not implemented here.
