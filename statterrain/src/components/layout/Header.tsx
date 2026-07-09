@@ -8,18 +8,36 @@ import { FeedbackButton } from "@/components/feedback/FeedbackButton";
 
 interface HeaderProps {
   location: SearchLocation;
+  radiusMiles: number;
+  selectedFacilityName?: string | null;
+  selectedFacilityType?: string | null;
+  activeMobileTab?: string;
+  summaryOpen: boolean;
   onSelectLocation: (loc: SearchLocation) => void;
   onGenerateBrief: () => void;
   onOpenFilters: () => void;
 }
 
-export function Header({ location, onSelectLocation, onGenerateBrief, onOpenFilters }: HeaderProps) {
+export function Header({
+  location,
+  radiusMiles,
+  selectedFacilityName,
+  selectedFacilityType,
+  activeMobileTab,
+  summaryOpen,
+  onSelectLocation,
+  onGenerateBrief,
+  onOpenFilters,
+}: HeaderProps) {
   const [query, setQuery] = useState("");
   const [showSuggestions, setShowSuggestions] = useState(false);
 
   const suggestions = useMemo(() => {
     const q = query.trim().toLowerCase();
-    const pool = q.length === 0 ? searchLocations : searchLocations.filter((l) => l.label.toLowerCase().includes(q));
+    const pool =
+      q.length === 0
+        ? searchLocations
+        : searchLocations.filter((l) => l.label.toLowerCase().includes(q));
     return pool.slice(0, 6);
   }, [query]);
 
@@ -32,17 +50,55 @@ export function Header({ location, onSelectLocation, onGenerateBrief, onOpenFilt
           className="inline-flex items-center justify-center rounded-md border border-slate-300 p-2 text-slate-600 hover:bg-slate-50 lg:hidden"
           aria-label="Open filters"
         >
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden>
-            <path d="M4 6h16M7 12h10M10 18h4" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
+          <svg
+            width="18"
+            height="18"
+            viewBox="0 0 24 24"
+            fill="none"
+            aria-hidden
+          >
+            <path
+              d="M4 6h16M7 12h10M10 18h4"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+            />
           </svg>
         </button>
 
         <div className="flex items-center gap-2.5">
-          <svg width="30" height="30" viewBox="0 0 40 40" aria-hidden className="text-terrain-600">
-            <circle cx="20" cy="20" r="18" fill="none" stroke="currentColor" strokeWidth="1.4" opacity="0.35" />
-            <circle cx="20" cy="20" r="12" fill="none" stroke="currentColor" strokeWidth="1.4" opacity="0.55" />
+          <svg
+            width="30"
+            height="30"
+            viewBox="0 0 40 40"
+            aria-hidden
+            className="text-terrain-600"
+          >
+            <circle
+              cx="20"
+              cy="20"
+              r="18"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="1.4"
+              opacity="0.35"
+            />
+            <circle
+              cx="20"
+              cy="20"
+              r="12"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="1.4"
+              opacity="0.55"
+            />
             <circle cx="20" cy="20" r="3.4" fill="currentColor" />
-            <path d="M20 6v6M20 28v6M6 20h6M28 20h6" stroke="currentColor" strokeWidth="1.4" opacity="0.5" />
+            <path
+              d="M20 6v6M20 28v6M6 20h6M28 20h6"
+              stroke="currentColor"
+              strokeWidth="1.4"
+              opacity="0.5"
+            />
           </svg>
           <div className="leading-tight">
             <div className="flex items-center gap-2">
@@ -93,7 +149,9 @@ export function Header({ location, onSelectLocation, onGenerateBrief, onOpenFilt
                     className="flex w-full items-center justify-between px-3 py-2 text-left text-sm text-slate-700 hover:bg-terrain-50"
                   >
                     <span>{loc.label}</span>
-                    <span className="text-xs uppercase text-slate-400">{loc.kind}</span>
+                    <span className="text-xs uppercase text-slate-400">
+                      {loc.kind}
+                    </span>
                   </button>
                 </li>
               ))}
@@ -108,7 +166,17 @@ export function Header({ location, onSelectLocation, onGenerateBrief, onOpenFilt
 
         <SyntheticBadge />
 
-        <FeedbackButton className="hidden md:inline-flex" />
+        <FeedbackButton
+          className="inline-flex text-xs md:text-sm"
+          context={{
+            locationLabel: location.label,
+            radiusMiles,
+            facilityLabel: selectedFacilityName,
+            facilityTypeLabel: selectedFacilityType,
+            activeMobileTab,
+            summaryState: summaryOpen ? "shown" : "hidden",
+          }}
+        />
 
         <button
           type="button"

@@ -1,7 +1,16 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
-import { MapContainer, TileLayer, Circle, Polygon, CircleMarker, Tooltip, Popup, useMap } from "react-leaflet";
+import {
+  MapContainer,
+  TileLayer,
+  Circle,
+  Polygon,
+  CircleMarker,
+  Tooltip,
+  Popup,
+  useMap,
+} from "react-leaflet";
 import type { Facility } from "@/types/facility";
 import type { SearchLocation } from "@/data/demo-region";
 import { mapRegions } from "@/data/map-regions";
@@ -57,7 +66,10 @@ export function MapView({
   }, [overlay]);
 
   return (
-    <div className="relative h-full w-full" data-testid="map-view">
+    <div
+      className="relative z-0 h-full w-full overflow-hidden"
+      data-testid="map-view"
+    >
       <MapContainer
         center={[location.lat, location.lng]}
         zoom={11}
@@ -76,7 +88,12 @@ export function MapView({
             <Polygon
               key={region.id}
               positions={region.ring}
-              pathOptions={{ color: region.color, fillColor: region.color, fillOpacity: 0.55, weight: 1 }}
+              pathOptions={{
+                color: region.color,
+                fillColor: region.color,
+                fillOpacity: 0.55,
+                weight: 1,
+              }}
             >
               <Tooltip sticky>{region.name}</Tooltip>
             </Polygon>
@@ -86,7 +103,12 @@ export function MapView({
           <Circle
             center={[location.lat, location.lng]}
             radius={radiusMeters}
-            pathOptions={{ color: "#316559", fillOpacity: 0.04, weight: 1.5, dashArray: "4 4" }}
+            pathOptions={{
+              color: "#316559",
+              fillOpacity: 0.04,
+              weight: 1.5,
+              dashArray: "4 4",
+            }}
           />
         )}
 
@@ -127,7 +149,9 @@ export function MapView({
             <Popup>
               <div className="max-w-[min(16rem,calc(100vw-4rem))] text-xs">
                 <p className="font-semibold">{f.name}</p>
-                <p className="text-slate-500">{FACILITY_TYPE_LABELS[f.facilityType]}</p>
+                <p className="text-slate-500">
+                  {FACILITY_TYPE_LABELS[f.facilityType]}
+                </p>
                 <p className="mt-1">{f.distanceMiles} mi away</p>
                 <button
                   type="button"
@@ -143,9 +167,12 @@ export function MapView({
       </MapContainer>
 
       {showLegend && (
-        <div className="pointer-events-none absolute bottom-3 left-3 z-[400] max-w-[calc(100%-1.5rem)]">
+        <div className="pointer-events-none absolute bottom-3 left-3 z-[350] max-w-[calc(100%-1.5rem)]">
           {legendOpen ? (
-            <MapLegend overlay={overlay} onCollapse={() => setLegendOpen(false)} />
+            <MapLegend
+              overlay={overlay}
+              onCollapse={() => setLegendOpen(false)}
+            />
           ) : (
             <button
               type="button"

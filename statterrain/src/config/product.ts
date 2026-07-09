@@ -16,17 +16,18 @@ export const product = {
     "StatTerrain is a public-data mapping and evidence-brief platform for emergency and EMS clinicians, medical directors, quality-improvement teams, and regional planners to understand nearby facilities, publicly documented capabilities, and population-health context.",
   status:
     "Working product name -- final trademark and domain clearance pending.",
-  prototypeVersion: "v0.1.9 prototype",
+  prototypeVersion: "v0.1.10 prototype",
   repositoryNamePlaceholder: "statterrain",
   repositoryUrlPlaceholder: "https://github.com/<your-org>/statterrain",
   supportContactPlaceholder:
     "support@example.com (placeholder -- update before real use)",
   feedback: {
-    href: "mailto:mathew.h.lowe@gmail.com?subject=StatTerrain%20Beta%20Feedback",
+    recipient: "mathew.h.lowe+statterrain@gmail.com",
+    subject: "StatTerrain Beta Feedback",
     label: "Send Feedback",
   },
   disclaimer:
-    "StatTerrain summarizes public datasets for education, planning, quality improvement, orientation, and evidence-based write-ups. It is not intended for patient-specific triage, transfer decisions, medical direction, live diversion status, bed availability, or emergency response. Facility capabilities and operating status must be verified through official local channels.",
+    "Planning prototype only. StatTerrain is for education, orientation, quality improvement, and public-data situational awareness. It is not for clinical care, patient-specific decisions, EMS routing, triage, transfer decisions, dispatch, medical control, live diversion, bed availability, or emergency response. Current data are synthetic demonstration data only. Verify facility capability, operating status, maps, and public-data findings with official sources. Population-health metrics are area-level planning context and do not describe or diagnose any individual person. This tool does not provide medical, legal, operational, or emergency advice. In an emergency, use local emergency protocols and official emergency communication channels.",
   syntheticDataNotice:
     "Synthetic demonstration data — not a real-world source. Do not use for operational or clinical purposes.",
 } as const;

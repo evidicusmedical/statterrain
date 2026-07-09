@@ -95,3 +95,17 @@ v0.1.9 is a UI hotfix only. The current visible header/version label is **StatTe
 The mobile map is intended to load in a map-first state: the legend is collapsed by default, a compact **Legend** control opens it, and the open legend includes an internal **Hide** control. The legend footprint is reduced on mobile, with the longer OpenStreetMap caveat behind a short **Map note** disclosure. Bottom mobile tabs continue to keep Map, Summary, and Facility views reachable.
 
 Scope remains unchanged from prior prototype releases: data is synthetic demonstration data only. No real public data pipeline, CMS data, Census data, CDC data, SAMHSA data, NPPES data, backend, database, authentication, AI API, PHI handling, live routing, diversion, bed status, medical-control guidance, or clinical decision support is included.
+
+## v0.1.10 evidence brief GUI, feedback context, and disclaimer scope
+
+v0.1.10 is a UI, feedback, disclaimer, and version-label refinement patch only. The current visible header/version label is **StatTerrain v0.1.10 prototype**, sourced from the central product configuration. Every future patch must update the visible top heading/version label to match the patch version.
+
+Evidence brief actions now behave like a selected action group: Markdown, JSON, CSV, and Copy Markdown share neutral inactive styling and use dark-green active styling with `aria-pressed` after the user clicks an action. This avoids implying Markdown is permanently preferred while preserving all client-side export behavior and the v0.1.3 geography-based brief scope statement.
+
+The embedded desktop evidence-brief **Send Feedback** and duplicate copy-feedback-context control were removed from the drawer to reduce clutter. The standard **Send Feedback** link remains reachable from the header on desktop and mobile, uses `mathew.h.lowe+statterrain@gmail.com`, and automatically embeds client-side context in the mailto body. Feedback remains mailto-only; no backend collection, analytics, form dependency, database, authentication, or PHI workflow was added.
+
+The mobile map is contained within its map section so Leaflet panes do not overlap the warning/disclaimer footer or create horizontal overflow. Existing mobile map controls, collapsed legend behavior, bottom Map / Summary / Facility tabs, facility popup, **View details**, and summary hide/show behavior remain in scope.
+
+Disclaimer language now more clearly states that StatTerrain is a planning, education, orientation, quality-improvement, and situational-awareness prototype; current data are synthetic demonstration data only; it is not for clinical care, patient-specific decisions, EMS routing, triage, transfer decisions, dispatch, medical control, live diversion, bed availability, or emergency response; maps and facility status may be incomplete, outdated, or inaccurate; population metrics are area-level planning context only; and official sources must be verified. The disclaimer does not claim to remove liability and should be reviewed by qualified legal counsel before external beta or public launch.
+
+No real CMS, Census, CDC, SAMHSA, NPPES, or other public-data ingestion, backend, database, authentication, AI API, PHI handling, live routing, diversion status, bed status, dispatch recommendation, triage recommendation, transfer recommendation, medical-control guidance, clinical decision support, Replit runtime dependency, or v0.2.0 public-data pipeline was added.
