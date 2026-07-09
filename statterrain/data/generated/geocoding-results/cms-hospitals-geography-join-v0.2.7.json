@@ -1,0 +1,34 @@
+{
+  "schemaVersion": "cms-hospitals-geography-join-v0.2.7",
+  "generatedAt": "2026-07-09T22:23:31.432Z",
+  "source": "data/generated/geocoding-results/cms-hospitals-geocoding-results-v0.2.7.json",
+  "recordCount": 5,
+  "joinedCount": 0,
+  "records": [
+    {
+      "sourceFacilityId": "010001",
+      "geographyJoinStatus": "not-joined",
+      "geography": null
+    },
+    {
+      "sourceFacilityId": "010005",
+      "geographyJoinStatus": "not-joined",
+      "geography": null
+    },
+    {
+      "sourceFacilityId": "010006",
+      "geographyJoinStatus": "not-joined",
+      "geography": null
+    },
+    {
+      "sourceFacilityId": "010007",
+      "geographyJoinStatus": "not-joined",
+      "geography": null
+    },
+    {
+      "sourceFacilityId": "010011",
+      "geographyJoinStatus": "not-joined",
+      "geography": null
+    }
+  ]
+}

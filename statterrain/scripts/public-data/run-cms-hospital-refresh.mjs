@@ -12,7 +12,8 @@ for (let index = 0; index < args.length; index += 1) {
 }
 
 const geocodingMode = options.get("geocoding-mode") ?? "dry-run";
-const liveLimit = Number(options.get("live-limit") ?? 25);
+const liveLimit = Number(options.get("live-limit") ?? 5);
+const skipPull = options.get("skip-pull") === "true";
 const allowedModes = new Set(["dry-run", "live-census", "skip"]);
 if (!allowedModes.has(geocodingMode)) throw new Error(`Unsupported geocoding mode: ${geocodingMode}`);
 if (!Number.isInteger(liveLimit) || liveLimit < 1 || liveLimit > 100) throw new Error("--live-limit must be an integer from 1 to 100.");
@@ -27,7 +28,8 @@ function run(command, commandArgs) {
 }
 
 run("npm", ["run", "data:validate-sources"]);
-run("npm", ["run", "data:pull-cms-hospitals"]);
+if (skipPull) console.log("\nSkipping CMS hospital pull; using existing generated artifact by explicit request.");
+else run("npm", ["run", "data:pull-cms-hospitals"]);
 run("npm", ["run", "data:validate-cms-hospitals"]);
 
 if (geocodingMode === "dry-run") run("npm", ["run", "data:geocode-cms-hospitals", "--", "--dry-run"]);

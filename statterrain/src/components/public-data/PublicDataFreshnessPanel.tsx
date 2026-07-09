@@ -69,7 +69,7 @@ export function PublicDataFreshnessPanel({
         </div>
         <div className="sm:col-span-2">
           <dt className="font-semibold">Preview status</dt>
-          <dd>Blocked — {summary.previewBlockReason}</dd>
+          <dd>{summary.canPreviewOnMap ? summary.previewBlockReason : `Blocked — ${summary.previewBlockReason}`}</dd>
         </div>
       </dl>
       <label

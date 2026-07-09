@@ -25,7 +25,7 @@ test.describe("public-data source registry scaffold", () => {
 });
 
 test.describe("CMS hospital fixture safety", () => {
-  test("current CMS artifact is real public data but blocked from map preview", async () => {
+  test("current CMS artifact remains blocked when live geocoding guardrails do not pass", async () => {
     const generated = JSON.parse(
       await readFile(
         join(process.cwd(), "data/generated/cms-hospitals.generated.json"),
@@ -47,14 +47,18 @@ test.describe("CMS hospital fixture safety", () => {
       await readFile(
         join(
           process.cwd(),
-          "data/reports/cms-hospitals-geocoding-summary-v0.2.4.json",
+          "data/reports/cms-hospitals-geocoding-summary-v0.2.7.json",
         ),
         "utf8",
       ),
     );
-    expect(geocodingSummary.mode).toBe("dry-run");
-    expect(geocodingSummary.externalCallsEnabled).toBe(false);
+    expect(geocodingSummary.mode).toBe("live-census");
+    expect(geocodingSummary.externalCallsEnabled).toBe(true);
+    expect(geocodingSummary.liveGeocodingLimit).toBe(5);
+    expect(geocodingSummary.recordCount).toBe(5);
     expect(geocodingSummary.matchedCount).toBe(0);
+    expect(geocodingSummary.joinedCount).toBe(0);
+    expect(geocodingSummary.failedEligibleCount).toBe(5);
   });
 });
 
