@@ -30,3 +30,17 @@ body {
     scroll-behavior: auto !important;
   }
 }
+
+.leaflet-pane,
+.leaflet-top,
+.leaflet-bottom {
+  z-index: 10;
+}
+
+.leaflet-popup-pane {
+  z-index: 40;
+}
+
+.leaflet-control-container {
+  font-family: inherit;
+}

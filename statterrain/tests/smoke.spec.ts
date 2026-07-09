@@ -46,7 +46,7 @@ test.describe("StatTerrain critical workflow", () => {
     await expect(
       page.getByText("StatTerrain", { exact: true }).first(),
     ).toBeVisible();
-    await expect(page.getByText("v0.1.9 prototype")).toBeVisible();
+    await expect(page.getByText("v0.1.10 prototype")).toBeVisible();
     const fatal = errors.fatal();
     expect(
       fatal,
@@ -70,7 +70,7 @@ test.describe("StatTerrain critical workflow", () => {
     await page.goto("/");
     await expect(
       page.getByText(
-        /StatTerrain summarizes public datasets for education, planning/,
+        /Planning prototype only.*not for clinical care.*synthetic demonstration data only.*official sources/,
       ),
     ).toBeVisible();
   });
@@ -211,7 +211,6 @@ test.describe("StatTerrain critical workflow", () => {
 
   test("population metric definitions, freshness inventory, base-map note, and feedback workflow are accessible", async ({
     page,
-    context,
   }) => {
     await page.goto("/");
 
@@ -219,9 +218,9 @@ test.describe("StatTerrain critical workflow", () => {
     await expect(
       page.getByRole("button", { name: "Show plain-language meaning" }).first(),
     ).toHaveAttribute("aria-expanded", "false");
-    await expect(
-      page.getByLabel("Age 65+ plain-language meaning"),
-    ).toHaveCount(0);
+    await expect(page.getByLabel("Age 65+ plain-language meaning")).toHaveCount(
+      0,
+    );
 
     await page
       .getByRole("button", { name: "Show plain-language meaning" })
@@ -240,10 +239,12 @@ test.describe("StatTerrain critical workflow", () => {
       .getByRole("button", { name: "Show plain-language meaning" })
       .nth(1)
       .click();
-    await expect(page.getByLabel("Pediatric plain-language meaning")).toHaveCount(
-      0,
-    );
-    await expect(page.getByLabel("Poverty plain-language meaning")).toBeVisible();
+    await expect(
+      page.getByLabel("Pediatric plain-language meaning"),
+    ).toHaveCount(0);
+    await expect(
+      page.getByLabel("Poverty plain-language meaning"),
+    ).toBeVisible();
     await expect(
       page.getByText(
         /More people may face barriers to medications, transportation, follow-up care, food, housing, and emergency recovery/i,
@@ -290,40 +291,36 @@ test.describe("StatTerrain critical workflow", () => {
     await expect(feedback).toBeVisible();
     await expect(feedback).toHaveAttribute(
       "href",
-      /mailto:mathew\.h\.lowe@gmail\.com\?subject=StatTerrain%20Beta%20Feedback/,
+      /mailto:mathew\.h\.lowe\+statterrain@gmail\.com\?subject=StatTerrain%20Beta%20Feedback&body=.*App%3A%20StatTerrain.*Version%3A%20v0.1.10%20prototype.*Selected%20geography/,
     );
 
-    await context.grantPermissions(["clipboard-read", "clipboard-write"], {
-      origin: new URL(page.url()).origin,
-    });
     await page.getByRole("button", { name: "Generate Evidence Brief" }).click();
-    await expect(
-      page.getByRole("dialog", { name: /evidence brief/i }).locator("pre"),
-    ).toContainText(
+    const briefDialog = page.getByRole("dialog", { name: /evidence brief/i });
+    await expect(briefDialog.locator("pre")).toContainText(
       "Population metrics are synthetic demonstration values in this prototype",
     );
+    await expect(briefDialog.locator("pre")).toContainText(
+      "How to read these metrics",
+    );
+    await expect(briefDialog.locator("pre")).toContainText("Higher means");
     await expect(
-      page.getByRole("dialog", { name: /evidence brief/i }).locator("pre"),
-    ).toContainText("How to read these metrics");
+      briefDialog.getByRole("link", { name: "Send Feedback" }),
+    ).toHaveCount(0);
     await expect(
-      page.getByRole("dialog", { name: /evidence brief/i }).locator("pre"),
-    ).toContainText("Higher means");
-    await page.getByRole("button", { name: "Copy feedback context" }).click();
-    await expect(
-      page.getByRole("button", { name: "Feedback context copied" }),
-    ).toBeVisible();
-    await expect
-      .poll(() => page.evaluate(() => navigator.clipboard.readText()))
-      .toContain("StatTerrain v0.1.9 prototype");
+      briefDialog.getByRole("button", { name: "Copy feedback context" }),
+    ).toHaveCount(0);
   });
 
-
-  test("desktop map legend is discoverable and collapsible", async ({ page }) => {
+  test("desktop map legend is discoverable and collapsible", async ({
+    page,
+  }) => {
     await page.goto("/");
     await expect(page.getByRole("heading", { name: "Legend" })).toBeVisible();
     await page.getByRole("button", { name: "Hide legend" }).click();
     await expect(page.getByRole("heading", { name: "Legend" })).toHaveCount(0);
-    await expect(page.getByRole("button", { name: "Show map legend" })).toBeVisible();
+    await expect(
+      page.getByRole("button", { name: "Show map legend" }),
+    ).toBeVisible();
     await page.getByRole("button", { name: "Show map legend" }).click();
     await expect(page.getByRole("heading", { name: "Legend" })).toBeVisible();
   });
@@ -405,23 +402,44 @@ test.describe("StatTerrain critical workflow", () => {
     });
     expect(stacking.dialogZ).toBeGreaterThan(stacking.paneZ);
 
+    const markdownButton = drawer.getByRole("button", {
+      name: "Download Markdown",
+    });
+    const jsonButton = drawer.getByRole("button", { name: "Download JSON" });
+    const csvButton = drawer.getByRole("button", { name: "Download CSV" });
+    const copyButton = drawer.getByRole("button", { name: "Copy Markdown" });
+    await expect(markdownButton).toHaveAttribute("aria-pressed", "false");
+    await expect(jsonButton).toHaveAttribute("aria-pressed", "false");
+    await expect(csvButton).toHaveAttribute("aria-pressed", "false");
+
     const [mdDownload] = await Promise.all([
       page.waitForEvent("download"),
-      drawer.getByRole("button", { name: "Download Markdown" }).click(),
+      markdownButton.click(),
     ]);
     expect(mdDownload.suggestedFilename()).toMatch(/\.md$/);
+    await expect(markdownButton).toHaveAttribute("aria-pressed", "true");
+    await expect(jsonButton).toHaveAttribute("aria-pressed", "false");
 
     const [jsonDownload] = await Promise.all([
       page.waitForEvent("download"),
-      drawer.getByRole("button", { name: "Download JSON" }).click(),
+      jsonButton.click(),
     ]);
     expect(jsonDownload.suggestedFilename()).toMatch(/\.json$/);
+    await expect(jsonButton).toHaveAttribute("aria-pressed", "true");
+    await expect(markdownButton).toHaveAttribute("aria-pressed", "false");
 
     const [csvDownload] = await Promise.all([
       page.waitForEvent("download"),
-      drawer.getByRole("button", { name: "Download CSV" }).click(),
+      csvButton.click(),
     ]);
     expect(csvDownload.suggestedFilename()).toMatch(/\.csv$/);
+    await expect(csvButton).toHaveAttribute("aria-pressed", "true");
+    await expect(jsonButton).toHaveAttribute("aria-pressed", "false");
+
+    await copyButton.click();
+    await expect(
+      drawer.getByRole("button", { name: /Copied!|Copy Markdown/ }),
+    ).toHaveAttribute("aria-pressed", "true");
   });
 });
 
@@ -434,7 +452,9 @@ test.describe("StatTerrain responsive layout", () => {
     const mapView = page.getByTestId("map-view");
     await expect(mapView).toBeVisible();
     await expect(page.getByRole("heading", { name: "Legend" })).toHaveCount(0);
-    await expect(page.getByRole("button", { name: "Show map legend" })).toBeVisible();
+    await expect(
+      page.getByRole("button", { name: "Show map legend" }),
+    ).toBeVisible();
 
     const legendButtonBox = await page
       .getByRole("button", { name: "Show map legend" })
@@ -442,7 +462,10 @@ test.describe("StatTerrain responsive layout", () => {
     const mapBox = await mapView.boundingBox();
     expect(legendButtonBox).not.toBeNull();
     expect(mapBox).not.toBeNull();
-    expect((legendButtonBox!.width * legendButtonBox!.height) / (mapBox!.width * mapBox!.height)).toBeLessThan(0.08);
+    expect(
+      (legendButtonBox!.width * legendButtonBox!.height) /
+        (mapBox!.width * mapBox!.height),
+    ).toBeLessThan(0.08);
 
     await page.getByRole("button", { name: "Show map legend" }).click();
     await expect(page.getByRole("heading", { name: "Legend" })).toBeVisible();
@@ -456,7 +479,9 @@ test.describe("StatTerrain responsive layout", () => {
   }) => {
     await page.setViewportSize({ width: 390, height: 844 });
     await page.goto("/");
-    await page.locator(`.facility-marker-${SAMPLE_FACILITY_ID}`).click({ force: true });
+    await page
+      .locator(`.facility-marker-${SAMPLE_FACILITY_ID}`)
+      .click({ force: true });
     const viewDetails = page.getByRole("button", { name: "View details" });
     await expect(viewDetails).toBeVisible();
     const box = await page.locator(".leaflet-popup").boundingBox();
@@ -493,6 +518,9 @@ test.describe("StatTerrain responsive layout", () => {
     ).toBeVisible();
     await expect(page.getByTestId("map-view")).toBeVisible();
     await expect(page.getByTestId("mobile-workspace-tabs")).toBeVisible();
+    await expect(
+      page.getByRole("link", { name: "Send Feedback" }),
+    ).toBeVisible();
     await page.getByTestId("mobile-tab-summary").click();
     await expect(
       page.getByRole("region", { name: "Regional summary" }),

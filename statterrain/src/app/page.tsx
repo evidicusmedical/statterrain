@@ -11,6 +11,7 @@ import { Drawer } from "@/components/ui/Drawer";
 import { useAppState } from "@/hooks/useAppState";
 import { useCallback, useState } from "react";
 import type { SearchLocation } from "@/data/demo-region";
+import { FACILITY_TYPE_LABELS } from "@/types/facility";
 
 type MobileTab = "map" | "summary" | "detail";
 
@@ -38,6 +39,15 @@ export default function HomePage() {
     <div className="flex h-screen flex-col">
       <Header
         location={state.location}
+        radiusMiles={state.radiusMiles}
+        selectedFacilityName={state.selectedFacility?.name ?? null}
+        selectedFacilityType={
+          state.selectedFacility
+            ? FACILITY_TYPE_LABELS[state.selectedFacility.facilityType]
+            : null
+        }
+        activeMobileTab={mobileTab}
+        summaryOpen={summaryOpen}
         onSelectLocation={handleSelectLocation}
         onGenerateBrief={() => state.setBriefOpen(true)}
         onOpenFilters={() => state.setMobileFiltersOpen(true)}
@@ -66,7 +76,7 @@ export default function HomePage() {
 
         <main className="flex min-h-0 flex-1 flex-col lg:flex-row">
           <section
-            className={`relative min-h-[55vh] flex-1 ${mobileTab === "map" ? "block" : "hidden"} lg:block lg:min-h-0`}
+            className={`relative isolate min-h-[55vh] flex-1 overflow-hidden bg-slate-100 ${mobileTab === "map" ? "block" : "hidden"} lg:block lg:min-h-0`}
             aria-label="Map"
           >
             <div className="absolute right-2 top-2 z-[800] max-w-[calc(100%-1rem)] rounded-lg border border-slate-200 bg-white/95 p-1.5 shadow-sm backdrop-blur sm:right-3 sm:top-3 sm:p-2">
@@ -122,7 +132,7 @@ export default function HomePage() {
       </div>
 
       <nav
-        className="flex border-t border-slate-200 bg-white lg:hidden"
+        className="relative z-[900] flex border-t border-slate-200 bg-white lg:hidden"
         aria-label="Mobile view switcher"
         data-testid="mobile-workspace-tabs"
       >
