@@ -1,5 +1,5 @@
 import cmsHospitalsGenerated from "../../../data/generated/cms-hospitals.generated.json";
-import cmsHospitalsGeocodingSummary from "../../../data/reports/cms-hospitals-geocoding-summary-v0.2.4.json";
+import cmsHospitalsGeocodingSummary from "../../../data/reports/cms-hospitals-geocoding-summary-v0.2.7.json";
 import { isGeneratedDataSafeToDisplay } from "./generatedDataContract";
 import type { Facility } from "@/types/facility";
 
@@ -103,6 +103,7 @@ const geocodingSummary = cmsHospitalsGeocodingSummary as {
   mode?: string;
   externalCallsEnabled?: boolean;
   matchedCount?: number;
+  joinedCount?: number;
   recordCount?: number;
 };
 
@@ -135,6 +136,11 @@ export function getPublicDataArtifactSummary(): PublicDataArtifactSummary {
     records: cmsContract.records,
   } as never);
   const coordinatesReady = hasUsableCoordinates(cmsContract.records);
+  const geocodingComplete =
+    geocodingSummary.mode === "live-census" &&
+    geocodingSummary.externalCallsEnabled === true &&
+    geocodingSummary.matchedCount === cmsContract.records.length &&
+    geocodingSummary.joinedCount === cmsContract.records.length;
   const dryRunOnly =
     geocodingSummary.mode === "dry-run" ||
     geocodingSummary.externalCallsEnabled === false;
@@ -143,6 +149,7 @@ export function getPublicDataArtifactSummary(): PublicDataArtifactSummary {
     !fixtureMode &&
     metadata.dataMode === "real-public-data" &&
     coordinatesReady &&
+    geocodingComplete &&
     !dryRunOnly;
 
   let previewStatus: PublicDataPreviewStatus = "available";
@@ -163,7 +170,7 @@ export function getPublicDataArtifactSummary(): PublicDataArtifactSummary {
   } else if (!coordinatesReady) {
     previewStatus = "blocked-geography";
     previewBlockReason =
-      "coordinates/geocoding are not complete for the real CMS hospital artifact.";
+      "live geocoding/geography validation is not complete for the real CMS hospital artifact.";
   }
 
   const artifactStatusLabel = fixtureMode

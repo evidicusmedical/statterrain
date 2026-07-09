@@ -5,7 +5,7 @@ import { fileURLToPath } from "node:url";
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const appRoot = resolve(__dirname, "../..");
 const rel = (p) => relative(appRoot, p).replaceAll("\\", "/");
-const version = "v0.2.4";
+const version = "v0.2.7";
 const inputVersion = "v0.2.3";
 const rawArgs = process.argv.slice(2);
 const args = new Set(rawArgs);
@@ -41,7 +41,8 @@ function eligibility(record) {
   if (record.geocodingEligibility) return record.geocodingEligibility;
   if (record.latitude !== undefined && record.latitude !== null && record.longitude !== undefined && record.longitude !== null) return "already-has-coordinates";
   if (!hasText(record.address)) return "missing-address";
-  if (!hasText(record.city) || !hasText(record.state)) return "missing-city-or-state";
+  if (!hasText(record.state)) return "missing-state";
+  if (!hasText(record.city) && !hasText(record.zip)) return "missing-city-or-zip";
   if (input.dataMode === "synthetic-test-fixture" && !fixtureMode) return "fixture-only";
   return "eligible";
 }
@@ -67,8 +68,14 @@ async function censusGeocode(record) {
   url.searchParams.set("benchmark", "Public_AR_Current");
   url.searchParams.set("vintage", "Current_Current");
   url.searchParams.set("format", "json");
-  const response = await fetch(url, { headers: { accept: "application/json", "user-agent": "StatTerrain facility geocoding prototype v0.2.4 (contact: mathew.h.lowe+statterrain@gmail.com)" } });
-  const payload = await response.json();
+  let response;
+  let payload;
+  try {
+    response = await fetch(url, { headers: { accept: "application/json", "user-agent": "StatTerrain facility geocoding prototype v0.2.7 (contact: mathew.h.lowe+statterrain@gmail.com)" } });
+    payload = await response.json();
+  } catch (error) {
+    return { status: "request-error", confidence: "none", latitude: null, longitude: null, matchedAddress: null, geography: null, rawResponseMetadata: { finalUrl: url.toString(), errorName: error?.name ?? "Error", errorMessage: error?.message ?? String(error), matchCount: 0 } };
+  }
   const match = payload?.result?.addressMatches?.[0];
   if (!response.ok || !match) return { status: response.ok ? "no-match" : "http-error", confidence: "none", latitude: null, longitude: null, matchedAddress: null, geography: null, rawResponseMetadata: { httpStatus: response.status, finalUrl: response.url, matchCount: payload?.result?.addressMatches?.length ?? 0 } };
   const coords = match.coordinates ?? {};
@@ -94,9 +101,9 @@ for (const [index, record] of records.entries()) {
 
 const matched = results.filter((r) => typeof r.latitude === "number" && typeof r.longitude === "number");
 const failed = results.filter((r) => r.geocodingEligibility === "eligible" && !["matched", "matched-fixture"].includes(r.geocodingStatus));
-const summary = { schemaVersion: "cms-hospitals-geocoding-summary-v0.2.4", generatedAt: now, inputPath: rel(inputPath), mode: fixtureMode ? "fixture" : dryRun ? "dry-run" : liveMode ? "live-census" : "safe-default", dataMode: input.dataMode ?? null, recordCount: records.length, eligibleCount: results.filter((r) => r.geocodingEligibility === "eligible").length, matchedCount: matched.length, failedEligibleCount: failed.length, skippedCount: results.filter((r) => r.geocodingStatus === "skipped").length, externalCallsEnabled: liveMode, liveGeocodingLimit: liveMode ? liveLimit : 0, prohibitedUses, warnings: liveMode ? [`Live Census geocoding was explicitly enabled and bounded to ${liveLimit} eligible records.`] : [] };
-const output = { schemaVersion: "cms-hospitals-geocoding-results-v0.2.4", generatedAt: now, sourceId: input.sourceId, inputPath: rel(inputPath), geocoder: fixtureMode ? "deterministic-local-fixture" : liveMode ? "US Census Geocoder" : "none", mode: summary.mode, dataMode: input.dataMode ?? null, recordCount: results.length, prohibitedUses, records: results };
-const geography = { schemaVersion: "cms-hospitals-geography-join-v0.2.4", generatedAt: now, source: rel(outputPath), recordCount: results.length, joinedCount: results.filter((r) => r.geographyJoinStatus === "joined").length, records: results.map((r) => ({ sourceFacilityId: r.sourceFacilityId, geographyJoinStatus: r.geographyJoinStatus, geography: r.geography })) };
+const summary = { schemaVersion: "cms-hospitals-geocoding-summary-v0.2.7", generatedAt: now, inputPath: rel(inputPath), mode: fixtureMode ? "fixture" : dryRun ? "dry-run" : liveMode ? "live-census" : "safe-default", dataMode: input.dataMode ?? null, recordCount: records.length, eligibleCount: results.filter((r) => r.geocodingEligibility === "eligible").length, matchedCount: matched.length, joinedCount: results.filter((r) => r.geographyJoinStatus === "joined").length, failedEligibleCount: failed.length, skippedCount: results.filter((r) => r.geocodingStatus === "skipped").length, externalCallsEnabled: liveMode, liveGeocodingLimit: liveMode ? liveLimit : 0, prohibitedUses, warnings: liveMode ? [`Live Census geocoding was explicitly enabled and bounded to ${liveLimit} eligible records.`] : [] };
+const output = { schemaVersion: "cms-hospitals-geocoding-results-v0.2.7", generatedAt: now, sourceId: input.sourceId, inputPath: rel(inputPath), geocoder: fixtureMode ? "deterministic-local-fixture" : liveMode ? "US Census Geocoder" : "none", mode: summary.mode, dataMode: input.dataMode ?? null, recordCount: results.length, prohibitedUses, records: results };
+const geography = { schemaVersion: "cms-hospitals-geography-join-v0.2.7", generatedAt: now, source: rel(outputPath), recordCount: results.length, joinedCount: results.filter((r) => r.geographyJoinStatus === "joined").length, records: results.map((r) => ({ sourceFacilityId: r.sourceFacilityId, geographyJoinStatus: r.geographyJoinStatus, geography: r.geography })) };
 
 if (matched.length && generated && !dryRun) {
   const byId = new Map(results.map((r) => [r.sourceFacilityId, r]));
@@ -117,6 +124,7 @@ if (matched.length && generated && !dryRun) {
   generated.metadata.geographyJoinPath = rel(geographyOutputPath);
   generated.metadata.geocodingSummaryPath = rel(reportPath);
   generated.metadata.geocodingStatus = failed.length ? "partial" : "complete";
+  generated.metadata.previewEligibility = failed.length === 0 && matched.length === records.length ? "eligible-public-data-preview" : "blocked-geocoding-incomplete";
   generated.metadata.recordCount = generated.records?.length ?? generated.metadata.recordCount;
   generated.metadata.usedInCurrentApp = false;
   generated.metadata.previewLabelRequired = true;
