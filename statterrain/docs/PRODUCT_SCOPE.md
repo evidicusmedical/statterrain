@@ -73,3 +73,9 @@ v0.1.6 refines explanation and discoverability for population demographics and h
 The pediatric metric explicitly states that the current prototype is synthetic and does not yet use a real source-defined pediatric age cutoff. Future Census/ACS integration must show the exact age band, such as ages 0–17, under 18, or another source-defined category. Poverty, limited English proficiency, no-vehicle access, chronic disease prevalence, SVI, and rurality explanations now document their source-definition caveats and planning uses in plain language.
 
 All population metrics remain synthetic demonstration values. No real CMS, Census, CDC, SAMHSA, NPPES, or other public-data ingestion was added. StatTerrain remains planning and situational-awareness software only, not live routing, diversion, bed-status, dispatch, medical-control, transfer, triage, or clinical decision-support software.
+
+## v0.1.7 plain-language metric and workspace scope
+
+v0.1.7 is an explanation and layout refinement only. Population metrics now prioritize short plain-language text before technical source details: what the metric is, higher/lower meaning, planning relevance, do-not-assume warnings, and synthetic-data status. Pediatric, poverty, LEP, no-vehicle access, chronic disease, SVI, and rurality caveats remain explicit and must be replaced with source-defined details only when future real public data are connected.
+
+The right-side regional summary column can be collapsed and restored so desktop users can enlarge the map workspace. Mobile users keep the map/summary/facility view switcher, touch-friendly controls, evidence brief access, feedback access, and usable map area. The app still does not provide live routing, destination recommendations, diversion status, bed availability, dispatch, medical-control guidance, triage, clinical decision support, PHI handling, authentication, database, backend, or real public-data ingestion.

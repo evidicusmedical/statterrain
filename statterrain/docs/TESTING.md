@@ -114,3 +114,7 @@ The Playwright smoke suite covers the v0.1.5 beta-readiness additions: populatio
 ## v0.1.6 test coverage
 
 The Playwright smoke suite now checks that expanded population-health definitions are accessible from metric cards, including pediatric age-band uncertainty, poverty source-definition caveats, limited English proficiency, no-vehicle access, chronic disease population-level caveats, SVI non-clinical/non-danger/non-individual-risk warning, and rurality classification-system disclosure. Existing checks continue to cover synthetic data freshness/source inventory, feedback, evidence brief v0.1.3 scope, v0.1.4 facility-detail sections, Markdown/JSON/CSV exports, and mobile viewport usability.
+
+## v0.1.7 test coverage
+
+The smoke suite now checks the plain-language metric layer: visible **What it is** text, pediatric children/age-range wording, poverty income-related barriers, LEP interpreter or translated communication needs, no-vehicle transportation barriers and ambulance-availability warning, chronic-disease non-diagnosis language, SVI non-crime/non-danger/non-clinical-risk warning, and rurality higher-value distance-from-care interpretation. It also checks that evidence brief exports expose plain-language metric interpretation, the summary column can be hidden and restored, the map remains available after collapse, data freshness returns when the summary is shown, and mobile controls remain usable without trapping essential map, summary, evidence brief, facility detail, export, or feedback workflows.

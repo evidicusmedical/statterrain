@@ -17,6 +17,7 @@ type MobileTab = "map" | "summary" | "detail";
 export default function HomePage() {
   const state = useAppState();
   const [mobileTab, setMobileTab] = useState<MobileTab>("map");
+  const [summaryOpen, setSummaryOpen] = useState(true);
   const handleSelectLocation = useCallback(
     (location: SearchLocation) => {
       state.setLocation(location);
@@ -43,18 +44,40 @@ export default function HomePage() {
             filters={state.filters}
             onToggleFacilityType={state.toggleFacilityType}
             onToggleCapability={state.toggleCapability}
-            onSetOverlay={(o) => state.setFilters((prev) => ({ ...prev, overlay: o }))}
-            onSetConfidence={(c) => state.setFilters((prev) => ({ ...prev, confidence: c }))}
-            onSetDisplay={(key, value) => state.setFilters((prev) => ({ ...prev, [key]: value }))}
+            onSetOverlay={(o) =>
+              state.setFilters((prev) => ({ ...prev, overlay: o }))
+            }
+            onSetConfidence={(c) =>
+              state.setFilters((prev) => ({ ...prev, confidence: c }))
+            }
+            onSetDisplay={(key, value) =>
+              state.setFilters((prev) => ({ ...prev, [key]: value }))
+            }
             onReset={state.resetFilters}
           />
         </aside>
 
         <main className="flex min-h-0 flex-1 flex-col lg:flex-row">
           <section
-            className={`min-h-0 flex-1 ${mobileTab === "map" ? "block" : "hidden"} lg:block`}
+            className={`relative min-h-0 flex-1 ${mobileTab === "map" ? "block" : "hidden"} lg:block`}
             aria-label="Map"
           >
+            <div className="absolute right-3 top-3 z-[800] max-w-[calc(100%-1.5rem)] rounded-lg border border-slate-200 bg-white/95 p-2 shadow-sm backdrop-blur">
+              <button
+                type="button"
+                onClick={() => setSummaryOpen((open) => !open)}
+                className="rounded-md bg-terrain-700 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-terrain-800 focus:outline-none focus:ring-2 focus:ring-terrain-500 focus:ring-offset-2"
+                aria-expanded={summaryOpen}
+                aria-controls="regional-summary-panel"
+              >
+                {summaryOpen ? "Hide summary" : "Show summary"}
+              </button>
+              <p className="mt-1 hidden text-[11px] text-slate-600 sm:block">
+                {summaryOpen
+                  ? "Hide summary to enlarge the map."
+                  : "Show summary to review facilities and population context."}
+              </p>
+            </div>
             <MapViewClient
               location={state.location}
               radiusMiles={state.radiusMiles}
@@ -68,14 +91,17 @@ export default function HomePage() {
             />
           </section>
 
-          <section
-            className={`min-h-0 w-full overflow-y-auto border-l border-slate-200 lg:block lg:w-[380px] ${
-              mobileTab === "summary" ? "block" : "hidden"
-            }`}
-            aria-label="Regional summary"
-          >
-            <RegionalSummaryPanel facilities={state.visibleFacilities} />
-          </section>
+          {summaryOpen && (
+            <section
+              id="regional-summary-panel"
+              className={`min-h-0 w-full overflow-y-auto border-l border-slate-200 lg:block lg:w-[380px] ${
+                mobileTab === "summary" ? "block" : "hidden"
+              }`}
+              aria-label="Regional summary"
+            >
+              <RegionalSummaryPanel facilities={state.visibleFacilities} />
+            </section>
+          )}
 
           <section
             className={`min-h-0 w-full overflow-y-auto border-l border-slate-200 lg:block lg:w-[380px] ${
@@ -95,17 +121,22 @@ export default function HomePage() {
         {(
           [
             ["map", "Map"],
-            ["summary", "Summary"],
+            ["summary", summaryOpen ? "Summary" : "Show summary"],
             ["detail", "Facility"],
           ] as [MobileTab, string][]
         ).map(([tab, label]) => (
           <button
             key={tab}
             type="button"
-            onClick={() => setMobileTab(tab)}
+            onClick={() => {
+              if (tab === "summary" && !summaryOpen) setSummaryOpen(true);
+              setMobileTab(tab);
+            }}
             aria-current={mobileTab === tab}
             className={`flex-1 px-3 py-2.5 text-sm font-medium ${
-              mobileTab === tab ? "border-t-2 border-terrain-600 text-terrain-700" : "text-slate-500"
+              mobileTab === tab
+                ? "border-t-2 border-terrain-600 text-terrain-700"
+                : "text-slate-500"
             }`}
           >
             {label}
@@ -127,9 +158,15 @@ export default function HomePage() {
           filters={state.filters}
           onToggleFacilityType={state.toggleFacilityType}
           onToggleCapability={state.toggleCapability}
-          onSetOverlay={(o) => state.setFilters((prev) => ({ ...prev, overlay: o }))}
-          onSetConfidence={(c) => state.setFilters((prev) => ({ ...prev, confidence: c }))}
-          onSetDisplay={(key, value) => state.setFilters((prev) => ({ ...prev, [key]: value }))}
+          onSetOverlay={(o) =>
+            state.setFilters((prev) => ({ ...prev, overlay: o }))
+          }
+          onSetConfidence={(c) =>
+            state.setFilters((prev) => ({ ...prev, confidence: c }))
+          }
+          onSetDisplay={(key, value) =>
+            state.setFilters((prev) => ({ ...prev, [key]: value }))
+          }
           onReset={state.resetFilters}
         />
       </Drawer>

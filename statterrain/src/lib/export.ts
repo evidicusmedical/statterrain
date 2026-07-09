@@ -1,6 +1,9 @@
 import { product } from "@/config/product";
 import { populationMetrics } from "@/data/population-metrics";
-import { POPULATION_METRIC_EXPORT_CAVEAT, populationMetricDefinitions } from "@/config/populationMetricDefinitions";
+import {
+  POPULATION_METRIC_EXPORT_CAVEAT,
+  populationMetricDefinitions,
+} from "@/config/populationMetricDefinitions";
 import { getSourceById, sources } from "@/data/sources";
 import type { Facility } from "@/types/facility";
 import { CAPABILITY_LABELS, FACILITY_TYPE_LABELS } from "@/types/facility";
@@ -20,8 +23,12 @@ export interface BriefContext {
 
 function activeFilterSummary(filters: AppFilters) {
   return {
-    facilityTypes: Array.from(filters.facilityTypes).map((t) => FACILITY_TYPE_LABELS[t]),
-    capabilities: Array.from(filters.capabilities).map((c) => CAPABILITY_LABELS[c]),
+    facilityTypes: Array.from(filters.facilityTypes).map(
+      (t) => FACILITY_TYPE_LABELS[t],
+    ),
+    capabilities: Array.from(filters.capabilities).map(
+      (c) => CAPABILITY_LABELS[c],
+    ),
     overlay: filters.overlay ? OVERLAY_LABELS[filters.overlay] : "None active",
     confidence:
       filters.confidence === "high"
@@ -52,10 +59,18 @@ export const BRIEF_SCOPE_STATEMENT =
   "Brief scope: This evidence brief includes all available facility categories within the selected geography. Current map display filters are not used to exclude records from this brief.";
 
 export function buildMarkdownBrief(ctx: BriefContext): string {
-  const { locationLabel, radiusMiles, filters, visibleFacilities, briefFacilities } = ctx;
+  const {
+    locationLabel,
+    radiusMiles,
+    filters,
+    visibleFacilities,
+    briefFacilities,
+  } = ctx;
   const filterSummary = activeFilterSummary(filters);
   const relevantSourceIds = new Set<string>();
-  briefFacilities.forEach((f) => f.sourceIds.forEach((id) => relevantSourceIds.add(id)));
+  briefFacilities.forEach((f) =>
+    f.sourceIds.forEach((id) => relevantSourceIds.add(id)),
+  );
   populationMetrics.forEach((m) => relevantSourceIds.add(m.sourceId));
 
   const lines: string[] = [];
@@ -66,7 +81,9 @@ export function buildMarkdownBrief(ctx: BriefContext): string {
   lines.push(`> ${product.syntheticDataNotice}`);
   lines.push("");
   lines.push(`- Search location: ${locationLabel}`);
-  lines.push(`- Radius: ${radiusMiles} miles (approximate; not routed drive-time)`);
+  lines.push(
+    `- Radius: ${radiusMiles} miles (approximate; not routed drive-time)`,
+  );
   lines.push(`- Date generated: ${formatDate(todayIso())}`);
   lines.push(`- ${product.prototypeVersion}`);
   lines.push(`- ${BRIEF_SCOPE_STATEMENT}`);
@@ -79,14 +96,18 @@ export function buildMarkdownBrief(ctx: BriefContext): string {
   Array.from(relevantSourceIds).forEach((id) => {
     const s = getSourceById(id);
     if (!s) return;
-    lines.push(`| ${s.dataset} | ${FRESHNESS_LABELS[s.freshness]} | ${CONFIDENCE_LABELS[s.confidence]} |`);
+    lines.push(
+      `| ${s.dataset} | ${FRESHNESS_LABELS[s.freshness]} | ${CONFIDENCE_LABELS[s.confidence]} |`,
+    );
   });
   lines.push("");
 
   lines.push("## Emergency-care facility overview");
   lines.push("");
   const hospitals = briefFacilities.filter(
-    (f) => f.facilityType === "hospital" || f.facilityType === "critical_access_hospital",
+    (f) =>
+      f.facilityType === "hospital" ||
+      f.facilityType === "critical_access_hospital",
   );
   lines.push(`Hospitals / EDs in range: ${hospitals.length}`);
   lines.push("");
@@ -95,10 +116,14 @@ export function buildMarkdownBrief(ctx: BriefContext): string {
   hospitals.forEach((f) => {
     lines.push(`### ${f.name}`);
     lines.push(`- Address: ${f.address}`);
-    lines.push(`- Distance: ${f.distanceMiles} mi (approx. ${f.approxDriveTimeMinutes} min demonstration drive time)`);
+    lines.push(
+      `- Distance: ${f.distanceMiles} mi (approx. ${f.approxDriveTimeMinutes} min demonstration drive time)`,
+    );
     lines.push(`- Critical access: ${f.criticalAccess ? "Yes" : "No"}`);
     if (f.capabilities.length === 0) {
-      lines.push("- No publicly documented specialty capability records available.");
+      lines.push(
+        "- No publicly documented specialty capability records available.",
+      );
     } else {
       f.capabilities.forEach((c) => {
         lines.push(
@@ -109,9 +134,13 @@ export function buildMarkdownBrief(ctx: BriefContext): string {
     lines.push("");
   });
 
-  lines.push("## Pharmacy, dialysis, nursing-home, and behavioral-health summary");
+  lines.push(
+    "## Pharmacy, dialysis, nursing-home, and behavioral-health summary",
+  );
   lines.push("");
-  (["pharmacy", "dialysis", "nursing_home", "behavioral_health"] as const).forEach((type) => {
+  (
+    ["pharmacy", "dialysis", "nursing_home", "behavioral_health"] as const
+  ).forEach((type) => {
     const count = briefFacilities.filter((f) => f.facilityType === type).length;
     lines.push(`- ${FACILITY_TYPE_LABELS[type]}: ${count}`);
   });
@@ -128,13 +157,15 @@ export function buildMarkdownBrief(ctx: BriefContext): string {
   });
   lines.push("");
 
-  lines.push("## Metric definitions and limitations");
+  lines.push("## How to read these metrics");
   lines.push("");
   lines.push(POPULATION_METRIC_EXPORT_CAVEAT);
   lines.push("");
   populationMetrics.forEach((m) => {
     const definition = populationMetricDefinitions[m.metricId];
-    lines.push(`- **${definition.label}:** ${definition.whatThisMeasures} Basis: ${definition.denominatorOrBasis} Do not infer: ${definition.doNotInfer}`);
+    lines.push(
+      `- **${definition.label}:** What it is: ${definition.simpleWhatItIs} Higher means: ${definition.higherMeans} Lower means: ${definition.lowerMeans} Do not assume: ${definition.doNotAssume}`,
+    );
   });
   lines.push("");
 
@@ -154,10 +185,18 @@ export function buildMarkdownBrief(ctx: BriefContext): string {
 
   lines.push("## Questions to verify locally");
   lines.push("");
-  lines.push("- Are the listed hospital capability designations still active and unsuspended?");
-  lines.push("- What is the current behavioral-health receiving status for facilities in this area?");
-  lines.push("- Are pharmacy and dialysis hours and capacity current for this population?");
-  lines.push("- Has EMS protocol review incorporated the latest chronic-disease burden estimates?");
+  lines.push(
+    "- Are the listed hospital capability designations still active and unsuspended?",
+  );
+  lines.push(
+    "- What is the current behavioral-health receiving status for facilities in this area?",
+  );
+  lines.push(
+    "- Are pharmacy and dialysis hours and capacity current for this population?",
+  );
+  lines.push(
+    "- Has EMS protocol review incorporated the latest chronic-disease burden estimates?",
+  );
   lines.push("");
 
   lines.push("## Source appendix");
@@ -182,8 +221,12 @@ export function buildMarkdownBrief(ctx: BriefContext): string {
 
   lines.push("## Active filters at time of export");
   lines.push("");
-  lines.push(`- Facility types: ${filterSummary.facilityTypes.join(", ") || "None selected"}`);
-  lines.push(`- Capability filters: ${filterSummary.capabilities.join(", ") || "None"}`);
+  lines.push(
+    `- Facility types: ${filterSummary.facilityTypes.join(", ") || "None selected"}`,
+  );
+  lines.push(
+    `- Capability filters: ${filterSummary.capabilities.join(", ") || "None"}`,
+  );
   lines.push(`- Population overlay: ${filterSummary.overlay}`);
   lines.push(`- Source confidence filter: ${filterSummary.confidence}`);
   lines.push("");
@@ -206,9 +249,17 @@ export function buildMarkdownBrief(ctx: BriefContext): string {
 }
 
 export function buildJsonBrief(ctx: BriefContext) {
-  const { locationLabel, radiusMiles, filters, visibleFacilities, briefFacilities } = ctx;
+  const {
+    locationLabel,
+    radiusMiles,
+    filters,
+    visibleFacilities,
+    briefFacilities,
+  } = ctx;
   const relevantSourceIds = new Set<string>();
-  briefFacilities.forEach((f) => f.sourceIds.forEach((id) => relevantSourceIds.add(id)));
+  briefFacilities.forEach((f) =>
+    f.sourceIds.forEach((id) => relevantSourceIds.add(id)),
+  );
   populationMetrics.forEach((m) => relevantSourceIds.add(m.sourceId));
 
   return {
@@ -227,6 +278,20 @@ export function buildJsonBrief(ctx: BriefContext) {
     facilities: briefFacilities,
     populationMetrics,
     populationMetricDefinitions,
+    plainLanguageMetricInterpretations: populationMetrics.map((m) => {
+      const definition = populationMetricDefinitions[m.metricId];
+      return {
+        metricId: m.metricId,
+        label: definition.label,
+        whatItIs: definition.simpleWhatItIs,
+        higherMeans: definition.higherMeans,
+        lowerMeans: definition.lowerMeans,
+        whyItMatters: definition.whyItMatters,
+        planningUse: definition.planningUse,
+        doNotAssume: definition.doNotAssume,
+        currentDataNote: definition.currentDataNote,
+      };
+    }),
     populationMetricLimitationsStatement: POPULATION_METRIC_EXPORT_CAVEAT,
     sources: Array.from(relevantSourceIds)
       .map((id) => getSourceById(id))
@@ -283,7 +348,7 @@ export function buildCsvBrief(ctx: BriefContext): string {
     `# ${BRIEF_SCOPE_STATEMENT}`,
     `# ${product.disclaimer}`,
     `# ${product.syntheticDataNotice}`,
-    `# ${POPULATION_METRIC_EXPORT_CAVEAT}`,
+    `# Plain-language metric notes are included in Markdown and JSON exports. ${POPULATION_METRIC_EXPORT_CAVEAT}`,
   ];
   return [header.join(","), ...rows, ...notes].join("\n");
 }
@@ -293,7 +358,11 @@ export function downloadMarkdownBrief(ctx: BriefContext) {
 }
 
 export function downloadJsonBrief(ctx: BriefContext) {
-  download(buildFilename("json"), JSON.stringify(buildJsonBrief(ctx), null, 2), "application/json");
+  download(
+    buildFilename("json"),
+    JSON.stringify(buildJsonBrief(ctx), null, 2),
+    "application/json",
+  );
 }
 
 export function downloadCsvBrief(ctx: BriefContext) {
