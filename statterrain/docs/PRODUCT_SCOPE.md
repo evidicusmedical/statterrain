@@ -17,8 +17,9 @@ documented capabilities, and population-health context for a region.
 
 - Header with search (hospital / city / ZIP / county / address) and geography controls
   (radius selection; drive-time UI is present but disabled/planned).
-- Filter sidebar: facility types, hospital capabilities, population-health overlay,
-  source confidence threshold, and map display toggles.
+- Filter sidebar: map display controls for facility types, hospital capabilities, population-health overlay,
+  source confidence threshold, and map display toggles. All facility categories and all demonstration
+  confidence levels are visible by default, and no population-health overlay is selected by default.
 - Interactive Leaflet/OpenStreetMap map with facility markers, a search-radius circle,
   and choropleth-style overlay polygons for population metrics.
 - Regional summary panel with facility counts and population-health metric cards
@@ -26,7 +27,7 @@ documented capabilities, and population-health context for a region.
 - Facility detail panel with capability records, per-record source attribution, and
   known limitations.
 - Trust layer: every data point exposes its source, freshness, and confidence.
-- Evidence-brief generator producing Markdown, JSON, and CSV exports (client-side only).
+- Evidence-brief generator producing Markdown, JSON, and CSV exports (client-side only). Default brief scope includes all available facility categories in the selected geography/radius; map display filters do not exclude records from the brief.
 - Mandatory disclaimer and synthetic-data notice, shown in the footer, facility detail,
   and every exported brief.
 - Responsive layout with mobile bottom-tab navigation and slide-in drawers for filters
@@ -37,7 +38,7 @@ documented capabilities, and population-health context for a region.
 ## Explicitly out of scope for v0.1.0
 
 - Any live data source, API integration, authentication, or persistent backend/database.
-- Real facility operational status, live diversion/bed availability, or transfer routing.
+- Real facility operational status, live diversion/bed availability, transfer routing, dispatch recommendations, medical-control advice, or patient-specific clinical decision support.
 - Drive-time isochrones (UI is present as a disabled placeholder for a future release).
 - Server-side rendering of user-specific state (fully client-rendered, static-data app).
 

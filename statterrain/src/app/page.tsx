@@ -9,19 +9,28 @@ import { RegionalSummaryPanel } from "@/components/regional-summary/RegionalSumm
 import { EvidenceBriefDrawer } from "@/components/evidence/EvidenceBriefDrawer";
 import { Drawer } from "@/components/ui/Drawer";
 import { useAppState } from "@/hooks/useAppState";
-import { useState } from "react";
+import { useCallback, useState } from "react";
+import type { SearchLocation } from "@/data/demo-region";
 
 type MobileTab = "map" | "summary" | "detail";
 
 export default function HomePage() {
   const state = useAppState();
   const [mobileTab, setMobileTab] = useState<MobileTab>("map");
+  const handleSelectLocation = useCallback(
+    (location: SearchLocation) => {
+      state.setLocation(location);
+      state.resetFilters();
+      state.clearSelectedFacility();
+    },
+    [state],
+  );
 
   return (
     <div className="flex h-screen flex-col">
       <Header
         location={state.location}
-        onSelectLocation={state.setLocation}
+        onSelectLocation={handleSelectLocation}
         onGenerateBrief={() => state.setBriefOpen(true)}
         onOpenFilters={() => state.setMobileFiltersOpen(true)}
       />
@@ -133,6 +142,7 @@ export default function HomePage() {
           radiusMiles: state.radiusMiles,
           filters: state.filters,
           visibleFacilities: state.visibleFacilities,
+          briefFacilities: state.facilitiesInRadius,
         }}
       />
     </div>

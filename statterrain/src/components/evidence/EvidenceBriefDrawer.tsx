@@ -3,7 +3,7 @@
 import { Drawer } from "@/components/ui/Drawer";
 import { product } from "@/config/product";
 import type { BriefContext } from "@/lib/export";
-import { buildMarkdownBrief, downloadCsvBrief, downloadJsonBrief, downloadMarkdownBrief } from "@/lib/export";
+import { BRIEF_SCOPE_STATEMENT, buildMarkdownBrief, downloadCsvBrief, downloadJsonBrief, downloadMarkdownBrief } from "@/lib/export";
 import { useMemo, useState } from "react";
 
 interface EvidenceBriefDrawerProps {
@@ -30,6 +30,9 @@ export function EvidenceBriefDrawer({ open, onClose, context }: EvidenceBriefDra
     <Drawer open={open} onClose={onClose} title={`${product.name} evidence brief`} side="right">
       <div className="flex flex-col gap-3 p-4">
         <p className="text-xs text-slate-500">{product.syntheticDataNotice}</p>
+        <p className="rounded-md bg-terrain-50 p-2 text-xs leading-relaxed text-terrain-900">
+          {BRIEF_SCOPE_STATEMENT}
+        </p>
         <div className="flex flex-wrap gap-2">
           <button
             type="button"

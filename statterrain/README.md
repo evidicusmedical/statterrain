@@ -4,7 +4,7 @@ Emergency-care resources and population-health intelligence — a polished, port
 **frontend-only** prototype built with Next.js (App Router), TypeScript, Tailwind CSS,
 and Leaflet/react-leaflet over OpenStreetMap tiles.
 
-> **This prototype uses synthetic demonstration data and should not be used for
+> **Synthetic demonstration data — not a real-world source. Do not use for
 > operational or clinical purposes.** See the in-app disclaimer, shown in the footer,
 > facility detail panel, and every evidence-brief export.
 
@@ -13,16 +13,18 @@ and Leaflet/react-leaflet over OpenStreetMap tiles.
 - Search a synthetic demonstration region by hospital, city, ZIP, county, or address.
 - Explore an interactive map of hospitals, critical access hospitals, pharmacies,
   dialysis facilities, nursing homes, and behavioral-health facilities.
-- Filter by facility type, hospital capability (trauma level, stroke center type,
+- Use map display filters for facility type, hospital capability (trauma level, stroke center type,
   STEMI/PCI, pediatric, obstetric, behavioral-health receiving), and source-confidence
-  threshold.
+  threshold. These controls change what appears on the map and summary panels.
 - Toggle a population-health choropleth overlay (age 65+, poverty, chronic disease
-  prevalence, social vulnerability, rurality, and more).
+  prevalence, social vulnerability, rurality, and more); no overlay is selected by default.
 - View a facility detail panel with per-capability source, confidence, and freshness
   attribution.
 - View a regional summary panel comparing local vs. state vs. national metrics.
 - Generate a shareable evidence brief and export it as Markdown, JSON, or CSV — fully
-  client-side, no server involved.
+  client-side, no server involved. By default the evidence brief includes all available
+  facility categories in the selected geography/radius, even when map display filters hide
+  some categories.
 
 ## Tech stack
 
@@ -76,7 +78,7 @@ tests/                  Playwright end-to-end smoke tests
 
 ## Data
 
-All data is synthetic and fictional, generated to resemble the shape and trust
+All data is synthetic and fictional — not verified real-world data — generated to resemble the shape and trust
 metadata of real public datasets (CMS, Census ACS, CDC PLACES/SVI, USDA RUCA, SAMHSA,
 and example state trauma/stroke registries). See `docs/DATA_SOURCE_PLAN.md` for the
 full mapping and `docs/FUTURE_REFRESH_ARCHITECTURE.md` for a proposed path to real

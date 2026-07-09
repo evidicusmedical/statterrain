@@ -17,13 +17,16 @@ export function FacilityDetailPanel({ facility }: { facility: Facility | null })
   }
 
   return (
-    <div className="flex h-full flex-col overflow-y-auto p-4" data-testid="facility-detail-panel">
+    <div className="flex h-full flex-col overflow-y-auto border-l-4 border-terrain-500 bg-terrain-50/30 p-4" data-testid="facility-detail-panel">
       <div className="mb-1 flex items-start justify-between gap-2">
         <h2 className="text-base font-semibold text-slate-900" data-testid="facility-detail-name">
           {facility.name}
         </h2>
       </div>
       <p className="text-sm text-slate-500">{FACILITY_TYPE_LABELS[facility.facilityType]}</p>
+      <p className="mt-2 inline-flex w-fit rounded-full bg-terrain-100 px-2.5 py-1 text-xs font-semibold text-terrain-800">
+        Selected facility
+      </p>
       <p className="mt-1 text-sm text-slate-600">{facility.address}</p>
       <p className="mt-1 text-xs text-slate-500">
         {facility.distanceMiles} mi &middot; approx. {facility.approxDriveTimeMinutes} min demonstration drive time
@@ -107,7 +110,7 @@ export function FacilityDetailPanel({ facility }: { facility: Facility | null })
       )}
 
       <p className="mt-5 border-t border-slate-200 pt-3 text-[11px] text-slate-400">
-        Synthetic demonstration record. Not verified operational status. Confirm through official local
+        Synthetic demonstration data — not a real-world source. Not verified operational status. Confirm through official local
         channels before use in planning or clinical decisions.
       </p>
     </div>

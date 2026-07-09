@@ -67,9 +67,7 @@ export function useAppState() {
   const [location, setLocation] = useState<SearchLocation>(searchLocations[0]);
   const [radiusMiles, setRadiusMiles] = useState<number>(25);
   const [filters, setFilters] = useState<AppFilters>(defaultFilters());
-  const [selectedFacilityId, setSelectedFacilityId] = useState<string | null>(
-    allFacilities[0]?.id ?? null,
-  );
+  const [selectedFacilityId, setSelectedFacilityId] = useState<string | null>(null);
   const [briefOpen, setBriefOpen] = useState(false);
   const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false);
   const [mobileDetailOpen, setMobileDetailOpen] = useState(false);
@@ -139,6 +137,7 @@ export function useAppState() {
     filters,
     setFilters,
     resetFilters,
+    clearSelectedFacility: () => setSelectedFacilityId(null),
     toggleFacilityType,
     toggleCapability,
     facilitiesInRadius,
