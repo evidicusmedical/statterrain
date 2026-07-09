@@ -214,53 +214,57 @@ test.describe("StatTerrain critical workflow", () => {
   }) => {
     await page.goto("/");
 
+    await expect(page.getByText(/Quick read:/).first()).toBeVisible();
     await expect(
-      page.getByText("Plain-language meaning").first(),
-    ).toBeVisible();
+      page.getByRole("button", { name: "Show plain-language meaning" }).first(),
+    ).toHaveAttribute("aria-expanded", "false");
     await expect(
-      page.getByText(
-        /What it is: The share of people in the area who are older adults/i,
-      ),
+      page.getByLabel("Age 65+ plain-language meaning"),
+    ).toHaveCount(0);
+
+    await page
+      .getByRole("button", { name: "Show plain-language meaning" })
+      .nth(1)
+      .click();
+    await expect(
+      page.getByLabel("Pediatric plain-language meaning"),
     ).toBeVisible();
-    await expect(page.getByText(/children/i).first()).toBeVisible();
     await expect(
       page.getByText(
         /Real data must state the exact age range used, such as ages 0–17/i,
       ),
     ).toBeVisible();
+
+    await page
+      .getByRole("button", { name: "Show plain-language meaning" })
+      .nth(1)
+      .click();
+    await expect(page.getByLabel("Pediatric plain-language meaning")).toHaveCount(
+      0,
+    );
+    await expect(page.getByLabel("Poverty plain-language meaning")).toBeVisible();
     await expect(
       page.getByText(
         /More people may face barriers to medications, transportation, follow-up care, food, housing, and emergency recovery/i,
       ),
     ).toBeVisible();
-    await expect(
-      page.getByText(
-        /interpreters, translated instructions, multilingual public alerts/i,
-      ),
-    ).toBeVisible();
-    await expect(
-      page.getByText(
-        /transportation help, evacuation support, pharmacy access/i,
-      ),
-    ).toBeVisible();
-    await expect(
-      page.getByText(
-        /does not measure ambulance availability, road quality, or actual travel time/i,
-      ),
-    ).toBeVisible();
-    await expect(
-      page
-        .getByText(/This is not a diagnosis for any specific person/i)
-        .first(),
-    ).toBeVisible();
+
+    await page
+      .getByRole("button", { name: "Show plain-language meaning" })
+      .nth(8)
+      .click();
+    await expect(page.getByLabel("Poverty plain-language meaning")).toHaveCount(
+      0,
+    );
+    await expect(page.getByLabel("SVI plain-language meaning")).toBeVisible();
     await expect(
       page.getByText(/not a crime score, danger score, clinical-risk score/i),
     ).toBeVisible();
-    await expect(
-      page.getByText(
-        /Higher rurality means the area may be farther from hospitals, specialists, pharmacies/i,
-      ),
-    ).toBeVisible();
+
+    await page
+      .getByRole("button", { name: "Hide plain-language meaning" })
+      .click();
+    await expect(page.getByLabel("SVI plain-language meaning")).toHaveCount(0);
 
     await page
       .getByRole("button", { name: "Source details and technical note" })
@@ -435,6 +439,23 @@ test.describe("StatTerrain responsive layout", () => {
     await expect(
       page.getByRole("button", { name: "Show summary" }),
     ).toBeVisible();
+    await expect(page.getByTestId("map-view")).toBeVisible();
+    await expect(page.getByTestId("mobile-workspace-tabs")).toBeVisible();
+    await page.getByTestId("mobile-tab-summary").click();
+    await expect(
+      page.getByRole("region", { name: "Regional summary" }),
+    ).toBeVisible();
+    await expect(
+      page.getByRole("button", { name: "Show plain-language meaning" }).first(),
+    ).toHaveAttribute("aria-expanded", "false");
+    await page.getByRole("button", { name: "Filters" }).click();
+    await expect(page.getByRole("dialog", { name: "Filters" })).toBeVisible();
+    await page.getByRole("button", { name: "Close panel" }).click();
+    await page.getByTestId("mobile-tab-detail").click();
+    await expect(
+      page.getByRole("region", { name: "Facility detail" }),
+    ).toBeVisible();
+    await page.getByTestId("mobile-tab-map").click();
     await expect(page.getByTestId("map-view")).toBeVisible();
   });
 
