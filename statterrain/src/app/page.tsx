@@ -13,7 +13,7 @@ import { useCallback, useState } from "react";
 import type { SearchLocation } from "@/data/demo-region";
 import { FACILITY_TYPE_LABELS } from "@/types/facility";
 
-type MobileTab = "map" | "summary" | "detail";
+type MobileTab = "map" | "summary" | "facility";
 
 export default function HomePage() {
   const state = useAppState();
@@ -30,13 +30,12 @@ export default function HomePage() {
   const handleSelectFacility = useCallback(
     (facilityId: string) => {
       state.selectFacility(facilityId);
-      setMobileTab("detail");
     },
     [state],
   );
 
   return (
-    <div className="flex h-screen flex-col">
+    <div className="flex min-h-dvh flex-col lg:h-screen">
       <Header
         location={state.location}
         radiusMiles={state.radiusMiles}
@@ -53,7 +52,7 @@ export default function HomePage() {
         onOpenFilters={() => state.setMobileFiltersOpen(true)}
       />
 
-      <div className="flex min-h-0 flex-1">
+      <div className="flex min-h-0 flex-1 flex-col lg:flex-row">
         <aside className="hidden w-72 shrink-0 border-r border-slate-200 lg:block">
           <FilterSidebar
             radiusMiles={state.radiusMiles}
@@ -74,12 +73,12 @@ export default function HomePage() {
           />
         </aside>
 
-        <main className="flex min-h-0 flex-1 flex-col lg:flex-row">
+        <main className="min-h-0 flex-1 bg-slate-100 lg:flex lg:flex-row">
           <section
-            className={`relative isolate z-0 min-h-[55vh] flex-1 overflow-hidden bg-slate-100 ${mobileTab === "map" ? "block" : "hidden"} lg:block lg:min-h-0`}
+            className={`relative isolate z-0 h-[62dvh] min-h-[28rem] w-full overflow-hidden border-b border-slate-200 bg-slate-100 ${mobileTab === "map" ? "block" : "hidden"} lg:block lg:h-auto lg:min-h-0 lg:flex-1 lg:border-b-0`}
             aria-label="Map"
           >
-            <div className="absolute right-2 top-2 z-[800] max-w-[calc(100%-1rem)] rounded-lg border border-slate-200 bg-white/95 p-1.5 shadow-sm backdrop-blur sm:right-3 sm:top-3 sm:p-2">
+            <div className="absolute right-2 top-2 z-[800] hidden max-w-[calc(100%-1rem)] rounded-lg border border-slate-200 bg-white/95 p-1.5 shadow-sm backdrop-blur sm:right-3 sm:top-3 sm:p-2 lg:block">
               <button
                 type="button"
                 onClick={() => setSummaryOpen((open) => !open)}
@@ -105,12 +104,16 @@ export default function HomePage() {
               showLabels={state.filters.showLabels}
               selectedFacilityId={state.selectedFacility?.id ?? null}
               onSelectFacility={handleSelectFacility}
+              onOpenFacilityDetails={(facilityId) => {
+                state.selectFacility(facilityId);
+                setMobileTab("facility");
+              }}
             />
           </section>
 
           <section
             id="regional-summary-panel"
-            className={`min-h-0 w-full overflow-y-auto border-l border-slate-200 bg-white lg:w-[380px] ${
+            className={`min-h-[calc(100dvh-12rem)] w-full overflow-y-auto bg-white lg:min-h-0 lg:w-[380px] lg:border-l lg:border-slate-200 ${
               mobileTab === "summary" ? "block" : "hidden"
             } ${summaryOpen ? "lg:block" : "lg:hidden"}`}
             aria-label="Regional summary"
@@ -119,8 +122,8 @@ export default function HomePage() {
           </section>
 
           <section
-            className={`min-h-0 w-full overflow-y-auto border-l border-slate-200 bg-white lg:block lg:w-[380px] ${
-              mobileTab === "detail" ? "block" : "hidden"
+            className={`min-h-[calc(100dvh-12rem)] w-full overflow-y-auto bg-white lg:block lg:min-h-0 lg:w-[380px] lg:border-l lg:border-slate-200 ${
+              mobileTab === "facility" ? "block" : "hidden"
             }`}
             aria-label="Facility detail"
           >
@@ -138,14 +141,13 @@ export default function HomePage() {
           [
             ["map", "Map"],
             ["summary", "Summary"],
-            ["detail", "Facility"],
+            ["facility", "Facility"],
           ] as [MobileTab, string][]
         ).map(([tab, label]) => (
           <button
             key={tab}
             type="button"
             onClick={() => {
-              if (tab === "summary" && !summaryOpen) setSummaryOpen(true);
               setMobileTab(tab);
             }}
             aria-current={mobileTab === tab}
