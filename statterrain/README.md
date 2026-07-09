@@ -121,3 +121,13 @@ The prototype uses consistent verification language for facility details and cap
 Facility category definitions and a hospital capability glossary explain plain-language meaning, planning relevance, known limitations, and operational caution. These definitions prepare the UI for future public-data source mapping without claiming that the synthetic demonstration records are nationally verified.
 
 All facility records remain synthetic demonstration data and are labeled: `Synthetic demonstration data — not a real-world source.` StatTerrain remains planning and situational-awareness software only; it does not provide live routing, diversion, bed status, transfer, destination, medical-control, or clinical decision support.
+
+## v0.1.5 beta interpretability notes
+
+StatTerrain now includes plain-language definitions for each displayed population-health metric, including what the metric measures, the denominator or population basis, planning relevance, source status, known limitations, and the synthetic-data caveat. These definitions are visible from the population-health cards in the regional summary.
+
+The data freshness/source inventory clearly labels all current datasets as synthetic demonstration data and states that no public-data refresh is active in this prototype. The base map note identifies OpenStreetMap as the map source and explains that map currency depends on contributor updates and tile-provider refresh.
+
+Beta feedback is available through the **Send Feedback** mailto link and a client-only evidence-brief helper that copies app version, selected geography, selected radius, synthetic-data status, brief scope, and current page URL. No backend collection is added.
+
+Current prototype limitations remain: no real CMS, Census, CDC, SAMHSA, NPPES, or other public-data ingestion; no backend, database, authentication, PHI handling, live routing, diversion, bed-status, triage, transfer, dispatch, medical-control, or clinical-decision-support functionality.
