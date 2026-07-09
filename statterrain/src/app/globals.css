@@ -44,3 +44,21 @@ body {
 .leaflet-control-container {
   font-family: inherit;
 }
+
+.statterrain-map-shell {
+  contain: layout paint;
+}
+
+.statterrain-map-shell .leaflet-container {
+  isolation: isolate;
+}
+
+.statterrain-map-shell .leaflet-pane,
+.statterrain-map-shell .leaflet-top,
+.statterrain-map-shell .leaflet-bottom {
+  z-index: 10;
+}
+
+.statterrain-map-shell .leaflet-popup-pane {
+  z-index: 40;
+}

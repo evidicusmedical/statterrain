@@ -177,3 +177,13 @@ Mobile map containment was tightened so the Leaflet map is clipped inside its ma
 Visible disclaimer language was strengthened for prototype safety: StatTerrain is a planning, education, orientation, quality-improvement, and situational-awareness prototype using synthetic demonstration data only. It is not for clinical care, patient-specific decisions, EMS routing, triage, transfers, dispatch, medical control, live diversion, bed availability, or emergency response. Facility capability, operating status, maps, and public-data findings must be verified with official sources. Disclaimer language should be reviewed by qualified legal counsel before external beta or public launch.
 
 v0.1.10 remains GUI, feedback, disclaimer, and version-label refinement only. It does not add real CMS, Census, CDC, SAMHSA, NPPES, or other public-data ingestion; backend services; database storage; authentication; AI APIs; PHI handling; live routing; diversion status; bed status; medical-control guidance; dispatch/triage/transfer recommendations; clinical decision support; or the v0.2.0 public-data pipeline.
+
+## v0.1.11 mobile map, summary, and facility panel hotfix
+
+The visible application header uses the central product configuration and now reads **StatTerrain v0.1.11 prototype**. The permanent rule remains: every future patch must update the visible top heading/version label to match the patch version through the central product config.
+
+Mobile map containment was finalized for the pre-v0.2.0 GUI hotfix: the **Map / Summary / Facility** tab bar uses a solid white, bordered, elevated stacking layer above Leaflet panes, and the map shell clips/isolates Leaflet panes so map content does not bleed through non-map UI. OpenStreetMap/Leaflet attribution remains visible inside the map area.
+
+The mobile **Summary** tab now restores and shows regional summary content even after the desktop/mobile **Hide summary** control has been toggled. The mobile **Facility** tab now presents readable full-width details with the standardized Facility identity, Capability summary, Contact/access, Source/data quality, and Known limitations sections, while the map popup remains compact with a touch-friendly **View details** action.
+
+v0.1.11 remains a frontend GUI hotfix only. It does not add real CMS, Census, CDC, SAMHSA, NPPES, or other public-data ingestion; backend services; database storage; authentication; AI APIs; PHI handling; live routing; diversion status; bed status; medical-control guidance; dispatch/triage/transfer recommendations; clinical decision support; or the v0.2.0 public-data pipeline. The next planned patch remains **v0.2.0 — Public Data Pipeline Foundation**.
