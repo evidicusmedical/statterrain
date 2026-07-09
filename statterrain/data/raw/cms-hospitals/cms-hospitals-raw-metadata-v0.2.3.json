@@ -4,7 +4,7 @@
   "sourceName": "CMS Hospital General Information",
   "agency": "Centers for Medicare & Medicaid Services",
   "sourceUrl": "https://data.cms.gov/provider-data/dataset/xubh-q36u",
-  "retrievalTimestamp": "2026-07-09T21:54:27.796Z",
+  "retrievalTimestamp": "2026-07-09T22:29:51.793Z",
   "retrievalMethod": "fetch-json-api",
   "fetchStatus": "success",
   "fixtureMode": false,
@@ -15,8 +15,8 @@
   "responseHeaders": {
     "contentType": "application/json",
     "contentLength": "1713",
-    "lastModified": "Thu, 09 Jul 2026 10:04:41 GMT",
-    "etag": "\"1783591481-gzip\""
+    "lastModified": "Thu, 09 Jul 2026 08:36:50 GMT",
+    "etag": "\"1783586210-gzip\""
   },
   "checksumSha256": "65293d8783c6437406a5c1586794d83e342cd6f02daab700f707aa462808f4e4",
   "rawFilePath": "data/raw/cms-hospitals/cms-hospitals-raw-v0.2.3.json",
@@ -48,12 +48,12 @@
       "responseHeaders": {
         "contentType": "application/json",
         "contentLength": "239",
-        "lastModified": "Thu, 09 Jul 2026 21:54:28 GMT",
+        "lastModified": "Thu, 09 Jul 2026 22:29:52 GMT",
         "etag": null
       },
-      "checksumSha256": "77ec5d9fc32935a409b2ac3cdedff79a38be999d8a1ea00e259ea57e32206d28",
+      "checksumSha256": "cf04905d2b6899ce9f2e60c0d3cb013bfd4f11a03ff557cd80a55d66e3521b64",
       "fetchStatus": "non-2xx",
-      "errorPreview": "{\"message\":\"JSON Schema validation failed.\\n 1) limit: \\u002750000\\u0027\",\"status\":400,\"timestamp\":\"2026-07-09T17:54:28-04:00\",\"data\":{\"keyword\":\"maximum\",\"pointer\":\"limit\",\"message\":\"The attribute va"
+      "errorPreview": "{\"message\":\"JSON Schema validation failed.\\n 1) limit: \\u002750000\\u0027\",\"status\":400,\"timestamp\":\"2026-07-09T18:29:52-04:00\",\"data\":{\"keyword\":\"maximum\",\"pointer\":\"limit\",\"message\":\"The attribute va"
     },
     {
       "attempt": 1,
@@ -65,8 +65,8 @@
       "responseHeaders": {
         "contentType": "application/json",
         "contentLength": "1713",
-        "lastModified": "Thu, 09 Jul 2026 10:04:41 GMT",
-        "etag": "\"1783591481-gzip\""
+        "lastModified": "Thu, 09 Jul 2026 08:36:50 GMT",
+        "etag": "\"1783586210-gzip\""
       },
       "checksumSha256": "65293d8783c6437406a5c1586794d83e342cd6f02daab700f707aa462808f4e4",
       "fetchStatus": "success"

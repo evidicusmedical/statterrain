@@ -1,6 +1,6 @@
 {
   "schemaVersion": "cms-hospitals-geocoding-results-v0.2.7",
-  "generatedAt": "2026-07-09T22:23:31.432Z",
+  "generatedAt": "2026-07-09T22:29:53.474Z",
   "sourceId": "cms-hospital-general-information",
   "inputPath": "data/generated/geocoding-inputs/cms-hospitals-geocoding-input-v0.2.3.json",
   "geocoder": "US Census Geocoder",
@@ -22,100 +22,135 @@
       "facilityName": "SOUTHEAST HEALTH MEDICAL CENTER",
       "inputAddress": "1108 ROSS CLARK CIRCLE, AL, 36301",
       "geocodingEligibility": "eligible",
-      "geocodingStatus": "request-error",
-      "status": "request-error",
-      "confidence": "none",
-      "latitude": null,
-      "longitude": null,
-      "matchedAddress": null,
-      "geography": null,
-      "rawResponseMetadata": {
-        "finalUrl": "https://geocoding.geo.census.gov/geocoder/geographies/onelineaddress?address=1108+ROSS+CLARK+CIRCLE%2C+AL%2C+36301&benchmark=Public_AR_Current&vintage=Current_Current&format=json",
-        "errorName": "TypeError",
-        "errorMessage": "fetch failed",
-        "matchCount": 0
+      "geocodingStatus": "matched",
+      "status": "matched",
+      "confidence": "street-segment",
+      "latitude": 31.21566695385,
+      "longitude": -85.361446991439,
+      "matchedAddress": "1108 ROSS CLARK CIR, DOTHAN, AL, 36301",
+      "geography": {
+        "stateFips": "01",
+        "countyFips": "069",
+        "countyName": "Houston County",
+        "censusTract": "041000",
+        "blockGroup": null
       },
-      "geographyJoinStatus": "not-joined"
+      "rawResponseMetadata": {
+        "httpStatus": 200,
+        "finalUrl": "https://geocoding.geo.census.gov/geocoder/geographies/onelineaddress?address=1108+ROSS+CLARK+CIRCLE%2C+AL%2C+36301&benchmark=Public_AR_Current&vintage=Current_Current&format=json",
+        "matchCount": 1,
+        "benchmark": "Public_AR_Current",
+        "vintage": "Current_Current"
+      },
+      "geographyJoinStatus": "joined"
     },
     {
       "sourceFacilityId": "010005",
       "facilityName": "MARSHALL MEDICAL CENTERS",
       "inputAddress": "2505 U S HIGHWAY 431 NORTH, AL, 35957",
       "geocodingEligibility": "eligible",
-      "geocodingStatus": "request-error",
-      "status": "request-error",
-      "confidence": "none",
-      "latitude": null,
-      "longitude": null,
-      "matchedAddress": null,
-      "geography": null,
-      "rawResponseMetadata": {
-        "finalUrl": "https://geocoding.geo.census.gov/geocoder/geographies/onelineaddress?address=2505+U+S+HIGHWAY+431+NORTH%2C+AL%2C+35957&benchmark=Public_AR_Current&vintage=Current_Current&format=json",
-        "errorName": "TypeError",
-        "errorMessage": "fetch failed",
-        "matchCount": 0
+      "geocodingStatus": "matched",
+      "status": "matched",
+      "confidence": "street-segment",
+      "latitude": 34.221221654827,
+      "longitude": -86.159366335505,
+      "matchedAddress": "2505 US HWY 431, BOAZ, AL, 35957",
+      "geography": {
+        "stateFips": "01",
+        "countyFips": "095",
+        "countyName": "Marshall County",
+        "censusTract": "031200",
+        "blockGroup": null
       },
-      "geographyJoinStatus": "not-joined"
+      "rawResponseMetadata": {
+        "httpStatus": 200,
+        "finalUrl": "https://geocoding.geo.census.gov/geocoder/geographies/onelineaddress?address=2505+U+S+HIGHWAY+431+NORTH%2C+AL%2C+35957&benchmark=Public_AR_Current&vintage=Current_Current&format=json",
+        "matchCount": 1,
+        "benchmark": "Public_AR_Current",
+        "vintage": "Current_Current"
+      },
+      "geographyJoinStatus": "joined"
     },
     {
       "sourceFacilityId": "010006",
       "facilityName": "NORTH ALABAMA MEDICAL CENTER",
       "inputAddress": "1701 VETERANS DRIVE, AL, 35630",
       "geocodingEligibility": "eligible",
-      "geocodingStatus": "request-error",
-      "status": "request-error",
-      "confidence": "none",
-      "latitude": null,
-      "longitude": null,
-      "matchedAddress": null,
-      "geography": null,
-      "rawResponseMetadata": {
-        "finalUrl": "https://geocoding.geo.census.gov/geocoder/geographies/onelineaddress?address=1701+VETERANS+DRIVE%2C+AL%2C+35630&benchmark=Public_AR_Current&vintage=Current_Current&format=json",
-        "errorName": "TypeError",
-        "errorMessage": "fetch failed",
-        "matchCount": 0
+      "geocodingStatus": "matched",
+      "status": "matched",
+      "confidence": "street-segment",
+      "latitude": 34.803808001178,
+      "longitude": -87.649945372824,
+      "matchedAddress": "1701 VETERANS DR, FLORENCE, AL, 35630",
+      "geography": {
+        "stateFips": "01",
+        "countyFips": "077",
+        "countyName": "Lauderdale County",
+        "censusTract": "010700",
+        "blockGroup": null
       },
-      "geographyJoinStatus": "not-joined"
+      "rawResponseMetadata": {
+        "httpStatus": 200,
+        "finalUrl": "https://geocoding.geo.census.gov/geocoder/geographies/onelineaddress?address=1701+VETERANS+DRIVE%2C+AL%2C+35630&benchmark=Public_AR_Current&vintage=Current_Current&format=json",
+        "matchCount": 1,
+        "benchmark": "Public_AR_Current",
+        "vintage": "Current_Current"
+      },
+      "geographyJoinStatus": "joined"
     },
     {
       "sourceFacilityId": "010007",
       "facilityName": "MIZELL MEMORIAL HOSPITAL",
       "inputAddress": "702 N MAIN ST, AL, 36467",
       "geocodingEligibility": "eligible",
-      "geocodingStatus": "request-error",
-      "status": "request-error",
-      "confidence": "none",
-      "latitude": null,
-      "longitude": null,
-      "matchedAddress": null,
-      "geography": null,
-      "rawResponseMetadata": {
-        "finalUrl": "https://geocoding.geo.census.gov/geocoder/geographies/onelineaddress?address=702+N+MAIN+ST%2C+AL%2C+36467&benchmark=Public_AR_Current&vintage=Current_Current&format=json",
-        "errorName": "TypeError",
-        "errorMessage": "fetch failed",
-        "matchCount": 0
+      "geocodingStatus": "matched",
+      "status": "matched",
+      "confidence": "street-segment",
+      "latitude": 31.291590951497,
+      "longitude": -86.255377693357,
+      "matchedAddress": "702 N MAIN ST, OPP, AL, 36467",
+      "geography": {
+        "stateFips": "01",
+        "countyFips": "039",
+        "countyName": "Covington County",
+        "censusTract": "962400",
+        "blockGroup": null
       },
-      "geographyJoinStatus": "not-joined"
+      "rawResponseMetadata": {
+        "httpStatus": 200,
+        "finalUrl": "https://geocoding.geo.census.gov/geocoder/geographies/onelineaddress?address=702+N+MAIN+ST%2C+AL%2C+36467&benchmark=Public_AR_Current&vintage=Current_Current&format=json",
+        "matchCount": 1,
+        "benchmark": "Public_AR_Current",
+        "vintage": "Current_Current"
+      },
+      "geographyJoinStatus": "joined"
     },
     {
       "sourceFacilityId": "010011",
       "facilityName": "ST. VINCENT'S EAST",
       "inputAddress": "50 MEDICAL PARK EAST DRIVE, AL, 35235",
       "geocodingEligibility": "eligible",
-      "geocodingStatus": "request-error",
-      "status": "request-error",
-      "confidence": "none",
-      "latitude": null,
-      "longitude": null,
-      "matchedAddress": null,
-      "geography": null,
-      "rawResponseMetadata": {
-        "finalUrl": "https://geocoding.geo.census.gov/geocoder/geographies/onelineaddress?address=50+MEDICAL+PARK+EAST+DRIVE%2C+AL%2C+35235&benchmark=Public_AR_Current&vintage=Current_Current&format=json",
-        "errorName": "TypeError",
-        "errorMessage": "fetch failed",
-        "matchCount": 0
+      "geocodingStatus": "matched",
+      "status": "matched",
+      "confidence": "street-segment",
+      "latitude": 33.590809113008,
+      "longitude": -86.668757123224,
+      "matchedAddress": "50 MEDICAL PARK DR E, BIRMINGHAM, AL, 35235",
+      "geography": {
+        "stateFips": "01",
+        "countyFips": "073",
+        "countyName": "Jefferson County",
+        "censusTract": "005903",
+        "blockGroup": null
       },
-      "geographyJoinStatus": "not-joined"
+      "rawResponseMetadata": {
+        "httpStatus": 200,
+        "finalUrl": "https://geocoding.geo.census.gov/geocoder/geographies/onelineaddress?address=50+MEDICAL+PARK+EAST+DRIVE%2C+AL%2C+35235&benchmark=Public_AR_Current&vintage=Current_Current&format=json",
+        "matchCount": 1,
+        "benchmark": "Public_AR_Current",
+        "vintage": "Current_Current"
+      },
+      "geographyJoinStatus": "joined"
     }
   ]
 }

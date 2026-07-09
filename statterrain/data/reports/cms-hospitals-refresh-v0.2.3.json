@@ -2,7 +2,7 @@
   "schemaVersion": "cms-hospitals-refresh-v0.2.3",
   "sourceId": "cms-hospital-general-information",
   "datasetId": "cms-hospitals-baseline-v0.2.3",
-  "refreshAttemptTimestamp": "2026-07-09T21:54:27.796Z",
+  "refreshAttemptTimestamp": "2026-07-09T22:29:51.793Z",
   "fetchStatus": "success",
   "fixtureMode": false,
   "dataMode": "real-public-data",
@@ -21,7 +21,7 @@
   "errors": [],
   "fallbackStatus": {
     "fallbackActive": false,
-    "lastKnownGoodExists": false,
+    "lastKnownGoodExists": true,
     "lastKnownGoodPath": "data/last-known-good/cms-hospitals.generated.json"
   },
   "publishRecommendation": "validate-before-preview; do-not-power-main-ui",

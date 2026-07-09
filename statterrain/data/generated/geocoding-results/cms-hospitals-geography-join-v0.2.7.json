@@ -1,34 +1,64 @@
 {
   "schemaVersion": "cms-hospitals-geography-join-v0.2.7",
-  "generatedAt": "2026-07-09T22:23:31.432Z",
+  "generatedAt": "2026-07-09T22:29:53.474Z",
   "source": "data/generated/geocoding-results/cms-hospitals-geocoding-results-v0.2.7.json",
   "recordCount": 5,
-  "joinedCount": 0,
+  "joinedCount": 5,
   "records": [
     {
       "sourceFacilityId": "010001",
-      "geographyJoinStatus": "not-joined",
-      "geography": null
+      "geographyJoinStatus": "joined",
+      "geography": {
+        "stateFips": "01",
+        "countyFips": "069",
+        "countyName": "Houston County",
+        "censusTract": "041000",
+        "blockGroup": null
+      }
     },
     {
       "sourceFacilityId": "010005",
-      "geographyJoinStatus": "not-joined",
-      "geography": null
+      "geographyJoinStatus": "joined",
+      "geography": {
+        "stateFips": "01",
+        "countyFips": "095",
+        "countyName": "Marshall County",
+        "censusTract": "031200",
+        "blockGroup": null
+      }
     },
     {
       "sourceFacilityId": "010006",
-      "geographyJoinStatus": "not-joined",
-      "geography": null
+      "geographyJoinStatus": "joined",
+      "geography": {
+        "stateFips": "01",
+        "countyFips": "077",
+        "countyName": "Lauderdale County",
+        "censusTract": "010700",
+        "blockGroup": null
+      }
     },
     {
       "sourceFacilityId": "010007",
-      "geographyJoinStatus": "not-joined",
-      "geography": null
+      "geographyJoinStatus": "joined",
+      "geography": {
+        "stateFips": "01",
+        "countyFips": "039",
+        "countyName": "Covington County",
+        "censusTract": "962400",
+        "blockGroup": null
+      }
     },
     {
       "sourceFacilityId": "010011",
-      "geographyJoinStatus": "not-joined",
-      "geography": null
+      "geographyJoinStatus": "joined",
+      "geography": {
+        "stateFips": "01",
+        "countyFips": "073",
+        "countyName": "Jefferson County",
+        "censusTract": "005903",
+        "blockGroup": null
+      }
     }
   ]
 }
