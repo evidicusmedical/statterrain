@@ -1,0 +1,10 @@
+{
+  "fixtureNotice": "Synthetic test fixture only. These are fake CMS-like records and are not real public data.",
+  "results": [
+    { "Facility ID": "TEST000001", "Facility Name": "Example Fixture Hospital Alpha", "Address": "100 Fictional Health Way", "City": "Sampleville", "State": "TS", "ZIP Code": "00001", "County Name": "Demo County", "Phone Number": "000-000-0001", "Hospital Type": "Acute Care Hospitals", "Emergency Services": "Yes", "synthetic_fixture_record": true },
+    { "Facility ID": "TEST000002", "Facility Name": "Example Fixture Critical Access Beta", "Address": "200 Mockingbird Clinic Road", "City": "Test Junction", "State": "TS", "ZIP Code": "00002", "County Name": "", "Phone Number": "000-000-0002", "Hospital Type": "Critical Access Hospitals", "Emergency Services": "Yes", "synthetic_fixture_record": true },
+    { "Facility ID": "TEST000003", "Facility Name": "Example Fixture Hospital Gamma", "Address": "300 Placeholder Avenue", "City": "Faketown", "State": "TS", "ZIP Code": "00003", "County Name": "Prototype Parish", "Phone Number": "000-000-0003", "Hospital Type": "Acute Care Hospitals", "Emergency Services": "No", "synthetic_fixture_record": true },
+    { "Facility ID": "TEST000004", "Facility Name": "Example Fixture Hospital Delta", "Address": "400 Dummy Drive", "City": "Notareal City", "State": "TS", "ZIP Code": "00004", "County Name": "Demo County", "Phone Number": "000-000-0004", "Hospital Type": "Acute Care Hospitals", "Emergency Services": "Yes", "synthetic_fixture_record": true }
+  ]
+}
+

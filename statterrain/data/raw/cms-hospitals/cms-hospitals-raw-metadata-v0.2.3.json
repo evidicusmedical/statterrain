@@ -1,0 +1,32 @@
+{
+  "schemaVersion": "cms-hospitals-raw-metadata-v0.2.3",
+  "sourceId": "cms-hospital-general-information",
+  "sourceName": "CMS Hospital General Information",
+  "agency": "Centers for Medicare & Medicaid Services",
+  "sourceUrl": "https://data.cms.gov/provider-data/dataset/xubh-q36u",
+  "retrievalTimestamp": "2026-07-09T21:08:22.383Z",
+  "retrievalMethod": "local-fixture",
+  "fetchStatus": "success",
+  "fixtureMode": true,
+  "dataMode": "synthetic-test-fixture",
+  "finalUrl": "data/fixtures/cms-hospitals/sample-cms-hospital-general-information-v0.2.3.json",
+  "httpStatus": null,
+  "statusText": null,
+  "responseHeaders": null,
+  "checksumSha256": "aadf6fe9ae02efd701c3a40795994f34d70d3bf26c2037097c78ffe93c75f286",
+  "rawFilePath": "data/raw/cms-hospitals/cms-hospitals-raw-v0.2.3.json",
+  "endpointResolutionAttempts": [
+    {
+      "endpointRole": "local-fixture",
+      "requestedUrl": "data/fixtures/cms-hospitals/sample-cms-hospital-general-information-v0.2.3.json",
+      "fetchStatus": "success"
+    }
+  ],
+  "sourceBenchmarkReference": "data/sources/source-benchmark.json",
+  "limitations": [
+    "Does not provide live diversion, bed availability, transfer readiness, or service-line capacity.",
+    "Coordinates require geocoding or supplemental geometry.",
+    "Coordinates are not provided by this CMS source and are not geocoded in v0.2.3.",
+    "CMS data do not power the main app map in v0.2.3."
+  ]
+}

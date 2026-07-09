@@ -20,3 +20,22 @@ test.describe("public-data source registry scaffold", () => {
     expect(registry.generatedPublicRecordsActive).toBe(false);
   });
 });
+
+test.describe("CMS hospital fixture safety", () => {
+  test("fixture output is explicitly non-production and app-inactive", async () => {
+    const generated = JSON.parse(
+      await readFile(join(process.cwd(), "data/generated/cms-hospitals.generated.json"), "utf8"),
+    );
+    expect(generated.metadata.dataMode).toBe("synthetic-test-fixture");
+    expect(generated.metadata.fixtureMode).toBe(true);
+    expect(generated.metadata.usedInCurrentApp).toBe(false);
+    expect(generated.metadata.previewLabelRequired).toBe(true);
+    expect(generated.metadata.lastKnownGood.updatedThisRun).toBe(false);
+    expect(generated.records).toHaveLength(4);
+    for (const record of generated.records) {
+      expect(record.syntheticFixtureRecord).toBe(true);
+      expect(record.latitude).toBeNull();
+      expect(record.longitude).toBeNull();
+    }
+  });
+});

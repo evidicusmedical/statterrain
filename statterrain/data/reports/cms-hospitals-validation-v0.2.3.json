@@ -1,0 +1,26 @@
+{
+  "schemaVersion": "cms-hospitals-validation-v0.2.3",
+  "generatedAt": "2026-07-09T21:10:04.429Z",
+  "generatedPath": "data/generated/cms-hospitals.generated.json",
+  "status": "warn",
+  "recordCount": 4,
+  "fixtureMode": true,
+  "dataMode": "synthetic-test-fixture",
+  "warnings": [
+    "4 records require future geocoding.",
+    "1 records are missing county/geography fields.",
+    "Source release date is unknown/not parsed.",
+    "Fixture validation passed without updating last-known-good."
+  ],
+  "errors": [],
+  "qualitySummaryPath": "data/reports/cms-hospitals-quality-summary-v0.2.3.json",
+  "geocodingInputPath": "data/generated/geocoding-inputs/cms-hospitals-geocoding-input-v0.2.3.json",
+  "fallback": {
+    "lastKnownGoodExists": false,
+    "lastKnownGoodUpdated": false
+  },
+  "quality": {
+    "missingCoordinates": 4,
+    "missingGeography": 1
+  }
+}
