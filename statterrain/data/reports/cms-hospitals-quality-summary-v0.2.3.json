@@ -14,6 +14,6 @@
   },
   "warnings": [
     "Coordinates are intentionally null pending a future geocoding patch.",
-    "Geography joins are not performed in v0.2.3."
+    "Geography joins are not available for the current artifact."
   ]
 }

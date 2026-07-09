@@ -46,7 +46,7 @@ test.describe("StatTerrain critical workflow", () => {
     await expect(
       page.getByText("StatTerrain", { exact: true }).first(),
     ).toBeVisible();
-    await expect(page.getByText("v0.2.2 prototype")).toBeVisible();
+    await expect(page.getByText("v0.2.6 prototype")).toBeVisible();
     const fatal = errors.fatal();
     expect(
       fatal,
@@ -463,9 +463,13 @@ test.describe("StatTerrain responsive layout", () => {
     expect(Number(tabStyles.zIndex)).toBeGreaterThan(10);
 
     const overlap = await page.evaluate(() => {
-      const tabs = document.querySelector('[data-testid="mobile-workspace-tabs"]');
+      const tabs = document.querySelector(
+        '[data-testid="mobile-workspace-tabs"]',
+      );
       const map = document.querySelector('[data-testid="map-view"]');
-      const attribution = document.querySelector(".leaflet-control-attribution");
+      const attribution = document.querySelector(
+        ".leaflet-control-attribution",
+      );
       const pane = document.querySelector(".leaflet-pane");
       if (!tabs || !map || !attribution || !pane) return null;
       const tabsBox = tabs.getBoundingClientRect();
@@ -481,7 +485,9 @@ test.describe("StatTerrain responsive layout", () => {
     });
     expect(overlap).not.toBeNull();
     expect(overlap!.mapBottom).toBeLessThanOrEqual(overlap!.tabsTop + 1);
-    expect(overlap!.attributionBottom).toBeLessThanOrEqual(overlap!.mapBottom + 1);
+    expect(overlap!.attributionBottom).toBeLessThanOrEqual(
+      overlap!.mapBottom + 1,
+    );
     expect(overlap!.tabsZ).toBeGreaterThan(overlap!.paneZ);
   });
 
@@ -490,16 +496,22 @@ test.describe("StatTerrain responsive layout", () => {
   }) => {
     await page.setViewportSize({ width: 390, height: 844 });
     await page.goto("/");
-    await expect(page.getByRole("button", { name: "Hide summary" })).toHaveCount(0);
+    await expect(
+      page.getByRole("button", { name: "Hide summary" }),
+    ).toHaveCount(0);
     await page.getByTestId("mobile-tab-summary").click();
     const summary = page.getByRole("region", { name: "Regional summary" });
     await expect(summary).toBeVisible();
-    await expect(summary.getByText("Facilities in selected geography")).toBeVisible();
+    await expect(
+      summary.getByText("Facilities in selected geography"),
+    ).toBeVisible();
     await expect(
       summary.getByText("Population demographics & health context"),
     ).toBeVisible();
     await expect(
-      summary.getByRole("heading", { name: "Data freshness and source inventory" }),
+      summary.getByRole("heading", {
+        name: "Data freshness and source inventory",
+      }),
     ).toBeVisible();
     await expect(
       summary.getByText("No public-data refresh is active in this prototype."),
@@ -516,7 +528,9 @@ test.describe("StatTerrain responsive layout", () => {
       "Select a facility on the map to view details.",
     );
     await page.getByTestId("mobile-tab-map").click();
-    await page.locator(`.facility-marker-${SAMPLE_FACILITY_ID}`).click({ force: true });
+    await page
+      .locator(`.facility-marker-${SAMPLE_FACILITY_ID}`)
+      .click({ force: true });
     await page.getByRole("button", { name: "View details" }).click();
     await expect(page.getByTestId("mobile-tab-facility")).toHaveAttribute(
       "aria-current",
@@ -533,7 +547,9 @@ test.describe("StatTerrain responsive layout", () => {
       "Source and data quality",
       "Known limitations",
     ]) {
-      await expect(detail.getByRole("heading", { name: heading })).toBeVisible();
+      await expect(
+        detail.getByRole("heading", { name: heading }),
+      ).toBeVisible();
     }
   });
 
