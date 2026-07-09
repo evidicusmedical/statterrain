@@ -1,25 +1,30 @@
 {
   "schemaVersion": "cms-hospitals-validation-v0.2.3",
-  "generatedAt": "2026-07-09T21:18:52.956Z",
+  "generatedAt": "2026-07-09T21:54:29.362Z",
   "generatedPath": "data/generated/cms-hospitals.generated.json",
   "status": "warn",
-  "recordCount": 4,
-  "fixtureMode": true,
-  "dataMode": "synthetic-test-fixture",
+  "recordCount": 5,
+  "fixtureMode": false,
+  "dataMode": "real-public-data",
   "warnings": [
-    "1 records are missing county/geography fields.",
-    "Source release date is unknown/not parsed.",
-    "Fixture validation passed without updating last-known-good."
+    "record 0 missing phone.",
+    "record 1 missing phone.",
+    "record 2 missing phone.",
+    "record 3 missing phone.",
+    "record 4 missing phone.",
+    "5 records require future geocoding.",
+    "5 records are missing county/geography fields.",
+    "Source release date is unknown/not parsed."
   ],
   "errors": [],
   "qualitySummaryPath": "data/reports/cms-hospitals-quality-summary-v0.2.3.json",
   "geocodingInputPath": "data/generated/geocoding-inputs/cms-hospitals-geocoding-input-v0.2.3.json",
   "fallback": {
-    "lastKnownGoodExists": false,
-    "lastKnownGoodUpdated": false
+    "lastKnownGoodExists": true,
+    "lastKnownGoodUpdated": true
   },
   "quality": {
-    "missingCoordinates": 0,
-    "missingGeography": 1
+    "missingCoordinates": 5,
+    "missingGeography": 5
   }
 }
