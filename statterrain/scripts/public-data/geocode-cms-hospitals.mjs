@@ -7,10 +7,15 @@ const appRoot = resolve(__dirname, "../..");
 const rel = (p) => relative(appRoot, p).replaceAll("\\", "/");
 const version = "v0.2.4";
 const inputVersion = "v0.2.3";
-const args = new Set(process.argv.slice(2));
+const rawArgs = process.argv.slice(2);
+const args = new Set(rawArgs);
+const limitFlagIndex = rawArgs.findIndex((arg) => arg === "--limit" || arg.startsWith("--limit="));
+const limitValue = limitFlagIndex === -1 ? null : rawArgs[limitFlagIndex].includes("=") ? rawArgs[limitFlagIndex].split("=", 2)[1] : rawArgs[limitFlagIndex + 1];
+const liveLimit = limitValue === null ? 25 : Number(limitValue);
 const fixtureMode = args.has("--fixture");
 const dryRun = args.has("--dry-run");
 const liveMode = args.has("--live");
+if (!Number.isInteger(liveLimit) || liveLimit < 1 || liveLimit > 100) throw new Error("--limit must be an integer from 1 to 100.");
 if ([fixtureMode, dryRun, liveMode].filter(Boolean).length > 1) throw new Error("Use only one mode flag: --fixture, --dry-run, or --live.");
 
 const inputPath = resolve(appRoot, `data/generated/geocoding-inputs/cms-hospitals-geocoding-input-${inputVersion}.json`);
@@ -82,13 +87,14 @@ for (const [index, record] of records.entries()) {
   if (dryRun) { results.push({ ...base, geocodingStatus: "dry-run-eligible", latitude: null, longitude: null, geographyJoinStatus: "not-run", geography: null }); continue; }
   if (fixtureMode) { const geocode = fixtureGeocode(record, index); results.push({ ...base, geocodingStatus: geocode.status, ...geocode, geographyJoinStatus: geocode.geography ? "joined" : "not-joined" }); continue; }
   if (!liveMode) { results.push({ ...base, geocodingStatus: "skipped", skipReason: "live-geocoding-not-enabled", latitude: null, longitude: null, geographyJoinStatus: "not-run", geography: null }); continue; }
+  if (results.filter((r) => r.geocodingStatus !== "skipped" && r.geocodingEligibility === "eligible").length >= liveLimit) { results.push({ ...base, geocodingStatus: "skipped", skipReason: "live-geocoding-limit-reached", latitude: null, longitude: null, geographyJoinStatus: "not-run", geography: null }); continue; }
   const geocode = await censusGeocode(record);
   results.push({ ...base, geocodingStatus: geocode.status, ...geocode, geographyJoinStatus: geocode.geography ? "joined" : "not-joined" });
 }
 
 const matched = results.filter((r) => typeof r.latitude === "number" && typeof r.longitude === "number");
 const failed = results.filter((r) => r.geocodingEligibility === "eligible" && !["matched", "matched-fixture"].includes(r.geocodingStatus));
-const summary = { schemaVersion: "cms-hospitals-geocoding-summary-v0.2.4", generatedAt: now, inputPath: rel(inputPath), mode: fixtureMode ? "fixture" : dryRun ? "dry-run" : liveMode ? "live-census" : "safe-default", dataMode: input.dataMode ?? null, recordCount: records.length, eligibleCount: results.filter((r) => r.geocodingEligibility === "eligible").length, matchedCount: matched.length, failedEligibleCount: failed.length, skippedCount: results.filter((r) => r.geocodingStatus === "skipped").length, externalCallsEnabled: liveMode, prohibitedUses, warnings: [] };
+const summary = { schemaVersion: "cms-hospitals-geocoding-summary-v0.2.4", generatedAt: now, inputPath: rel(inputPath), mode: fixtureMode ? "fixture" : dryRun ? "dry-run" : liveMode ? "live-census" : "safe-default", dataMode: input.dataMode ?? null, recordCount: records.length, eligibleCount: results.filter((r) => r.geocodingEligibility === "eligible").length, matchedCount: matched.length, failedEligibleCount: failed.length, skippedCount: results.filter((r) => r.geocodingStatus === "skipped").length, externalCallsEnabled: liveMode, liveGeocodingLimit: liveMode ? liveLimit : 0, prohibitedUses, warnings: liveMode ? [`Live Census geocoding was explicitly enabled and bounded to ${liveLimit} eligible records.`] : [] };
 const output = { schemaVersion: "cms-hospitals-geocoding-results-v0.2.4", generatedAt: now, sourceId: input.sourceId, inputPath: rel(inputPath), geocoder: fixtureMode ? "deterministic-local-fixture" : liveMode ? "US Census Geocoder" : "none", mode: summary.mode, dataMode: input.dataMode ?? null, recordCount: results.length, prohibitedUses, records: results };
 const geography = { schemaVersion: "cms-hospitals-geography-join-v0.2.4", generatedAt: now, source: rel(outputPath), recordCount: results.length, joinedCount: results.filter((r) => r.geographyJoinStatus === "joined").length, records: results.map((r) => ({ sourceFacilityId: r.sourceFacilityId, geographyJoinStatus: r.geographyJoinStatus, geography: r.geography })) };
 
