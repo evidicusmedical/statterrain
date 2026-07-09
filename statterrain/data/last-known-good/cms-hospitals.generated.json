@@ -21,7 +21,7 @@
     "lastKnownGood": {
       "exists": true,
       "path": "data/last-known-good/cms-hospitals.generated.json",
-      "updatedThisRun": true
+      "updatedThisRun": false
     },
     "limitations": [
       "Does not provide live diversion, bed availability, transfer readiness, or service-line capacity.",

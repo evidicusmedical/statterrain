@@ -2,21 +2,21 @@
   "schemaVersion": "cms-hospitals-refresh-v0.2.3",
   "sourceId": "cms-hospital-general-information",
   "datasetId": "cms-hospitals-baseline-v0.2.3",
-  "refreshAttemptTimestamp": "2026-07-09T21:08:22.383Z",
+  "refreshAttemptTimestamp": "2026-07-09T21:54:27.796Z",
   "fetchStatus": "success",
-  "fixtureMode": true,
-  "dataMode": "synthetic-test-fixture",
-  "finalUrl": "data/fixtures/cms-hospitals/sample-cms-hospital-general-information-v0.2.3.json",
+  "fixtureMode": false,
+  "dataMode": "real-public-data",
+  "finalUrl": "https://data.cms.gov/provider-data/api/1/datastore/query/xubh-q36u/0?limit=5",
   "rawSnapshotMetadataPath": "data/raw/cms-hospitals/cms-hospitals-raw-metadata-v0.2.3.json",
   "normalizedOutputPath": "data/normalized/cms-hospitals/cms-hospitals-normalized-v0.2.3.json",
   "generatedOutputPath": "data/generated/cms-hospitals.generated.json",
   "qualitySummaryPath": "data/reports/cms-hospitals-quality-summary-v0.2.3.json",
   "geocodingInputPath": "data/generated/geocoding-inputs/cms-hospitals-geocoding-input-v0.2.3.json",
   "validationReportPath": "data/reports/cms-hospitals-validation-v0.2.3.json",
-  "recordCount": 4,
+  "recordCount": 5,
   "warnings": [
     "Validation must be run before display eligibility is evaluated.",
-    "Fixture output is for deterministic tests only and must not update last-known-good."
+    "Coordinates require future geocoding."
   ],
   "errors": [],
   "fallbackStatus": {

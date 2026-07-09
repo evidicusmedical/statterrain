@@ -1,42 +1,50 @@
 {
   "schemaVersion": "cms-hospitals-geocoding-input-v0.2.3",
-  "generatedAt": "2026-07-09T21:08:22.383Z",
+  "generatedAt": "2026-07-09T21:54:27.796Z",
   "sourceId": "cms-hospital-general-information",
-  "dataMode": "synthetic-test-fixture",
-  "recordCount": 4,
+  "dataMode": "real-public-data",
+  "recordCount": 5,
   "allowedUse": "future deterministic geocoding preparation only; not a geocoded output",
   "records": [
     {
-      "sourceFacilityId": "TEST000001",
-      "facilityName": "Example Fixture Hospital Alpha",
-      "address": "100 Fictional Health Way",
-      "city": "Sampleville",
-      "state": "TS",
-      "zip": "00001"
+      "sourceFacilityId": "010001",
+      "facilityName": "SOUTHEAST HEALTH MEDICAL CENTER",
+      "address": "1108 ROSS CLARK CIRCLE",
+      "city": null,
+      "state": "AL",
+      "zip": "36301"
     },
     {
-      "sourceFacilityId": "TEST000002",
-      "facilityName": "Example Fixture Critical Access Beta",
-      "address": "200 Mockingbird Clinic Road",
-      "city": "Test Junction",
-      "state": "TS",
-      "zip": "00002"
+      "sourceFacilityId": "010005",
+      "facilityName": "MARSHALL MEDICAL CENTERS",
+      "address": "2505 U S HIGHWAY 431 NORTH",
+      "city": null,
+      "state": "AL",
+      "zip": "35957"
     },
     {
-      "sourceFacilityId": "TEST000003",
-      "facilityName": "Example Fixture Hospital Gamma",
-      "address": "300 Placeholder Avenue",
-      "city": "Faketown",
-      "state": "TS",
-      "zip": "00003"
+      "sourceFacilityId": "010006",
+      "facilityName": "NORTH ALABAMA MEDICAL CENTER",
+      "address": "1701 VETERANS DRIVE",
+      "city": null,
+      "state": "AL",
+      "zip": "35630"
     },
     {
-      "sourceFacilityId": "TEST000004",
-      "facilityName": "Example Fixture Hospital Delta",
-      "address": "400 Dummy Drive",
-      "city": "Notareal City",
-      "state": "TS",
-      "zip": "00004"
+      "sourceFacilityId": "010007",
+      "facilityName": "MIZELL MEMORIAL HOSPITAL",
+      "address": "702 N MAIN ST",
+      "city": null,
+      "state": "AL",
+      "zip": "36467"
+    },
+    {
+      "sourceFacilityId": "010011",
+      "facilityName": "ST. VINCENT'S EAST",
+      "address": "50 MEDICAL PARK EAST DRIVE",
+      "city": null,
+      "state": "AL",
+      "zip": "35235"
     }
   ]
 }

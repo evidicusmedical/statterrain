@@ -1,16 +1,16 @@
 {
   "schemaVersion": "cms-hospitals-quality-summary-v0.2.3",
-  "generatedAt": "2026-07-09T21:08:22.383Z",
+  "generatedAt": "2026-07-09T21:54:27.796Z",
   "sourceId": "cms-hospital-general-information",
-  "dataMode": "synthetic-test-fixture",
-  "recordCount": 4,
+  "dataMode": "real-public-data",
+  "recordCount": 5,
   "missingCoordinates": {
-    "count": 4,
+    "count": 5,
     "percent": 1
   },
   "missingGeography": {
-    "count": 1,
-    "percent": 0.25
+    "count": 5,
+    "percent": 1
   },
   "warnings": [
     "Coordinates are intentionally null pending a future geocoding patch.",

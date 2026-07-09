@@ -4,21 +4,71 @@
   "sourceName": "CMS Hospital General Information",
   "agency": "Centers for Medicare & Medicaid Services",
   "sourceUrl": "https://data.cms.gov/provider-data/dataset/xubh-q36u",
-  "retrievalTimestamp": "2026-07-09T21:08:22.383Z",
-  "retrievalMethod": "local-fixture",
+  "retrievalTimestamp": "2026-07-09T21:54:27.796Z",
+  "retrievalMethod": "fetch-json-api",
   "fetchStatus": "success",
-  "fixtureMode": true,
-  "dataMode": "synthetic-test-fixture",
-  "finalUrl": "data/fixtures/cms-hospitals/sample-cms-hospital-general-information-v0.2.3.json",
-  "httpStatus": null,
-  "statusText": null,
-  "responseHeaders": null,
-  "checksumSha256": "aadf6fe9ae02efd701c3a40795994f34d70d3bf26c2037097c78ffe93c75f286",
+  "fixtureMode": false,
+  "dataMode": "real-public-data",
+  "finalUrl": "https://data.cms.gov/provider-data/api/1/datastore/query/xubh-q36u/0?limit=5",
+  "httpStatus": 200,
+  "statusText": "OK",
+  "responseHeaders": {
+    "contentType": "application/json",
+    "contentLength": "1713",
+    "lastModified": "Thu, 09 Jul 2026 10:04:41 GMT",
+    "etag": "\"1783591481-gzip\""
+  },
+  "checksumSha256": "65293d8783c6437406a5c1586794d83e342cd6f02daab700f707aa462808f4e4",
   "rawFilePath": "data/raw/cms-hospitals/cms-hospitals-raw-v0.2.3.json",
   "endpointResolutionAttempts": [
     {
-      "endpointRole": "local-fixture",
-      "requestedUrl": "data/fixtures/cms-hospitals/sample-cms-hospital-general-information-v0.2.3.json",
+      "attempt": 1,
+      "endpointRole": "benchmark-sourceUrl",
+      "requestedUrl": "https://data.cms.gov/provider-data/dataset/xubh-q36u",
+      "finalUrl": "https://data.cms.gov/provider-data/dataset/xubh-q36u",
+      "httpStatus": 200,
+      "statusText": "OK",
+      "responseHeaders": {
+        "contentType": "text/html; charset=UTF-8",
+        "contentLength": "875",
+        "lastModified": null,
+        "etag": null
+      },
+      "checksumSha256": "11612c367d9de8eaa47ad3b9cda178477e7fc9e12a30113d0e52b3eb029a7ab2",
+      "fetchStatus": "invalid-json",
+      "error": "Unexpected token '<', \"<!DOCTYPE \"... is not valid JSON"
+    },
+    {
+      "attempt": 1,
+      "endpointRole": "known-cms-provider-data-datastore",
+      "requestedUrl": "https://data.cms.gov/provider-data/api/1/datastore/query/xubh-q36u/0?limit=50000",
+      "finalUrl": "https://data.cms.gov/provider-data/api/1/datastore/query/xubh-q36u/0?limit=50000",
+      "httpStatus": 400,
+      "statusText": "Bad Request",
+      "responseHeaders": {
+        "contentType": "application/json",
+        "contentLength": "239",
+        "lastModified": "Thu, 09 Jul 2026 21:54:28 GMT",
+        "etag": null
+      },
+      "checksumSha256": "77ec5d9fc32935a409b2ac3cdedff79a38be999d8a1ea00e259ea57e32206d28",
+      "fetchStatus": "non-2xx",
+      "errorPreview": "{\"message\":\"JSON Schema validation failed.\\n 1) limit: \\u002750000\\u0027\",\"status\":400,\"timestamp\":\"2026-07-09T17:54:28-04:00\",\"data\":{\"keyword\":\"maximum\",\"pointer\":\"limit\",\"message\":\"The attribute va"
+    },
+    {
+      "attempt": 1,
+      "endpointRole": "known-cms-provider-data-probe",
+      "requestedUrl": "https://data.cms.gov/provider-data/api/1/datastore/query/xubh-q36u/0?limit=5",
+      "finalUrl": "https://data.cms.gov/provider-data/api/1/datastore/query/xubh-q36u/0?limit=5",
+      "httpStatus": 200,
+      "statusText": "OK",
+      "responseHeaders": {
+        "contentType": "application/json",
+        "contentLength": "1713",
+        "lastModified": "Thu, 09 Jul 2026 10:04:41 GMT",
+        "etag": "\"1783591481-gzip\""
+      },
+      "checksumSha256": "65293d8783c6437406a5c1586794d83e342cd6f02daab700f707aa462808f4e4",
       "fetchStatus": "success"
     }
   ],

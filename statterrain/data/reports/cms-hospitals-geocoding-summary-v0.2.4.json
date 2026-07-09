@@ -1,15 +1,16 @@
 {
   "schemaVersion": "cms-hospitals-geocoding-summary-v0.2.4",
-  "generatedAt": "2026-07-09T21:19:06.212Z",
+  "generatedAt": "2026-07-09T21:54:29.218Z",
   "inputPath": "data/generated/geocoding-inputs/cms-hospitals-geocoding-input-v0.2.3.json",
-  "mode": "fixture",
-  "dataMode": "synthetic-test-fixture",
-  "recordCount": 4,
-  "eligibleCount": 4,
-  "matchedCount": 4,
+  "mode": "dry-run",
+  "dataMode": "real-public-data",
+  "recordCount": 5,
+  "eligibleCount": 0,
+  "matchedCount": 0,
   "failedEligibleCount": 0,
-  "skippedCount": 0,
+  "skippedCount": 5,
   "externalCallsEnabled": false,
+  "liveGeocodingLimit": 0,
   "prohibitedUses": [
     "live routing",
     "dispatch",
@@ -19,6 +20,5 @@
     "clinical decision support",
     "patient-level geography"
   ],
-  "warnings": [],
-  "generatedRecordsUpdated": 4
+  "warnings": []
 }
