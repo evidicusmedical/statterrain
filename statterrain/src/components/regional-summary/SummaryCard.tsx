@@ -3,7 +3,15 @@ import { ConfidenceBadge, FreshnessBadge } from "@/components/ui/Badge";
 import { getSourceById } from "@/data/sources";
 import { MetricDefinitionPanel } from "@/components/population/MetricDefinitionPanel";
 
-export function SummaryCard({ metric }: { metric: PopulationMetric }) {
+export function SummaryCard({
+  metric,
+  expanded,
+  onToggleMeaning,
+}: {
+  metric: PopulationMetric;
+  expanded: boolean;
+  onToggleMeaning: () => void;
+}) {
   const source = getSourceById(metric.sourceId);
   const delta = metric.value.local - metric.value.national;
   const isPercentUnit = metric.unit.includes("%");
@@ -34,7 +42,11 @@ export function SummaryCard({ metric }: { metric: PopulationMetric }) {
       {metric.marginOfError !== null && (
         <p className="text-[11px] text-slate-400">Margin of error: ±{metric.marginOfError}</p>
       )}
-      <MetricDefinitionPanel metric={metric} />
+      <MetricDefinitionPanel
+        metric={metric}
+        expanded={expanded}
+        onToggle={onToggleMeaning}
+      />
     </div>
   );
 }

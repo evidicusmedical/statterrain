@@ -4,6 +4,8 @@ import { SummaryCard } from "./SummaryCard";
 import type { Facility } from "@/types/facility";
 import { FACILITY_TYPE_LABELS } from "@/types/facility";
 import { DataFreshnessSummary } from "@/components/sources/DataFreshnessSummary";
+import { useState } from "react";
+import type { OverlayMetricId } from "@/types/metric";
 
 const FACILITY_COUNT_ORDER: Facility["facilityType"][] = [
   "hospital",
@@ -15,8 +17,14 @@ const FACILITY_COUNT_ORDER: Facility["facilityType"][] = [
 ];
 
 export function RegionalSummaryPanel({ facilities }: { facilities: Facility[] }) {
+  const [expandedMetricId, setExpandedMetricId] =
+    useState<OverlayMetricId | null>(null);
+
   return (
     <div className="flex flex-col gap-6 p-4">
+      <p className="rounded-md bg-slate-50 p-2 text-xs text-slate-600 lg:hidden">
+        Use tabs to switch between map, summary, and details.
+      </p>
       <section>
         <h2 className="mb-2 text-sm font-semibold text-slate-900">Facilities in selected geography</h2>
         <div className="grid grid-cols-2 gap-2 sm:grid-cols-3">
@@ -39,7 +47,16 @@ export function RegionalSummaryPanel({ facilities }: { facilities: Facility[] })
         <h2 className="mb-2 text-sm font-semibold text-slate-900">Population demographics &amp; health context</h2>
         <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
           {populationMetrics.map((m) => (
-            <SummaryCard key={m.metricId} metric={m} />
+            <SummaryCard
+              key={m.metricId}
+              metric={m}
+              expanded={expandedMetricId === m.metricId}
+              onToggleMeaning={() =>
+                setExpandedMetricId((current) =>
+                  current === m.metricId ? null : m.metricId,
+                )
+              }
+            />
           ))}
         </div>
       </section>

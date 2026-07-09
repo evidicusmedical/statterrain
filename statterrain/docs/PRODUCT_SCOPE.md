@@ -79,3 +79,11 @@ All population metrics remain synthetic demonstration values. No real CMS, Censu
 v0.1.7 is an explanation and layout refinement only. Population metrics now prioritize short plain-language text before technical source details: what the metric is, higher/lower meaning, planning relevance, do-not-assume warnings, and synthetic-data status. Pediatric, poverty, LEP, no-vehicle access, chronic disease, SVI, and rurality caveats remain explicit and must be replaced with source-defined details only when future real public data are connected.
 
 The right-side regional summary column can be collapsed and restored so desktop users can enlarge the map workspace. Mobile users keep the map/summary/facility view switcher, touch-friendly controls, evidence brief access, feedback access, and usable map area. The app still does not provide live routing, destination recommendations, diversion status, bed availability, dispatch, medical-control guidance, triage, clinical decision support, PHI handling, authentication, database, backend, or real public-data ingestion.
+
+## v0.1.8 collapsible metrics and mobile workspace scope
+
+v0.1.8 is a UI refinement only. Population metric cards show a visible **Quick read** line, collapse full plain-language meaning panels by default, and use local accordion behavior so only one metric explanation is expanded at a time. Existing v0.1.6/v0.1.7 technical source details, denominator notes, future real-source definition requirements, and synthetic-data caveats remain available as secondary details.
+
+The mobile layout is map-first and map-accessible: users can switch between Map, Summary, and Facility views with bottom tabs, open Filters from the header drawer, return to the map in one tap, and use **Hide summary / Show summary** without losing access to population context or facility details. Desktop keeps the three-area workspace, with summary collapse continuing to enlarge the map.
+
+Scope remains controlled: no real public-data pipelines, no backend, no database, no authentication, no PHI handling, no AI API integration, no live routing/diversion/bed-status features, and no clinical or medical-control guidance are included.

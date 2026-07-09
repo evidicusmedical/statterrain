@@ -26,6 +26,13 @@ export default function HomePage() {
     },
     [state],
   );
+  const handleSelectFacility = useCallback(
+    (facilityId: string) => {
+      state.selectFacility(facilityId);
+      setMobileTab("detail");
+    },
+    [state],
+  );
 
   return (
     <div className="flex h-screen flex-col">
@@ -59,14 +66,14 @@ export default function HomePage() {
 
         <main className="flex min-h-0 flex-1 flex-col lg:flex-row">
           <section
-            className={`relative min-h-0 flex-1 ${mobileTab === "map" ? "block" : "hidden"} lg:block`}
+            className={`relative min-h-[55vh] flex-1 ${mobileTab === "map" ? "block" : "hidden"} lg:block lg:min-h-0`}
             aria-label="Map"
           >
             <div className="absolute right-3 top-3 z-[800] max-w-[calc(100%-1.5rem)] rounded-lg border border-slate-200 bg-white/95 p-2 shadow-sm backdrop-blur">
               <button
                 type="button"
                 onClick={() => setSummaryOpen((open) => !open)}
-                className="rounded-md bg-terrain-700 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-terrain-800 focus:outline-none focus:ring-2 focus:ring-terrain-500 focus:ring-offset-2"
+                className="min-h-11 rounded-md bg-terrain-700 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-terrain-800 focus:outline-none focus:ring-2 focus:ring-terrain-500 focus:ring-offset-2"
                 aria-expanded={summaryOpen}
                 aria-controls="regional-summary-panel"
               >
@@ -87,7 +94,7 @@ export default function HomePage() {
               showLegend={state.filters.showLegend}
               showLabels={state.filters.showLabels}
               selectedFacilityId={state.selectedFacility?.id ?? null}
-              onSelectFacility={state.selectFacility}
+              onSelectFacility={handleSelectFacility}
             />
           </section>
 
@@ -117,6 +124,7 @@ export default function HomePage() {
       <nav
         className="flex border-t border-slate-200 bg-white lg:hidden"
         aria-label="Mobile view switcher"
+        data-testid="mobile-workspace-tabs"
       >
         {(
           [
@@ -133,7 +141,8 @@ export default function HomePage() {
               setMobileTab(tab);
             }}
             aria-current={mobileTab === tab}
-            className={`flex-1 px-3 py-2.5 text-sm font-medium ${
+            data-testid={`mobile-tab-${tab}`}
+            className={`min-h-11 flex-1 px-3 py-2.5 text-sm font-medium ${
               mobileTab === tab
                 ? "border-t-2 border-terrain-600 text-terrain-700"
                 : "text-slate-500"
