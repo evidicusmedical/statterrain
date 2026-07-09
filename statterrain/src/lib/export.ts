@@ -12,6 +12,7 @@ import { OVERLAY_LABELS } from "@/types/metric";
 import { formatDate, todayIso } from "./format";
 import type { AppFilters } from "@/hooks/useAppState";
 import { PLANNING_CONSIDERATIONS } from "./planning-considerations";
+import type { PublicDataArtifactSummary } from "@/lib/public-data/readPublicDataArtifacts";
 
 export interface BriefContext {
   locationLabel: string;
@@ -19,6 +20,7 @@ export interface BriefContext {
   filters: AppFilters;
   visibleFacilities: Facility[];
   briefFacilities: Facility[];
+  publicDataSummary?: PublicDataArtifactSummary;
 }
 
 function activeFilterSummary(filters: AppFilters) {
@@ -65,6 +67,7 @@ export function buildMarkdownBrief(ctx: BriefContext): string {
     filters,
     visibleFacilities,
     briefFacilities,
+    publicDataSummary,
   } = ctx;
   const filterSummary = activeFilterSummary(filters);
   const relevantSourceIds = new Set<string>();
@@ -87,6 +90,19 @@ export function buildMarkdownBrief(ctx: BriefContext): string {
   lines.push(`- Date generated: ${formatDate(todayIso())}`);
   lines.push(`- ${product.prototypeVersion}`);
   lines.push(`- ${BRIEF_SCOPE_STATEMENT}`);
+  lines.push("");
+
+  lines.push("## Generated public-data preview provenance");
+  lines.push("");
+  if (publicDataSummary) {
+    lines.push(`- Dataset: ${publicDataSummary.sourceName} (${publicDataSummary.datasetId})`);
+    lines.push(`- Data mode: ${publicDataSummary.dataMode}${publicDataSummary.fixtureMode ? " (synthetic fixture; blocked from real-data map preview)" : ""}`);
+    lines.push(`- Validation: ${publicDataSummary.validationStatus}; geocoding: ${publicDataSummary.geocodingStatus}`);
+    lines.push(`- Retrieved: ${publicDataSummary.retrievedAt ? formatDate(publicDataSummary.retrievedAt) : "Not reported"}`);
+    lines.push(`- Map preview status: ${publicDataSummary.canPreviewOnMap ? "available only as explicitly labeled public-data preview" : `blocked — ${publicDataSummary.previewBlockReason}`}`);
+  } else {
+    lines.push("- No generated public-data artifact summary was attached to this brief.");
+  }
   lines.push("");
 
   lines.push("## Data freshness summary");
@@ -278,6 +294,12 @@ export function buildJsonBrief(ctx: BriefContext) {
     facilities: briefFacilities,
     populationMetrics,
     populationMetricDefinitions,
+    generatedPublicDataPreview: ctx.publicDataSummary ?? null,
+    dataModeGuardrails: {
+      defaultMapDataset: "synthetic demonstration data",
+      publicDataPreviewRequiresValidationSafeRealData: true,
+      fixtureDataMayPowerRealDataMapLayer: false,
+    },
     plainLanguageMetricInterpretations: populationMetrics.map((m) => {
       const definition = populationMetricDefinitions[m.metricId];
       return {

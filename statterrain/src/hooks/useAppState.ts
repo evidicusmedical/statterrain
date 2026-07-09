@@ -2,7 +2,8 @@
 
 import { useMemo, useState } from "react";
 import { searchLocations, type SearchLocation } from "@/data/demo-region";
-import { facilities as allFacilities } from "@/data/facilities";
+import { facilities as syntheticFacilities } from "@/data/facilities";
+import { getPreviewCmsHospitalFacilities, getPublicDataArtifactSummary } from "@/lib/public-data/readPublicDataArtifacts";
 import type { Facility, FacilityType, CapabilityName } from "@/types/facility";
 import type { OverlayMetricId } from "@/types/metric";
 import type { ConfidenceLevel } from "@/types/source";
@@ -71,6 +72,14 @@ export function useAppState() {
   const [briefOpen, setBriefOpen] = useState(false);
   const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false);
   const [mobileDetailOpen, setMobileDetailOpen] = useState(false);
+  const publicDataSummary = useMemo(() => getPublicDataArtifactSummary(), []);
+  const publicDataPreviewFacilities = useMemo(() => getPreviewCmsHospitalFacilities(), []);
+  const [publicDataPreviewEnabled, setPublicDataPreviewEnabled] = useState(false);
+
+  const allFacilities = useMemo(() => {
+    if (!publicDataPreviewEnabled || !publicDataSummary.canPreviewOnMap) return syntheticFacilities;
+    return [...syntheticFacilities, ...publicDataPreviewFacilities];
+  }, [publicDataPreviewEnabled, publicDataSummary.canPreviewOnMap, publicDataPreviewFacilities]);
 
   const facilitiesInRadius = useMemo(() => {
     return allFacilities
@@ -82,7 +91,7 @@ export function useAppState() {
       }))
       .filter((f) => f.distanceMiles <= radiusMiles)
       .sort((a, b) => a.distanceMiles - b.distanceMiles);
-  }, [location, radiusMiles]);
+  }, [allFacilities, location, radiusMiles]);
 
   const visibleFacilities: Facility[] = useMemo(() => {
     const threshold = confidenceThreshold(filters.confidence);
@@ -150,6 +159,9 @@ export function useAppState() {
     setMobileFiltersOpen,
     mobileDetailOpen,
     setMobileDetailOpen,
+    publicDataSummary,
+    publicDataPreviewEnabled,
+    setPublicDataPreviewEnabled,
   };
 }
 

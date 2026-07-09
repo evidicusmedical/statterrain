@@ -7,6 +7,7 @@ import { MapViewClient } from "@/components/map/MapViewClient";
 import { FacilityDetailPanel } from "@/components/facilities/FacilityDetailPanel";
 import { RegionalSummaryPanel } from "@/components/regional-summary/RegionalSummaryPanel";
 import { EvidenceBriefDrawer } from "@/components/evidence/EvidenceBriefDrawer";
+import { PublicDataFreshnessPanel } from "@/components/public-data/PublicDataFreshnessPanel";
 import { Drawer } from "@/components/ui/Drawer";
 import { useAppState } from "@/hooks/useAppState";
 import { useCallback, useState } from "react";
@@ -93,6 +94,13 @@ export default function HomePage() {
                   ? "Hide summary to enlarge the map."
                   : "Show summary to review facilities and population context."}
               </p>
+            </div>
+            <div className="absolute left-2 top-2 z-[790] max-w-[min(34rem,calc(100%-1rem))] sm:left-3 sm:top-3">
+              <PublicDataFreshnessPanel
+                summary={state.publicDataSummary}
+                previewEnabled={state.publicDataPreviewEnabled}
+                onPreviewEnabledChange={state.setPublicDataPreviewEnabled}
+              />
             </div>
             <MapViewClient
               location={state.location}
@@ -199,6 +207,7 @@ export default function HomePage() {
           filters: state.filters,
           visibleFacilities: state.visibleFacilities,
           briefFacilities: state.facilitiesInRadius,
+          publicDataSummary: state.publicDataSummary,
         }}
       />
     </div>

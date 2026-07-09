@@ -40,7 +40,7 @@ export interface CapabilityRecord {
   freshness: FreshnessStatus;
   expirationDate: string | null;
   limitations: string[];
-  isSynthetic: true;
+  isSynthetic: boolean;
 }
 
 export interface Facility {
@@ -65,7 +65,7 @@ export interface Facility {
   freshness: FreshnessStatus;
   confidence: ConfidenceLevel;
   limitations: string[];
-  isSynthetic: true;
+  isSynthetic: boolean;
 }
 
 export const FACILITY_TYPE_LABELS: Record<FacilityType, string> = {
