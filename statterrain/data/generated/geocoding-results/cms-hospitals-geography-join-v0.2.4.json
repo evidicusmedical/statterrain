@@ -1,0 +1,53 @@
+{
+  "schemaVersion": "cms-hospitals-geography-join-v0.2.4",
+  "generatedAt": "2026-07-09T21:19:06.212Z",
+  "source": "data/generated/geocoding-results/cms-hospitals-geocoding-results-v0.2.4.json",
+  "recordCount": 4,
+  "joinedCount": 4,
+  "records": [
+    {
+      "sourceFacilityId": "TEST000001",
+      "geographyJoinStatus": "joined",
+      "geography": {
+        "stateFips": "00",
+        "countyFips": "610",
+        "countyName": "Fixture County 610",
+        "censusTract": null,
+        "blockGroup": null
+      }
+    },
+    {
+      "sourceFacilityId": "TEST000002",
+      "geographyJoinStatus": "joined",
+      "geography": {
+        "stateFips": "00",
+        "countyFips": "611",
+        "countyName": "Fixture County 611",
+        "censusTract": null,
+        "blockGroup": null
+      }
+    },
+    {
+      "sourceFacilityId": "TEST000003",
+      "geographyJoinStatus": "joined",
+      "geography": {
+        "stateFips": "00",
+        "countyFips": "612",
+        "countyName": "Fixture County 612",
+        "censusTract": null,
+        "blockGroup": null
+      }
+    },
+    {
+      "sourceFacilityId": "TEST000004",
+      "geographyJoinStatus": "joined",
+      "geography": {
+        "stateFips": "00",
+        "countyFips": "613",
+        "countyName": "Fixture County 613",
+        "censusTract": null,
+        "blockGroup": null
+      }
+    }
+  ]
+}

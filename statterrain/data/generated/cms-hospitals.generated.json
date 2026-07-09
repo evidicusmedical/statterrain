@@ -45,7 +45,11 @@
       "clinical decision support"
     ],
     "fallbackActive": false,
-    "safeToDisplay": true
+    "safeToDisplay": true,
+    "geocodingResultPath": "data/generated/geocoding-results/cms-hospitals-geocoding-results-v0.2.4.json",
+    "geographyJoinPath": "data/generated/geocoding-results/cms-hospitals-geography-join-v0.2.4.json",
+    "geocodingSummaryPath": "data/reports/cms-hospitals-geocoding-summary-v0.2.4.json",
+    "geocodingStatus": "complete"
   },
   "records": [
     {
@@ -62,10 +66,10 @@
       "zip": "00001",
       "countyName": "Demo County",
       "phone": "000-000-0001",
-      "latitude": null,
-      "longitude": null,
-      "geocodingStatus": "not-yet-geocoded",
-      "geographyJoinStatus": "not-yet-joined",
+      "latitude": 35.609,
+      "longitude": -100.609,
+      "geocodingStatus": "matched-fixture",
+      "geographyJoinStatus": "joined",
       "sourceId": "cms-hospital-general-information",
       "sourceName": "CMS Hospital General Information",
       "sourceAgency": "Centers for Medicare & Medicaid Services",
@@ -96,7 +100,16 @@
         "Coordinates require geocoding or supplemental geometry.",
         "Coordinates are not provided by this CMS source and are not geocoded in v0.2.3.",
         "CMS data do not power the main app map in v0.2.3."
-      ]
+      ],
+      "geocodingConfidence": "deterministic-fixture",
+      "geography": {
+        "stateFips": "00",
+        "countyFips": "610",
+        "countyName": "Fixture County 610",
+        "censusTract": null,
+        "blockGroup": null
+      },
+      "geocodingResultPath": "data/generated/geocoding-results/cms-hospitals-geocoding-results-v0.2.4.json"
     },
     {
       "sourceFacilityId": "TEST000002",
@@ -112,10 +125,10 @@
       "zip": "00002",
       "countyName": null,
       "phone": "000-000-0002",
-      "latitude": null,
-      "longitude": null,
-      "geocodingStatus": "not-yet-geocoded",
-      "geographyJoinStatus": "not-yet-joined",
+      "latitude": 35.61,
+      "longitude": -100.61,
+      "geocodingStatus": "matched-fixture",
+      "geographyJoinStatus": "joined",
       "sourceId": "cms-hospital-general-information",
       "sourceName": "CMS Hospital General Information",
       "sourceAgency": "Centers for Medicare & Medicaid Services",
@@ -146,7 +159,16 @@
         "Coordinates require geocoding or supplemental geometry.",
         "Coordinates are not provided by this CMS source and are not geocoded in v0.2.3.",
         "CMS data do not power the main app map in v0.2.3."
-      ]
+      ],
+      "geocodingConfidence": "deterministic-fixture",
+      "geography": {
+        "stateFips": "00",
+        "countyFips": "611",
+        "countyName": "Fixture County 611",
+        "censusTract": null,
+        "blockGroup": null
+      },
+      "geocodingResultPath": "data/generated/geocoding-results/cms-hospitals-geocoding-results-v0.2.4.json"
     },
     {
       "sourceFacilityId": "TEST000003",
@@ -162,10 +184,10 @@
       "zip": "00003",
       "countyName": "Prototype Parish",
       "phone": "000-000-0003",
-      "latitude": null,
-      "longitude": null,
-      "geocodingStatus": "not-yet-geocoded",
-      "geographyJoinStatus": "not-yet-joined",
+      "latitude": 35.611,
+      "longitude": -100.611,
+      "geocodingStatus": "matched-fixture",
+      "geographyJoinStatus": "joined",
       "sourceId": "cms-hospital-general-information",
       "sourceName": "CMS Hospital General Information",
       "sourceAgency": "Centers for Medicare & Medicaid Services",
@@ -196,7 +218,16 @@
         "Coordinates require geocoding or supplemental geometry.",
         "Coordinates are not provided by this CMS source and are not geocoded in v0.2.3.",
         "CMS data do not power the main app map in v0.2.3."
-      ]
+      ],
+      "geocodingConfidence": "deterministic-fixture",
+      "geography": {
+        "stateFips": "00",
+        "countyFips": "612",
+        "countyName": "Fixture County 612",
+        "censusTract": null,
+        "blockGroup": null
+      },
+      "geocodingResultPath": "data/generated/geocoding-results/cms-hospitals-geocoding-results-v0.2.4.json"
     },
     {
       "sourceFacilityId": "TEST000004",
@@ -212,10 +243,10 @@
       "zip": "00004",
       "countyName": "Demo County",
       "phone": "000-000-0004",
-      "latitude": null,
-      "longitude": null,
-      "geocodingStatus": "not-yet-geocoded",
-      "geographyJoinStatus": "not-yet-joined",
+      "latitude": 35.612,
+      "longitude": -100.612,
+      "geocodingStatus": "matched-fixture",
+      "geographyJoinStatus": "joined",
       "sourceId": "cms-hospital-general-information",
       "sourceName": "CMS Hospital General Information",
       "sourceAgency": "Centers for Medicare & Medicaid Services",
@@ -246,7 +277,16 @@
         "Coordinates require geocoding or supplemental geometry.",
         "Coordinates are not provided by this CMS source and are not geocoded in v0.2.3.",
         "CMS data do not power the main app map in v0.2.3."
-      ]
+      ],
+      "geocodingConfidence": "deterministic-fixture",
+      "geography": {
+        "stateFips": "00",
+        "countyFips": "613",
+        "countyName": "Fixture County 613",
+        "censusTract": null,
+        "blockGroup": null
+      },
+      "geocodingResultPath": "data/generated/geocoding-results/cms-hospitals-geocoding-results-v0.2.4.json"
     }
   ]
 }
