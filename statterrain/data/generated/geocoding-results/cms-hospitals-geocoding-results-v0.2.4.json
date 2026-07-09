@@ -1,0 +1,117 @@
+{
+  "schemaVersion": "cms-hospitals-geocoding-results-v0.2.4",
+  "generatedAt": "2026-07-09T21:19:06.212Z",
+  "sourceId": "cms-hospital-general-information",
+  "inputPath": "data/generated/geocoding-inputs/cms-hospitals-geocoding-input-v0.2.3.json",
+  "geocoder": "deterministic-local-fixture",
+  "mode": "fixture",
+  "dataMode": "synthetic-test-fixture",
+  "recordCount": 4,
+  "prohibitedUses": [
+    "live routing",
+    "dispatch",
+    "triage",
+    "transfer decisions",
+    "medical-control guidance",
+    "clinical decision support",
+    "patient-level geography"
+  ],
+  "records": [
+    {
+      "sourceFacilityId": "TEST000001",
+      "facilityName": "Example Fixture Hospital Alpha",
+      "inputAddress": "100 Fictional Health Way, Sampleville, TS, 00001",
+      "geocodingEligibility": "eligible",
+      "geocodingStatus": "matched-fixture",
+      "status": "matched-fixture",
+      "confidence": "deterministic-fixture",
+      "latitude": 35.609,
+      "longitude": -100.609,
+      "matchedAddress": "100 Fictional Health Way, Sampleville, TS, 00001",
+      "geography": {
+        "stateFips": "00",
+        "countyFips": "610",
+        "countyName": "Fixture County 610",
+        "censusTract": null,
+        "blockGroup": null
+      },
+      "rawResponseMetadata": {
+        "mode": "fixture",
+        "note": "Deterministic local geocode; no external service called."
+      },
+      "geographyJoinStatus": "joined"
+    },
+    {
+      "sourceFacilityId": "TEST000002",
+      "facilityName": "Example Fixture Critical Access Beta",
+      "inputAddress": "200 Mockingbird Clinic Road, Test Junction, TS, 00002",
+      "geocodingEligibility": "eligible",
+      "geocodingStatus": "matched-fixture",
+      "status": "matched-fixture",
+      "confidence": "deterministic-fixture",
+      "latitude": 35.61,
+      "longitude": -100.61,
+      "matchedAddress": "200 Mockingbird Clinic Road, Test Junction, TS, 00002",
+      "geography": {
+        "stateFips": "00",
+        "countyFips": "611",
+        "countyName": "Fixture County 611",
+        "censusTract": null,
+        "blockGroup": null
+      },
+      "rawResponseMetadata": {
+        "mode": "fixture",
+        "note": "Deterministic local geocode; no external service called."
+      },
+      "geographyJoinStatus": "joined"
+    },
+    {
+      "sourceFacilityId": "TEST000003",
+      "facilityName": "Example Fixture Hospital Gamma",
+      "inputAddress": "300 Placeholder Avenue, Faketown, TS, 00003",
+      "geocodingEligibility": "eligible",
+      "geocodingStatus": "matched-fixture",
+      "status": "matched-fixture",
+      "confidence": "deterministic-fixture",
+      "latitude": 35.611,
+      "longitude": -100.611,
+      "matchedAddress": "300 Placeholder Avenue, Faketown, TS, 00003",
+      "geography": {
+        "stateFips": "00",
+        "countyFips": "612",
+        "countyName": "Fixture County 612",
+        "censusTract": null,
+        "blockGroup": null
+      },
+      "rawResponseMetadata": {
+        "mode": "fixture",
+        "note": "Deterministic local geocode; no external service called."
+      },
+      "geographyJoinStatus": "joined"
+    },
+    {
+      "sourceFacilityId": "TEST000004",
+      "facilityName": "Example Fixture Hospital Delta",
+      "inputAddress": "400 Dummy Drive, Notareal City, TS, 00004",
+      "geocodingEligibility": "eligible",
+      "geocodingStatus": "matched-fixture",
+      "status": "matched-fixture",
+      "confidence": "deterministic-fixture",
+      "latitude": 35.612,
+      "longitude": -100.612,
+      "matchedAddress": "400 Dummy Drive, Notareal City, TS, 00004",
+      "geography": {
+        "stateFips": "00",
+        "countyFips": "613",
+        "countyName": "Fixture County 613",
+        "censusTract": null,
+        "blockGroup": null
+      },
+      "rawResponseMetadata": {
+        "mode": "fixture",
+        "note": "Deterministic local geocode; no external service called."
+      },
+      "geographyJoinStatus": "joined"
+    }
+  ]
+}
