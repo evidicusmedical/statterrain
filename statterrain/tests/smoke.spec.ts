@@ -160,16 +160,30 @@ test.describe("StatTerrain critical workflow", () => {
     await page.goto("/");
 
     await page.getByRole("button", { name: "What this means" }).first().click();
-    await expect(page.getByText(/Synthetic demonstration metric — not a real-world source/).first()).toBeVisible();
+    await expect(page.getByText(/Synthetic demonstration value only/).first()).toBeVisible();
 
     await page.getByRole("button", { name: "What this means" }).nth(1).click();
-    await expect(page.getByText(/pediatric age threshold depends on the source dataset/i)).toBeVisible();
+    await expect(page.getByText(/does not yet use a real source-defined pediatric age cutoff/i)).toBeVisible();
+    await expect(page.getByText(/must show the exact age band used/i)).toBeVisible();
 
     await page.getByRole("button", { name: "What this means" }).nth(2).click();
-    await expect(page.getByText(/federal poverty threshold or dataset-specific poverty measure/i)).toBeVisible();
+    await expect(page.getByText(/Synthetic demonstration value only.*not calculated from real household income/i)).toBeVisible();
+    await expect(page.getByText(/federal poverty thresholds or dataset-specific poverty measures/i)).toBeVisible();
+
+    await page.getByRole("button", { name: "What this means" }).nth(3).click();
+    await expect(page.getByText(/Census\/ACS language and English-speaking ability fields/i)).toBeVisible();
+
+    await page.getByRole("button", { name: "What this means" }).nth(4).click();
+    await expect(page.getByText(/households without access to a vehicle/i)).toBeVisible();
+
+    await page.getByRole("button", { name: "What this means" }).nth(5).click();
+    await expect(page.getByText(/Population-level estimates.*not clinical diagnoses for individuals/i)).toBeVisible();
 
     await page.getByRole("button", { name: "What this means" }).nth(9).click();
-    await expect(page.getByText(/not a direct clinical-risk score/i)).toBeVisible();
+    await expect(page.getByText(/not treat SVI as a clinical-risk score, danger score, crime score, individual risk score/i)).toBeVisible();
+
+    await page.getByRole("button", { name: "What this means" }).nth(10).click();
+    await expect(page.getByText(/The exact classification system must be shown when real data are connected/i)).toBeVisible();
 
     await expect(page.getByRole("heading", { name: "Data freshness and source inventory" })).toBeVisible();
     await expect(page.getByText("No public-data refresh is active in this prototype.")).toBeVisible();
@@ -182,6 +196,7 @@ test.describe("StatTerrain critical workflow", () => {
 
     await context.grantPermissions(["clipboard-read", "clipboard-write"], { origin: new URL(page.url()).origin });
     await page.getByRole("button", { name: "Generate Evidence Brief" }).click();
+    await expect(page.getByRole("dialog", { name: /evidence brief/i }).locator("pre")).toContainText("Population metrics are synthetic demonstration values in this prototype");
     await page.getByRole("button", { name: "Copy feedback context" }).click();
     await expect(page.getByRole("button", { name: "Feedback context copied" })).toBeVisible();
     await expect.poll(() => page.evaluate(() => navigator.clipboard.readText())).toContain("StatTerrain v0.1.5 prototype");

@@ -65,3 +65,11 @@ The app displays a source/freshness inventory for the current demonstration data
 The beta feedback workflow is a centrally configured mailto link plus a client-only copy-context helper in the evidence brief. It does not collect feedback in a backend.
 
 StatTerrain remains a prototype for planning and situational awareness only. It is not for live routing, diversion, bed status, triage, transfer decisions, dispatch, medical-control advice, clinical decision support, or PHI handling. Real public-data ingestion has not started; future versions should connect official public datasets with source metadata and refresh validation.
+
+## v0.1.6 population metric explanation scope
+
+v0.1.6 refines explanation and discoverability for population demographics and health-context metrics only. Population-health cards now include compact helper text plus expandable metric details covering the metric meaning, current synthetic prototype definition, future real-source definition needs, denominator or population basis, planning relevance, known limitations, synthetic-data caveat, and what users should not infer.
+
+The pediatric metric explicitly states that the current prototype is synthetic and does not yet use a real source-defined pediatric age cutoff. Future Census/ACS integration must show the exact age band, such as ages 0–17, under 18, or another source-defined category. Poverty, limited English proficiency, no-vehicle access, chronic disease prevalence, SVI, and rurality explanations now document their source-definition caveats and planning uses in plain language.
+
+All population metrics remain synthetic demonstration values. No real CMS, Census, CDC, SAMHSA, NPPES, or other public-data ingestion was added. StatTerrain remains planning and situational-awareness software only, not live routing, diversion, bed-status, dispatch, medical-control, transfer, triage, or clinical decision-support software.

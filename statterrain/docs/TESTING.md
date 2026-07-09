@@ -110,3 +110,7 @@ Evidence brief tests continue to verify the v0.1.3 behavior: the default brief r
 ## v0.1.5 test coverage
 
 The Playwright smoke suite covers the v0.1.5 beta-readiness additions: population metric definition details, pediatric and poverty caveats, SVI caveat, synthetic source/freshness inventory, OpenStreetMap base-map note, Send Feedback mailto target, copy-feedback-context behavior, evidence brief opening, v0.1.3 scope preservation, v0.1.4 facility-detail sections, Markdown/JSON/CSV exports, and mobile usability.
+
+## v0.1.6 test coverage
+
+The Playwright smoke suite now checks that expanded population-health definitions are accessible from metric cards, including pediatric age-band uncertainty, poverty source-definition caveats, limited English proficiency, no-vehicle access, chronic disease population-level caveats, SVI non-clinical/non-danger/non-individual-risk warning, and rurality classification-system disclosure. Existing checks continue to cover synthetic data freshness/source inventory, feedback, evidence brief v0.1.3 scope, v0.1.4 facility-detail sections, Markdown/JSON/CSV exports, and mobile viewport usability.

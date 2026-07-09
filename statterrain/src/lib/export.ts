@@ -1,5 +1,6 @@
 import { product } from "@/config/product";
 import { populationMetrics } from "@/data/population-metrics";
+import { POPULATION_METRIC_EXPORT_CAVEAT, populationMetricDefinitions } from "@/config/populationMetricDefinitions";
 import { getSourceById, sources } from "@/data/sources";
 import type { Facility } from "@/types/facility";
 import { CAPABILITY_LABELS, FACILITY_TYPE_LABELS } from "@/types/facility";
@@ -127,6 +128,16 @@ export function buildMarkdownBrief(ctx: BriefContext): string {
   });
   lines.push("");
 
+  lines.push("## Metric definitions and limitations");
+  lines.push("");
+  lines.push(POPULATION_METRIC_EXPORT_CAVEAT);
+  lines.push("");
+  populationMetrics.forEach((m) => {
+    const definition = populationMetricDefinitions[m.metricId];
+    lines.push(`- **${definition.label}:** ${definition.whatThisMeasures} Basis: ${definition.denominatorOrBasis} Do not infer: ${definition.doNotInfer}`);
+  });
+  lines.push("");
+
   lines.push("## Disease burden and vulnerability / access considerations");
   lines.push("");
   lines.push(
@@ -215,6 +226,8 @@ export function buildJsonBrief(ctx: BriefContext) {
     displayedFacilities: visibleFacilities,
     facilities: briefFacilities,
     populationMetrics,
+    populationMetricDefinitions,
+    populationMetricLimitationsStatement: POPULATION_METRIC_EXPORT_CAVEAT,
     sources: Array.from(relevantSourceIds)
       .map((id) => getSourceById(id))
       .filter(Boolean),
@@ -270,6 +283,7 @@ export function buildCsvBrief(ctx: BriefContext): string {
     `# ${BRIEF_SCOPE_STATEMENT}`,
     `# ${product.disclaimer}`,
     `# ${product.syntheticDataNotice}`,
+    `# ${POPULATION_METRIC_EXPORT_CAVEAT}`,
   ];
   return [header.join(","), ...rows, ...notes].join("\n");
 }
