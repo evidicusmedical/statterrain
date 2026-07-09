@@ -1,0 +1,27 @@
+{
+  "schemaVersion": "cms-hospitals-raw-metadata-v0.2.2",
+  "sourceId": "cms-hospital-general-information",
+  "sourceName": "CMS Hospital General Information",
+  "agency": "Centers for Medicare & Medicaid Services",
+  "sourceUrl": "https://data.cms.gov/provider-data/dataset/xubh-q36u",
+  "downloadUrl": "https://data.cms.gov/provider-data/api/1/datastore/query/xubh-q36u/0?limit=50000",
+  "retrievalTimestamp": "2026-07-09T20:54:31.255Z",
+  "retrievalMethod": "fetch-json-api",
+  "httpStatus": null,
+  "contentType": null,
+  "contentLength": null,
+  "lastModified": null,
+  "checksumSha256": null,
+  "rawFilePath": null,
+  "sourceBenchmarkReference": "data/sources/source-benchmark.json",
+  "notes": [
+    "Fetch failed; no fabricated CMS records were created.",
+    "Benchmark downloadUrl is TBD, so script resolved the CMS datastore API endpoint."
+  ],
+  "limitations": [
+    "Does not provide live diversion, bed availability, transfer readiness, or service-line capacity.",
+    "Coordinates require geocoding or supplemental geometry.",
+    "No generated real records published for this failed refresh attempt."
+  ],
+  "error": "fetch failed"
+}
