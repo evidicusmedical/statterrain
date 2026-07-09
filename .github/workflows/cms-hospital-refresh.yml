@@ -1,0 +1,84 @@
+name: StatTerrain CMS Hospital Refresh PR
+
+on:
+  workflow_dispatch:
+    inputs:
+      geocoding_mode:
+        description: "Geocoding mode for CMS hospital refresh"
+        required: true
+        type: choice
+        default: "dry-run"
+        options:
+          - dry-run
+          - skip
+          - live-census
+      confirm_live_geocoding:
+        description: "Type true to allow bounded live Census Geocoder calls when mode is live-census"
+        required: true
+        default: "false"
+      live_geocoding_limit:
+        description: "Maximum live Census Geocoder calls when explicitly enabled (1-100)"
+        required: true
+        default: "25"
+
+permissions:
+  contents: write
+  pull-requests: write
+
+concurrency:
+  group: cms-hospital-refresh-pr
+  cancel-in-progress: false
+
+defaults:
+  run:
+    working-directory: statterrain
+
+jobs:
+  refresh:
+    name: Pull, validate, and propose CMS hospital artifacts
+    runs-on: ubuntu-latest
+    if: github.ref_name == 'main'
+    steps:
+      - name: Checkout main without publishing to main
+        uses: actions/checkout@v4
+        with:
+          ref: main
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20.18.1"
+          cache: "npm"
+          cache-dependency-path: statterrain/package-lock.json
+      - name: Validate live geocoding opt-in
+        if: inputs.geocoding_mode == 'live-census' && inputs.confirm_live_geocoding != 'true'
+        run: |
+          echo "Live Census geocoding requires confirm_live_geocoding=true."
+          exit 1
+      - name: Install dependencies
+        run: npm ci
+      - name: Refresh CMS hospital artifacts
+        run: >-
+          npm run data:refresh-cms-hospitals --
+          --geocoding-mode "${{ inputs.geocoding_mode }}"
+          --confirm-live-geocoding "${{ inputs.confirm_live_geocoding }}"
+          --live-limit "${{ inputs.live_geocoding_limit }}"
+      - name: Create CMS refresh pull request
+        uses: peter-evans/create-pull-request@v6
+        with:
+          commit-message: "data: refresh CMS hospital artifacts"
+          branch: data/cms-hospital-refresh
+          delete-branch: true
+          title: "CMS hospital public-data refresh"
+          body: |
+            ## Summary
+            - Pulls CMS Hospital General Information and regenerates public-data artifacts for review.
+            - Geocoding mode: `${{ inputs.geocoding_mode }}`.
+            - Live Census Geocoder limit: `${{ inputs.live_geocoding_limit }}` (used only when explicitly confirmed).
+
+            ## Safety
+            - This workflow is manual-only and has no schedule.
+            - It opens a PR instead of pushing generated artifacts directly to `main`.
+            - CMS artifacts remain `usedInCurrentApp: false`; the default app map remains synthetic until separately reviewed and changed.
+          labels: |
+            public-data
+            cms-refresh

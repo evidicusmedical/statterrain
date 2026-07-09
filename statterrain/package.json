@@ -17,7 +17,8 @@
     "data:validate-benchmark": "node scripts/public-data/validate-source-benchmark.mjs",
     "data:pull-cms-hospitals": "node scripts/public-data/pull-cms-hospitals.mjs",
     "data:validate-cms-hospitals": "node scripts/public-data/validate-cms-hospitals.mjs",
-    "data:geocode-cms-hospitals": "node scripts/public-data/geocode-cms-hospitals.mjs"
+    "data:geocode-cms-hospitals": "node scripts/public-data/geocode-cms-hospitals.mjs",
+    "data:refresh-cms-hospitals": "node scripts/public-data/run-cms-hospital-refresh.mjs"
   },
   "dependencies": {
     "leaflet": "^1.9.4",
