@@ -14,6 +14,7 @@ export interface BriefContext {
   radiusMiles: number;
   filters: AppFilters;
   visibleFacilities: Facility[];
+  briefFacilities: Facility[];
 }
 
 function activeFilterSummary(filters: AppFilters) {
@@ -46,11 +47,14 @@ function download(filename: string, content: string, mimeType: string) {
   URL.revokeObjectURL(url);
 }
 
+export const BRIEF_SCOPE_STATEMENT =
+  "Brief scope: This evidence brief includes all available facility categories within the selected geography. Current map display filters are not used to exclude records from this brief.";
+
 export function buildMarkdownBrief(ctx: BriefContext): string {
-  const { locationLabel, radiusMiles, filters, visibleFacilities } = ctx;
+  const { locationLabel, radiusMiles, filters, visibleFacilities, briefFacilities } = ctx;
   const filterSummary = activeFilterSummary(filters);
   const relevantSourceIds = new Set<string>();
-  visibleFacilities.forEach((f) => f.sourceIds.forEach((id) => relevantSourceIds.add(id)));
+  briefFacilities.forEach((f) => f.sourceIds.forEach((id) => relevantSourceIds.add(id)));
   populationMetrics.forEach((m) => relevantSourceIds.add(m.sourceId));
 
   const lines: string[] = [];
@@ -64,6 +68,7 @@ export function buildMarkdownBrief(ctx: BriefContext): string {
   lines.push(`- Radius: ${radiusMiles} miles (approximate; not routed drive-time)`);
   lines.push(`- Date generated: ${formatDate(todayIso())}`);
   lines.push(`- ${product.prototypeVersion}`);
+  lines.push(`- ${BRIEF_SCOPE_STATEMENT}`);
   lines.push("");
 
   lines.push("## Data freshness summary");
@@ -79,7 +84,7 @@ export function buildMarkdownBrief(ctx: BriefContext): string {
 
   lines.push("## Emergency-care facility overview");
   lines.push("");
-  const hospitals = visibleFacilities.filter(
+  const hospitals = briefFacilities.filter(
     (f) => f.facilityType === "hospital" || f.facilityType === "critical_access_hospital",
   );
   lines.push(`Hospitals / EDs in range: ${hospitals.length}`);
@@ -106,7 +111,7 @@ export function buildMarkdownBrief(ctx: BriefContext): string {
   lines.push("## Pharmacy, dialysis, nursing-home, and behavioral-health summary");
   lines.push("");
   (["pharmacy", "dialysis", "nursing_home", "behavioral_health"] as const).forEach((type) => {
-    const count = visibleFacilities.filter((f) => f.facilityType === type).length;
+    const count = briefFacilities.filter((f) => f.facilityType === type).length;
     lines.push(`- ${FACILITY_TYPE_LABELS[type]}: ${count}`);
   });
   lines.push("");
@@ -190,9 +195,9 @@ export function buildMarkdownBrief(ctx: BriefContext): string {
 }
 
 export function buildJsonBrief(ctx: BriefContext) {
-  const { locationLabel, radiusMiles, filters, visibleFacilities } = ctx;
+  const { locationLabel, radiusMiles, filters, visibleFacilities, briefFacilities } = ctx;
   const relevantSourceIds = new Set<string>();
-  visibleFacilities.forEach((f) => f.sourceIds.forEach((id) => relevantSourceIds.add(id)));
+  briefFacilities.forEach((f) => f.sourceIds.forEach((id) => relevantSourceIds.add(id)));
   populationMetrics.forEach((m) => relevantSourceIds.add(m.sourceId));
 
   return {
@@ -205,8 +210,10 @@ export function buildJsonBrief(ctx: BriefContext) {
     generatedAt: new Date().toISOString(),
     searchLocation: locationLabel,
     radiusMiles,
-    activeFilters: activeFilterSummary(filters),
-    facilities: visibleFacilities,
+    activeDisplayFilters: activeFilterSummary(filters),
+    briefScope: BRIEF_SCOPE_STATEMENT,
+    displayedFacilities: visibleFacilities,
+    facilities: briefFacilities,
     populationMetrics,
     sources: Array.from(relevantSourceIds)
       .map((id) => getSourceById(id))
@@ -227,7 +234,7 @@ function csvEscape(value: string | number): string {
 }
 
 export function buildCsvBrief(ctx: BriefContext): string {
-  const { visibleFacilities } = ctx;
+  const { briefFacilities } = ctx;
   const header = [
     "id",
     "name",
@@ -241,7 +248,7 @@ export function buildCsvBrief(ctx: BriefContext): string {
     "freshness",
     "synthetic",
   ];
-  const rows = visibleFacilities.map((f) =>
+  const rows = briefFacilities.map((f) =>
     [
       f.id,
       f.name,
@@ -260,6 +267,7 @@ export function buildCsvBrief(ctx: BriefContext): string {
   );
   const notes = [
     "",
+    `# ${BRIEF_SCOPE_STATEMENT}`,
     `# ${product.disclaimer}`,
     `# ${product.syntheticDataNotice}`,
   ];

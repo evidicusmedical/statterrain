@@ -68,9 +68,9 @@ export function FilterSidebar({
   onReset,
 }: FilterSidebarProps) {
   return (
-    <nav aria-label="Map filters" className="flex h-full flex-col overflow-y-auto bg-white px-4 py-4">
+    <nav aria-label="Map display filters" className="flex h-full flex-col overflow-y-auto bg-white px-4 py-4">
       <div className="mb-3 flex items-center justify-between">
-        <h2 className="text-sm font-semibold text-slate-900">Geography</h2>
+        <h2 className="text-sm font-semibold text-slate-900">Display controls</h2>
         <button
           type="button"
           onClick={onReset}
@@ -79,6 +79,10 @@ export function FilterSidebar({
           Reset filters
         </button>
       </div>
+      <p className="mb-4 rounded-md bg-terrain-50 p-2 text-xs leading-relaxed text-terrain-900">
+        Display filters change what appears on the map. The evidence brief includes all available
+        facility categories in the selected geography unless brief scope is explicitly changed.
+      </p>
 
       <fieldset className="mb-4">
         <legend className="mb-1.5 text-xs font-medium text-slate-500">Radius</legend>
@@ -119,7 +123,7 @@ export function FilterSidebar({
         </div>
       </fieldset>
 
-      <Collapsible title="Facility types">
+      <Collapsible title="Facility display filters">
         <div className="flex flex-col gap-1.5">
           {FACILITY_TYPE_ORDER.map((type) => (
             <label key={type} className="flex items-center gap-2 text-sm text-slate-700">
@@ -191,7 +195,7 @@ export function FilterSidebar({
         </div>
       </Collapsible>
 
-      <Collapsible title="Source confidence" defaultOpen={false}>
+      <Collapsible title="Source confidence display" defaultOpen={false}>
         <div className="flex flex-col gap-1.5">
           {(
             [

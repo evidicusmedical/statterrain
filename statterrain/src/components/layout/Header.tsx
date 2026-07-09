@@ -102,7 +102,7 @@ export function Header({ location, onSelectLocation, onGenerateBrief, onOpenFilt
 
         <div className="hidden items-center gap-2 text-xs text-slate-500 md:flex">
           <span className="h-2 w-2 rounded-full bg-terrain-500" aria-hidden />
-          Data retrieved Nov 15, 2025 (demonstration)
+          Synthetic demonstration data — not real-world
         </div>
 
         <SyntheticBadge />

@@ -15,13 +15,11 @@ Chromium browser:
   visible (see `src/config/product.ts` for the source-of-truth copy).
 - The Leaflet map container mounts and renders at least one map tile, with no
   fatal client-side console/page errors.
-- Facility-type, hospital-capability, and source-confidence filters each
-  measurably change the number of visible facilities.
+- All facility categories are selected by default, no population-health overlay is selected by default, and facility-type, hospital-capability, and source-confidence display filters each measurably change the number of visible facilities.
 - Selecting a facility marker opens the facility detail panel with a name,
   source list, and confidence information.
 - The population-health overlay control can be changed.
-- The evidence-brief drawer opens and all three exports (Markdown, JSON, CSV)
-  can be triggered and produce a file with the expected extension.
+- The evidence-brief drawer opens above the Leaflet map, includes the required scope statement, keeps hidden-by-display facility categories in the default brief scope, and all three exports (Markdown, JSON, CSV) can be triggered and produce a file with the expected extension.
 - The layout has no horizontal overflow at a common mobile viewport (390×844)
   and remains usable at a tablet viewport (820×1180), including the mobile
   view-switcher navigation and the map/search controls.

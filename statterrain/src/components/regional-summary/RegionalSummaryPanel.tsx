@@ -17,7 +17,7 @@ export function RegionalSummaryPanel({ facilities }: { facilities: Facility[] })
   return (
     <div className="flex flex-col gap-6 p-4">
       <section>
-        <h2 className="mb-2 text-sm font-semibold text-slate-900">Facilities in view</h2>
+        <h2 className="mb-2 text-sm font-semibold text-slate-900">Facilities in selected geography</h2>
         <div className="grid grid-cols-2 gap-2 sm:grid-cols-3">
           {FACILITY_COUNT_ORDER.map((type) => (
             <div

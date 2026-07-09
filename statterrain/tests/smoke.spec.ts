@@ -4,8 +4,8 @@ import { test, expect, type Page } from "@playwright/test";
  * StatTerrain smoke suite.
  *
  * Verifies the critical workflow does not silently break: page load, map
- * rendering, filters, facility selection, trust-layer badges, population
- * overlay, evidence-brief export (Markdown/JSON/CSV), and baseline
+ * rendering, display filters, facility selection, trust-layer badges, default no population
+ * overlay, evidence-brief scope, evidence-brief export (Markdown/JSON/CSV), and baseline
  * responsive behavior at mobile and tablet viewports.
  *
  * Selector strategy (in priority order): accessible roles + accessible
@@ -51,7 +51,7 @@ test.describe("StatTerrain critical workflow", () => {
     await page.goto("/");
     await expect(
       page.getByText(
-        "This prototype uses synthetic demonstration data and should not be used for operational or clinical purposes.",
+        "Synthetic demonstration data — not a real-world source. Do not use for operational or clinical purposes.",
       ),
     ).toBeVisible();
     await expect(page.getByText("Synthetic demonstration data", { exact: true })).toBeVisible();
@@ -75,7 +75,23 @@ test.describe("StatTerrain critical workflow", () => {
     expect(fatalErrors, `Unexpected fatal errors: ${fatalErrors.join("\n")}`).toHaveLength(0);
   });
 
-  test("a facility-type filter changes the displayed results", async ({ page }) => {
+  test("all facility categories and no population overlay are selected by default", async ({ page }) => {
+    await page.goto("/");
+    for (const name of [
+      "Hospital / Emergency Department",
+      "Critical Access Hospital",
+      "Pharmacy",
+      "Dialysis Center",
+      "Skilled Nursing Facility",
+      "Behavioral Health Facility",
+    ]) {
+      await expect(page.getByRole("checkbox", { name })).toBeChecked();
+    }
+    await page.getByRole("button", { name: "Population-health overlay" }).click();
+    await expect(page.getByRole("radio", { name: "None" })).toBeChecked();
+  });
+
+  test("a facility-type display filter changes the displayed results", async ({ page }) => {
     await page.goto("/");
     const before = await page.getByTestId("facility-count-hospital").textContent();
     expect(before?.trim()).not.toBe("0");
@@ -98,7 +114,7 @@ test.describe("StatTerrain critical workflow", () => {
 
   test("a confidence filter changes the displayed results", async ({ page }) => {
     await page.goto("/");
-    await page.getByRole("button", { name: "Source confidence" }).click();
+    await page.getByRole("button", { name: "Source confidence display" }).click();
 
     const totalBefore = await countVisibleFacilities(page);
     await page.getByRole("radio", { name: "High confidence only" }).check();
@@ -129,12 +145,26 @@ test.describe("StatTerrain critical workflow", () => {
     await expect(page.getByRole("radio", { name: "Population age 65 and older" })).toBeChecked();
   });
 
-  test("the evidence brief can be opened and Markdown, JSON, and CSV export can be initiated", async ({ page }) => {
+  test("the evidence brief opens above the map and keeps hidden facility categories in scope", async ({ page }) => {
     await page.goto("/");
+    await page.getByRole("checkbox", { name: "Pharmacy" }).uncheck();
+    await expect(page.getByTestId("facility-count-pharmacy")).toContainText("0");
     await page.getByRole("button", { name: "Generate Evidence Brief" }).click();
 
     const drawer = page.getByRole("dialog", { name: /evidence brief/i });
     await expect(drawer).toBeVisible();
+    await expect(drawer.getByText(/Brief scope: This evidence brief includes all available facility categories/)).toBeVisible();
+    await expect(drawer.locator("pre")).toContainText("- Pharmacy: 1");
+
+    const stacking = await page.evaluate(() => {
+      const dialog = document.querySelector('[role="dialog"]');
+      const pane = document.querySelector('.leaflet-pane');
+      return {
+        dialogZ: dialog ? Number.parseInt(getComputedStyle(dialog.parentElement ?? dialog).zIndex || "0", 10) : 0,
+        paneZ: pane ? Number.parseInt(getComputedStyle(pane).zIndex || "0", 10) : 0,
+      };
+    });
+    expect(stacking.dialogZ).toBeGreaterThan(stacking.paneZ);
 
     const [mdDownload] = await Promise.all([
       page.waitForEvent("download"),

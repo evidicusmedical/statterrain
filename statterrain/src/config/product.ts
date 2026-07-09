@@ -22,7 +22,7 @@ export const product = {
   disclaimer:
     "StatTerrain summarizes public datasets for education, planning, quality improvement, orientation, and evidence-based write-ups. It is not intended for patient-specific triage, transfer decisions, medical direction, live diversion status, bed availability, or emergency response. Facility capabilities and operating status must be verified through official local channels.",
   syntheticDataNotice:
-    "This prototype uses synthetic demonstration data and should not be used for operational or clinical purposes.",
+    "Synthetic demonstration data — not a real-world source. Do not use for operational or clinical purposes.",
 } as const;
 
 export type Product = typeof product;
