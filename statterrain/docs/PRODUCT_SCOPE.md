@@ -109,3 +109,11 @@ The mobile map is contained within its map section so Leaflet panes do not overl
 Disclaimer language now more clearly states that StatTerrain is a planning, education, orientation, quality-improvement, and situational-awareness prototype; current data are synthetic demonstration data only; it is not for clinical care, patient-specific decisions, EMS routing, triage, transfer decisions, dispatch, medical control, live diversion, bed availability, or emergency response; maps and facility status may be incomplete, outdated, or inaccurate; population metrics are area-level planning context only; and official sources must be verified. The disclaimer does not claim to remove liability and should be reviewed by qualified legal counsel before external beta or public launch.
 
 No real CMS, Census, CDC, SAMHSA, NPPES, or other public-data ingestion, backend, database, authentication, AI API, PHI handling, live routing, diversion status, bed status, dispatch recommendation, triage recommendation, transfer recommendation, medical-control guidance, clinical decision support, Replit runtime dependency, or v0.2.0 public-data pipeline was added.
+
+## v0.1.11 mobile map, summary, and facility panel scope
+
+v0.1.11 is the final mobile GUI hotfix before v0.2.0 public-data-pipeline foundation work. The current visible header/version label is **StatTerrain v0.1.11 prototype**, sourced from the central product configuration.
+
+The mobile map is contained under non-map UI: Leaflet panes are isolated/clipped within the map shell, the mobile **Map / Summary / Facility** tab bar is a solid bordered white layer above map panes, and attribution remains visible inside the map instead of overlapping the tab bar. The mobile **Summary** tab shows the regional summary content even after summary hide/show has been toggled, and the mobile **Facility** tab uses readable full-width details rather than a compressed map-popup-sized panel.
+
+No real public data, backend, database, authentication, AI API, PHI workflow, live routing, diversion, bed status, dispatch, triage, transfer recommendation, medical-control guidance, clinical decision support, or v0.2.0 public-data-pipeline work is included in v0.1.11. The recommended next patch remains **v0.2.0 — Public Data Pipeline Foundation**.

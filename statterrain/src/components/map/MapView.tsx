@@ -67,7 +67,7 @@ export function MapView({
 
   return (
     <div
-      className="relative z-0 h-full w-full overflow-hidden"
+      className="statterrain-map-shell relative isolate z-0 h-full w-full overflow-hidden"
       data-testid="map-view"
     >
       <MapContainer

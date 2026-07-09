@@ -76,7 +76,7 @@ export default function HomePage() {
 
         <main className="flex min-h-0 flex-1 flex-col lg:flex-row">
           <section
-            className={`relative isolate min-h-[55vh] flex-1 overflow-hidden bg-slate-100 ${mobileTab === "map" ? "block" : "hidden"} lg:block lg:min-h-0`}
+            className={`relative isolate z-0 min-h-[55vh] flex-1 overflow-hidden bg-slate-100 ${mobileTab === "map" ? "block" : "hidden"} lg:block lg:min-h-0`}
             aria-label="Map"
           >
             <div className="absolute right-2 top-2 z-[800] max-w-[calc(100%-1rem)] rounded-lg border border-slate-200 bg-white/95 p-1.5 shadow-sm backdrop-blur sm:right-3 sm:top-3 sm:p-2">
@@ -108,20 +108,18 @@ export default function HomePage() {
             />
           </section>
 
-          {summaryOpen && (
-            <section
-              id="regional-summary-panel"
-              className={`min-h-0 w-full overflow-y-auto border-l border-slate-200 lg:block lg:w-[380px] ${
-                mobileTab === "summary" ? "block" : "hidden"
-              }`}
-              aria-label="Regional summary"
-            >
-              <RegionalSummaryPanel facilities={state.visibleFacilities} />
-            </section>
-          )}
+          <section
+            id="regional-summary-panel"
+            className={`min-h-0 w-full overflow-y-auto border-l border-slate-200 bg-white lg:w-[380px] ${
+              mobileTab === "summary" ? "block" : "hidden"
+            } ${summaryOpen ? "lg:block" : "lg:hidden"}`}
+            aria-label="Regional summary"
+          >
+            <RegionalSummaryPanel facilities={state.visibleFacilities} />
+          </section>
 
           <section
-            className={`min-h-0 w-full overflow-y-auto border-l border-slate-200 lg:block lg:w-[380px] ${
+            className={`min-h-0 w-full overflow-y-auto border-l border-slate-200 bg-white lg:block lg:w-[380px] ${
               mobileTab === "detail" ? "block" : "hidden"
             }`}
             aria-label="Facility detail"
@@ -132,14 +130,14 @@ export default function HomePage() {
       </div>
 
       <nav
-        className="relative z-[900] flex border-t border-slate-200 bg-white lg:hidden"
+        className="relative z-[900] isolate flex border-y border-slate-200 bg-white shadow-sm lg:hidden"
         aria-label="Mobile view switcher"
         data-testid="mobile-workspace-tabs"
       >
         {(
           [
             ["map", "Map"],
-            ["summary", summaryOpen ? "Summary" : "Show summary"],
+            ["summary", "Summary"],
             ["detail", "Facility"],
           ] as [MobileTab, string][]
         ).map(([tab, label]) => (

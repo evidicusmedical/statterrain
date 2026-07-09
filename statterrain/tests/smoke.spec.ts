@@ -46,7 +46,7 @@ test.describe("StatTerrain critical workflow", () => {
     await expect(
       page.getByText("StatTerrain", { exact: true }).first(),
     ).toBeVisible();
-    await expect(page.getByText("v0.1.10 prototype")).toBeVisible();
+    await expect(page.getByText("v0.1.11 prototype")).toBeVisible();
     const fatal = errors.fatal();
     expect(
       fatal,
@@ -291,7 +291,7 @@ test.describe("StatTerrain critical workflow", () => {
     await expect(feedback).toBeVisible();
     await expect(feedback).toHaveAttribute(
       "href",
-      /mailto:mathew\.h\.lowe\+statterrain@gmail\.com\?subject=StatTerrain%20Beta%20Feedback&body=.*App%3A%20StatTerrain.*Version%3A%20v0.1.10%20prototype.*Selected%20geography/,
+      /mailto:mathew\.h\.lowe\+statterrain@gmail\.com\?subject=StatTerrain%20Beta%20Feedback&body=.*App%3A%20StatTerrain.*Version%3A%20v0.1.11%20prototype.*Selected%20geography/,
     );
 
     await page.getByRole("button", { name: "Generate Evidence Brief" }).click();
@@ -444,6 +444,98 @@ test.describe("StatTerrain critical workflow", () => {
 });
 
 test.describe("StatTerrain responsive layout", () => {
+  test("mobile tabs contain map panes below a solid tab bar and attribution stays in the map", async ({
+    page,
+  }) => {
+    await page.setViewportSize({ width: 390, height: 844 });
+    await page.goto("/");
+    const tabs = page.getByTestId("mobile-workspace-tabs");
+    await expect(tabs).toBeVisible();
+    await expect(page.getByTestId("mobile-tab-map")).toBeVisible();
+    await expect(page.getByTestId("mobile-tab-summary")).toBeVisible();
+    await expect(page.getByTestId("mobile-tab-detail")).toBeVisible();
+
+    const tabStyles = await tabs.evaluate((node) => {
+      const styles = getComputedStyle(node);
+      return { backgroundColor: styles.backgroundColor, zIndex: styles.zIndex };
+    });
+    expect(tabStyles.backgroundColor).toBe("rgb(255, 255, 255)");
+    expect(Number(tabStyles.zIndex)).toBeGreaterThan(10);
+
+    const overlap = await page.evaluate(() => {
+      const tabs = document.querySelector('[data-testid="mobile-workspace-tabs"]');
+      const map = document.querySelector('[data-testid="map-view"]');
+      const attribution = document.querySelector(".leaflet-control-attribution");
+      const pane = document.querySelector(".leaflet-pane");
+      if (!tabs || !map || !attribution || !pane) return null;
+      const tabsBox = tabs.getBoundingClientRect();
+      const mapBox = map.getBoundingClientRect();
+      const attributionBox = attribution.getBoundingClientRect();
+      return {
+        mapBottom: mapBox.bottom,
+        tabsTop: tabsBox.top,
+        attributionBottom: attributionBox.bottom,
+        paneZ: Number.parseInt(getComputedStyle(pane).zIndex || "0", 10),
+        tabsZ: Number.parseInt(getComputedStyle(tabs).zIndex || "0", 10),
+      };
+    });
+    expect(overlap).not.toBeNull();
+    expect(overlap!.mapBottom).toBeLessThanOrEqual(overlap!.tabsTop + 1);
+    expect(overlap!.attributionBottom).toBeLessThanOrEqual(overlap!.mapBottom + 1);
+    expect(overlap!.tabsZ).toBeGreaterThan(overlap!.paneZ);
+  });
+
+  test("mobile summary tab restores and shows regional summary content", async ({
+    page,
+  }) => {
+    await page.setViewportSize({ width: 390, height: 844 });
+    await page.goto("/");
+    await page.getByRole("button", { name: "Hide summary" }).click();
+    await page.getByTestId("mobile-tab-summary").click();
+    const summary = page.getByRole("region", { name: "Regional summary" });
+    await expect(summary).toBeVisible();
+    await expect(summary.getByText("Facilities in selected geography")).toBeVisible();
+    await expect(
+      summary.getByText("Population demographics & health context"),
+    ).toBeVisible();
+    await expect(
+      summary.getByRole("heading", { name: "Data freshness and source inventory" }),
+    ).toBeVisible();
+    await expect(
+      summary.getByText("No public-data refresh is active in this prototype."),
+    ).toBeVisible();
+  });
+
+  test("mobile facility tab has empty state and full-width readable details", async ({
+    page,
+  }) => {
+    await page.setViewportSize({ width: 390, height: 844 });
+    await page.goto("/");
+    await page.getByTestId("mobile-tab-detail").click();
+    await expect(page.getByTestId("facility-detail-empty")).toContainText(
+      "Select a facility on the map to view details.",
+    );
+    await page.getByTestId("mobile-tab-map").click();
+    await page.locator(`.facility-marker-${SAMPLE_FACILITY_ID}`).click({ force: true });
+    await expect(page.getByTestId("mobile-tab-detail")).toHaveAttribute(
+      "aria-current",
+      "true",
+    );
+    const detail = page.getByTestId("facility-detail-panel");
+    await expect(detail).toBeVisible();
+    const box = await detail.boundingBox();
+    expect(box).not.toBeNull();
+    expect(box!.width).toBeGreaterThanOrEqual(360);
+    for (const heading of [
+      "Facility identity",
+      "Capability summary",
+      "Source and data quality",
+      "Known limitations",
+    ]) {
+      await expect(detail.getByRole("heading", { name: heading })).toBeVisible();
+    }
+  });
+
   test("mobile map starts with a collapsed legend that opens and closes", async ({
     page,
   }) => {

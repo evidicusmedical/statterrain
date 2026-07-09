@@ -17,17 +17,17 @@ type DetailRowProps = { label: string; value?: React.ReactNode; status?: string 
 function DetailRow({ label, value, status }: DetailRowProps) {
   const displayValue = value ?? unavailable;
   return (
-    <div className="grid gap-0.5 border-b border-slate-100 py-2 last:border-b-0">
-      <dt className="text-[11px] font-semibold uppercase tracking-wide text-slate-500">{label}</dt>
-      <dd className="text-sm text-slate-800">{displayValue}</dd>
-      {status && <dd className="text-xs text-slate-500">{status}</dd>}
+    <div className="grid gap-1 border-b border-slate-100 py-3 last:border-b-0">
+      <dt className="text-xs font-semibold uppercase tracking-wide text-slate-500">{label}</dt>
+      <dd className="text-base leading-6 text-slate-800">{displayValue}</dd>
+      {status && <dd className="text-sm text-slate-500">{status}</dd>}
     </div>
   );
 }
 
 function DefinitionDetails({ summary, children }: { summary: string; children: React.ReactNode }) {
   return (
-    <details className="mt-2 rounded-md border border-slate-200 bg-white p-2 text-xs text-slate-600">
+    <details className="mt-3 rounded-lg border border-slate-200 bg-white p-3 text-sm text-slate-600">
       <summary className="cursor-pointer font-semibold text-terrain-700">{summary}</summary>
       <div className="mt-2 space-y-1.5">{children}</div>
     </details>
@@ -59,8 +59,8 @@ function capabilityGlossaryTerms(capability: CapabilityName) {
 export function FacilityDetailPanel({ facility }: { facility: Facility | null }) {
   if (!facility) {
     return (
-      <div className="flex h-full items-center justify-center p-6 text-center text-sm text-slate-500" data-testid="facility-detail-empty">
-        Select a facility on the map or in the list to view its detail.
+      <div className="flex h-full min-h-[18rem] items-center justify-center bg-white p-6 text-center text-base text-slate-600" data-testid="facility-detail-empty">
+        Select a facility on the map to view details.
       </div>
     );
   }
@@ -72,11 +72,11 @@ export function FacilityDetailPanel({ facility }: { facility: Facility | null })
   const sourceLinkCount = sourceRecords.filter((s) => s?.sourceUrl).length;
 
   return (
-    <div className="flex h-full flex-col overflow-y-auto border-l-4 border-terrain-500 bg-terrain-50/30 p-4" data-testid="facility-detail-panel">
+    <div className="flex h-full w-full max-w-none flex-col overflow-y-auto border-l-0 border-t-4 border-terrain-500 bg-terrain-50/30 p-4 sm:p-5 lg:border-l-4 lg:border-t-0" data-testid="facility-detail-panel">
       <section aria-labelledby="facility-identity-heading">
         <h2 id="facility-identity-heading" className="text-sm font-semibold uppercase tracking-wide text-slate-500">Facility identity</h2>
-        <h3 className="mt-1 text-base font-semibold text-slate-900" data-testid="facility-detail-name">{facility.name}</h3>
-        <dl className="mt-2 rounded-md border border-slate-200 bg-white px-3">
+        <h3 className="mt-2 text-2xl font-semibold leading-tight text-slate-900 lg:text-lg" data-testid="facility-detail-name">{facility.name}</h3>
+        <dl className="mt-3 rounded-lg border border-slate-200 bg-white px-4">
           <DetailRow label="Name" value={facility.name} status={syntheticValue} />
           <DetailRow label="Facility type" value={FACILITY_TYPE_LABELS[facility.facilityType]} status={verifiedYes} />
           <DetailRow label="Address" value={facility.address} status={syntheticValue} />
@@ -91,26 +91,26 @@ export function FacilityDetailPanel({ facility }: { facility: Facility | null })
 
       <section className="mt-5" aria-labelledby="capability-summary-heading">
         <h2 id="capability-summary-heading" className="text-sm font-semibold uppercase tracking-wide text-slate-500">Capability summary</h2>
-        <div className="mt-2 flex flex-wrap gap-1.5">
+        <div className="mt-3 flex flex-wrap gap-2">
           <ConfidenceBadge level={facility.confidence} />
           <FreshnessBadge status={facility.freshness} />
-          <span className="inline-flex items-center rounded border border-slate-200 bg-white px-2 py-0.5 text-xs font-medium text-slate-700">Missing public data is not absence of capability</span>
+          <span className="inline-flex min-h-8 items-center rounded border border-slate-200 bg-white px-2.5 py-1 text-xs font-medium text-slate-700">Missing public data is not absence of capability</span>
         </div>
         {facility.capabilities.length === 0 ? (
-          <p className="mt-2 text-sm text-slate-500">Specialty capabilities: {unavailable}. Missing public data must not be treated as absence of capability.</p>
+          <p className="mt-3 text-base text-slate-600">Specialty capabilities: {unavailable}. Missing public data must not be treated as absence of capability.</p>
         ) : (
-          <ul className="mt-2 flex flex-col gap-3">
+          <ul className="mt-3 flex flex-col gap-3">
             {facility.capabilities.map((c) => {
               const definitions = capabilityGlossaryTerms(c.capability)
                 .map((term) => capabilityDefinitions.find((d) => d.term === term))
                 .filter(Boolean);
               return (
-                <li key={c.capability} className="rounded-md border border-slate-200 bg-white p-2.5">
-                  <p className="text-sm font-medium text-slate-800">{c.label}{c.level ? ` — ${c.level}` : ""}</p>
-                  <p className="mt-1 text-xs text-slate-600">Capability status: {verifiedYes}</p>
-                  <p className="text-xs text-slate-600">Population served: {c.populationServed ?? notVerified}</p>
+                <li key={c.capability} className="rounded-lg border border-slate-200 bg-white p-3">
+                  <p className="text-base font-medium text-slate-800">{c.label}{c.level ? ` — ${c.level}` : ""}</p>
+                  <p className="mt-1 text-sm text-slate-600">Capability status: {verifiedYes}</p>
+                  <p className="text-sm text-slate-600">Population served: {c.populationServed ?? notVerified}</p>
                   <div className="mt-1 flex flex-wrap gap-1.5"><ConfidenceBadge level={c.confidence} /><FreshnessBadge status={c.freshness} /></div>
-                  <p className="mt-1.5 text-xs text-slate-500">Source: {c.sourceAgency} &middot; Reported {formatDate(c.sourceDate)} &middot; Retrieved {formatDate(c.retrievalDate)}</p>
+                  <p className="mt-2 text-sm text-slate-500">Source: {c.sourceAgency} &middot; Reported {formatDate(c.sourceDate)} &middot; Retrieved {formatDate(c.retrievalDate)}</p>
                   {definitions.length > 0 && (
                     <DefinitionDetails summary={`Capability definition: ${definitions[0]?.term}`}>
                       {definitions.map((definition) => definition && (
@@ -123,7 +123,7 @@ export function FacilityDetailPanel({ facility }: { facility: Facility | null })
                       ))}
                     </DefinitionDetails>
                   )}
-                  {c.limitations.length > 0 && <p className="mt-1 text-xs italic text-slate-400">{c.limitations.join(" ")}</p>}
+                  {c.limitations.length > 0 && <p className="mt-2 text-sm italic text-slate-500">{c.limitations.join(" ")}</p>}
                 </li>
               );
             })}
@@ -134,7 +134,7 @@ export function FacilityDetailPanel({ facility }: { facility: Facility | null })
             <p key={definition.term}><strong>{definition.term}:</strong> {definition.plainLanguageDefinition} {definition.operationalCaution}</p>
           ))}
         </DefinitionDetails>
-        <dl className="mt-3 rounded-md border border-slate-200 bg-white px-3">
+        <dl className="mt-3 rounded-lg border border-slate-200 bg-white px-4">
           {Object.entries(CAPABILITY_LABELS).slice(0, 8).map(([key, label]) => (
             <DetailRow key={key} label={label} value={facility.capabilities.some((c) => c.capability === key) ? verifiedYes : unavailable} />
           ))}
@@ -143,7 +143,7 @@ export function FacilityDetailPanel({ facility }: { facility: Facility | null })
 
       <section className="mt-5" aria-labelledby="contact-access-heading">
         <h2 id="contact-access-heading" className="text-sm font-semibold uppercase tracking-wide text-slate-500">Contact and access information</h2>
-        <dl className="mt-2 rounded-md border border-slate-200 bg-white px-3">
+        <dl className="mt-3 rounded-lg border border-slate-200 bg-white px-4">
           <DetailRow label="Phone" value={facility.phone} />
           <DetailRow label="Website" value={facility.website ? <a className="text-terrain-700 underline" href={facility.website}>{facility.website}</a> : undefined} />
           <DetailRow label="Email" value={facility.email} />
@@ -154,8 +154,8 @@ export function FacilityDetailPanel({ facility }: { facility: Facility | null })
 
       <section className="mt-5" aria-labelledby="source-quality-heading">
         <h2 id="source-quality-heading" className="text-sm font-semibold uppercase tracking-wide text-slate-500">Source and data quality</h2>
-        <p className="mt-2 rounded-md border border-amber-200 bg-amber-50 p-2 text-sm font-semibold text-amber-900">Synthetic demonstration data — not a real-world source.</p>
-        <dl className="mt-2 rounded-md border border-slate-200 bg-white px-3">
+        <p className="mt-3 rounded-lg border border-amber-200 bg-amber-50 p-3 text-sm font-semibold text-amber-900">Synthetic demonstration data — not a real-world source.</p>
+        <dl className="mt-3 rounded-lg border border-slate-200 bg-white px-4">
           <DetailRow label="Synthetic/real status" value="Synthetic demonstration data — not a real-world source." />
           <DetailRow label="Source dataset" value={sourceRecords.map((s) => s?.dataset).join("; ") || undefined} />
           <DetailRow label="Source confidence" value={facility.confidence} />
@@ -165,7 +165,7 @@ export function FacilityDetailPanel({ facility }: { facility: Facility | null })
         </dl>
         <ul className="mt-2 flex flex-col gap-2">
           {sourceRecords.map((source) => source && (
-            <li key={source.id} className="rounded-md border border-slate-200 bg-white p-2.5 text-xs text-slate-600">
+            <li key={source.id} className="rounded-lg border border-slate-200 bg-white p-3 text-sm text-slate-600">
               <p className="font-medium text-slate-800">{source.dataset}</p>
               <p className="text-slate-500">{source.sourceAgency}</p>
               <p className="mt-1">Released {formatDate(source.releaseDate)} &middot; Retrieved {formatDate(source.retrievalDate)} &middot; Refresh: {source.expectedRefreshCadence}</p>
@@ -175,7 +175,7 @@ export function FacilityDetailPanel({ facility }: { facility: Facility | null })
         </ul>
       </section>
 
-      <section className="mt-5 rounded-md bg-slate-50 p-3 text-xs text-slate-500" aria-labelledby="known-limitations-heading">
+      <section className="mt-5 rounded-lg bg-slate-50 p-4 text-sm text-slate-600" aria-labelledby="known-limitations-heading">
         <h2 id="known-limitations-heading" className="mb-1 text-sm font-semibold uppercase tracking-wide text-slate-500">Known limitations</h2>
         <ul className="list-disc space-y-1 pl-4">
           {(facility.limitations.length ? facility.limitations : ["No facility-specific limitations beyond synthetic demonstration status are available in the current source."]).map((l) => <li key={l}>{l}</li>)}
