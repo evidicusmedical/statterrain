@@ -1,0 +1,31 @@
+name: StatTerrain Public Data Refresh Scaffold
+
+# v0.2.0 manual-only scaffold. Scheduled source-specific refresh will be enabled
+# in later patches after real ingestion scripts exist. This workflow does not
+# fetch external data and does not commit generated files automatically.
+on:
+  workflow_dispatch: {}
+
+defaults:
+  run:
+    working-directory: statterrain
+
+jobs:
+  readiness:
+    name: Validate planned public-data registry and readiness report
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20.18.1"
+          cache: "npm"
+          cache-dependency-path: statterrain/package-lock.json
+      - name: Install dependencies
+        run: npm ci
+      - name: Validate source registry
+        run: npm run data:validate-sources
+      - name: Generate refresh-readiness report
+        run: npm run data:refresh-report

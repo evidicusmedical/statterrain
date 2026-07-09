@@ -46,7 +46,7 @@ test.describe("StatTerrain critical workflow", () => {
     await expect(
       page.getByText("StatTerrain", { exact: true }).first(),
     ).toBeVisible();
-    await expect(page.getByText("v0.1.12 prototype")).toBeVisible();
+    await expect(page.getByText("v0.2.0 prototype")).toBeVisible();
     const fatal = errors.fatal();
     expect(
       fatal,
@@ -291,7 +291,7 @@ test.describe("StatTerrain critical workflow", () => {
     await expect(feedback).toBeVisible();
     await expect(feedback).toHaveAttribute(
       "href",
-      /mailto:mathew\.h\.lowe\+statterrain@gmail\.com\?subject=StatTerrain%20Beta%20Feedback&body=.*App%3A%20StatTerrain.*Version%3A%20v0.1.12%20prototype.*Selected%20geography/,
+      /mailto:mathew\.h\.lowe\+statterrain@gmail\.com\?subject=StatTerrain%20Beta%20Feedback&body=.*App%3A%20StatTerrain.*Version%3A%20v0.2.0%20prototype.*Selected%20geography/,
     );
 
     await page.getByRole("button", { name: "Generate Evidence Brief" }).click();

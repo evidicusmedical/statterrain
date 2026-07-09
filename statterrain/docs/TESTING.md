@@ -142,3 +142,14 @@ Testing remains scoped to the synthetic-data frontend prototype. The suite does 
 The Playwright smoke suite verifies the v0.1.11 visible header/version label, the mobile **Map / Summary / Facility** tab bar, solid tab-bar background/stacking above Leaflet panes, map containment without visual overlap into the tab bar, and visible map attribution inside the map area. Responsive coverage verifies the collapsed mobile legend default, legend open/hide behavior, restored mobile Summary tab content including facilities, population context, and data freshness/source inventory, helpful Facility empty state, automatic Facility tab selection after tapping a map marker, full-width readable mobile Facility details, and continued compact popup **View details** behavior.
 
 Regression coverage continues for evidence brief v0.1.3 scope text, v0.1.10 evidence action active styling, Send Feedback mailto context, quick-read metric lines, collapsed-by-default metric meaning panels and accordion behavior, no horizontal overflow on a common mobile viewport, and desktop summary collapse/map-enlargement behavior. No tests add or require real public data, backend, database, authentication, AI API, or PHI handling.
+
+## v0.2.0 public-data framework checks
+
+Run the public-data scaffold checks from `statterrain/`:
+
+```bash
+npm run data:validate-sources
+npm run data:refresh-report
+```
+
+Also verify lint, typecheck, build, and e2e smoke tests. The source registry validation confirms unique IDs, planned/not-yet-ingested status, `usedInCurrentApp: false`, no successful refreshes, and no active real-ingested public data. The refresh report confirms no external fetches and no generated public records are active.

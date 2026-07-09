@@ -187,3 +187,13 @@ Mobile map containment was finalized for the pre-v0.2.0 GUI hotfix: the **Map / 
 The mobile **Summary** tab now restores and shows regional summary content even after the desktop/mobile **Hide summary** control has been toggled. The mobile **Facility** tab now presents readable full-width details with the standardized Facility identity, Capability summary, Contact/access, Source/data quality, and Known limitations sections, while the map popup remains compact with a touch-friendly **View details** action.
 
 v0.1.11 remains a frontend GUI hotfix only. It does not add real CMS, Census, CDC, SAMHSA, NPPES, or other public-data ingestion; backend services; database storage; authentication; AI APIs; PHI handling; live routing; diversion status; bed status; medical-control guidance; dispatch/triage/transfer recommendations; clinical decision support; or the v0.2.0 public-data pipeline. The next planned patch remains **v0.2.0 — Public Data Pipeline Foundation**.
+
+## v0.2.0 public-data automation framework
+
+v0.2.0 scaffolds the public-data pipeline only. No real public data has been ingested, no public-data refresh is active, and the current app remains a synthetic demonstration. See `docs/PUBLIC_DATA_PIPELINE.md` for the source registry, validation gates, refresh reports, last-known-good fallback pattern, manual-only GitHub Actions workflow, safety rules, and future sequence:
+
+- v0.2.1 — CMS Hospital Data Pilot
+- v0.2.2 — Automated CMS Refresh
+- v0.2.3 — Source Freshness UI
+- v0.3.0 — Census ACS Demographics
+- v0.3.1 — CDC PLACES Health Context
