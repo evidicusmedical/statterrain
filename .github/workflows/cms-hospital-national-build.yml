@@ -31,6 +31,8 @@ permissions:
 
 env:
   APP_DIR: statterrain
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+  CMS_HOSPITAL_PAGE_SIZE: 1000
 
 jobs:
   build-national-cms-hospitals:
@@ -54,16 +56,57 @@ jobs:
           ref: ${{ github.event.inputs.target_branch }}
           fetch-depth: 0
 
+      - name: Refuse outdated target branch without pagination fix
+        shell: bash
+        run: |
+          set -euo pipefail
+          test -f statterrain/scripts/public-data/build-national-cms-hospitals.mjs
+          grep -q "DEFAULT_CMS_PAGE_SIZE=1000" statterrain/scripts/public-data/build-national-cms-hospitals.mjs
+          ! grep -q "limit=50000" statterrain/scripts/public-data/build-national-cms-hospitals.mjs
+
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '20'
+          node-version: '24'
           cache: npm
           cache-dependency-path: statterrain/package-lock.json
 
       - name: Install dependencies
         run: npm ci
         working-directory: ${{ env.APP_DIR }}
+
+      - name: Probe CMS Hospital API
+        id: cms_probe
+        shell: bash
+        run: |
+          set -euo pipefail
+          npm run data:probe-cms-hospital-api | tee cms-probe.json
+          node <<'NODE' >> "$GITHUB_OUTPUT"
+          const fs = require('fs');
+          const probe = JSON.parse(fs.readFileSync('cms-probe.json','utf8'));
+          console.log(`success=true`);
+          console.log(`recordArrayKey=${probe.recordArrayKey ?? ''}`);
+          console.log(`reportedLimit=${probe.paginationMetadata?.limit ?? ''}`);
+          console.log(`reportedCount=${probe.paginationMetadata?.count ?? ''}`);
+          NODE
+        working-directory: ${{ env.APP_DIR }}
+
+      - name: Summarize pre-build diagnostics
+        shell: bash
+        run: |
+          cat >> "$GITHUB_STEP_SUMMARY" <<MD
+          ## CMS Hospital API Probe
+
+          | Diagnostic | Value |
+          | --- | --- |
+          | CMS probe success | ${{ steps.cms_probe.outputs.success }} |
+          | Response record-array key | ${{ steps.cms_probe.outputs.recordArrayKey }} |
+          | Reported page-size metadata | ${{ steps.cms_probe.outputs.reportedLimit }} |
+          | Reported count metadata | ${{ steps.cms_probe.outputs.reportedCount }} |
+          | Configured national page size | ${{ env.CMS_HOSPITAL_PAGE_SIZE }} |
+          | Target branch | ${{ github.event.inputs.target_branch }} |
+          | Geocoding mode | ${{ github.event.inputs.geocoding_mode }} |
+          MD
 
       - name: Build complete national CMS hospital network
         run: npm run data:build-national-cms-hospitals
@@ -97,7 +140,7 @@ jobs:
           const pull = JSON.parse(fs.readFileSync('statterrain/data/reports/cms-hospitals-national-pull-v0.3.2.json','utf8'));
           const run = JSON.parse(fs.readFileSync('statterrain/data/reports/cms-hospitals-geocoding-run-v0.3.2.json','utf8'));
           const qa = JSON.parse(fs.readFileSync('statterrain/data/reports/cms-hospitals-national-quality-v0.3.2.json','utf8'));
-          for (const [k,v] of Object.entries({raw: pull.rawRowCount, normalized: pull.normalizedRecordCount, duplicates: pull.duplicateSourceIdCount, eligible: run.totalGeocodingEligible, cacheHits: run.cacheHits, chunks: `${run.chunksCompleted}/${run.chunksPlanned}`, matched: run.matchedRecords, unmatched: run.noMatchRecords, failed: run.failedRecords, joined: qa.geographyJoinedCount, mapReady: manifest.mapReadyRecords, excluded: manifest.excludedRecords, states: manifest.statesPresent.length, partitions: manifest.partitions.length, retrievedAt: manifest.retrievedAt})) console.log(`${k}=${v}`);
+          for (const [k,v] of Object.entries({pages: pull.pagesCompleted, raw: pull.rawRowsRetrieved ?? pull.rawRowCount, unique: pull.uniqueSourceIds ?? pull.uniqueSourceIdCount, normalized: pull.normalizedRows ?? pull.normalizedRecordCount, duplicates: pull.duplicateSourceIds ?? pull.duplicateSourceIdCount, complete: pull.paginationComplete, eligible: run.totalGeocodingEligible, cacheHits: run.cacheHits, chunks: `${run.chunksCompleted}/${run.chunksPlanned}`, matched: run.matchedRecords, unmatched: run.noMatchRecords, failed: run.failedRecords, joined: qa.geographyJoinedCount, mapReady: manifest.mapReadyRecords, excluded: manifest.excludedRecords, states: manifest.statesPresent.length, partitions: manifest.partitions.length, retrievedAt: manifest.retrievedAt})) console.log(`${k}=${v}`);
           NODE
 
       - name: Write GitHub Actions job summary
@@ -110,7 +153,9 @@ jobs:
 
           | Metric | Value |
           | --- | ---: |
-          | Official source rows | ${{ steps.summary.outputs.raw }} |
+          | Pages completed | ${{ steps.summary.outputs.pages }} |
+          | Raw rows | ${{ steps.summary.outputs.raw }} |
+          | Unique CMS IDs | ${{ steps.summary.outputs.unique }} |
           | Normalized records | ${{ steps.summary.outputs.normalized }} |
           | Duplicate source IDs | ${{ steps.summary.outputs.duplicates }} |
           | Geocoding eligible | ${{ steps.summary.outputs.eligible }} |
@@ -123,6 +168,8 @@ jobs:
           | States/territories | ${{ steps.summary.outputs.states }} |
           | Partitions | ${{ steps.summary.outputs.partitions }} |
           | Retrieval timestamp | ${{ steps.summary.outputs.retrievedAt }} |
+          | Pagination complete | ${{ steps.summary.outputs.complete }} |
+          | Completion declaration | COMPLETE — NATIONAL CMS HOSPITAL NETWORK BUILT (only after successful job completion) |
           MD
 
       - name: Commit generated artifacts
