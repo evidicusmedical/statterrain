@@ -109,7 +109,7 @@ test.describe("CMS hospital fixture safety", () => {
 test.describe("product version guardrail", () => {
   test("visible product version is centralized and current", async () => {
     const productConfig = await readFile(join(process.cwd(), "src/config/product.ts"), "utf8");
-    expect(productConfig).toContain('prototypeVersion: "v0.3.0.1 prototype"');
+    expect(productConfig).toContain('prototypeVersion: "v0.3.0.2 prototype"');
     expect(productConfig).not.toContain('prototypeVersion: "v0.2.8 prototype"');
     expect(productConfig).not.toContain('prototypeVersion: "v0.2.8.1 prototype"');
   });
@@ -167,7 +167,7 @@ test.describe("v0.2.8.1 radius controls and scope guardrails", () => {
 test.describe("v0.2.9 national location search and coverage status", () => {
   test("location search component, geocoder abstraction, and status copy are present", async () => {
     const component = await readFile(join(process.cwd(), "src/components/search/LocationSearchBox.tsx"), "utf8");
-    expect(component).toContain("Search U.S. address, ZIP, city/state, or state");
+    expect(component).toContain("Search address, ZIP, city/state, or lat/lon");
     expect(component).toContain("invalid-input");
     expect(component).toContain("Selected planning radius remains {radiusMiles} miles");
 
@@ -190,7 +190,7 @@ test.describe("v0.2.9 national location search and coverage status", () => {
     expect(page).toContain("radiusMiles={state.radiusMiles}");
 
     const mapView = await readFile(join(process.cwd(), "src/components/map/MapView.tsx"), "utf8");
-    expect(mapView).toContain("Selected location:");
+    expect(mapView).toContain('data-testid="selected-location-badge"');
     expect(mapView).toContain("<Recenter lat={location.lat} lng={location.lng} />");
     expect(mapView).toContain("radius={radiusMeters}");
   });
@@ -212,9 +212,9 @@ test.describe("v0.2.9 national location search and coverage status", () => {
 });
 
 test.describe("v0.3.0 national coverage manifest and scaling foundation", () => {
-  test("visible product version is v0.3.0.1 prototype", async () => {
+  test("visible product version is v0.3.0.2 prototype", async () => {
     const productConfig = await readFile(join(process.cwd(), "src/config/product.ts"), "utf8");
-    expect(productConfig).toContain('prototypeVersion: "v0.3.0.1 prototype"');
+    expect(productConfig).toContain('prototypeVersion: "v0.3.0.2 prototype"');
     expect(productConfig).not.toContain('prototypeVersion: "v0.2.9 prototype"');
     expect(productConfig).not.toContain('prototypeVersion: "v0.3.0 prototype"');
   });
@@ -272,10 +272,9 @@ test.describe("v0.3.0 national coverage manifest and scaling foundation", () => 
     expect(panel).toContain("useState(false)");
     expect(panel).toContain("aria-expanded={expanded}");
     expect(panel).toContain("aria-controls={detailsId}");
-    expect(panel).toContain("Public-data coverage: national build in progress");
-    expect(panel).toContain("CMS hospitals: {summary.recordCount} preview-ready sample records");
-    expect(panel).toContain("CMS dialysis: fixture-only / not map-ready");
-    expect(panel).toContain("CMS hospital preview off / optional");
+    expect(panel).toContain("Synthetic demo active");
+    expect(panel).toContain("CMS preview available / Preview off");
+    expect(panel).toContain("CMS preview enabled");
     expect(panel).toContain("Details");
     expect(panel).toContain("Collapse details");
     expect(panel).toContain("Coverage manifest summary");
@@ -286,5 +285,82 @@ test.describe("v0.3.0 national coverage manifest and scaling foundation", () => 
     const exportLib = await readFile(join(process.cwd(), "src/lib/export.ts"), "utf8");
     expect(exportLib).toContain("Coverage manifest summary");
     expect(exportLib).toContain("coverageManifestSummary");
+  });
+});
+
+
+test.describe("v0.3.0.2 unified search and compact map status UX", () => {
+  test("top search is primary and large in-map search card is absent", async () => {
+    const header = await readFile(join(process.cwd(), "src/components/layout/Header.tsx"), "utf8");
+    const searchBox = await readFile(join(process.cwd(), "src/components/search/LocationSearchBox.tsx"), "utf8");
+    const page = await readFile(join(process.cwd(), "src/app/page.tsx"), "utf8");
+    expect(header).toContain("<LocationSearchBox");
+    expect(searchBox).toContain("Primary planning location search");
+    expect(searchBox).toContain("Search address, ZIP, city/state, or lat/lon");
+    expect(searchBox).toContain("onSubmit={submit}");
+    expect(searchBox).toContain("Selected planning radius remains {radiusMiles} miles");
+    expect(page).not.toContain("absolute left-2 top-2 z-[30] flex");
+    expect(searchBox).not.toContain("shadow-panel");
+  });
+
+  test("coordinate parser accepts common pairs and avoids Census fetch for valid coordinates", async () => {
+    const geocoder = await readFile(join(process.cwd(), "src/lib/geocoding/searchLocation.ts"), "utf8");
+    expect(geocoder).toContain("parseCoordinateSearch");
+    expect(geocoder).toContain("plainPair");
+    expect(geocoder).toContain("hemiPair");
+    expect(geocoder).toContain("explicit");
+    expect(geocoder).toContain("lat < -90 || lat > 90 || lng < -180 || lng > 180");
+    expect(geocoder).toContain('return "invalid"');
+    expect(geocoder).toContain("const parsedCoordinates = parseCoordinateSearch(clean)");
+    expect(geocoder).toContain("if (parsedCoordinates) {");
+    expect(geocoder).toContain("buildManualCoordinateLocation(parsedCoordinates.lat, parsedCoordinates.lng, clean)");
+    expect(geocoder).toContain('source: "Manual coordinates"');
+    expect(geocoder).toContain("sessionOnly: true");
+    expect(geocoder.indexOf("if (parsedCoordinates) {")).toBeLessThan(geocoder.indexOf("fetcher("));
+  });
+
+  test("map click planning center and compact selected-location badge are present", async () => {
+    const mapView = await readFile(join(process.cwd(), "src/components/map/MapView.tsx"), "utf8");
+    const page = await readFile(join(process.cwd(), "src/app/page.tsx"), "utf8");
+    expect(mapView).toContain("useMapEvents");
+    expect(mapView).toContain("MapClickPlanningCenter");
+    expect(mapView).toContain("onMapClick?.(event.latlng.lat, event.latlng.lng)");
+    expect(page).toContain('"Map click"');
+    expect(page).toContain("Map-click planning center set");
+    expect(mapView).toContain('data-testid="selected-location-badge"');
+    expect(mapView).toContain(" · Radius {radiusMiles} mi");
+    expect(mapView).toContain("left-3 top-3");
+    expect(mapView).toContain("Click the map to set planning center.");
+    expect(mapView).not.toContain("list-disc pl-4");
+  });
+
+  test("summary toggle and public-data status are compact by default with details preserved", async () => {
+    const page = await readFile(join(process.cwd(), "src/app/page.tsx"), "utf8");
+    const panel = await readFile(join(process.cwd(), "src/components/public-data/PublicDataFreshnessPanel.tsx"), "utf8");
+    expect(page).toContain("absolute right-2 top-2");
+    expect(page).toContain("Show summary");
+    expect(page).toContain("Summary panel toggle; no persistent map tooltip is shown.");
+    expect(panel).toContain("Synthetic demo active");
+    expect(panel).toContain("CMS preview available / Preview off");
+    expect(panel).toContain("CMS preview enabled");
+    expect(panel).toContain("Details");
+    expect(panel).toContain("hidden={!expanded}");
+    expect(panel).toContain("Coverage manifest summary");
+    expect(panel).toContain("Limitations and prohibited uses");
+    expect(panel).toContain("sr-only");
+  });
+
+  test("active UI avoids route, travel-time, ETA, and live operational fields", async () => {
+    const activeFiles = [
+      "src/components/layout/Header.tsx",
+      "src/components/search/LocationSearchBox.tsx",
+      "src/components/map/MapView.tsx",
+      "src/components/public-data/PublicDataFreshnessPanel.tsx",
+      "src/app/page.tsx",
+    ];
+    for (const file of activeFiles) {
+      const source = await readFile(join(process.cwd(), file), "utf8");
+      expect(source).not.toMatch(/drive[- ]time|travel[- ]time|\bETA\b|isochrone|claims|PHI|bed status|live diversion/i);
+    }
   });
 });

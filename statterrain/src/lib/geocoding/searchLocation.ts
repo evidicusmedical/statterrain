@@ -15,15 +15,18 @@ export type LocationMatchType =
   | "city"
   | "county"
   | "state"
-  | "place";
+  | "place"
+  | "coordinates"
+  | "map-click";
 export interface SelectedLocation extends SearchLocation {
   query: string;
   matchType: LocationMatchType;
-  source: "U.S. Census Geocoder" | "StatTerrain demo";
+  source: "U.S. Census Geocoder" | "StatTerrain demo" | "Manual coordinates" | "Map click";
   confidence: "exact" | "top-match" | "unavailable";
   isDemoRegion: boolean;
   searchedAt: string;
   status: LocationSearchStatus;
+  sessionOnly: true;
 }
 export interface LocationSearchResult {
   status: LocationSearchStatus;
@@ -41,7 +44,7 @@ function inferMatchType(query: string): LocationMatchType {
   return "place";
 }
 function kindFor(matchType: LocationMatchType): SearchLocation["kind"] {
-  return matchType === "state" || matchType === "place" ? "city" : matchType;
+  return matchType === "state" || matchType === "place" || matchType === "coordinates" || matchType === "map-click" ? "city" : matchType;
 }
 export function isInDemoRegion(lat: number, lng: number): boolean {
   return (
@@ -49,6 +52,55 @@ export function isInDemoRegion(lat: number, lng: number): boolean {
     Math.abs(lng - demoRegion.centerLng) <= 0.45
   );
 }
+
+function applyHemisphere(value: number, hemi?: string): number {
+  if (!hemi) return value;
+  return /[SW]/i.test(hemi) ? -Math.abs(value) : Math.abs(value);
+}
+
+export function parseCoordinateSearch(query: string): { lat: number; lng: number } | null | "invalid" {
+  const normalized = query.trim().replace(/[()]/g, " ").replace(/°/g, " ");
+  const explicit = normalized.match(/lat(?:itude)?\s*[:=]?\s*([+-]?\d+(?:\.\d+)?)\s*([NS])?\s*(?:[,;\s]+)?lon(?:gitude)?\s*[:=]?\s*([+-]?\d+(?:\.\d+)?)\s*([EW])?/i);
+  const hemiPair = normalized.match(/([+-]?\d+(?:\.\d+)?)\s*([NS])\s*[,;\s]+([+-]?\d+(?:\.\d+)?)\s*([EW])/i);
+  const plainPair = normalized.match(/^\s*([+-]?\d+(?:\.\d+)?)\s*(?:,|\s)\s*([+-]?\d+(?:\.\d+)?)\s*$/);
+  let lat: number | null = null;
+  let lng: number | null = null;
+  if (explicit) {
+    lat = applyHemisphere(Number(explicit[1]), explicit[2]);
+    lng = applyHemisphere(Number(explicit[3]), explicit[4]);
+  } else if (hemiPair) {
+    lat = applyHemisphere(Number(hemiPair[1]), hemiPair[2]);
+    lng = applyHemisphere(Number(hemiPair[3]), hemiPair[4]);
+  } else if (plainPair) {
+    lat = Number(plainPair[1]);
+    lng = Number(plainPair[2]);
+  } else {
+    return null;
+  }
+  if (!Number.isFinite(lat) || !Number.isFinite(lng) || lat < -90 || lat > 90 || lng < -180 || lng > 180) return "invalid";
+  return { lat, lng };
+}
+
+export function buildManualCoordinateLocation(lat: number, lng: number, query: string, source: "Manual coordinates" | "Map click" = "Manual coordinates"): SelectedLocation {
+  const label = source === "Map click" ? `Map point: ${lat.toFixed(4)}, ${lng.toFixed(4)}` : `${lat.toFixed(4)}, ${lng.toFixed(4)}`;
+  return {
+    id: `${source === "Map click" ? "map-click" : "manual-coordinates"}-${Date.now()}`,
+    label,
+    kind: "city",
+    lat,
+    lng,
+    regionId: isInDemoRegion(lat, lng) ? demoRegion.id : "searched-us-location",
+    query,
+    matchType: source === "Map click" ? "map-click" : "coordinates",
+    source,
+    confidence: "exact",
+    isDemoRegion: isInDemoRegion(lat, lng),
+    searchedAt: new Date().toISOString(),
+    status: "found",
+    sessionOnly: true,
+  };
+}
+
 export async function searchLocation(
   query: string,
   fetcher: typeof fetch = fetch,
@@ -58,9 +110,17 @@ export async function searchLocation(
     return {
       status: "invalid-input",
       location: null,
-      message: "Enter a U.S. address, ZIP code, city/state, or state.",
+      message: "Enter a U.S. address, ZIP code, city/state, state, or lat/lon.",
       matchCount: 0,
     };
+  const parsedCoordinates = parseCoordinateSearch(clean);
+  if (parsedCoordinates === "invalid") {
+    return { status: "invalid-input", location: null, message: "Invalid latitude/longitude. Latitude must be -90 to 90 and longitude -180 to 180.", matchCount: 0 };
+  }
+  if (parsedCoordinates) {
+    const location = buildManualCoordinateLocation(parsedCoordinates.lat, parsedCoordinates.lng, clean);
+    return { status: "found", location, message: `Planning center set to ${location.label}. Session-only; not stored.`, matchCount: 1 };
+  }
   const params = new URLSearchParams({
     address: clean,
     benchmark: "Public_AR_Current",
@@ -102,7 +162,7 @@ export async function searchLocation(
     return {
       status: "no-match",
       location: null,
-      message: "No match found. Try a ZIP code, city/state, or full address.",
+      message: "No match found. Try a ZIP code, city/state, coordinates, or full address.",
       matchCount: 0,
     };
   const top = matches[0];
@@ -133,6 +193,7 @@ export async function searchLocation(
     isDemoRegion: isInDemoRegion(lat, lng),
     searchedAt: new Date().toISOString(),
     status,
+    sessionOnly: true,
   };
   return {
     status,

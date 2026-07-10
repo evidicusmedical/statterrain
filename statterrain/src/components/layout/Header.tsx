@@ -1,10 +1,11 @@
 "use client";
 
-import { useMemo, useState } from "react";
 import { product } from "@/config/product";
-import { searchLocations, type SearchLocation } from "@/data/demo-region";
+import type { SearchLocation } from "@/data/demo-region";
 import { SyntheticBadge } from "@/components/ui/Badge";
 import { FeedbackButton } from "@/components/feedback/FeedbackButton";
+import { LocationSearchBox } from "@/components/search/LocationSearchBox";
+import type { LocationSearchResult } from "@/lib/geocoding/searchLocation";
 
 interface HeaderProps {
   location: SearchLocation;
@@ -14,6 +15,10 @@ interface HeaderProps {
   activeMobileTab?: string;
   summaryOpen: boolean;
   onSelectLocation: (loc: SearchLocation) => void;
+  searchStatusMessage: string;
+  onLocationSearchStart: () => void;
+  onLocationSearchComplete: (result: LocationSearchResult) => void;
+  onLocationSearchClear: () => void;
   onGenerateBrief: () => void;
   onOpenFilters: () => void;
 }
@@ -25,21 +30,16 @@ export function Header({
   selectedFacilityType,
   activeMobileTab,
   summaryOpen,
-  onSelectLocation,
+  onSelectLocation: _onSelectLocation,
+  searchStatusMessage,
+  onLocationSearchStart,
+  onLocationSearchComplete,
+  onLocationSearchClear,
   onGenerateBrief,
   onOpenFilters,
 }: HeaderProps) {
-  const [query, setQuery] = useState("");
-  const [showSuggestions, setShowSuggestions] = useState(false);
+  void _onSelectLocation;
 
-  const suggestions = useMemo(() => {
-    const q = query.trim().toLowerCase();
-    const pool =
-      q.length === 0
-        ? searchLocations
-        : searchLocations.filter((l) => l.label.toLowerCase().includes(q));
-    return pool.slice(0, 6);
-  }, [query]);
 
   return (
     <header className="border-b border-slate-200 bg-white">
@@ -113,50 +113,14 @@ export function Header({
           </div>
         </div>
 
-        <div className="relative ml-0 min-w-[220px] flex-1 sm:ml-4">
-          <label htmlFor="global-search" className="sr-only">
-            Search hospital, city, ZIP, county, or address
-          </label>
-          <input
-            id="global-search"
-            type="search"
-            value={query}
-            onChange={(e) => {
-              setQuery(e.target.value);
-              setShowSuggestions(true);
-            }}
-            onFocus={() => setShowSuggestions(true)}
-            onBlur={() => setTimeout(() => setShowSuggestions(false), 150)}
-            placeholder={`Search: ${location.label}`}
-            className="w-full rounded-md border border-slate-300 px-3 py-2 text-sm text-slate-800 placeholder:text-slate-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-terrain-600"
+        <div className="relative ml-0 min-w-[260px] flex-1 sm:ml-4">
+          <LocationSearchBox
+            radiusMiles={radiusMiles}
+            statusMessage={searchStatusMessage}
+            onSearchStart={onLocationSearchStart}
+            onSearchComplete={onLocationSearchComplete}
+            onClear={onLocationSearchClear}
           />
-          {showSuggestions && suggestions.length > 0 && (
-            <ul
-              role="listbox"
-              className="absolute z-20 mt-1 w-full overflow-hidden rounded-md border border-slate-200 bg-white shadow-panel"
-            >
-              {suggestions.map((loc) => (
-                <li key={loc.id}>
-                  <button
-                    type="button"
-                    role="option"
-                    aria-selected={loc.id === location.id}
-                    onClick={() => {
-                      onSelectLocation(loc);
-                      setQuery("");
-                      setShowSuggestions(false);
-                    }}
-                    className="flex w-full items-center justify-between px-3 py-2 text-left text-sm text-slate-700 hover:bg-terrain-50"
-                  >
-                    <span>{loc.label}</span>
-                    <span className="text-xs uppercase text-slate-400">
-                      {loc.kind}
-                    </span>
-                  </button>
-                </li>
-              ))}
-            </ul>
-          )}
         </div>
 
         <div className="hidden items-center gap-2 text-xs text-slate-500 md:flex">

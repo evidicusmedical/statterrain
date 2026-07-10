@@ -29,7 +29,7 @@ export function LocationSearchBox({
       onSearchComplete({
         status: "invalid-input",
         location: null,
-        message: "Enter a U.S. address, ZIP code, city/state, or state.",
+        message: "Enter a U.S. address, ZIP code, city/state, state, or lat/lon.",
         matchCount: 0,
       });
       return;
@@ -42,29 +42,27 @@ export function LocationSearchBox({
   return (
     <form
       onSubmit={submit}
-      className="rounded-lg border border-slate-200 bg-white/95 p-3 text-xs shadow-panel"
-      aria-label="U.S. location search"
+      className="flex w-full flex-col gap-1"
+      aria-label="Primary planning location search"
+      data-testid="primary-location-search"
     >
-      <label
-        htmlFor="national-location-search"
-        className="font-semibold text-slate-900"
-      >
-        Search U.S. address, ZIP, city/state, or state
+      <label htmlFor="global-search" className="sr-only">
+        Search address, ZIP, city/state, state, or lat/lon
       </label>
-      <div className="mt-2 flex flex-col gap-2 sm:flex-row">
+      <div className="flex min-w-0 flex-1 gap-2">
         <input
-          id="national-location-search"
+          id="global-search"
           value={query}
           onChange={(e) => setQuery(e.target.value)}
           type="search"
           autoComplete="off"
-          placeholder="Example: 83702 or Boise, ID"
-          className="min-h-10 flex-1 rounded-md border border-slate-300 px-3 py-2 text-sm"
+          placeholder="Search address, ZIP, city/state, or lat/lon"
+          className="min-h-10 w-full rounded-md border border-slate-300 px-3 py-2 text-sm text-slate-800 placeholder:text-slate-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-terrain-600"
         />
         <button
           type="submit"
           disabled={loading}
-          className="min-h-10 rounded-md bg-terrain-700 px-3 py-2 font-semibold text-white disabled:opacity-60"
+          className="min-h-10 rounded-md bg-terrain-700 px-3 py-2 text-sm font-semibold text-white disabled:opacity-60"
         >
           {loading ? "Searching…" : "Search"}
         </button>
@@ -74,17 +72,13 @@ export function LocationSearchBox({
             setQuery("");
             onClear();
           }}
-          className="min-h-10 rounded-md border border-slate-300 bg-white px-3 py-2 font-semibold text-slate-700"
+          className="min-h-10 rounded-md border border-slate-300 bg-white px-3 py-2 text-sm font-semibold text-slate-700"
         >
           Clear
         </button>
       </div>
-      <p className="mt-2 text-slate-700" role="status">
-        {statusMessage}
-      </p>
-      <p className="mt-1 text-slate-600">
-        Selected planning radius remains {radiusMiles} miles. Search is
-        session-only and not stored.
+      <p className="sr-only" role="status">
+        {statusMessage} Selected planning radius remains {radiusMiles} miles. Search is session-only and not stored.
       </p>
     </form>
   );

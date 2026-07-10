@@ -8,11 +8,11 @@ import { FacilityDetailPanel } from "@/components/facilities/FacilityDetailPanel
 import { RegionalSummaryPanel } from "@/components/regional-summary/RegionalSummaryPanel";
 import { EvidenceBriefDrawer } from "@/components/evidence/EvidenceBriefDrawer";
 import { PublicDataFreshnessPanel } from "@/components/public-data/PublicDataFreshnessPanel";
-import { LocationSearchBox } from "@/components/search/LocationSearchBox";
 import { Drawer } from "@/components/ui/Drawer";
 import { useAppState } from "@/hooks/useAppState";
 import { useCallback, useState } from "react";
 import { searchLocations, type SearchLocation } from "@/data/demo-region";
+import { buildManualCoordinateLocation } from "@/lib/geocoding/searchLocation";
 import { FACILITY_TYPE_LABELS } from "@/types/facility";
 
 type MobileTab = "map" | "summary" | "facility";
@@ -55,6 +55,29 @@ export default function HomePage() {
         activeMobileTab={mobileTab}
         summaryOpen={summaryOpen}
         onSelectLocation={handleSelectLocation}
+        searchStatusMessage={state.searchMessage}
+        onLocationSearchStart={() => {
+          state.setSearchStatus("searching");
+          state.setSearchMessage("Searching public geocoder…");
+        }}
+        onLocationSearchComplete={(result) => {
+          state.setSearchStatus(result.status);
+          state.setSearchMessage(result.message);
+          if (result.location) {
+            state.setSelectedLocation(result.location);
+            state.setLocation(result.location);
+            state.clearSelectedFacility();
+          }
+        }}
+        onLocationSearchClear={() => {
+          state.setSelectedLocation(null);
+          state.setLocation(searchLocations[0]);
+          state.setSearchStatus("idle");
+          state.setSearchMessage(
+            "Synthetic demo region active. Default map remains synthetic demonstration data.",
+          );
+          state.clearSelectedFacility();
+        }}
         onGenerateBrief={() => state.setBriefOpen(true)}
         onOpenFilters={() => state.setMobileFiltersOpen(true)}
       />
@@ -99,33 +122,7 @@ export default function HomePage() {
                 Summary panel toggle; no persistent map tooltip is shown.
               </span>
             </div>
-            <div className="absolute left-2 top-2 z-[30] flex max-w-[min(36rem,calc(100%-1rem))] flex-col gap-2 sm:left-3 sm:top-3">
-              <LocationSearchBox
-                radiusMiles={state.radiusMiles}
-                statusMessage={state.searchMessage}
-                onSearchStart={() => {
-                  state.setSearchStatus("searching");
-                  state.setSearchMessage("Searching public geocoder…");
-                }}
-                onSearchComplete={(result) => {
-                  state.setSearchStatus(result.status);
-                  state.setSearchMessage(result.message);
-                  if (result.location) {
-                    state.setSelectedLocation(result.location);
-                    state.setLocation(result.location);
-                    state.clearSelectedFacility();
-                  }
-                }}
-                onClear={() => {
-                  state.setSelectedLocation(null);
-                  state.setLocation(searchLocations[0]);
-                  state.setSearchStatus("idle");
-                  state.setSearchMessage(
-                    "Synthetic demo region active. Default map remains synthetic demonstration data.",
-                  );
-                  state.clearSelectedFacility();
-                }}
-              />
+            <div className="absolute bottom-3 right-3 z-[40] max-w-[calc(100%-1.5rem)]">
               <PublicDataFreshnessPanel
                 summary={state.publicDataSummary}
                 previewEnabled={state.publicDataPreviewEnabled}
@@ -148,6 +145,21 @@ export default function HomePage() {
               onOpenFacilityDetails={(facilityId) => {
                 state.selectFacility(facilityId);
                 setMobileTab("facility");
+              }}
+              onMapClick={(lat, lng) => {
+                const location = buildManualCoordinateLocation(
+                  lat,
+                  lng,
+                  `${lat.toFixed(4)}, ${lng.toFixed(4)}`,
+                  "Map click",
+                );
+                state.setSelectedLocation(location);
+                state.setLocation(location);
+                state.setSearchStatus("found");
+                state.setSearchMessage(
+                  `Map-click planning center set to ${location.label}. Session-only; not stored.`,
+                );
+                state.clearSelectedFacility();
               }}
             />
           </section>
