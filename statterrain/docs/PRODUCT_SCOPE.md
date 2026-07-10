@@ -145,3 +145,9 @@ StatTerrain v0.2.8.1 keeps radius semantics as straight-line planning distance o
 The selected radius applies to map inclusion/counts, regional summaries, evidence brief scope, and exports. No drive-time calculation, route calculation, travel-time estimate, ETA, real-time traffic, or isochrone capability is added.
 
 Public-data behavior is unchanged: default map data remains synthetic, CMS hospital preview remains optional/off by default, CMS dialysis remains fixture-only/not preview-ready, and this patch does not run or add new ingestion.
+
+## v0.2.9 location-search and coverage-status scope
+
+v0.2.9 supports U.S. address/ZIP/city/state planning searches through a public geocoder path (U.S. Census Geocoder helper). Entered locations are session-only client state; StatTerrain does not store searched addresses, create search history, or treat a searched location as a patient address. The selected radius remains a straight-line planning radius only. No drive-time, travel-time, ETA, routing, traffic, dispatch, triage, transfer, diversion, bed-status, or clinical decision-support capability is added.
+
+When a searched location is outside the Terrace Basin demonstration region, synthetic demo facilities are suppressed from local facility counts and coverage messaging says the synthetic demo data is not representative of the searched location. Optional CMS hospital preview behavior is preserved and remains a bounded, non-national public-data preview. CMS dialysis remains fixture-only, not geocoded, and not map-ready. National public-data coverage is not complete; v0.3.0 should focus on the national coverage model and scaling foundation.

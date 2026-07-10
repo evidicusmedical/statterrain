@@ -8,10 +8,11 @@ import { FacilityDetailPanel } from "@/components/facilities/FacilityDetailPanel
 import { RegionalSummaryPanel } from "@/components/regional-summary/RegionalSummaryPanel";
 import { EvidenceBriefDrawer } from "@/components/evidence/EvidenceBriefDrawer";
 import { PublicDataFreshnessPanel } from "@/components/public-data/PublicDataFreshnessPanel";
+import { LocationSearchBox } from "@/components/search/LocationSearchBox";
 import { Drawer } from "@/components/ui/Drawer";
 import { useAppState } from "@/hooks/useAppState";
 import { useCallback, useState } from "react";
-import type { SearchLocation } from "@/data/demo-region";
+import { searchLocations, type SearchLocation } from "@/data/demo-region";
 import { FACILITY_TYPE_LABELS } from "@/types/facility";
 
 type MobileTab = "map" | "summary" | "facility";
@@ -23,6 +24,11 @@ export default function HomePage() {
   const handleSelectLocation = useCallback(
     (location: SearchLocation) => {
       state.setLocation(location);
+      state.setSelectedLocation(null);
+      state.setSearchStatus("idle");
+      state.setSearchMessage(
+        "Synthetic demo region active. Default map remains synthetic demonstration data.",
+      );
       state.resetFilters();
       state.clearSelectedFacility();
     },
@@ -95,7 +101,33 @@ export default function HomePage() {
                   : "Show summary to review facilities and population context."}
               </p>
             </div>
-            <div className="absolute left-2 top-2 z-[790] max-w-[min(34rem,calc(100%-1rem))] sm:left-3 sm:top-3">
+            <div className="absolute left-2 top-2 z-[790] flex max-w-[min(34rem,calc(100%-1rem))] flex-col gap-2 sm:left-3 sm:top-3">
+              <LocationSearchBox
+                radiusMiles={state.radiusMiles}
+                statusMessage={state.searchMessage}
+                onSearchStart={() => {
+                  state.setSearchStatus("searching");
+                  state.setSearchMessage("Searching public geocoder…");
+                }}
+                onSearchComplete={(result) => {
+                  state.setSearchStatus(result.status);
+                  state.setSearchMessage(result.message);
+                  if (result.location) {
+                    state.setSelectedLocation(result.location);
+                    state.setLocation(result.location);
+                    state.clearSelectedFacility();
+                  }
+                }}
+                onClear={() => {
+                  state.setSelectedLocation(null);
+                  state.setLocation(searchLocations[0]);
+                  state.setSearchStatus("idle");
+                  state.setSearchMessage(
+                    "Synthetic demo region active. Default map remains synthetic demonstration data.",
+                  );
+                  state.clearSelectedFacility();
+                }}
+              />
               <PublicDataFreshnessPanel
                 summary={state.publicDataSummary}
                 previewEnabled={state.publicDataPreviewEnabled}
@@ -110,6 +142,9 @@ export default function HomePage() {
               showRadius={state.filters.showRadius}
               showLegend={state.filters.showLegend}
               showLabels={state.filters.showLabels}
+              selectedLocationLabel={state.selectedLocation?.label ?? null}
+              coverageHeadline={state.coverageStatus.headline}
+              coverageMessages={state.coverageStatus.messages}
               selectedFacilityId={state.selectedFacility?.id ?? null}
               onSelectFacility={handleSelectFacility}
               onOpenFacilityDetails={(facilityId) => {
@@ -126,7 +161,14 @@ export default function HomePage() {
             } ${summaryOpen ? "lg:block" : "lg:hidden"}`}
             aria-label="Regional summary"
           >
-            <RegionalSummaryPanel facilities={state.visibleFacilities} radiusMiles={state.radiusMiles} />
+            <RegionalSummaryPanel
+              facilities={state.visibleFacilities}
+              radiusMiles={state.radiusMiles}
+              coverageStatus={state.coverageStatus}
+              selectedLocationLabel={
+                state.selectedLocation?.label ?? state.location.label
+              }
+            />
           </section>
 
           <section
@@ -208,6 +250,9 @@ export default function HomePage() {
           visibleFacilities: state.visibleFacilities,
           briefFacilities: state.facilitiesInRadius,
           publicDataSummary: state.publicDataSummary,
+          coverageStatus: state.coverageStatus,
+          selectedLocationSource:
+            state.selectedLocation?.source ?? "StatTerrain demo",
         }}
       />
     </div>

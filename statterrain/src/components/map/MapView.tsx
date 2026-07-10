@@ -27,6 +27,9 @@ interface MapViewProps {
   showRadius: boolean;
   showLegend: boolean;
   showLabels: boolean;
+  selectedLocationLabel?: string | null;
+  coverageHeadline: string;
+  coverageMessages: string[];
   selectedFacilityId: string | null;
   onSelectFacility: (id: string) => void;
   onOpenFacilityDetails?: (id: string) => void;
@@ -48,6 +51,9 @@ export function MapView({
   showRadius,
   showLegend,
   showLabels,
+  selectedLocationLabel,
+  coverageHeadline,
+  coverageMessages,
   selectedFacilityId,
   onSelectFacility,
   onOpenFacilityDetails,
@@ -126,9 +132,11 @@ export function MapView({
           }}
         >
           <Tooltip permanent={showLabels} direction="top">
-            {location.label}
+            {selectedLocationLabel ? "Selected location" : location.label}
           </Tooltip>
-          <Popup>Search location: {location.label}</Popup>
+          <Popup>
+            Selected location: {selectedLocationLabel ?? location.label}
+          </Popup>
         </CircleMarker>
 
         {facilities.map((f) => (
@@ -157,7 +165,9 @@ export function MapView({
                 <p className="mt-1">{f.distanceMiles} mi away</p>
                 <button
                   type="button"
-                  onClick={() => (onOpenFacilityDetails ?? onSelectFacility)(f.id)}
+                  onClick={() =>
+                    (onOpenFacilityDetails ?? onSelectFacility)(f.id)
+                  }
                   className="mt-2 min-h-9 rounded-md bg-terrain-700 px-3 py-2 font-medium text-white"
                 >
                   View details
@@ -169,7 +179,24 @@ export function MapView({
       </MapContainer>
 
       <div className="pointer-events-none absolute right-3 top-3 z-[350] max-w-[calc(100%-1.5rem)] rounded-md bg-white/95 px-3 py-2 text-xs font-semibold text-slate-700 shadow-panel">
-        Selected planning radius: <span className="whitespace-nowrap">{radiusMiles} miles</span>
+        <div>
+          Selected location:{" "}
+          <span className="whitespace-nowrap">
+            {selectedLocationLabel ?? location.label}
+          </span>
+        </div>
+        <div>
+          Selected planning radius:{" "}
+          <span className="whitespace-nowrap">{radiusMiles} miles</span>
+        </div>
+        <div className="mt-1 font-medium text-amber-800">
+          {coverageHeadline}
+        </div>
+        <ul className="mt-1 list-disc pl-4 font-normal text-slate-600">
+          {coverageMessages.slice(0, 2).map((message) => (
+            <li key={message}>{message}</li>
+          ))}
+        </ul>
       </div>
 
       {showLegend && (

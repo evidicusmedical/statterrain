@@ -3,7 +3,15 @@
 import { useMemo, useState } from "react";
 import { searchLocations, type SearchLocation } from "@/data/demo-region";
 import { facilities as syntheticFacilities } from "@/data/facilities";
-import { getPreviewCmsHospitalFacilities, getPublicDataArtifactSummary } from "@/lib/public-data/readPublicDataArtifacts";
+import {
+  getPreviewCmsHospitalFacilities,
+  getPublicDataArtifactSummary,
+} from "@/lib/public-data/readPublicDataArtifacts";
+import { buildCoverageStatus } from "@/lib/coverage/coverageStatus";
+import type {
+  LocationSearchStatus,
+  SelectedLocation,
+} from "@/lib/geocoding/searchLocation";
 import type { Facility, FacilityType, CapabilityName } from "@/types/facility";
 import type { OverlayMetricId } from "@/types/metric";
 import type { ConfidenceLevel } from "@/types/source";
@@ -53,33 +61,93 @@ function confidenceThreshold(filter: ConfidenceFilter): number {
   return 1;
 }
 
-function haversineMiles(aLat: number, aLng: number, bLat: number, bLng: number): number {
+function haversineMiles(
+  aLat: number,
+  aLng: number,
+  bLat: number,
+  bLng: number,
+): number {
   const R = 3958.8;
   const dLat = ((bLat - aLat) * Math.PI) / 180;
   const dLng = ((bLng - aLng) * Math.PI) / 180;
   const lat1 = (aLat * Math.PI) / 180;
   const lat2 = (bLat * Math.PI) / 180;
   const h =
-    Math.sin(dLat / 2) ** 2 + Math.cos(lat1) * Math.cos(lat2) * Math.sin(dLng / 2) ** 2;
+    Math.sin(dLat / 2) ** 2 +
+    Math.cos(lat1) * Math.cos(lat2) * Math.sin(dLng / 2) ** 2;
   return R * 2 * Math.asin(Math.sqrt(h));
 }
 
 export function useAppState() {
   const [location, setLocation] = useState<SearchLocation>(searchLocations[0]);
+  const [selectedLocation, setSelectedLocation] =
+    useState<SelectedLocation | null>(null);
+  const [searchStatus, setSearchStatus] =
+    useState<LocationSearchStatus>("idle");
+  const [searchMessage, setSearchMessage] = useState(
+    "Synthetic demo region active. Default map remains synthetic demonstration data.",
+  );
   const [radiusMiles, setRadiusMiles] = useState<number>(25);
   const [filters, setFilters] = useState<AppFilters>(defaultFilters());
-  const [selectedFacilityId, setSelectedFacilityId] = useState<string | null>(null);
+  const [selectedFacilityId, setSelectedFacilityId] = useState<string | null>(
+    null,
+  );
   const [briefOpen, setBriefOpen] = useState(false);
   const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false);
   const [mobileDetailOpen, setMobileDetailOpen] = useState(false);
   const publicDataSummary = useMemo(() => getPublicDataArtifactSummary(), []);
-  const publicDataPreviewFacilities = useMemo(() => getPreviewCmsHospitalFacilities(), []);
-  const [publicDataPreviewEnabled, setPublicDataPreviewEnabled] = useState(false);
+  const publicDataPreviewFacilities = useMemo(
+    () => getPreviewCmsHospitalFacilities(),
+    [],
+  );
+  const [publicDataPreviewEnabled, setPublicDataPreviewEnabled] =
+    useState(false);
+
+  const searchedOutsideDemoRegion = Boolean(
+    selectedLocation && !selectedLocation.isDemoRegion,
+  );
+
+  const previewFacilitiesInRadius = useMemo(() => {
+    return publicDataPreviewFacilities
+      .map((f) => ({
+        ...f,
+        distanceMiles: Number(
+          haversineMiles(location.lat, location.lng, f.lat, f.lng).toFixed(1),
+        ),
+      }))
+      .filter((f) => f.distanceMiles <= radiusMiles)
+      .sort((a, b) => a.distanceMiles - b.distanceMiles);
+  }, [publicDataPreviewFacilities, location, radiusMiles]);
 
   const allFacilities = useMemo(() => {
-    if (!publicDataPreviewEnabled || !publicDataSummary.canPreviewOnMap) return syntheticFacilities;
-    return [...syntheticFacilities, ...publicDataPreviewFacilities];
-  }, [publicDataPreviewEnabled, publicDataSummary.canPreviewOnMap, publicDataPreviewFacilities]);
+    const synthetic = searchedOutsideDemoRegion ? [] : syntheticFacilities;
+    if (!publicDataPreviewEnabled || !publicDataSummary.canPreviewOnMap)
+      return synthetic;
+    return [...synthetic, ...publicDataPreviewFacilities];
+  }, [
+    publicDataPreviewEnabled,
+    publicDataSummary.canPreviewOnMap,
+    publicDataPreviewFacilities,
+    searchedOutsideDemoRegion,
+  ]);
+
+  const coverageStatus = useMemo(
+    () =>
+      buildCoverageStatus({
+        selectedLocation,
+        radiusMiles,
+        publicPreviewEnabled: publicDataPreviewEnabled,
+        previewFacilitiesInRadius,
+        searchStatus,
+      }),
+    [
+      selectedLocation,
+      radiusMiles,
+      publicDataPreviewEnabled,
+      previewFacilitiesInRadius,
+      searchStatus,
+    ],
+  );
 
   const facilitiesInRadius = useMemo(() => {
     return allFacilities
@@ -99,7 +167,9 @@ export function useAppState() {
       if (!filters.facilityTypes.has(f.facilityType)) return false;
       if (confidenceRank(f.confidence) < threshold) return false;
       if (filters.capabilities.size > 0) {
-        const hasAny = f.capabilities.some((c) => filters.capabilities.has(c.capability));
+        const hasAny = f.capabilities.some((c) =>
+          filters.capabilities.has(c.capability),
+        );
         if (!hasAny) return false;
       }
       return true;
@@ -141,6 +211,14 @@ export function useAppState() {
   return {
     location,
     setLocation,
+    selectedLocation,
+    setSelectedLocation,
+    searchStatus,
+    setSearchStatus,
+    searchMessage,
+    setSearchMessage,
+    coverageStatus,
+    previewFacilitiesInRadius,
     radiusMiles,
     setRadiusMiles,
     filters,

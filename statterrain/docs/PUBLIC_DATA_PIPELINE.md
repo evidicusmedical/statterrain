@@ -83,3 +83,7 @@ Real fetch mode uses the official CMS endpoint when reachable, but failed fetche
 v0.2.8.1 does not change public-data ingestion. Radius is straight-line planning distance only, not drive-time or routing. Quick radius options are 10, 25, 50, and 100 miles, and the custom slider supports 1–250 miles. The selected radius scopes map summaries and evidence/export output for whichever safe display mode is active: synthetic default records, and CMS hospital preview records only when the optional preview is explicitly enabled.
 
 CMS hospital preview behavior remains optional/off by default with the existing bounded 5-record artifact. CMS dialysis remains fixture-only, not geocoded, not preview-ready, and not used by the map.
+
+## v0.2.9 coverage-status behavior
+
+The national planning-location search does not ingest new facility datasets and does not run facility geocoding. The geocoder is used only for user-selected planning locations in session-only client state. Coverage status explicitly separates synthetic Terrace Basin demo data from map-ready public-data preview records. The current CMS hospital artifact remains a bounded five-record preview, optional/off by default, with `usedInCurrentApp` remaining false for generated artifacts. CMS dialysis remains fixture-only/not geocoded/not map-ready. National artifact scaling, coverage manifests, geocoding cache design, changed-address detection, and chunked refresh workflows are deferred to v0.3.0.
