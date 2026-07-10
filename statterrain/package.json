@@ -30,7 +30,9 @@
     "data:build-cms-hospital-partitions": "node scripts/public-data/build-national-cms-hospitals.mjs --skip-pull-if-current",
     "data:build-national-cms-hospitals": "node scripts/public-data/build-national-cms-hospitals.mjs",
     "data:build-coverage-manifest": "node scripts/public-data/build-coverage-manifest.mjs",
-    "data:build-artifact-manifest": "node scripts/public-data/build-artifact-manifest.mjs"
+    "data:build-artifact-manifest": "node scripts/public-data/build-artifact-manifest.mjs",
+    "data:probe-cms-hospital-api": "node scripts/public-data/build-national-cms-hospitals.mjs --probe",
+    "test:cms-pagination": "node --test tests/cms-hospital-pagination.test.mjs"
   },
   "dependencies": {
     "leaflet": "^1.9.4",
@@ -53,6 +55,6 @@
     "typescript": "^5.5.4"
   },
   "engines": {
-    "node": ">=18.18.0"
+    "node": ">=24.0.0"
   }
 }
