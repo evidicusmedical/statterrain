@@ -1,0 +1,3 @@
+import {readdirSync,readFileSync,writeFileSync,existsSync} from 'node:fs';
+const mp='data/generated/cms-hospitals-national/manifest.json'; const m=existsSync(mp)?JSON.parse(readFileSync(mp,'utf8')):null;
+writeFileSync('data/generated/artifact-manifest.json',JSON.stringify({schemaVersion:'artifact-manifest-v0.3.2',generatedAt:new Date().toISOString(),taxonomyReadiness:{taxonomyVersion:'v0.3.2-source-backed-national-hospitals'},artifacts:[{id:'cms-hospitals-national',path:mp,exists:!!m,recordCount:m?.mapReadyRecords??0,partitionCount:m?.partitions?.length??0,usedInCurrentApp:!!m},{id:'cms-hospitals-generated',path:'data/generated/cms-hospitals.generated.json',exists:existsSync('data/generated/cms-hospitals.generated.json')}]} ,null,2)+'\n');

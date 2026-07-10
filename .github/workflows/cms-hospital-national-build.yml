@@ -1,0 +1,56 @@
+name: CMS Hospital National Build
+
+on:
+  workflow_dispatch:
+    inputs:
+      target_branch:
+        description: Branch to commit generated artifacts to
+        required: true
+        default: v0.3.2-complete-national-cms-hospital-network
+      geocoding_mode:
+        description: complete or dry-run
+        required: true
+        default: complete
+      commit_generated_artifacts:
+        description: Commit generated artifacts back to target branch
+        required: true
+        default: 'true'
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  build-national-cms-hospitals:
+    runs-on: ubuntu-latest
+    if: github.event.inputs.target_branch != 'main'
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.inputs.target_branch }}
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: npm
+          cache-dependency-path: statterrain/package-lock.json
+      - run: npm ci
+        working-directory: statterrain
+      - name: Build complete national CMS hospital network
+        run: npm run data:build-national-cms-hospitals
+        working-directory: statterrain
+      - name: Validate artifacts
+        run: |
+          npm run data:validate-cms-hospitals
+          npm run data:validate-cms-dialysis
+          npm run lint
+          npm run typecheck
+          npm run build
+        working-directory: statterrain
+      - name: Commit generated artifacts
+        if: github.event.inputs.commit_generated_artifacts == 'true'
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add statterrain/data statterrain/docs HANDOFF-v0.3.2-COMPLETE-NATIONAL-CMS-HOSPITAL-NETWORK.md statterrain/src statterrain/scripts statterrain/package.json .github/workflows/cms-hospital-national-build.yml
+          git commit -m "data: ingest and geocode national cms hospitals" || echo "No generated changes to commit"
+          git push origin HEAD:${{ github.event.inputs.target_branch }}
