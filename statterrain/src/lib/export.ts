@@ -13,6 +13,7 @@ import { formatDate, todayIso } from "./format";
 import type { AppFilters } from "@/hooks/useAppState";
 import { PLANNING_CONSIDERATIONS } from "./planning-considerations";
 import type { PublicDataArtifactSummary } from "@/lib/public-data/readPublicDataArtifacts";
+import type { CoverageStatus } from "@/lib/coverage/coverageStatus";
 
 export interface BriefContext {
   locationLabel: string;
@@ -21,6 +22,8 @@ export interface BriefContext {
   visibleFacilities: Facility[];
   briefFacilities: Facility[];
   publicDataSummary?: PublicDataArtifactSummary;
+  coverageStatus?: CoverageStatus;
+  selectedLocationSource?: string;
 }
 
 function activeFilterSummary(filters: AppFilters) {
@@ -84,22 +87,52 @@ export function buildMarkdownBrief(ctx: BriefContext): string {
   lines.push(`> ${product.syntheticDataNotice}`);
   lines.push("");
   lines.push(`- Search location: ${locationLabel}`);
+  lines.push(
+    `- Search location source: ${ctx.selectedLocationSource ?? "StatTerrain demo"}`,
+  );
   lines.push(`- Selected planning radius: ${radiusMiles} miles`);
   lines.push(`- Date generated: ${formatDate(todayIso())}`);
   lines.push(`- ${product.prototypeVersion}`);
   lines.push(`- ${BRIEF_SCOPE_STATEMENT}`);
   lines.push("");
 
+  lines.push("## Coverage status");
+  lines.push("");
+  if (ctx.coverageStatus) {
+    lines.push(`- Coverage state: ${ctx.coverageStatus.headline}`);
+    lines.push(
+      `- Synthetic demo data included in local facility counts: ${ctx.coverageStatus.syntheticSuppressed ? "No — suppressed for searched location outside demo region" : "Yes — synthetic demo region active"}`,
+    );
+    ctx.coverageStatus.messages.forEach((message) =>
+      lines.push(`- ${message}`),
+    );
+  } else {
+    lines.push("- Coverage status was not attached to this brief.");
+  }
+  lines.push("");
+
   lines.push("## Generated public-data preview provenance");
   lines.push("");
   if (publicDataSummary) {
-    lines.push(`- Dataset: ${publicDataSummary.sourceName} (${publicDataSummary.datasetId})`);
-    lines.push(`- Data mode: ${publicDataSummary.dataMode}${publicDataSummary.fixtureMode ? " (synthetic fixture; blocked from real-data map preview)" : ""}`);
-    lines.push(`- Validation: ${publicDataSummary.validationStatus}; geocoding: ${publicDataSummary.geocodingStatus}`);
-    lines.push(`- Retrieved: ${publicDataSummary.retrievedAt ? formatDate(publicDataSummary.retrievedAt) : "Not reported"}`);
-    lines.push(`- Map preview status: ${publicDataSummary.canPreviewOnMap ? "available only as explicitly labeled public-data preview" : `blocked — ${publicDataSummary.previewBlockReason}`}`);
+    lines.push(
+      `- Dataset: ${publicDataSummary.sourceName} (${publicDataSummary.datasetId})`,
+    );
+    lines.push(
+      `- Data mode: ${publicDataSummary.dataMode}${publicDataSummary.fixtureMode ? " (synthetic fixture; blocked from real-data map preview)" : ""}`,
+    );
+    lines.push(
+      `- Validation: ${publicDataSummary.validationStatus}; geocoding: ${publicDataSummary.geocodingStatus}`,
+    );
+    lines.push(
+      `- Retrieved: ${publicDataSummary.retrievedAt ? formatDate(publicDataSummary.retrievedAt) : "Not reported"}`,
+    );
+    lines.push(
+      `- Map preview status: ${publicDataSummary.canPreviewOnMap ? "available only as explicitly labeled public-data preview" : `blocked — ${publicDataSummary.previewBlockReason}`}`,
+    );
   } else {
-    lines.push("- No generated public-data artifact summary was attached to this brief.");
+    lines.push(
+      "- No generated public-data artifact summary was attached to this brief.",
+    );
   }
   lines.push("");
 
@@ -291,6 +324,8 @@ export function buildJsonBrief(ctx: BriefContext) {
     populationMetrics,
     populationMetricDefinitions,
     generatedPublicDataPreview: ctx.publicDataSummary ?? null,
+    coverageStatus: ctx.coverageStatus ?? null,
+    selectedLocationSource: ctx.selectedLocationSource ?? "StatTerrain demo",
     dataModeGuardrails: {
       defaultMapDataset: "synthetic demonstration data",
       publicDataPreviewRequiresValidationSafeRealData: true,
@@ -361,6 +396,7 @@ export function buildCsvBrief(ctx: BriefContext): string {
   );
   const notes = [
     "",
+    `# Search location: ${ctx.locationLabel}`,
     `# Selected planning radius: ${ctx.radiusMiles} miles`,
     `# ${BRIEF_SCOPE_STATEMENT}`,
     `# ${product.disclaimer}`,

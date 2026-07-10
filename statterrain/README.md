@@ -219,3 +219,9 @@ StatTerrain v0.2.8.1 updates the visible prototype label and improves dense-mark
 Quick radius options are now 10, 25, 50, and 100 miles. A custom radius slider supports 1–250 miles in 1-mile increments, and the selected radius applies consistently to map facility inclusion/counts, regional summaries, evidence brief scope, and Markdown/JSON/CSV exports. Use smaller radii such as 10 miles in dense metro areas to avoid over-broad facility lists.
 
 This patch does not change public-data ingestion: the default map remains synthetic, CMS hospital preview remains optional/off by default, CMS dialysis remains fixture-safe and not preview-ready, and no new ingestion or live geocoding was run.
+
+## v0.2.9 national planning-location search
+
+StatTerrain v0.2.9 prototype adds a session-only U.S. planning-location search box for addresses, ZIP codes, city/state queries, and state-level/place queries where the public geocoder can resolve them. The client uses the U.S. Census Geocoder public endpoint through a small mockable helper. User-entered locations are not persisted, are not search history, and must not be treated as patient addresses.
+
+Search recenters the map to the selected planning location, adds a selected-location marker/status label, and preserves the selected straight-line planning radius. The app still does not provide route calculation, travel-time estimates, real-time traffic, or ETA. Coverage messages distinguish the default synthetic Terrace Basin demo data from optional map-ready CMS hospital public-data preview records. The CMS hospital preview remains a bounded five-record preview and is not national coverage. CMS dialysis remains fixture-only/not geocoded/not map-ready. The recommended next patch is v0.3.0 — National Public-Data Coverage Model and Scaling Foundation.

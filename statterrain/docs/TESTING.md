@@ -170,6 +170,10 @@ Tests should fail if the visible product version remains stale. The CMS public-d
 
 ## v0.2.8.1 radius-control testing
 
-The v0.2.8.1 gate verifies the centralized visible version label is `v0.2.8.1 prototype`, the 10/25/50/100-mile quick radius options are present, and the radius slider exists with min 1, max 250, and step 1. Browser smoke coverage checks that quick buttons update the slider, custom slider values update selected radius state, and the selected planning radius appears in map/summary/evidence scope.
+The v0.2.9 gate verifies the centralized visible version label is `v0.2.9 prototype`, the 10/25/50/100-mile quick radius options are present, and the radius slider exists with min 1, max 250, and step 1. Browser smoke coverage checks that quick buttons update the slider, custom slider values update selected radius state, and the selected planning radius appears in map/summary/evidence scope.
 
 Static registry tests also verify active radius UI and export copy avoid drive-time, travel-time, ETA, and isochrone feature language outside explicit safety disclaimers. Existing public-data tests continue to cover CMS hospital preview preservation, CMS dialysis fixture safety, default synthetic behavior, and absence of patient-level/claims/live operational fields.
+
+## v0.2.9 test focus
+
+The v0.2.9 tests verify the centralized visible version gate (`v0.2.9 prototype`), the presence of the location-search component, deterministic geocoder failure/status handling, selected-location state, radius preservation, map recenter/marker props, outside-demo synthetic-data suppression, public-data coverage messages, CMS hospital preview preservation, CMS dialysis fixture safety, radius quick options and slider contract, and active-copy guardrails against route/drive-time/ETA features.

@@ -109,8 +109,9 @@ test.describe("CMS hospital fixture safety", () => {
 test.describe("product version guardrail", () => {
   test("visible product version is centralized and current", async () => {
     const productConfig = await readFile(join(process.cwd(), "src/config/product.ts"), "utf8");
-    expect(productConfig).toContain('prototypeVersion: "v0.2.8.1 prototype"');
+    expect(productConfig).toContain('prototypeVersion: "v0.2.9 prototype"');
     expect(productConfig).not.toContain('prototypeVersion: "v0.2.8 prototype"');
+    expect(productConfig).not.toContain('prototypeVersion: "v0.2.8.1 prototype"');
   });
 });
 
@@ -159,5 +160,53 @@ test.describe("v0.2.8.1 radius controls and scope guardrails", () => {
       const source = await readFile(join(process.cwd(), file), "utf8");
       expect(source).not.toMatch(/drive[- ]time|travel[- ]time|\bETA\b|isochrone/i);
     }
+  });
+});
+
+
+test.describe("v0.2.9 national location search and coverage status", () => {
+  test("location search component, geocoder abstraction, and status copy are present", async () => {
+    const component = await readFile(join(process.cwd(), "src/components/search/LocationSearchBox.tsx"), "utf8");
+    expect(component).toContain("Search U.S. address, ZIP, city/state, or state");
+    expect(component).toContain("invalid-input");
+    expect(component).toContain("Selected planning radius remains {radiusMiles} miles");
+
+    const geocoder = await readFile(join(process.cwd(), "src/lib/geocoding/searchLocation.ts"), "utf8");
+    expect(geocoder).toContain("geocoding.geo.census.gov");
+    expect(geocoder).toContain("U.S. Census Geocoder");
+    for (const status of ["found", "multiple-matches-top-used", "no-match", "geocoder-unavailable", "network-error", "invalid-input"]) expect(geocoder).toContain(status);
+  });
+
+  test("selected-location state preserves radius and recenters map props", async () => {
+    const state = await readFile(join(process.cwd(), "src/hooks/useAppState.ts"), "utf8");
+    expect(state).toContain("selectedLocation");
+    expect(state).toContain("setSelectedLocation");
+    expect(state).toContain("radiusMiles");
+    expect(state).toContain("searchedOutsideDemoRegion");
+
+    const page = await readFile(join(process.cwd(), "src/app/page.tsx"), "utf8");
+    expect(page).toContain("state.setLocation(result.location)");
+    expect(page).toContain("state.setSelectedLocation(result.location)");
+    expect(page).toContain("radiusMiles={state.radiusMiles}");
+
+    const mapView = await readFile(join(process.cwd(), "src/components/map/MapView.tsx"), "utf8");
+    expect(mapView).toContain("Selected location:");
+    expect(mapView).toContain("<Recenter lat={location.lat} lng={location.lng} />");
+    expect(mapView).toContain("radius={radiusMeters}");
+  });
+
+  test("outside-demo coverage suppresses misleading synthetic local coverage", async () => {
+    const state = await readFile(join(process.cwd(), "src/hooks/useAppState.ts"), "utf8");
+    expect(state).toContain("const synthetic = searchedOutsideDemoRegion ? [] : syntheticFacilities");
+
+    const coverage = await readFile(join(process.cwd(), "src/lib/coverage/coverageStatus.ts"), "utf8");
+    expect(coverage).toContain("Synthetic demo data is not representative of this searched location.");
+    expect(coverage).toContain("No map-ready public-data preview records are currently loaded for this area. National coverage is still being built.");
+    expect(coverage).toContain("CMS dialysis source scaffold exists, but records are fixture-only/not geocoded and are not map-ready.");
+
+    const exportLib = await readFile(join(process.cwd(), "src/lib/export.ts"), "utf8");
+    expect(exportLib).toContain("Coverage status");
+    expect(exportLib).toContain("Search location source");
+    expect(exportLib).toContain("Synthetic demo data included in local facility counts");
   });
 });
