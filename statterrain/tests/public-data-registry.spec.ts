@@ -109,7 +109,7 @@ test.describe("CMS hospital fixture safety", () => {
 test.describe("product version guardrail", () => {
   test("visible product version is centralized and current", async () => {
     const productConfig = await readFile(join(process.cwd(), "src/config/product.ts"), "utf8");
-    expect(productConfig).toContain('prototypeVersion: "v0.2.9 prototype"');
+    expect(productConfig).toContain('prototypeVersion: "v0.3.0 prototype"');
     expect(productConfig).not.toContain('prototypeVersion: "v0.2.8 prototype"');
     expect(productConfig).not.toContain('prototypeVersion: "v0.2.8.1 prototype"');
   });
@@ -208,5 +208,64 @@ test.describe("v0.2.9 national location search and coverage status", () => {
     expect(exportLib).toContain("Coverage status");
     expect(exportLib).toContain("Search location source");
     expect(exportLib).toContain("Synthetic demo data included in local facility counts");
+  });
+});
+
+test.describe("v0.3.0 national coverage manifest and scaling foundation", () => {
+  test("visible product version is v0.3.0 prototype", async () => {
+    const productConfig = await readFile(join(process.cwd(), "src/config/product.ts"), "utf8");
+    expect(productConfig).toContain('prototypeVersion: "v0.3.0 prototype"');
+    expect(productConfig).not.toContain('prototypeVersion: "v0.2.9 prototype"');
+  });
+
+  test("source coverage manifest captures hospital, dialysis, and synthetic statuses", async () => {
+    const manifest = JSON.parse(await readFile(join(process.cwd(), "data/generated/source-coverage-manifest.json"), "utf8"));
+    expect(manifest.nationalCoverageComplete).toBe(false);
+    const hospital = manifest.sources.find((s: any) => s.sourceId === "cms-hospital-general-information");
+    expect(hospital).toBeTruthy();
+    expect(hospital.dataMode).toBe("real-public-data");
+    expect(hospital.currentArtifactStatus).toBe("bounded-sample-only");
+    expect(hospital.nationalCoverageStatus).toBe("sample-not-national");
+    expect(hospital.recordCount).toBe(5);
+    expect(hospital.mapReadyRecordCount).toBe(5);
+    expect(hospital.previewEligibleRecordCount).toBe(5);
+    expect(hospital.usedInCurrentApp).toBe(false);
+    const dialysis = manifest.sources.find((s: any) => s.sourceId === "cms-dialysis-facilities");
+    expect(dialysis.currentArtifactStatus).toBe("fixture-only");
+    expect(dialysis.nationalCoverageStatus).toBe("not-yet-real");
+    expect(dialysis.mapReadyRecordCount).toBe(0);
+    const synthetic = manifest.sources.find((s: any) => s.sourceId === "synthetic-demo");
+    expect(synthetic.currentArtifactStatus).toBe("local-demo-only");
+    expect(synthetic.nationalCoverageStatus).toBe("not-real-public-data");
+  });
+
+  test("artifact manifest includes generated artifacts and inactive current-app flags", async () => {
+    const manifest = JSON.parse(await readFile(join(process.cwd(), "data/generated/artifact-manifest.json"), "utf8"));
+    const ids = manifest.artifacts.map((a: any) => a.artifactId);
+    expect(ids).toContain("cms-hospitals-generated");
+    expect(ids).toContain("cms-dialysis-generated");
+    for (const artifact of manifest.artifacts) expect(artifact.usedInCurrentApp).toBe(false);
+  });
+
+  test("geocoding cache scaffold exists and is empty", async () => {
+    expect(existsSync(join(process.cwd(), "data/generated/geocoding-cache/geocoding-cache.schema.json"))).toBe(true);
+    const cache = JSON.parse(await readFile(join(process.cwd(), "data/generated/geocoding-cache/geocoding-cache-v0.3.0.json"), "utf8"));
+    expect(cache.entries).toEqual([]);
+  });
+
+  test("changed-address and chunking scaffolds exist", () => {
+    expect(existsSync(join(process.cwd(), "scripts/public-data/compare-addresses-for-geocoding.mjs"))).toBe(true);
+    expect(existsSync(join(process.cwd(), "scripts/public-data/create-geocoding-chunks.mjs"))).toBe(true);
+  });
+
+  test("coverage UI and export include national coverage summary copy", async () => {
+    const panel = await readFile(join(process.cwd(), "src/components/public-data/PublicDataFreshnessPanel.tsx"), "utf8");
+    expect(panel).toContain("Public-data coverage: national coverage in progress");
+    expect(panel).toContain("sourceCoverage.map");
+    const coverage = await readFile(join(process.cwd(), "src/lib/coverage/coverageStatus.ts"), "utf8");
+    expect(coverage).toContain("bounded 5-record preview sample, not national coverage");
+    const exportLib = await readFile(join(process.cwd(), "src/lib/export.ts"), "utf8");
+    expect(exportLib).toContain("Coverage manifest summary");
+    expect(exportLib).toContain("coverageManifestSummary");
   });
 });

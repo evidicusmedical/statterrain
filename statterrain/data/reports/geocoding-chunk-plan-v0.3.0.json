@@ -1,0 +1,24 @@
+{
+  "schemaVersion": "geocoding-chunk-plan-v0.3.0",
+  "generatedAt": "2026-07-10T00:00:00.000Z",
+  "sourceId": "cms-dialysis-facilities",
+  "chunkSize": 100,
+  "totalRecordsNeedingGeocoding": 3,
+  "chunks": [
+    {
+      "chunkId": "cms-dialysis-facilities-chunk-001",
+      "startIndex": 0,
+      "endIndex": 2,
+      "recordCount": 3,
+      "status": "planned-only"
+    }
+  ],
+  "recommendedWorkflow": [
+    "Review delta report in PR.",
+    "Run bounded chunks manually in a future patch only after source artifact review.",
+    "Commit generated results for review; do not auto-merge."
+  ],
+  "warnings": [
+    "Planning only: no network calls, no live Census calls, no scheduled cron, no PR creation."
+  ]
+}

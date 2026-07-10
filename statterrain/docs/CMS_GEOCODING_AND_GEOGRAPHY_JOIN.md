@@ -1,11 +1,30 @@
-# CMS geocoding and geography join
+# StatTerrain v0.3.0 national public-data scaling foundation
 
-## Release tracking rule
+StatTerrain v0.3.0 adds a national-scale public-data coverage model while keeping the default product a frontend prototype with synthetic demonstration map data.
 
-Every patch must update `product.prototypeVersion` in `src/config/product.ts`. This visible version is used to confirm Vercel deployment freshness and prevent stale UI confusion. Tests must be updated with each patch to assert the expected visible version.
+## Current source status
 
-## v0.2.7.1 live-geocoded preview status
+- CMS Hospital General Information: real public data, bounded 5-record preview sample only, 5 geocoded/map-ready/preview-eligible records, not national coverage, not used in the default map.
+- CMS Dialysis Facility pilot: synthetic test fixture only, 3 records, not geocoded, not geography-joined, not map-ready, and not preview-ready.
+- Synthetic demo: local demonstration data only; not real public data and not national coverage.
 
-PR #24 produced 5 live Census Geocoder matches and 5 geography joins for CMS Hospital General Information preview records. Preview eligibility requires real-public-data mode, non-fixture metadata, validation-safe output, valid latitude/longitude, matched geocoding status, joined geography status, and `usedInCurrentApp: false`.
+## Generated artifacts
 
-Coordinates are public-data preview context only. Do not infer ED, trauma, stroke, STEMI, PCI, pediatric, perinatal, ICU, bed availability, transfer capability, operating status, or any clinical capability from geocoding results. The default map remains synthetic and broader CMS national coverage is not complete.
+- `data/generated/source-coverage-manifest.json` summarizes readiness, coverage, map readiness, preview eligibility, limitations, prohibited uses, and next required step per source.
+- `data/generated/artifact-manifest.json` inventories generated artifacts, validation state, checksums, and display/readiness flags.
+- `data/generated/geocoding-cache/` contains the v0.3.0 cache schema and an intentionally empty cache scaffold.
+
+## Scaling workflow
+
+Future national refreshes should use static generated artifacts, PR-based review, last-known-good fallback, deterministic validation, changed-address detection, and chunked geocoding. Do not repeatedly full-geocode every run. The v0.3.0 scripts only write planning reports and make no network calls.
+
+- `npm run data:compare-addresses-for-geocoding` writes `data/reports/address-geocoding-delta-v0.3.0.json`.
+- `npm run data:create-geocoding-chunks` writes `data/reports/geocoding-chunk-plan-v0.3.0.json`.
+
+## Safety boundaries
+
+No backend, database, authentication, PHI, patient-level data, claims data, live routing, drive-time calculation, travel-time estimate, ETA, real-time traffic, live diversion, bed status, dispatch recommendations, triage recommendations, transfer recommendations, medical-control guidance, or clinical decision support is included. User-entered search locations remain session-only and are not stored.
+
+## Next patch
+
+Recommended next patch: v0.3.1 — CMS Hospital National Pull Expansion. It should expand CMS Hospital General Information into a full national normalized artifact using the v0.3.0 manifest/scaling foundation without geocoding everything at once and without turning real data on by default.
