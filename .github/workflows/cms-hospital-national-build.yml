@@ -6,7 +6,7 @@ on:
       target_branch:
         description: Feature branch to check out and receive generated artifacts; main is refused.
         required: true
-        default: v0.3.2.1-execute-complete-national-cms-hospital-build
+        default: v0.3.2.4-national-cms-hospital-generated-data
       geocoding_mode:
         description: Complete national build mode. Use complete for release execution.
         type: choice
@@ -126,18 +126,66 @@ jobs:
           npm run data:build-artifact-manifest
         working-directory: ${{ env.APP_DIR }}
 
+
+      - name: Upload interim national build artifacts
+        if: ${{ always() }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: cms-hospital-national-build-${{ github.run_id }}-${{ github.run_attempt }}-interim
+          retention-days: 14
+          if-no-files-found: warn
+          path: |
+            statterrain/data/generated/cms-hospitals-national/**
+            statterrain/data/generated/cms-hospitals-national-v0.3.2.json
+            statterrain/data/normalized/cms-hospitals/**
+            statterrain/data/generated/geocoding-inputs/**
+            statterrain/data/generated/geocoding-cache/**
+            statterrain/data/generated/geocoding-chunks/**
+            statterrain/data/generated/geocoding-results/**
+            statterrain/data/reports/**
+            statterrain/data/generated/source-coverage-manifest.json
+            statterrain/data/generated/artifact-manifest.json
+
       - name: Validate generated artifacts and app
         run: |
           npm run data:validate-sources
           npm run data:validate-benchmark
-          npm run data:validate-cms-hospitals
+          npm run data:validate-cms-hospitals:national
           npm run data:validate-cms-dialysis
           npm run lint
           npm run typecheck
           npm run build
         working-directory: ${{ env.APP_DIR }}
 
+
+      - name: Upload final national validation artifacts
+        if: ${{ always() }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: cms-hospital-national-build-${{ github.run_id }}-${{ github.run_attempt }}
+          retention-days: 30
+          if-no-files-found: warn
+          path: |
+            statterrain/data/generated/cms-hospitals-national/manifest.json
+            statterrain/data/generated/cms-hospitals-national/summary.json
+            statterrain/data/generated/cms-hospitals-national/states/**
+            statterrain/data/generated/cms-hospitals-national/excluded-records.json
+            statterrain/data/generated/cms-hospitals-national/unmatched-records.json
+            statterrain/data/generated/cms-hospitals-national-v0.3.2.json
+            statterrain/data/normalized/cms-hospitals/cms-hospitals-normalized-v0.3.2.json
+            statterrain/data/generated/geocoding-inputs/cms-hospitals-national-geocoding-input-v0.3.2.json
+            statterrain/data/generated/geocoding-cache/cms-hospitals-geocoding-cache.json
+            statterrain/data/generated/geocoding-chunks/cms-hospitals-v0.3.2/**
+            statterrain/data/generated/geocoding-results/cms-hospitals-geography-join-v0.3.2.json
+            statterrain/data/reports/cms-hospitals-geocoding-run-v0.3.2.json
+            statterrain/data/reports/cms-hospitals-national-quality-v0.3.2.json
+            statterrain/data/reports/cms-hospitals-national-validation-v0.3.2.4.json
+            statterrain/data/reports/cms-hospitals-national-pull-v0.3.2.json
+            statterrain/data/generated/source-coverage-manifest.json
+            statterrain/data/generated/artifact-manifest.json
+
       - name: Capture national build summary
+        if: ${{ success() }}
         id: summary
         shell: bash
         run: |
@@ -152,6 +200,7 @@ jobs:
           NODE
 
       - name: Write GitHub Actions job summary
+        if: ${{ success() }}
         shell: bash
         run: |
           cat >> "$GITHUB_STEP_SUMMARY" <<'MD'
@@ -181,13 +230,13 @@ jobs:
           MD
 
       - name: Commit generated artifacts
-        if: ${{ github.event.inputs.commit_generated_artifacts == 'true' }}
+        if: ${{ success() && github.event.inputs.commit_generated_artifacts == 'true' }}
         shell: bash
         run: |
           set -euo pipefail
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add statterrain/data statterrain/docs statterrain/src statterrain/scripts statterrain/package.json .github/workflows/cms-hospital-national-build.yml HANDOFF-v0.3.2.1-EXECUTE-COMPLETE-NATIONAL-CMS-HOSPITAL-BUILD.md statterrain/docs/handoffs/HANDOFF-v0.3.2.1-EXECUTE-COMPLETE-NATIONAL-CMS-HOSPITAL-BUILD.md
+          git add statterrain/data statterrain/docs statterrain/src statterrain/scripts statterrain/package.json .github/workflows/cms-hospital-national-build.yml HANDOFF-v0.3.2.4-NATIONAL-CMS-VALIDATOR-ARTIFACT-RECOVERY.md statterrain/docs/handoffs/HANDOFF-v0.3.2.4-NATIONAL-CMS-VALIDATOR-ARTIFACT-RECOVERY.md
           if git diff --cached --quiet; then
             echo "No generated changes to commit"
           else

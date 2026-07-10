@@ -16,7 +16,9 @@
     "data:refresh-report": "node scripts/public-data/generate-refresh-report.mjs",
     "data:validate-benchmark": "node scripts/public-data/validate-source-benchmark.mjs",
     "data:pull-cms-hospitals": "node scripts/public-data/build-national-cms-hospitals.mjs",
-    "data:validate-cms-hospitals": "node scripts/public-data/validate-cms-hospitals.mjs",
+    "data:validate-cms-hospitals": "node scripts/public-data/validate-cms-hospitals.mjs --mode auto",
+    "data:validate-cms-hospitals:national": "node scripts/public-data/validate-cms-hospitals.mjs --mode national --verbose",
+    "data:inspect-cms-hospital-validation": "node scripts/public-data/validate-cms-hospitals.mjs --inspect",
     "data:geocode-cms-hospitals": "node scripts/public-data/geocode-cms-hospitals.mjs",
     "data:refresh-cms-hospitals": "node scripts/public-data/run-cms-hospital-refresh.mjs",
     "data:pull-cms-dialysis": "node scripts/public-data/pull-cms-dialysis-facilities.mjs",
@@ -33,7 +35,8 @@
     "data:build-artifact-manifest": "node scripts/public-data/build-artifact-manifest.mjs",
     "data:probe-cms-hospital-api": "node scripts/public-data/build-national-cms-hospitals.mjs --probe",
     "data:probe-cms-hospital-api:json": "node scripts/public-data/build-national-cms-hospitals.mjs --probe",
-    "test:cms-pagination": "node --test tests/cms-hospital-pagination.test.mjs"
+    "test:cms-pagination": "node --test tests/cms-hospital-pagination.test.mjs",
+    "test:cms-national-validation": "node --test tests/cms-national-validation.test.mjs"
   },
   "dependencies": {
     "leaflet": "^1.9.4",
