@@ -381,10 +381,8 @@ test.describe("StatTerrain critical workflow", () => {
     ).toHaveCount(0);
     await expect(page.getByTestId("map-view")).toBeVisible();
     await expect(
-      page.getByText(
-        "Show summary to review facilities and population context.",
-      ),
-    ).toBeVisible();
+      page.getByText("Summary panel toggle; no persistent map tooltip is shown."),
+    ).toHaveCount(0);
     await page.getByRole("button", { name: "Show summary" }).click();
     await expect(
       page.getByRole("region", { name: "Regional summary" }),
