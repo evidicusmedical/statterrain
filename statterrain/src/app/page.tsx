@@ -126,7 +126,7 @@ export default function HomePage() {
             } ${summaryOpen ? "lg:block" : "lg:hidden"}`}
             aria-label="Regional summary"
           >
-            <RegionalSummaryPanel facilities={state.visibleFacilities} />
+            <RegionalSummaryPanel facilities={state.visibleFacilities} radiusMiles={state.radiusMiles} />
           </section>
 
           <section

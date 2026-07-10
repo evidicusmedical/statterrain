@@ -15,7 +15,6 @@ export const facilities: Facility[] = [
     lng: -116.2,
     address: "100 Basin Parkway, Cascadia City, Demonstration State",
     distanceMiles: 0,
-    approxDriveTimeMinutes: 0,
     criticalAccess: false,
     capabilities: [
       makeCapability({
@@ -74,7 +73,6 @@ export const facilities: Facility[] = [
     lng: -116.235,
     address: "220 Harborview Ave, Cascadia City, Demonstration State",
     distanceMiles: 3.4,
-    approxDriveTimeMinutes: 9,
     criticalAccess: false,
     capabilities: [
       makeCapability({
@@ -125,7 +123,6 @@ export const facilities: Facility[] = [
     lng: -116.145,
     address: "58 Riverbend Rd, Riverbend, Demonstration State",
     distanceMiles: 6.1,
-    approxDriveTimeMinutes: 14,
     criticalAccess: false,
     capabilities: [
       makeCapability({
@@ -168,7 +165,6 @@ export const facilities: Facility[] = [
     lng: -116.05,
     address: "12 Ridgeline Way, Highland, Demonstration State",
     distanceMiles: 14.8,
-    approxDriveTimeMinutes: 26,
     criticalAccess: true,
     capabilities: [
       makeCapability({
@@ -197,7 +193,6 @@ export const facilities: Facility[] = [
     lng: -116.27,
     address: "900 North Basin Hwy, North Basin, Demonstration State",
     distanceMiles: 10.2,
-    approxDriveTimeMinutes: 19,
     criticalAccess: false,
     capabilities: [
       makeCapability({
@@ -249,7 +244,6 @@ export const facilities: Facility[] = [
     lng: -116.21,
     address: "77 Meadowlark Dr, Cascadia City, Demonstration State",
     distanceMiles: 2.9,
-    approxDriveTimeMinutes: 8,
     criticalAccess: false,
     capabilities: [
       makeCapability({
@@ -291,7 +285,6 @@ export const facilities: Facility[] = [
     lng: -116.33,
     address: "5 Valley View Rd, Basin Valley, Demonstration State",
     distanceMiles: 17.6,
-    approxDriveTimeMinutes: 31,
     criticalAccess: true,
     capabilities: [],
     sourceIds: ["src-cms-provider-data"],
@@ -308,7 +301,6 @@ export const facilities: Facility[] = [
     lng: -116.12,
     address: "310 Southfork Blvd, Southfork, Demonstration State",
     distanceMiles: 9.5,
-    approxDriveTimeMinutes: 18,
     criticalAccess: false,
     capabilities: [
       makeCapability({
@@ -411,7 +403,7 @@ export const facilities: Facility[] = [
 ];
 
 /**
- * Deterministic pseudo-random helper so demonstration distance/drive-time
+ * Deterministic pseudo-random helper so demonstration distance
  * values are stable across server and client renders (avoids hydration
  * mismatches that Math.random() would cause).
  */
@@ -433,7 +425,6 @@ function makePharmacy(id: string, name: string, lat: number, lng: number, addres
     lng,
     address: `${address}, Demonstration State`,
     distanceMiles: Number(seededValue(id, 1, 13).toFixed(1)),
-    approxDriveTimeMinutes: Math.round(seededValue(id + "-drive", 3, 21)),
     criticalAccess: false,
     capabilities: [],
     sourceIds: ["src-nppes"],
@@ -453,7 +444,6 @@ function makeDialysis(id: string, name: string, lat: number, lng: number, addres
     lng,
     address: `${address}, Demonstration State`,
     distanceMiles: Number(seededValue(id, 1, 13).toFixed(1)),
-    approxDriveTimeMinutes: Math.round(seededValue(id + "-drive", 3, 21)),
     criticalAccess: false,
     capabilities: [],
     sourceIds: ["src-cms-provider-data"],
@@ -473,7 +463,6 @@ function makeNursingHome(id: string, name: string, lat: number, lng: number, add
     lng,
     address: `${address}, Demonstration State`,
     distanceMiles: Number(seededValue(id, 1, 13).toFixed(1)),
-    approxDriveTimeMinutes: Math.round(seededValue(id + "-drive", 3, 21)),
     criticalAccess: false,
     capabilities: [],
     sourceIds: ["src-cms-provider-data"],
@@ -500,7 +489,6 @@ function makeBehavioralHealth(
     lng,
     address: `${address}, Demonstration State`,
     distanceMiles: Number(seededValue(id, 1, 13).toFixed(1)),
-    approxDriveTimeMinutes: Math.round(seededValue(id + "-drive", 3, 21)),
     criticalAccess: false,
     capabilities: receiving
       ? [

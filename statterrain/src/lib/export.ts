@@ -58,7 +58,7 @@ function download(filename: string, content: string, mimeType: string) {
 }
 
 export const BRIEF_SCOPE_STATEMENT =
-  "Brief scope: This evidence brief includes all available facility categories within the selected geography. Current map display filters are not used to exclude records from this brief.";
+  "Brief scope: This evidence brief includes all available facility categories within the selected planning radius. Current map display filters are not used to exclude records from this brief.";
 
 export function buildMarkdownBrief(ctx: BriefContext): string {
   const {
@@ -84,9 +84,7 @@ export function buildMarkdownBrief(ctx: BriefContext): string {
   lines.push(`> ${product.syntheticDataNotice}`);
   lines.push("");
   lines.push(`- Search location: ${locationLabel}`);
-  lines.push(
-    `- Radius: ${radiusMiles} miles (approximate; not routed drive-time)`,
-  );
+  lines.push(`- Selected planning radius: ${radiusMiles} miles`);
   lines.push(`- Date generated: ${formatDate(todayIso())}`);
   lines.push(`- ${product.prototypeVersion}`);
   lines.push(`- ${BRIEF_SCOPE_STATEMENT}`);
@@ -132,9 +130,7 @@ export function buildMarkdownBrief(ctx: BriefContext): string {
   hospitals.forEach((f) => {
     lines.push(`### ${f.name}`);
     lines.push(`- Address: ${f.address}`);
-    lines.push(
-      `- Distance: ${f.distanceMiles} mi (approx. ${f.approxDriveTimeMinutes} min demonstration drive time)`,
-    );
+    lines.push(`- Straight-line planning distance: ${f.distanceMiles} mi`);
     lines.push(`- Critical access: ${f.criticalAccess ? "Yes" : "No"}`);
     if (f.capabilities.length === 0) {
       lines.push(
@@ -341,7 +337,6 @@ export function buildCsvBrief(ctx: BriefContext): string {
     "facility_type",
     "address",
     "distance_miles",
-    "approx_drive_time_minutes",
     "critical_access",
     "capabilities",
     "confidence",
@@ -355,7 +350,6 @@ export function buildCsvBrief(ctx: BriefContext): string {
       FACILITY_TYPE_LABELS[f.facilityType],
       f.address,
       f.distanceMiles,
-      f.approxDriveTimeMinutes,
       f.criticalAccess ? "yes" : "no",
       f.capabilities.map((c) => c.label).join("; "),
       CONFIDENCE_LABELS[f.confidence],
@@ -367,6 +361,7 @@ export function buildCsvBrief(ctx: BriefContext): string {
   );
   const notes = [
     "",
+    `# Selected planning radius: ${ctx.radiusMiles} miles`,
     `# ${BRIEF_SCOPE_STATEMENT}`,
     `# ${product.disclaimer}`,
     `# ${product.syntheticDataNotice}`,

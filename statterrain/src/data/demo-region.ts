@@ -73,13 +73,8 @@ export const searchLocations: SearchLocation[] = [
 ];
 
 export const radiusOptions = [
+  { id: "radius-10", label: "10 miles", miles: 10 },
   { id: "radius-25", label: "25 miles", miles: 25 },
   { id: "radius-50", label: "50 miles", miles: 50 },
   { id: "radius-100", label: "100 miles", miles: 100 },
-] as const;
-
-export const driveTimeOptions = [
-  { id: "drive-30", label: "30-minute drive time", minutes: 30 },
-  { id: "drive-60", label: "60-minute drive time", minutes: 60 },
-  { id: "drive-90", label: "90-minute drive time", minutes: 90 },
 ] as const;

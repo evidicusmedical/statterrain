@@ -109,7 +109,55 @@ test.describe("CMS hospital fixture safety", () => {
 test.describe("product version guardrail", () => {
   test("visible product version is centralized and current", async () => {
     const productConfig = await readFile(join(process.cwd(), "src/config/product.ts"), "utf8");
-    expect(productConfig).toContain('prototypeVersion: "v0.2.8 prototype"');
-    expect(productConfig).not.toContain('prototypeVersion: "v0.2.7.1 prototype"');
+    expect(productConfig).toContain('prototypeVersion: "v0.2.8.1 prototype"');
+    expect(productConfig).not.toContain('prototypeVersion: "v0.2.8 prototype"');
+  });
+});
+
+
+test.describe("v0.2.8.1 radius controls and scope guardrails", () => {
+  test("quick radius options and slider contract are present", async () => {
+    const radiusData = await readFile(join(process.cwd(), "src/data/demo-region.ts"), "utf8");
+    for (const miles of [10, 25, 50, 100]) {
+      expect(radiusData).toContain(`miles: ${miles}`);
+      expect(radiusData).toContain(`${miles} miles`);
+    }
+
+    const filterSidebar = await readFile(join(process.cwd(), "src/components/filters/FilterSidebar.tsx"), "utf8");
+    expect(filterSidebar).toContain('type="range"');
+    expect(filterSidebar).toContain('min={1}');
+    expect(filterSidebar).toContain('max={250}');
+    expect(filterSidebar).toContain('step={1}');
+    expect(filterSidebar).toContain('onClick={() => onRadiusChange(r.miles)}');
+    expect(filterSidebar).toContain('onChange={(event) => onRadiusChange(Number(event.target.value))}');
+    expect(filterSidebar).toContain('Selected planning radius: {radiusMiles} miles');
+  });
+
+  test("summary, map, and exports use selected planning radius language", async () => {
+    const summary = await readFile(join(process.cwd(), "src/components/regional-summary/RegionalSummaryPanel.tsx"), "utf8");
+    expect(summary).toContain('Selected planning radius: {radiusMiles} miles');
+    expect(summary).toContain('Zero-facility results can occur with small radii.');
+
+    const mapView = await readFile(join(process.cwd(), "src/components/map/MapView.tsx"), "utf8");
+    expect(mapView).toContain('Selected planning radius:');
+    expect(mapView).toContain('radius={radiusMeters}');
+
+    const exportLib = await readFile(join(process.cwd(), "src/lib/export.ts"), "utf8");
+    expect(exportLib).toContain('Selected planning radius: ${radiusMiles} miles');
+    expect(exportLib).toContain('Selected planning radius: ${ctx.radiusMiles} miles');
+    expect(exportLib).toContain('selected planning radius');
+  });
+
+  test("active radius UI and export copy avoid travel-scope feature language", async () => {
+    const activeFiles = [
+      "src/components/filters/FilterSidebar.tsx",
+      "src/components/map/MapView.tsx",
+      "src/components/regional-summary/RegionalSummaryPanel.tsx",
+      "src/lib/export.ts",
+    ];
+    for (const file of activeFiles) {
+      const source = await readFile(join(process.cwd(), file), "utf8");
+      expect(source).not.toMatch(/drive[- ]time|travel[- ]time|\bETA\b|isochrone/i);
+    }
   });
 });

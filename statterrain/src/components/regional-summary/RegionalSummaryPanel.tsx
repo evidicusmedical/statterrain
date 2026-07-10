@@ -16,7 +16,7 @@ const FACILITY_COUNT_ORDER: Facility["facilityType"][] = [
   "behavioral_health",
 ];
 
-export function RegionalSummaryPanel({ facilities }: { facilities: Facility[] }) {
+export function RegionalSummaryPanel({ facilities, radiusMiles }: { facilities: Facility[]; radiusMiles: number }) {
   const [expandedMetricId, setExpandedMetricId] =
     useState<OverlayMetricId | null>(null);
 
@@ -26,7 +26,8 @@ export function RegionalSummaryPanel({ facilities }: { facilities: Facility[] })
         Use tabs to switch between map, summary, and details.
       </p>
       <section>
-        <h2 className="mb-2 text-sm font-semibold text-slate-900">Facilities in selected geography</h2>
+        <h2 className="mb-2 text-sm font-semibold text-slate-900">Facilities in selected planning radius</h2>
+        <p className="mb-2 text-xs text-slate-500">Selected planning radius: {radiusMiles} miles. Zero-facility results can occur with small radii.</p>
         <div className="grid grid-cols-2 gap-2 sm:grid-cols-3">
           {FACILITY_COUNT_ORDER.map((type) => (
             <div

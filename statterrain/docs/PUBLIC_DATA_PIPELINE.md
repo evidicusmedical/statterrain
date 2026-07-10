@@ -77,3 +77,9 @@ npm run data:validate-cms-dialysis
 ```
 
 Real fetch mode uses the official CMS endpoint when reachable, but failed fetches report a safe no-publish state instead of fabricating records.
+
+## v0.2.8.1 radius-control note
+
+v0.2.8.1 does not change public-data ingestion. Radius is straight-line planning distance only, not drive-time or routing. Quick radius options are 10, 25, 50, and 100 miles, and the custom slider supports 1–250 miles. The selected radius scopes map summaries and evidence/export output for whichever safe display mode is active: synthetic default records, and CMS hospital preview records only when the optional preview is explicitly enabled.
+
+CMS hospital preview behavior remains optional/off by default with the existing bounded 5-record artifact. CMS dialysis remains fixture-only, not geocoded, not preview-ready, and not used by the map.

@@ -1,7 +1,7 @@
 "use client";
 
 import { Collapsible } from "@/components/ui/Collapsible";
-import { driveTimeOptions, radiusOptions } from "@/data/demo-region";
+import { radiusOptions } from "@/data/demo-region";
 import { FACILITY_TYPE_LABELS, CAPABILITY_LABELS, type FacilityType, type CapabilityName } from "@/types/facility";
 import { OVERLAY_LABELS, type OverlayMetricId } from "@/types/metric";
 import type { AppFilters, ConfidenceFilter } from "@/hooks/useAppState";
@@ -85,7 +85,7 @@ export function FilterSidebar({
       </p>
 
       <fieldset className="mb-4">
-        <legend className="mb-1.5 text-xs font-medium text-slate-500">Radius</legend>
+        <legend className="mb-1.5 text-xs font-medium text-slate-500">Distance radius</legend>
         <div className="flex flex-wrap gap-1.5">
           {radiusOptions.map((r) => (
             <button
@@ -103,24 +103,25 @@ export function FilterSidebar({
             </button>
           ))}
         </div>
-        <p className="mt-1.5 text-xs text-slate-500">Selected radius: {radiusMiles} miles</p>
-      </fieldset>
-
-      <fieldset className="mb-4">
-        <legend className="mb-1.5 text-xs font-medium text-slate-500">Drive-time (planned)</legend>
-        <div className="flex flex-wrap gap-1.5">
-          {driveTimeOptions.map((d) => (
-            <button
-              key={d.id}
-              type="button"
-              disabled
-              title="Planned for a future release -- not available in this demonstration prototype"
-              className="cursor-not-allowed rounded-md border border-dashed border-slate-300 px-2.5 py-1.5 text-xs font-medium text-slate-400"
-            >
-              {d.label}
-            </button>
-          ))}
-        </div>
+        <label htmlFor="radius-slider" className="mt-3 flex items-center justify-between gap-3 text-xs font-medium text-slate-600">
+          <span>Custom radius</span>
+          <span className="whitespace-nowrap">{radiusMiles} miles</span>
+        </label>
+        <input
+          id="radius-slider"
+          aria-label="Distance radius in miles"
+          type="range"
+          min={1}
+          max={250}
+          step={1}
+          value={radiusMiles}
+          onChange={(event) => onRadiusChange(Number(event.target.value))}
+          className="mt-2 w-full accent-terrain-600"
+        />
+        <p className="mt-1.5 text-xs leading-relaxed text-slate-500">
+          Use smaller radii such as 10 miles in dense metro areas. Radius is straight-line planning distance, not routing.
+        </p>
+        <p className="mt-1 text-xs font-medium text-slate-600">Selected planning radius: {radiusMiles} miles</p>
       </fieldset>
 
       <Collapsible title="Facility display filters">

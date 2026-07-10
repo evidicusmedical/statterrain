@@ -167,3 +167,9 @@ The main app remains synthetic by default and the CMS pilot does not power the m
 Release tracking rule: every patch must update `product.prototypeVersion` in `src/config/product.ts`. This visible version is used to confirm Vercel deployment freshness and prevent stale UI confusion. Tests must be updated with each patch to assert the expected visible version.
 
 Tests should fail if the visible product version remains stale. The CMS public-data tests also verify that the PR #24 artifact has 5 live Census Geocoder matches, 5 geography joins, valid coordinates, non-fixture real-public-data mode, `usedInCurrentApp: false`, optional preview eligibility, and no dry-run-only map-ready copy for live-geocoded records. The default map must remain synthetic and CMS preview must remain off by default.
+
+## v0.2.8.1 radius-control testing
+
+The v0.2.8.1 gate verifies the centralized visible version label is `v0.2.8.1 prototype`, the 10/25/50/100-mile quick radius options are present, and the radius slider exists with min 1, max 250, and step 1. Browser smoke coverage checks that quick buttons update the slider, custom slider values update selected radius state, and the selected planning radius appears in map/summary/evidence scope.
+
+Static registry tests also verify active radius UI and export copy avoid drive-time, travel-time, ETA, and isochrone feature language outside explicit safety disclaimers. Existing public-data tests continue to cover CMS hospital preview preservation, CMS dialysis fixture safety, default synthetic behavior, and absence of patient-level/claims/live operational fields.

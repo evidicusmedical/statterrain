@@ -58,7 +58,6 @@ export interface Facility {
   email?: string;
   fax?: string;
   distanceMiles: number;
-  approxDriveTimeMinutes: number;
   criticalAccess: boolean;
   capabilities: CapabilityRecord[];
   sourceIds: string[];
