@@ -4,53 +4,138 @@ on:
   workflow_dispatch:
     inputs:
       target_branch:
-        description: Branch to commit generated artifacts to
+        description: Feature branch to check out and receive generated artifacts; main is refused.
         required: true
-        default: v0.3.2-complete-national-cms-hospital-network
+        default: v0.3.2.1-execute-complete-national-cms-hospital-build
       geocoding_mode:
-        description: complete or dry-run
+        description: Complete national build mode. Use complete for release execution.
+        type: choice
         required: true
         default: complete
+        options:
+          - complete
       commit_generated_artifacts:
-        description: Commit generated artifacts back to target branch
+        description: Commit generated artifacts back to the target branch.
+        type: boolean
         required: true
-        default: 'true'
+        default: true
+      auto_merge:
+        description: Reserved safety switch; auto-merge is not supported by this workflow.
+        type: boolean
+        required: true
+        default: false
 
 permissions:
   contents: write
   pull-requests: write
 
+env:
+  APP_DIR: statterrain
+
 jobs:
   build-national-cms-hospitals:
+    name: Build national CMS hospital artifacts
     runs-on: ubuntu-latest
-    if: github.event.inputs.target_branch != 'main'
+    if: ${{ github.event.inputs.target_branch != 'main' && github.event.inputs.target_branch != 'master' && github.event.inputs.auto_merge != 'true' }}
     steps:
-      - uses: actions/checkout@v4
+      - name: Refuse protected branches and unsupported modes
+        shell: bash
+        run: |
+          set -euo pipefail
+          case "${{ github.event.inputs.target_branch }}" in
+            main|master|refs/heads/main|refs/heads/master) echo "Refusing to run against protected branch" >&2; exit 1 ;;
+          esac
+          test "${{ github.event.inputs.geocoding_mode }}" = "complete"
+          test "${{ github.event.inputs.auto_merge }}" != "true"
+
+      - name: Checkout target branch
+        uses: actions/checkout@v4
         with:
           ref: ${{ github.event.inputs.target_branch }}
-      - uses: actions/setup-node@v4
+          fetch-depth: 0
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
         with:
           node-version: '20'
           cache: npm
           cache-dependency-path: statterrain/package-lock.json
-      - run: npm ci
-        working-directory: statterrain
+
+      - name: Install dependencies
+        run: npm ci
+        working-directory: ${{ env.APP_DIR }}
+
       - name: Build complete national CMS hospital network
         run: npm run data:build-national-cms-hospitals
-        working-directory: statterrain
-      - name: Validate artifacts
+        working-directory: ${{ env.APP_DIR }}
+
+      - name: Rebuild public data manifests
         run: |
+          npm run data:build-coverage-manifest
+          npm run data:build-artifact-manifest
+        working-directory: ${{ env.APP_DIR }}
+
+      - name: Validate generated artifacts and app
+        run: |
+          npm run data:validate-sources
+          npm run data:validate-benchmark
           npm run data:validate-cms-hospitals
           npm run data:validate-cms-dialysis
           npm run lint
           npm run typecheck
           npm run build
-        working-directory: statterrain
-      - name: Commit generated artifacts
-        if: github.event.inputs.commit_generated_artifacts == 'true'
+        working-directory: ${{ env.APP_DIR }}
+
+      - name: Capture national build summary
+        id: summary
+        shell: bash
         run: |
+          set -euo pipefail
+          node <<'NODE' >> "$GITHUB_OUTPUT"
+          const fs = require('fs');
+          const manifest = JSON.parse(fs.readFileSync('statterrain/data/generated/cms-hospitals-national/manifest.json','utf8'));
+          const pull = JSON.parse(fs.readFileSync('statterrain/data/reports/cms-hospitals-national-pull-v0.3.2.json','utf8'));
+          const run = JSON.parse(fs.readFileSync('statterrain/data/reports/cms-hospitals-geocoding-run-v0.3.2.json','utf8'));
+          const qa = JSON.parse(fs.readFileSync('statterrain/data/reports/cms-hospitals-national-quality-v0.3.2.json','utf8'));
+          for (const [k,v] of Object.entries({raw: pull.rawRowCount, normalized: pull.normalizedRecordCount, duplicates: pull.duplicateSourceIdCount, eligible: run.totalGeocodingEligible, cacheHits: run.cacheHits, chunks: `${run.chunksCompleted}/${run.chunksPlanned}`, matched: run.matchedRecords, unmatched: run.noMatchRecords, failed: run.failedRecords, joined: qa.geographyJoinedCount, mapReady: manifest.mapReadyRecords, excluded: manifest.excludedRecords, states: manifest.statesPresent.length, partitions: manifest.partitions.length, retrievedAt: manifest.retrievedAt})) console.log(`${k}=${v}`);
+          NODE
+
+      - name: Write GitHub Actions job summary
+        shell: bash
+        run: |
+          cat >> "$GITHUB_STEP_SUMMARY" <<'MD'
+          ## CMS Hospital National Build
+
+          Completion declaration: **COMPLETE — NATIONAL CMS HOSPITAL NETWORK BUILT** if this job succeeds and commits generated artifacts.
+
+          | Metric | Value |
+          | --- | ---: |
+          | Official source rows | ${{ steps.summary.outputs.raw }} |
+          | Normalized records | ${{ steps.summary.outputs.normalized }} |
+          | Duplicate source IDs | ${{ steps.summary.outputs.duplicates }} |
+          | Geocoding eligible | ${{ steps.summary.outputs.eligible }} |
+          | Cache hits | ${{ steps.summary.outputs.cacheHits }} |
+          | Chunks completed/planned | ${{ steps.summary.outputs.chunks }} |
+          | Matched / unmatched / failed | ${{ steps.summary.outputs.matched }} / ${{ steps.summary.outputs.unmatched }} / ${{ steps.summary.outputs.failed }} |
+          | Geography joined | ${{ steps.summary.outputs.joined }} |
+          | Map-ready records | ${{ steps.summary.outputs.mapReady }} |
+          | Excluded records | ${{ steps.summary.outputs.excluded }} |
+          | States/territories | ${{ steps.summary.outputs.states }} |
+          | Partitions | ${{ steps.summary.outputs.partitions }} |
+          | Retrieval timestamp | ${{ steps.summary.outputs.retrievedAt }} |
+          MD
+
+      - name: Commit generated artifacts
+        if: ${{ github.event.inputs.commit_generated_artifacts == 'true' }}
+        shell: bash
+        run: |
+          set -euo pipefail
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add statterrain/data statterrain/docs HANDOFF-v0.3.2-COMPLETE-NATIONAL-CMS-HOSPITAL-NETWORK.md statterrain/src statterrain/scripts statterrain/package.json .github/workflows/cms-hospital-national-build.yml
-          git commit -m "data: ingest and geocode national cms hospitals" || echo "No generated changes to commit"
-          git push origin HEAD:${{ github.event.inputs.target_branch }}
+          git add statterrain/data statterrain/docs statterrain/src statterrain/scripts statterrain/package.json .github/workflows/cms-hospital-national-build.yml HANDOFF-v0.3.2.1-EXECUTE-COMPLETE-NATIONAL-CMS-HOSPITAL-BUILD.md statterrain/docs/handoffs/HANDOFF-v0.3.2.1-EXECUTE-COMPLETE-NATIONAL-CMS-HOSPITAL-BUILD.md
+          if git diff --cached --quiet; then
+            echo "No generated changes to commit"
+          else
+            git commit -m "data: build national cms hospital artifacts"
+            git push origin HEAD:${{ github.event.inputs.target_branch }}
+          fi
