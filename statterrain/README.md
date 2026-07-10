@@ -24,3 +24,9 @@ The v0.3.0.1 test gate asserts the centralized visible version label, compact/co
 ## Next patch
 
 Recommended next patch: v0.3.1 — CMS Hospital National Pull Expansion. It should expand CMS Hospital General Information into a full national normalized artifact while keeping national records non-map-ready until chunked geocoding/geography joins are completed.
+
+## v0.3.0.2 GUI/GX update
+
+StatTerrain v0.3.0.2 makes the top search bar the primary planning-location search. It accepts U.S. addresses, ZIP codes, city/state queries, states, and latitude/longitude pairs such as `43.615, -116.202`; valid coordinates are handled session-only without calling the Census Geocoder. Users can also click the map background to set a session-only planning center and recenter the straight-line radius.
+
+Searched and clicked locations are not stored, are not patient addresses, and do not enable routing, travel-time, ETA, diversion, bed-status, dispatch, triage, transfer, or clinical decision-support behavior. The default map remains synthetic demonstration data. Public-data source/freshness status is shown as a compact map note by default, with Details preserving source, provenance, limitations, and preview controls. No public-data ingestion, CMS refresh, or live facility geocoding behavior changed in this patch.

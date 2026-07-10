@@ -23,51 +23,33 @@ export function PublicDataFreshnessPanel({
   const sourceCoverage = getSourceCoverageSummaries();
   const [expanded, setExpanded] = useState(false);
   const detailsId = useId();
-  const previewStatus = previewEnabled
-    ? "CMS hospital preview enabled"
-    : summary.canPreviewOnMap
-      ? "CMS hospital preview off / optional"
-      : "CMS hospital preview unavailable";
+
 
   return (
     <section
-      className="rounded-xl border border-amber-200 bg-amber-50/95 px-3 py-2 text-xs text-slate-700 shadow-sm backdrop-blur sm:px-4 sm:py-3"
+      className="max-w-[min(36rem,calc(100vw-1.5rem))] rounded-full border border-amber-200 bg-amber-50/95 px-3 py-2 text-xs text-slate-700 shadow-sm backdrop-blur"
       aria-label="Public data source and freshness"
       data-testid="public-data-freshness-panel"
     >
-      <div className="flex flex-wrap items-start justify-between gap-2">
-        <div className="min-w-0">
-          <h2 className="text-sm font-semibold text-slate-900">
-            Public-data source & freshness preview
-          </h2>
-          <p className="mt-1 font-semibold text-amber-950">
-            Public-data coverage: national build in progress
-          </p>
-          <p className="mt-1 text-slate-700">
-            Default map is synthetic unless preview is enabled · CMS hospitals: {summary.recordCount} preview-ready sample records · CMS dialysis: fixture-only / not map-ready
-          </p>
-          <p className="mt-1 font-medium text-amber-900">{previewStatus}</p>
-        </div>
-        <div className="flex shrink-0 flex-col items-end gap-2">
-          <span
-            className={`rounded-full px-2 py-1 font-semibold ${summary.canPreviewOnMap ? "bg-emerald-100 text-emerald-800" : "bg-slate-200 text-slate-700"}`}
-          >
-            {summary.canPreviewOnMap ? "Preview available" : "Preview blocked"}
-          </span>
-          <button
-            type="button"
-            className="rounded-md border border-amber-300 bg-white px-2.5 py-1.5 font-semibold text-amber-900 shadow-sm hover:bg-amber-100 focus:outline-none focus:ring-2 focus:ring-amber-500 focus:ring-offset-2"
-            aria-expanded={expanded}
-            aria-controls={detailsId}
-            onClick={() => setExpanded((value) => !value)}
-          >
-            {expanded ? "Collapse details" : "Details"}
-          </button>
-        </div>
+      <div className="flex flex-wrap items-center gap-2">
+        <span className="font-semibold text-amber-950">
+          {previewEnabled ? "Synthetic demo + CMS preview" : "Synthetic demo active"}
+        </span>
+        <span aria-hidden>·</span>
+        <span>{summary.canPreviewOnMap ? (previewEnabled ? "CMS preview enabled" : "CMS preview available / Preview off") : "Preview blocked"}</span>
+        <button
+          type="button"
+          className="rounded-md border border-amber-300 bg-white px-2 py-1 font-semibold text-amber-900 shadow-sm hover:bg-amber-100 focus:outline-none focus:ring-2 focus:ring-amber-500 focus:ring-offset-2"
+          aria-expanded={expanded}
+          aria-controls={detailsId}
+          onClick={() => setExpanded((value) => !value)}
+        >
+          {expanded ? "Collapse details" : "Details"}
+        </button>
       </div>
 
       <label
-        className={`mt-2 flex items-start gap-2 rounded-md border border-amber-200 bg-white/70 p-2 ${summary.canPreviewOnMap ? "cursor-pointer" : "cursor-not-allowed opacity-60"}`}
+        className={`mt-2 flex items-start gap-2 rounded-md border border-amber-200 bg-white/90 p-2 ${expanded ? "" : "sr-only"} ${summary.canPreviewOnMap ? "cursor-pointer" : "cursor-not-allowed opacity-60"}`}
       >
         <input
           className="mt-0.5"

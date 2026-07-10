@@ -10,6 +10,7 @@ import {
   Tooltip,
   Popup,
   useMap,
+  useMapEvents,
 } from "react-leaflet";
 import type { Facility } from "@/types/facility";
 import type { SearchLocation } from "@/data/demo-region";
@@ -33,6 +34,7 @@ interface MapViewProps {
   selectedFacilityId: string | null;
   onSelectFacility: (id: string) => void;
   onOpenFacilityDetails?: (id: string) => void;
+  onMapClick?: (lat: number, lng: number) => void;
 }
 
 function Recenter({ lat, lng }: { lat: number; lng: number }) {
@@ -40,6 +42,15 @@ function Recenter({ lat, lng }: { lat: number; lng: number }) {
   useEffect(() => {
     map.setView([lat, lng], map.getZoom());
   }, [lat, lng, map]);
+  return null;
+}
+
+function MapClickPlanningCenter({ onMapClick }: { onMapClick?: (lat: number, lng: number) => void }) {
+  useMapEvents({
+    click(event) {
+      onMapClick?.(event.latlng.lat, event.latlng.lng);
+    },
+  });
   return null;
 }
 
@@ -57,6 +68,7 @@ export function MapView({
   selectedFacilityId,
   onSelectFacility,
   onOpenFacilityDetails,
+  onMapClick,
 }: MapViewProps) {
   const radiusMeters = radiusMiles * 1609.34;
   const [legendOpen, setLegendOpen] = useState(false);
@@ -90,6 +102,7 @@ export function MapView({
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
         />
         <Recenter lat={location.lat} lng={location.lng} />
+        <MapClickPlanningCenter onMapClick={onMapClick} />
 
         {overlay &&
           polygons.map((region) => (
@@ -151,7 +164,7 @@ export function MapView({
               fillOpacity: 0.9,
               className: `facility-marker facility-marker-${f.id}`,
             }}
-            eventHandlers={{ click: () => onSelectFacility(f.id) }}
+            eventHandlers={{ click: (event) => { event.originalEvent.stopPropagation(); onSelectFacility(f.id); } }}
           >
             <Tooltip permanent={showLabels} direction="top" offset={[0, -6]}>
               {f.name}
@@ -178,25 +191,18 @@ export function MapView({
         ))}
       </MapContainer>
 
-      <div className="pointer-events-none absolute right-3 top-3 z-[350] max-w-[calc(100%-1.5rem)] rounded-md bg-white/95 px-3 py-2 text-xs font-semibold text-slate-700 shadow-panel">
-        <div>
-          Selected location:{" "}
-          <span className="whitespace-nowrap">
-            {selectedLocationLabel ?? location.label}
-          </span>
-        </div>
-        <div>
-          Selected planning radius:{" "}
-          <span className="whitespace-nowrap">{radiusMiles} miles</span>
-        </div>
-        <div className="mt-1 font-medium text-amber-800">
-          {coverageHeadline}
-        </div>
-        <ul className="mt-1 list-disc pl-4 font-normal text-slate-600">
-          {coverageMessages.slice(0, 2).map((message) => (
-            <li key={message}>{message}</li>
-          ))}
-        </ul>
+      <div
+        className="pointer-events-none absolute left-3 top-3 z-[350] max-w-[min(30rem,calc(100%-6rem))] rounded-full bg-white/95 px-3 py-2 text-xs font-semibold text-slate-700 shadow-panel"
+        data-testid="selected-location-badge"
+      >
+        <span className="whitespace-nowrap">{selectedLocationLabel ?? location.label}</span>
+        <span> · Radius {radiusMiles} mi</span>
+        <span className="sr-only">Selected planning radius: {radiusMiles} miles</span>
+        <span className="text-amber-800"> · {coverageHeadline}</span>
+      </div>
+
+      <div className="pointer-events-none absolute left-3 top-14 z-[350] rounded-full bg-white/90 px-3 py-1.5 text-xs font-medium text-slate-600 shadow-sm">
+        Click the map to set planning center.
       </div>
 
       {showLegend && (

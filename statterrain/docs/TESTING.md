@@ -24,3 +24,9 @@ The v0.3.0.1 test gate asserts the centralized visible version label, compact/co
 ## Next patch
 
 Recommended next patch: v0.3.1 — CMS Hospital National Pull Expansion. It should expand CMS Hospital General Information into a full national normalized artifact while keeping national records non-map-ready until chunked geocoding/geography joins are completed.
+
+## v0.3.0.2 tests
+
+The v0.3.0.2 test gate requires `product.prototypeVersion` to be `v0.3.0.2 prototype`. Static and registry tests verify that the top search bar is the primary location search, the large in-map search card is absent by default, the placeholder covers address/ZIP/city/state and lat/lon, coordinate parsing accepts comma and space-separated pairs, invalid coordinates return `invalid-input`, valid coordinate searches do not call the Census Geocoder, and selected coordinate locations are session-only.
+
+Additional tests cover the map-click planning-center handler, concise coordinate labels, selected-radius preservation through existing state, the compact selected-location badge, non-overlap intent for the top-right Show Summary control, absence of persistent summary helper copy, compact public-data status by default, hidden long provenance details until Details is opened, and preservation of coverage manifests, CMS hospital preview bounds, CMS dialysis fixture safety, and synthetic default map behavior.

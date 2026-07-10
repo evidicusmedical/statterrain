@@ -24,3 +24,9 @@ The v0.3.0.1 test gate asserts the centralized visible version label, compact/co
 ## Next patch
 
 Recommended next patch: v0.3.1 — CMS Hospital National Pull Expansion. It should expand CMS Hospital General Information into a full national normalized artifact while keeping national records non-map-ready until chunked geocoding/geography joins are completed.
+
+## v0.3.0.2 location-search and map-status scope
+
+The top application search bar is the primary planning-location control. It supports address, ZIP, city/state, state, and latitude/longitude searches. Map background clicks can set the selected planning center and recenter the existing straight-line radius. These searched or clicked locations are session-only, are not stored, and must not be interpreted as patient locations.
+
+This release does not add routing, drive-time, travel-time, ETA, real-time traffic, live diversion, bed status, dispatch guidance, triage, transfer guidance, medical-control guidance, or clinical decision support. Public-data source/freshness information is compact by default, with full Details still available. No source ingestion, CMS hospital refresh, CMS dialysis real fetch, live geocoding, or default synthetic-to-real map switch was added.
