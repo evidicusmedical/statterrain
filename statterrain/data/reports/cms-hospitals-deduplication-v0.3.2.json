@@ -1,0 +1,9 @@
+{
+  "rawRecordCount": 5432,
+  "uniqueSourceIdCount": 5432,
+  "exactDuplicateCount": 0,
+  "conflictingDuplicateCount": 0,
+  "excludedDuplicateCount": 0,
+  "retainedRecordCount": 5432,
+  "unresolvedDuplicateCandidates": []
+}

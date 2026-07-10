@@ -1,0 +1,22 @@
+{
+  "totalNormalizedRecords": 5432,
+  "totalGeocodingEligible": 5432,
+  "cacheHits": 0,
+  "newAddresses": 5432,
+  "changedAddresses": 0,
+  "resumedChunks": 0,
+  "repeatedExternalRequestCount": 5432,
+  "chunksPlanned": 55,
+  "chunksCompleted": 55,
+  "chunksFailed": 0,
+  "recordsAttempted": 5432,
+  "matchedRecords": 4499,
+  "noMatchRecords": 925,
+  "multipleMatchRecords": 0,
+  "failedRecords": 0,
+  "retryableFailures": 0,
+  "needsReviewRecords": 0,
+  "completionPercentage": 100,
+  "allPlannedChunksCompleted": true,
+  "lastGeocodedAt": "2026-07-10T23:12:17.304Z"
+}

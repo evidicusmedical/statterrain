@@ -1,0 +1,38 @@
+{
+  "schemaVersion": "cms-hospitals-validation-v0.3.2.4",
+  "validationMode": "national",
+  "status": "pass",
+  "validatedAt": "2026-07-10T23:37:34.087Z",
+  "rulesRun": 1,
+  "rulesPassed": 1,
+  "rulesFailed": 0,
+  "warnings": [],
+  "errors": [],
+  "affectedRecordCount": 0,
+  "examples": [],
+  "artifactPaths": {
+    "manifest": "data/generated/cms-hospitals-national/manifest.json",
+    "summary": "data/generated/cms-hospitals-national/summary.json",
+    "excluded": "data/generated/cms-hospitals-national/excluded-records.json",
+    "unmatched": "data/generated/cms-hospitals-national/unmatched-records.json",
+    "normalized": "data/normalized/cms-hospitals/cms-hospitals-normalized-v0.3.2.json",
+    "generated": "data/generated/cms-hospitals.generated.json",
+    "geocodingInput": "data/generated/geocoding-inputs/cms-hospitals-national-geocoding-input-v0.3.2.json",
+    "geocodingCache": "data/generated/geocoding-cache/cms-hospitals-geocoding-cache.json",
+    "geocodingRun": "data/reports/cms-hospitals-geocoding-run-v0.3.2.json",
+    "geography": "data/generated/geocoding-results/cms-hospitals-geography-join-v0.3.2.json",
+    "qa": "data/reports/cms-hospitals-national-quality-v0.3.2.json",
+    "pull": "data/reports/cms-hospitals-national-pull-v0.3.2.json",
+    "coverage": "data/generated/source-coverage-manifest.json",
+    "artifact": "data/generated/artifact-manifest.json"
+  },
+  "counts": {
+    "normalizedCount": 5432,
+    "mapReadyCount": 4505,
+    "excludedCount": 927,
+    "unmatchedCount": 926,
+    "partitionCount": 52
+  },
+  "safeToActivate": true,
+  "completionDeclaration": "COMPLETE — NATIONAL VALIDATOR AND ARTIFACT RECOVERY HOTFIX READY"
+}

@@ -1,0 +1,399 @@
+{
+  "generatedAt": "2026-07-10T23:12:17.304Z",
+  "schemaVersion": "cms-hospitals-national-v0.3.2",
+  "sourceId": "cms-hospital-general-information",
+  "sourceName": "CMS Hospital General Information",
+  "sourceDatasetId": "xubh-q36u",
+  "sourceReleaseDate": null,
+  "retrievedAt": "2026-07-10T23:12:17.304Z",
+  "validationStatus": "validated-with-exclusions",
+  "totalNormalizedRecords": 5432,
+  "mapReadyRecords": 4505,
+  "excludedRecords": 927,
+  "unmatchedRecords": 926,
+  "statesPresent": [
+    "AK",
+    "AL",
+    "AR",
+    "AZ",
+    "CA",
+    "CO",
+    "CT",
+    "DC",
+    "DE",
+    "FL",
+    "GA",
+    "HI",
+    "IA",
+    "ID",
+    "IL",
+    "IN",
+    "KS",
+    "KY",
+    "LA",
+    "MA",
+    "MD",
+    "ME",
+    "MI",
+    "MN",
+    "MO",
+    "MS",
+    "MT",
+    "NC",
+    "ND",
+    "NE",
+    "NH",
+    "NJ",
+    "NM",
+    "NV",
+    "NY",
+    "OH",
+    "OK",
+    "OR",
+    "PA",
+    "PR",
+    "RI",
+    "SC",
+    "SD",
+    "TN",
+    "TX",
+    "UT",
+    "VA",
+    "VT",
+    "WA",
+    "WI",
+    "WV",
+    "WY"
+  ],
+  "partitions": [
+    {
+      "state": "AK",
+      "path": "data/generated/cms-hospitals-national/states/AK.json",
+      "recordCount": 18,
+      "checksumSha256": "da006b4d8cfa7b4c0a7dca31078559bf8dc90c237bb63e5e61f995755eeff137"
+    },
+    {
+      "state": "AL",
+      "path": "data/generated/cms-hospitals-national/states/AL.json",
+      "recordCount": 79,
+      "checksumSha256": "e40d8af8768b2d937d2439ac4e30c421d68cc36c93260660566f8ca7f007698f"
+    },
+    {
+      "state": "AR",
+      "path": "data/generated/cms-hospitals-national/states/AR.json",
+      "recordCount": 78,
+      "checksumSha256": "5be3cf052927fc486bd1d1666874f475a4dd4f7e28754bd1199e8ec5ff73eefa"
+    },
+    {
+      "state": "AZ",
+      "path": "data/generated/cms-hospitals-national/states/AZ.json",
+      "recordCount": 83,
+      "checksumSha256": "b4406eb39c499a588993dc561225d8189d0978fd8d688923390633775b1fad9c"
+    },
+    {
+      "state": "CA",
+      "path": "data/generated/cms-hospitals-national/states/CA.json",
+      "recordCount": 326,
+      "checksumSha256": "3468a78153079eac7f217f04713974d62d8a8ff4979764bc4b57a90e20b57f27"
+    },
+    {
+      "state": "CO",
+      "path": "data/generated/cms-hospitals-national/states/CO.json",
+      "recordCount": 78,
+      "checksumSha256": "b908279c6d1941026f7a653a9901989be8cf60dbd30af03e65a52bd17e708563"
+    },
+    {
+      "state": "CT",
+      "path": "data/generated/cms-hospitals-national/states/CT.json",
+      "recordCount": 20,
+      "checksumSha256": "30cedb3af3018b1acd651424bd6757ea037005aa35c0170585a3f48cdfa96a1b"
+    },
+    {
+      "state": "DC",
+      "path": "data/generated/cms-hospitals-national/states/DC.json",
+      "recordCount": 10,
+      "checksumSha256": "45f29006e32d7d3bb7f44867f954d525a4d3c81059c527b9f129f925e74b1267"
+    },
+    {
+      "state": "DE",
+      "path": "data/generated/cms-hospitals-national/states/DE.json",
+      "recordCount": 10,
+      "checksumSha256": "33f93e1bd1f266b8acce6abf81e38583af0fc2f196fac498b055a18aefb6bacc"
+    },
+    {
+      "state": "FL",
+      "path": "data/generated/cms-hospitals-national/states/FL.json",
+      "recordCount": 185,
+      "checksumSha256": "7bb90707164d3c4d14f0f1bae47aaf716b94672d00d230665a8229252506febe"
+    },
+    {
+      "state": "GA",
+      "path": "data/generated/cms-hospitals-national/states/GA.json",
+      "recordCount": 115,
+      "checksumSha256": "f1cb68c2f33ef0477216320d05bcd7f4d77575a9d50cd9fcdb7af73f6777c88e"
+    },
+    {
+      "state": "HI",
+      "path": "data/generated/cms-hospitals-national/states/HI.json",
+      "recordCount": 22,
+      "checksumSha256": "26c9403465f36d051118f53531891a6b0ef3d2b27dfcdb6fce880e0c14782941"
+    },
+    {
+      "state": "IA",
+      "path": "data/generated/cms-hospitals-national/states/IA.json",
+      "recordCount": 109,
+      "checksumSha256": "f324a0e08e4335e66f3cd0b16138c36a6d6b53685c19e0f0f4a25d390d70b927"
+    },
+    {
+      "state": "ID",
+      "path": "data/generated/cms-hospitals-national/states/ID.json",
+      "recordCount": 45,
+      "checksumSha256": "b2c4dd65dfd3f69b34272cafcb6cd23198942a546270772b715275ab096a9f06"
+    },
+    {
+      "state": "IL",
+      "path": "data/generated/cms-hospitals-national/states/IL.json",
+      "recordCount": 167,
+      "checksumSha256": "3279c08674f7e356fa57bdef3cbd8de94f8bf2935d90354a57eea547c965da01"
+    },
+    {
+      "state": "IN",
+      "path": "data/generated/cms-hospitals-national/states/IN.json",
+      "recordCount": 132,
+      "checksumSha256": "0b2dfbb1f26e91917eccbd591e56134c72b2d7396c31451c4f372b35b5a07fef"
+    },
+    {
+      "state": "KS",
+      "path": "data/generated/cms-hospitals-national/states/KS.json",
+      "recordCount": 127,
+      "checksumSha256": "b7950e7e215011ef203ece42bd32ec041e533179ac0778e701c9f552a3d93fb1"
+    },
+    {
+      "state": "KY",
+      "path": "data/generated/cms-hospitals-national/states/KY.json",
+      "recordCount": 87,
+      "checksumSha256": "75f90b43167526717d43f598fbd00b4afeb83e6ecab14e9fafa02903caa41879"
+    },
+    {
+      "state": "LA",
+      "path": "data/generated/cms-hospitals-national/states/LA.json",
+      "recordCount": 143,
+      "checksumSha256": "dfe7223a722b4b965724106d309dbb5c2201f6fbe2a4bfd60c89210730ed790a"
+    },
+    {
+      "state": "MA",
+      "path": "data/generated/cms-hospitals-national/states/MA.json",
+      "recordCount": 74,
+      "checksumSha256": "9ef81f185db38e69f1298724be4c6507c54cd621ec7c6d4a534157caa4906294"
+    },
+    {
+      "state": "MD",
+      "path": "data/generated/cms-hospitals-national/states/MD.json",
+      "recordCount": 50,
+      "checksumSha256": "277734668cdb21e699569467bad03208920b8cc02d129aad946f8e3cd61dc961"
+    },
+    {
+      "state": "ME",
+      "path": "data/generated/cms-hospitals-national/states/ME.json",
+      "recordCount": 31,
+      "checksumSha256": "46a9233124b715573f40a6c92588f9ae64fcf30e6ecbaa9fe818df2948ad0f47"
+    },
+    {
+      "state": "MI",
+      "path": "data/generated/cms-hospitals-national/states/MI.json",
+      "recordCount": 136,
+      "checksumSha256": "6778fa6c393e1de73c21e110cd841f3f4ac1bc3db6d80dbca621ddb88c4520c5"
+    },
+    {
+      "state": "MN",
+      "path": "data/generated/cms-hospitals-national/states/MN.json",
+      "recordCount": 116,
+      "checksumSha256": "4aaa90c1583898e491d9de9126d8182e3e45b23466fdf25509b22c1c37887052"
+    },
+    {
+      "state": "MO",
+      "path": "data/generated/cms-hospitals-national/states/MO.json",
+      "recordCount": 100,
+      "checksumSha256": "00b747985ab0caeecea92600d1e23caafaee725dce7546ecd2e121b2b24f94c9"
+    },
+    {
+      "state": "MS",
+      "path": "data/generated/cms-hospitals-national/states/MS.json",
+      "recordCount": 85,
+      "checksumSha256": "3ac92abf0f345b0055c581e2151e6d7844104a2d9448d4931da33ed1affa13c4"
+    },
+    {
+      "state": "MT",
+      "path": "data/generated/cms-hospitals-national/states/MT.json",
+      "recordCount": 53,
+      "checksumSha256": "d4ae92d8d9d76153fd5f926d19c38da657fb4526b9827fcf54f50c724857badf"
+    },
+    {
+      "state": "NC",
+      "path": "data/generated/cms-hospitals-national/states/NC.json",
+      "recordCount": 94,
+      "checksumSha256": "c25dbedd4d338fbc27ab0d6578b2449f335390f76d512c0606f7fa911387b48d"
+    },
+    {
+      "state": "ND",
+      "path": "data/generated/cms-hospitals-national/states/ND.json",
+      "recordCount": 37,
+      "checksumSha256": "96c93507faa1991788c0eb369f3156585eb6142296847c769a722b97da0254ba"
+    },
+    {
+      "state": "NE",
+      "path": "data/generated/cms-hospitals-national/states/NE.json",
+      "recordCount": 78,
+      "checksumSha256": "1e98b795cf3902addae00ee16ed3c42ae825456e8b23af1a567d210642aacf79"
+    },
+    {
+      "state": "NH",
+      "path": "data/generated/cms-hospitals-national/states/NH.json",
+      "recordCount": 25,
+      "checksumSha256": "de2ac3f716cd8f8ca1068fa6ac5df4347e95d5b8f3d472855da2474048d0a91f"
+    },
+    {
+      "state": "NJ",
+      "path": "data/generated/cms-hospitals-national/states/NJ.json",
+      "recordCount": 57,
+      "checksumSha256": "12cd9e83dc1306a5929315836a0c0690929a1bade121007d9843db9df15185af"
+    },
+    {
+      "state": "NM",
+      "path": "data/generated/cms-hospitals-national/states/NM.json",
+      "recordCount": 35,
+      "checksumSha256": "765e48aca3317cd5a1092659bd9415ce04b004ebd32b9eac48d5dfbcb8853860"
+    },
+    {
+      "state": "NV",
+      "path": "data/generated/cms-hospitals-national/states/NV.json",
+      "recordCount": 44,
+      "checksumSha256": "85c82e44e552ce7aec7ddb34ed1244cedf37d3a0f7bc9f9a30c9cd89032dd69a"
+    },
+    {
+      "state": "NY",
+      "path": "data/generated/cms-hospitals-national/states/NY.json",
+      "recordCount": 162,
+      "checksumSha256": "c8725f377e3a6c3a2117782bc07535eb28f06fb95c94fdcaa6e945ff9919d40b"
+    },
+    {
+      "state": "OH",
+      "path": "data/generated/cms-hospitals-national/states/OH.json",
+      "recordCount": 173,
+      "checksumSha256": "bf5d882b45f0a801a149f04b46161a38e0a1d2bb11cc1c79893c795b487fcdf8"
+    },
+    {
+      "state": "OK",
+      "path": "data/generated/cms-hospitals-national/states/OK.json",
+      "recordCount": 103,
+      "checksumSha256": "e499778ff3c75bbd9d6accbef10f328695b8e24087ee25c98628b8acd6dab393"
+    },
+    {
+      "state": "OR",
+      "path": "data/generated/cms-hospitals-national/states/OR.json",
+      "recordCount": 56,
+      "checksumSha256": "e6a2b34daac8bbfc1521439cdffec48f300e1a5326dae7b33acbf9e1d784d4bd"
+    },
+    {
+      "state": "PA",
+      "path": "data/generated/cms-hospitals-national/states/PA.json",
+      "recordCount": 149,
+      "checksumSha256": "44f8f6a28d59ca0559968a6a59a64abd6fb8b986da1cb9945a9cad76d32f0ae9"
+    },
+    {
+      "state": "PR",
+      "path": "data/generated/cms-hospitals-national/states/PR.json",
+      "recordCount": 11,
+      "checksumSha256": "38574613c8cc6e8dae22c899a82c3177df300c40176d2e4efef54d4a15eb66a0"
+    },
+    {
+      "state": "RI",
+      "path": "data/generated/cms-hospitals-national/states/RI.json",
+      "recordCount": 12,
+      "checksumSha256": "b02f2f699412676dbe710bf64c8625c8a16add2adcf18440e9c9a21c53d4f5da"
+    },
+    {
+      "state": "SC",
+      "path": "data/generated/cms-hospitals-national/states/SC.json",
+      "recordCount": 55,
+      "checksumSha256": "f22eb2f74cfaf1a5e57c57cf6d4537c40862c0097d9f14d12b0ffb2cc9b97043"
+    },
+    {
+      "state": "SD",
+      "path": "data/generated/cms-hospitals-national/states/SD.json",
+      "recordCount": 50,
+      "checksumSha256": "2a35b60733799eca7154b2c709ea9d743ff80f908a3184cb91f7bf493f3c948d"
+    },
+    {
+      "state": "TN",
+      "path": "data/generated/cms-hospitals-national/states/TN.json",
+      "recordCount": 113,
+      "checksumSha256": "7b86c2c978ac71065547125e5f08fc9e6016f9f5e412a2ce6d498879d53a462d"
+    },
+    {
+      "state": "TX",
+      "path": "data/generated/cms-hospitals-national/states/TX.json",
+      "recordCount": 362,
+      "checksumSha256": "b928bc4c2e9815088df6b53ab8add3f54467f8645be539ad950da0fade5fdda2"
+    },
+    {
+      "state": "UT",
+      "path": "data/generated/cms-hospitals-national/states/UT.json",
+      "recordCount": 42,
+      "checksumSha256": "6fd84fe43a50fd031eb9f79afbdacfb233f39b01f78bfd32424aa174aded021e"
+    },
+    {
+      "state": "VA",
+      "path": "data/generated/cms-hospitals-national/states/VA.json",
+      "recordCount": 74,
+      "checksumSha256": "864cd148d4afa7c949a85d5fbdfdccb8717d4cd74d7cee7d2eb5d6c3a4d72ef6"
+    },
+    {
+      "state": "VT",
+      "path": "data/generated/cms-hospitals-national/states/VT.json",
+      "recordCount": 12,
+      "checksumSha256": "c8952aeedda3ff867b4a68b6e82f214c6be7754071b589cedbce34b2a7f1b047"
+    },
+    {
+      "state": "WA",
+      "path": "data/generated/cms-hospitals-national/states/WA.json",
+      "recordCount": 92,
+      "checksumSha256": "82185c0bf25ed44f4c068bc67ebbcddbd3049e6e4caa52d3bdfc1a97fb49993b"
+    },
+    {
+      "state": "WI",
+      "path": "data/generated/cms-hospitals-national/states/WI.json",
+      "recordCount": 120,
+      "checksumSha256": "85f2e70cf25f6ade0c146cd9f44e612d1724eb6d908d3bc921a70bbb3c3010ff"
+    },
+    {
+      "state": "WV",
+      "path": "data/generated/cms-hospitals-national/states/WV.json",
+      "recordCount": 45,
+      "checksumSha256": "72d6523d0b8b48ab86a116f00084de349ed0c41586c5c1f33a2bcacaec9cff35"
+    },
+    {
+      "state": "WY",
+      "path": "data/generated/cms-hospitals-national/states/WY.json",
+      "recordCount": 25,
+      "checksumSha256": "da5def870c00aa11d52a6097e55f867847ab0b20ec1ef0858433df0aeb12932b"
+    }
+  ],
+  "usedInCurrentApp": true,
+  "limitations": [
+    "Public CMS provider-data facility record; coordinates are derived from U.S. Census Geocoder and require official verification.",
+    "Straight-line planning distance only; no routing, ETA, diversion, bed status, triage, transfer, dispatch, or clinical decision support."
+  ],
+  "prohibitedUses": [
+    "patient-level decisions",
+    "routing",
+    "drive-time or ETA",
+    "diversion status",
+    "bed availability",
+    "dispatch",
+    "triage",
+    "transfer decisions",
+    "medical-control guidance",
+    "clinical decision support"
+  ]
+}
