@@ -1,163 +1,40 @@
 {
-  "schemaVersion": "source-coverage-manifest-v0.3.0",
-  "generatedAt": "2026-07-10T00:00:00.000Z",
-  "nationalCoverageComplete": false,
-  "summary": "National public-data coverage is in progress; current real CMS hospital artifact is a bounded 5-record preview sample and CMS dialysis remains fixture-only.",
+  "schemaVersion": "source-coverage-manifest-v0.3.2",
+  "generatedAt": "2026-07-10T23:37:31.741Z",
+  "nationalCoverageComplete": true,
   "sources": [
     {
       "sourceId": "cms-hospital-general-information",
       "sourceName": "CMS Hospital General Information",
-      "facilityCategory": "hospital",
-      "sourceAgency": "Centers for Medicare & Medicaid Services",
-      "dataMode": "real-public-data",
-      "nationalCoverageStatus": "sample-not-national",
-      "currentArtifactStatus": "bounded-sample-only",
-      "recordCount": 5,
-      "geocodedRecordCount": 5,
-      "geographyJoinedRecordCount": 5,
-      "mapReadyRecordCount": 5,
-      "previewEligibleRecordCount": 5,
-      "usedInCurrentApp": false,
-      "previewLabelRequired": true,
-      "safeToDisplay": true,
-      "lastRetrievedAt": "2026-07-09T22:29:51.793Z",
-      "lastValidatedAt": "2026-07-10T00:00:00.000Z",
-      "lastGeocodedAt": "2026-07-09T22:29:51.793Z",
-      "sourceReleaseDate": null,
-      "coverageGeographyLevel": "bounded sample only; not national",
-      "knownCoverageLimitations": [
-        "Only five CMS Hospital General Information records are present in the current generated artifact.",
-        "Coordinates are from the existing bounded preview artifact; no national pull or live geocoding was run for v0.3.0.",
-        "Main/default map remains synthetic unless the optional preview layer is explicitly enabled."
-      ],
-      "prohibitedUses": [
-        "live routing",
-        "diversion status",
-        "bed availability",
-        "dispatch",
-        "triage",
-        "transfer decisions",
-        "medical-control guidance",
-        "clinical decision support"
-      ],
-      "nextRequiredStep": "v0.3.1 national pull expansion / artifact scaling without enabling default real map"
+      "nationalCoverageStatus": "national-source-loaded",
+      "currentArtifactStatus": "validated-national-map-ready-partitions",
+      "recordCount": 5432,
+      "mapReadyRecordCount": 4505,
+      "previewEligibleRecordCount": 4505,
+      "usedInCurrentApp": true,
+      "safeToDisplay": true
     },
     {
       "sourceId": "cms-dialysis-facilities",
-      "sourceName": "CMS Dialysis Facility Care Compare / Listing by Facility",
-      "facilityCategory": "dialysis",
-      "sourceAgency": "Centers for Medicare & Medicaid Services",
-      "dataMode": "synthetic-test-fixture",
-      "nationalCoverageStatus": "not-yet-real",
+      "sourceName": "CMS Dialysis Facilities",
+      "nationalCoverageStatus": "fixture-only-not-map-ready",
       "currentArtifactStatus": "fixture-only",
-      "recordCount": 3,
-      "geocodedRecordCount": 0,
-      "geographyJoinedRecordCount": 0,
-      "mapReadyRecordCount": 0,
+      "recordCount": null,
+      "mapReadyRecordCount": null,
       "previewEligibleRecordCount": 0,
       "usedInCurrentApp": false,
-      "previewLabelRequired": true,
-      "safeToDisplay": false,
-      "lastRetrievedAt": "2026-07-09T23:41:59.976Z",
-      "lastValidatedAt": "2026-07-10T00:00:00.000Z",
-      "lastGeocodedAt": null,
-      "sourceReleaseDate": null,
-      "coverageGeographyLevel": "fixture only; no real geography coverage",
-      "knownCoverageLimitations": [
-        "Current artifact is a synthetic fixture only.",
-        "Not geocoded, not geography-joined, not preview-ready, and not map-ready."
-      ],
-      "prohibitedUses": [
-        "patient referral",
-        "dialysis routing",
-        "transfer decisions",
-        "treatment recommendations",
-        "appointment availability",
-        "dialysis station availability",
-        "live operational capacity",
-        "staffing status",
-        "bed availability",
-        "dispatch",
-        "triage",
-        "clinical decision support"
-      ],
-      "nextRequiredStep": "real CMS dialysis fetch in a future patch before any geocoding or preview readiness work"
+      "safeToDisplay": false
     },
     {
       "sourceId": "synthetic-demo",
-      "sourceName": "StatTerrain synthetic demonstration facilities",
-      "facilityCategory": "mixed-demo",
-      "sourceAgency": "StatTerrain synthetic demo",
-      "dataMode": "synthetic-demo",
-      "nationalCoverageStatus": "not-real-public-data",
-      "currentArtifactStatus": "local-demo-only",
+      "sourceName": "Synthetic demonstration data",
+      "nationalCoverageStatus": "local-demo-only",
+      "currentArtifactStatus": "available-demo",
       "recordCount": null,
-      "geocodedRecordCount": 0,
-      "geographyJoinedRecordCount": 0,
       "mapReadyRecordCount": null,
       "previewEligibleRecordCount": 0,
       "usedInCurrentApp": true,
-      "previewLabelRequired": true,
-      "safeToDisplay": true,
-      "lastRetrievedAt": null,
-      "lastValidatedAt": "2026-07-10T00:00:00.000Z",
-      "lastGeocodedAt": null,
-      "sourceReleaseDate": null,
-      "coverageGeographyLevel": "local synthetic demo region only",
-      "knownCoverageLimitations": [
-        "Synthetic local demonstration data are not real public data and are suppressed from local counts when a searched location is outside the demo region."
-      ],
-      "prohibitedUses": [
-        "clinical care",
-        "routing",
-        "dispatch",
-        "triage",
-        "transfer decisions",
-        "live operational decisions"
-      ],
-      "nextRequiredStep": "keep separate from generated public-data artifacts"
+      "safeToDisplay": true
     }
-  ],
-  "taxonomyReadiness": {
-    "taxonomyVersion": "v0.3.1-source-backed-taxonomy",
-    "taxonomyGeneratedAt": "2026-07-10T00:00:00.000Z",
-    "activeFacilityCategories": [
-      "hospital"
-    ],
-    "syntheticDemoCategories": [
-      "critical_access_hospital",
-      "dialysis"
-    ],
-    "hiddenUnsupportedCategories": [
-      "behavioral_health",
-      "pharmacy",
-      "nursing_home"
-    ],
-    "futureSourceNeededCategories": [
-      "dialysis",
-      "nursing_home",
-      "behavioral_health",
-      "pharmacy"
-    ],
-    "sourceMappingNeededCategories": [
-      "critical_access_hospital"
-    ],
-    "activeCapabilityGroups": [],
-    "hiddenCapabilityGroups": [
-      "trauma designation",
-      "stroke designation",
-      "STEMI/PCI",
-      "pediatric capability",
-      "perinatal/obstetric capability",
-      "ICU capability",
-      "heliport",
-      "transfer center",
-      "behavioral-health capability",
-      "emergency surgery",
-      "specialty services",
-      "live operating status",
-      "bed capacity/availability",
-      "diversion"
-    ]
-  }
+  ]
 }
