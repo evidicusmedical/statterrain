@@ -1,0 +1,45 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/evidicusmedical/statterrain/geocoding-cache.schema.json",
+  "title": "StatTerrain geocoding cache entry",
+  "type": "object",
+  "required": ["schemaVersion", "entries"],
+  "properties": {
+    "schemaVersion": { "const": "geocoding-cache-v0.3.0" },
+    "generatedAt": { "type": "string" },
+    "entries": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["cacheKey", "sourceId", "sourceFacilityId", "normalizedAddress", "addressHash", "status"],
+        "properties": {
+          "cacheKey": { "type": "string" },
+          "sourceId": { "type": "string" },
+          "sourceFacilityId": { "type": "string" },
+          "normalizedAddress": { "type": "string" },
+          "addressHash": { "type": "string" },
+          "addressLine": { "type": ["string", "null"] },
+          "city": { "type": ["string", "null"] },
+          "state": { "type": ["string", "null"] },
+          "zip": { "type": ["string", "null"] },
+          "latitude": { "type": ["number", "null"] },
+          "longitude": { "type": ["number", "null"] },
+          "matchedAddress": { "type": ["string", "null"] },
+          "geocoder": { "type": ["string", "null"] },
+          "geocodingMode": { "type": ["string", "null"] },
+          "geocodingConfidence": { "type": ["string", "null"] },
+          "stateFips": { "type": ["string", "null"] },
+          "countyFips": { "type": ["string", "null"] },
+          "countyName": { "type": ["string", "null"] },
+          "censusTract": { "type": ["string", "null"] },
+          "blockGroup": { "type": ["string", "null"] },
+          "status": { "enum": ["matched", "no-match", "multiple-match", "failed", "skipped-live-limit", "dry-run", "not-yet-geocoded", "stale-address", "needs-review"] },
+          "lastGeocodedAt": { "type": ["string", "null"] },
+          "sourceRetrievedAt": { "type": ["string", "null"] },
+          "inputChecksum": { "type": ["string", "null"] },
+          "limitations": { "type": "array", "items": { "type": "string" } }
+        }
+      }
+    }
+  }
+}

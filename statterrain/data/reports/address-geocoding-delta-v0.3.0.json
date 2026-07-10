@@ -1,0 +1,36 @@
+{
+  "schemaVersion": "address-geocoding-delta-v0.3.0",
+  "generatedAt": "2026-07-10T00:00:00.000Z",
+  "artifactPath": "data/generated/cms-dialysis.generated.json",
+  "cachePath": "data/generated/geocoding-cache/geocoding-cache-v0.3.0.json",
+  "sourceId": "cms-dialysis-facilities",
+  "recordCount": 3,
+  "summary": {
+    "new-address-needs-geocoding": 3
+  },
+  "classifications": [
+    {
+      "sourceId": "cms-dialysis-facilities",
+      "sourceFacilityId": "0",
+      "normalizedAddress": "100 EXAMPLE FIXTURE WAY TESTVILLE TS 00001",
+      "addressHash": "82ff64bb7865e122ec26f7d3b6f631f7065d6aab602b077e18f942fd5e510859",
+      "classification": "new-address-needs-geocoding"
+    },
+    {
+      "sourceId": "cms-dialysis-facilities",
+      "sourceFacilityId": "1",
+      "normalizedAddress": "200 SCHEMA SAMPLE ROAD MOCK CITY TS 00002",
+      "addressHash": "62005d581caa8c210261c65cb44fda0aa7dee5e8df51474ca31b461b26466467",
+      "classification": "new-address-needs-geocoding"
+    },
+    {
+      "sourceId": "cms-dialysis-facilities",
+      "sourceFacilityId": "2",
+      "normalizedAddress": "300 NONREAL AVENUE FAKETOWN TS 00003",
+      "addressHash": "2d1e1b56af375b961263badd52699f23870d739a61a3cacda27de12f052c394a",
+      "classification": "new-address-needs-geocoding"
+    }
+  ],
+  "networkCalls": false,
+  "liveGeocoding": false
+}

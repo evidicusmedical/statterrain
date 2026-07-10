@@ -1,4 +1,5 @@
 import type { PublicDataArtifactSummary } from "@/lib/public-data/readPublicDataArtifacts";
+import { getSourceCoverageSummaries } from "@/lib/coverage/coverageStatus";
 
 interface Props {
   summary: PublicDataArtifactSummary;
@@ -18,6 +19,7 @@ export function PublicDataFreshnessPanel({
   previewEnabled,
   onPreviewEnabledChange,
 }: Props) {
+  const sourceCoverage = getSourceCoverageSummaries();
   return (
     <section
       className="border-b border-slate-200 bg-amber-50 px-4 py-3 text-xs text-slate-700"
@@ -74,6 +76,14 @@ export function PublicDataFreshnessPanel({
               : `Blocked — ${summary.previewBlockReason}`}</dd>
         </div>
       </dl>
+      <div className="mt-3 rounded-md border border-amber-200 bg-white/70 p-2">
+        <p className="font-semibold text-slate-900">Public-data coverage: national coverage in progress</p>
+        <ul className="mt-1 list-disc space-y-1 pl-4">
+          {sourceCoverage.map((source) => (
+            <li key={source.sourceId}>{source.label}</li>
+          ))}
+        </ul>
+      </div>
       <label
         className={`mt-3 flex items-center gap-2 ${summary.canPreviewOnMap ? "cursor-pointer" : "cursor-not-allowed opacity-60"}`}
       >

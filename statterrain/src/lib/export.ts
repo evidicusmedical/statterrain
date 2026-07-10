@@ -14,6 +14,7 @@ import type { AppFilters } from "@/hooks/useAppState";
 import { PLANNING_CONSIDERATIONS } from "./planning-considerations";
 import type { PublicDataArtifactSummary } from "@/lib/public-data/readPublicDataArtifacts";
 import type { CoverageStatus } from "@/lib/coverage/coverageStatus";
+import { getSourceCoverageSummaries } from "@/lib/coverage/coverageStatus";
 
 export interface BriefContext {
   locationLabel: string;
@@ -109,6 +110,19 @@ export function buildMarkdownBrief(ctx: BriefContext): string {
   } else {
     lines.push("- Coverage status was not attached to this brief.");
   }
+  lines.push("");
+
+  lines.push("## Coverage manifest summary");
+  lines.push("");
+  const coverageSources = ctx.coverageStatus?.sourceSummaries ?? getSourceCoverageSummaries();
+  lines.push("- National coverage complete: No — national coverage in progress.");
+  lines.push(`- Selected location: ${locationLabel}`);
+  lines.push(`- Selected radius: ${radiusMiles} miles`);
+  coverageSources.forEach((source) => {
+    lines.push(`- ${source.label}; map-ready records: ${source.mapReadyRecordCount ?? "not applicable"}; used in current app: ${source.usedInCurrentApp ? "yes" : "no"}`);
+  });
+  lines.push("- CMS hospital preview is a bounded sample, not national coverage.");
+  lines.push("- CMS dialysis is fixture-only/not map-ready and is not included as real records.");
   lines.push("");
 
   lines.push("## Generated public-data preview provenance");
@@ -324,6 +338,18 @@ export function buildJsonBrief(ctx: BriefContext) {
     populationMetrics,
     populationMetricDefinitions,
     generatedPublicDataPreview: ctx.publicDataSummary ?? null,
+    coverageManifestSummary: {
+      selectedLocation: locationLabel,
+      selectedRadiusMiles: radiusMiles,
+      nationalCoverageComplete: false,
+      mapReadySources: (ctx.coverageStatus?.sourceSummaries ?? getSourceCoverageSummaries()).filter((source) => (source.mapReadyRecordCount ?? 0) > 0),
+      notYetMapReadySources: (ctx.coverageStatus?.sourceSummaries ?? getSourceCoverageSummaries()).filter((source) => (source.mapReadyRecordCount ?? 0) === 0),
+      notes: [
+        "National coverage is not complete.",
+        "CMS hospital preview is a bounded 5-record sample.",
+        "CMS dialysis is fixture-only/not map-ready.",
+      ],
+    },
     coverageStatus: ctx.coverageStatus ?? null,
     selectedLocationSource: ctx.selectedLocationSource ?? "StatTerrain demo",
     dataModeGuardrails: {

@@ -1,0 +1,9 @@
+{
+  "schemaVersion": "geocoding-cache-v0.3.0",
+  "generatedAt": "2026-07-10T00:00:00.000Z",
+  "entries": [],
+  "limitations": [
+    "Scaffold only; no fabricated geocodes are included.",
+    "No live geocoding or mass facility geocoding was run for v0.3.0."
+  ]
+}

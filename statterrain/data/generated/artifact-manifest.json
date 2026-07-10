@@ -1,0 +1,205 @@
+{
+  "schemaVersion": "artifact-manifest-v0.3.0",
+  "generatedAt": "2026-07-10T00:00:00.000Z",
+  "nationalCoverageComplete": false,
+  "artifacts": [
+    {
+      "artifactId": "cms-hospitals-generated",
+      "sourceId": "cms-hospital-general-information",
+      "artifactType": "generated-public-data",
+      "path": "data/generated/cms-hospitals.generated.json",
+      "schemaVersion": "generated-public-data-v0.2.0",
+      "dataMode": "real-public-data",
+      "recordCount": 5,
+      "checksum": "sha256:ed44d926040fb38ac37e09b1d1f11d49205fcc1e58d6fa6ac4d0726ee94b3103",
+      "generatedAt": "2026-07-10T00:00:00.000Z",
+      "retrievedAt": "2026-07-09T22:29:51.793Z",
+      "validationStatus": "warn",
+      "validationReportPath": "data/reports/cms-hospitals-validation-v0.2.3.json",
+      "geocodingSummaryPath": "data/reports/cms-hospitals-geocoding-summary-v0.2.7.json",
+      "geographyJoinPath": "data/generated/geocoding-results/cms-hospitals-geography-join-v0.2.7.json",
+      "usedInCurrentApp": false,
+      "safeToDisplay": true,
+      "previewEligible": true,
+      "limitations": [
+        "Manifested for v0.3.0 scaling foundation only; national coverage is not complete."
+      ]
+    },
+    {
+      "artifactId": "cms-hospitals-geocoding-results",
+      "sourceId": "cms-hospital-general-information",
+      "artifactType": "geocoding-results",
+      "path": "data/generated/geocoding-results/cms-hospitals-geocoding-results-v0.2.7.json",
+      "schemaVersion": "generated-public-data-v0.2.0",
+      "dataMode": "real-public-data",
+      "recordCount": 5,
+      "checksum": "sha256:cc0a9686c28ad49843a22acb06ef1a7644719ba2c072c56fa7159f881de4f4ff",
+      "generatedAt": "2026-07-10T00:00:00.000Z",
+      "retrievedAt": "2026-07-09T22:29:51.793Z",
+      "validationStatus": "warn",
+      "validationReportPath": "data/reports/cms-hospitals-validation-v0.2.3.json",
+      "geocodingSummaryPath": "data/reports/cms-hospitals-geocoding-summary-v0.2.7.json",
+      "geographyJoinPath": "data/generated/geocoding-results/cms-hospitals-geography-join-v0.2.7.json",
+      "usedInCurrentApp": false,
+      "safeToDisplay": true,
+      "previewEligible": true,
+      "limitations": [
+        "Manifested for v0.3.0 scaling foundation only; national coverage is not complete."
+      ]
+    },
+    {
+      "artifactId": "cms-hospitals-geography-join",
+      "sourceId": "cms-hospital-general-information",
+      "artifactType": "geography-join",
+      "path": "data/generated/geocoding-results/cms-hospitals-geography-join-v0.2.7.json",
+      "schemaVersion": "generated-public-data-v0.2.0",
+      "dataMode": "real-public-data",
+      "recordCount": 5,
+      "checksum": "sha256:b34276290445d2ebc289ba54a08abb8dad1dbe390d89d5f35923e4cd28f669e4",
+      "generatedAt": "2026-07-10T00:00:00.000Z",
+      "retrievedAt": "2026-07-09T22:29:51.793Z",
+      "validationStatus": "warn",
+      "validationReportPath": "data/reports/cms-hospitals-validation-v0.2.3.json",
+      "geocodingSummaryPath": "data/reports/cms-hospitals-geocoding-summary-v0.2.7.json",
+      "geographyJoinPath": "data/generated/geocoding-results/cms-hospitals-geography-join-v0.2.7.json",
+      "usedInCurrentApp": false,
+      "safeToDisplay": true,
+      "previewEligible": true,
+      "limitations": [
+        "Manifested for v0.3.0 scaling foundation only; national coverage is not complete."
+      ]
+    },
+    {
+      "artifactId": "cms-hospitals-validation-report",
+      "sourceId": "cms-hospital-general-information",
+      "artifactType": "validation-report",
+      "path": "data/reports/cms-hospitals-validation-v0.2.3.json",
+      "schemaVersion": "generated-public-data-v0.2.0",
+      "dataMode": "real-public-data",
+      "recordCount": 5,
+      "checksum": "sha256:3c68ff8cb4580e219c0daeb43231f70b6a7a523e02aa1f5ef0a77e817b994625",
+      "generatedAt": "2026-07-10T00:00:00.000Z",
+      "retrievedAt": "2026-07-09T22:29:51.793Z",
+      "validationStatus": "warn",
+      "validationReportPath": "data/reports/cms-hospitals-validation-v0.2.3.json",
+      "geocodingSummaryPath": "data/reports/cms-hospitals-geocoding-summary-v0.2.7.json",
+      "geographyJoinPath": "data/generated/geocoding-results/cms-hospitals-geography-join-v0.2.7.json",
+      "usedInCurrentApp": false,
+      "safeToDisplay": true,
+      "previewEligible": false,
+      "limitations": [
+        "Manifested for v0.3.0 scaling foundation only; national coverage is not complete."
+      ]
+    },
+    {
+      "artifactId": "cms-dialysis-generated",
+      "sourceId": "cms-dialysis-facilities",
+      "artifactType": "generated-public-data",
+      "path": "data/generated/cms-dialysis.generated.json",
+      "schemaVersion": "generated-public-data-v0.2.8",
+      "dataMode": "synthetic-test-fixture",
+      "recordCount": 3,
+      "checksum": "sha256:fbaced160167b05e9ef87d60c7053fb6485696f191de614f6ab9e1e0e76b8aac",
+      "generatedAt": "2026-07-10T00:00:00.000Z",
+      "retrievedAt": "2026-07-09T23:41:59.976Z",
+      "validationStatus": "warn",
+      "validationReportPath": "data/reports/cms-dialysis-validation-v0.2.8.json",
+      "geocodingSummaryPath": null,
+      "geographyJoinPath": null,
+      "usedInCurrentApp": false,
+      "safeToDisplay": false,
+      "previewEligible": false,
+      "limitations": [
+        "Manifested for v0.3.0 scaling foundation only; national coverage is not complete."
+      ]
+    },
+    {
+      "artifactId": "cms-dialysis-geocoding-input",
+      "sourceId": "cms-dialysis-facilities",
+      "artifactType": "geocoding-input",
+      "path": "data/generated/geocoding-inputs/cms-dialysis-geocoding-input-v0.2.8.json",
+      "schemaVersion": "generated-public-data-v0.2.8",
+      "dataMode": "synthetic-test-fixture",
+      "recordCount": 3,
+      "checksum": "sha256:93fac12648d4bfda8f04c543c3a862c6fc46cdc1434c03a5eb806d96fd4a687d",
+      "generatedAt": "2026-07-10T00:00:00.000Z",
+      "retrievedAt": "2026-07-09T23:41:59.976Z",
+      "validationStatus": "warn",
+      "validationReportPath": "data/reports/cms-dialysis-validation-v0.2.8.json",
+      "geocodingSummaryPath": null,
+      "geographyJoinPath": null,
+      "usedInCurrentApp": false,
+      "safeToDisplay": false,
+      "previewEligible": false,
+      "limitations": [
+        "Manifested for v0.3.0 scaling foundation only; national coverage is not complete."
+      ]
+    },
+    {
+      "artifactId": "cms-dialysis-validation-report",
+      "sourceId": "cms-dialysis-facilities",
+      "artifactType": "validation-report",
+      "path": "data/reports/cms-dialysis-validation-v0.2.8.json",
+      "schemaVersion": "generated-public-data-v0.2.8",
+      "dataMode": "synthetic-test-fixture",
+      "recordCount": 3,
+      "checksum": "sha256:8dc861c158f8b4f7da7d1a5cc6c0a9e32c05ec162c2919b44eae7b26f046b881",
+      "generatedAt": "2026-07-10T00:00:00.000Z",
+      "retrievedAt": "2026-07-09T23:41:59.976Z",
+      "validationStatus": "warn",
+      "validationReportPath": "data/reports/cms-dialysis-validation-v0.2.8.json",
+      "geocodingSummaryPath": null,
+      "geographyJoinPath": null,
+      "usedInCurrentApp": false,
+      "safeToDisplay": false,
+      "previewEligible": false,
+      "limitations": [
+        "Manifested for v0.3.0 scaling foundation only; national coverage is not complete."
+      ]
+    },
+    {
+      "artifactId": "source-registry",
+      "sourceId": "source-registry",
+      "artifactType": "registry",
+      "path": "data/sources/source-registry.json",
+      "schemaVersion": "source-registry",
+      "dataMode": "metadata",
+      "recordCount": null,
+      "checksum": "sha256:9ed1da142e562102187594859298920035a314ab71e7ec2a949b9ad5a78e0e5c",
+      "generatedAt": "2026-07-10T00:00:00.000Z",
+      "retrievedAt": null,
+      "validationStatus": "not-applicable",
+      "validationReportPath": null,
+      "geocodingSummaryPath": null,
+      "geographyJoinPath": null,
+      "usedInCurrentApp": false,
+      "safeToDisplay": false,
+      "previewEligible": false,
+      "limitations": [
+        "Manifested for v0.3.0 scaling foundation only; national coverage is not complete."
+      ]
+    },
+    {
+      "artifactId": "source-benchmark",
+      "sourceId": "source-benchmark",
+      "artifactType": "benchmark",
+      "path": "data/sources/source-benchmark.json",
+      "schemaVersion": "source-benchmark",
+      "dataMode": "metadata",
+      "recordCount": null,
+      "checksum": "sha256:3ac2bd531beca1f28df41716c74618c4b8af9d215921bbf828cd2c381099d729",
+      "generatedAt": "2026-07-10T00:00:00.000Z",
+      "retrievedAt": null,
+      "validationStatus": "not-applicable",
+      "validationReportPath": null,
+      "geocodingSummaryPath": null,
+      "geographyJoinPath": null,
+      "usedInCurrentApp": false,
+      "safeToDisplay": false,
+      "previewEligible": false,
+      "limitations": [
+        "Manifested for v0.3.0 scaling foundation only; national coverage is not complete."
+      ]
+    }
+  ]
+}
