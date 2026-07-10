@@ -30,3 +30,11 @@ Recommended next patch: v0.3.1 — CMS Hospital National Pull Expansion. It shou
 The top application search bar is the primary planning-location control. It supports address, ZIP, city/state, state, and latitude/longitude searches. Map background clicks can set the selected planning center and recenter the existing straight-line radius. These searched or clicked locations are session-only, are not stored, and must not be interpreted as patient locations.
 
 This release does not add routing, drive-time, travel-time, ETA, real-time traffic, live diversion, bed status, dispatch guidance, triage, transfer guidance, medical-control guidance, or clinical decision support. Public-data source/freshness information is compact by default, with full Details still available. No source ingestion, CMS hospital refresh, CMS dialysis real fetch, live geocoding, or default synthetic-to-real map switch was added.
+
+## v0.3.1 source-backed UI and data-bearing release scope
+
+StatTerrain v0.3.1 uses a central source-backed facility taxonomy. Normal active map layers, filters, capabilities, legends, summaries, and evidence sections may appear only when backed by a validated current source mapping or clearly isolated as synthetic demonstration content.
+
+A national source release is not complete until the official source data has been pulled, normalized, deduplicated, geocoded where necessary, geography-joined, validated, written to generated artifacts, and made available to the application under source-backed guardrails. Scripts, schemas, empty caches, reports, chunk plans, and workflows alone do not constitute completion. When local or Codex network restrictions prevent execution, the same release must execute through GitHub Actions and remains incomplete until the required generated-data pull request or pull requests are merged.
+
+Future or unsupported items must be hidden from primary controls, marked docs-only, marked future-source-needed, or removed. They must not appear as normal active checkboxes or map layers.

@@ -2,33 +2,13 @@
 
 import { Collapsible } from "@/components/ui/Collapsible";
 import { radiusOptions } from "@/data/demo-region";
-import { FACILITY_TYPE_LABELS, CAPABILITY_LABELS, type FacilityType, type CapabilityName } from "@/types/facility";
+import { FACILITY_TYPE_LABELS, type FacilityType, type CapabilityName } from "@/types/facility";
+import { sourceBackedFacilityTypes, syntheticDemoFacilityTypes } from "@/config/facilityTaxonomy";
 import { OVERLAY_LABELS, type OverlayMetricId } from "@/types/metric";
 import type { AppFilters, ConfidenceFilter } from "@/hooks/useAppState";
 
-const FACILITY_TYPE_ORDER: FacilityType[] = [
-  "hospital",
-  "critical_access_hospital",
-  "pharmacy",
-  "dialysis",
-  "nursing_home",
-  "behavioral_health",
-];
-
-const CAPABILITY_ORDER: CapabilityName[] = [
-  "trauma_level_i",
-  "trauma_level_ii",
-  "trauma_level_iii",
-  "pediatric_trauma",
-  "burn_center",
-  "acute_stroke_ready",
-  "primary_stroke_center",
-  "thrombectomy_capable",
-  "comprehensive_stroke_center",
-  "stemi_pci",
-  "pediatric_emergency",
-  "obstetric_capability",
-];
+const FACILITY_TYPE_ORDER: FacilityType[] = [...sourceBackedFacilityTypes];
+const SYNTHETIC_FACILITY_TYPE_ORDER: FacilityType[] = [...syntheticDemoFacilityTypes];
 
 const OVERLAY_ORDER: OverlayMetricId[] = [
   "pop_65_plus",
@@ -61,7 +41,6 @@ export function FilterSidebar({
   onRadiusChange,
   filters,
   onToggleFacilityType,
-  onToggleCapability,
   onSetOverlay,
   onSetConfidence,
   onSetDisplay,
@@ -80,8 +59,7 @@ export function FilterSidebar({
         </button>
       </div>
       <p className="mb-4 rounded-md bg-terrain-50 p-2 text-xs leading-relaxed text-terrain-900">
-        Display filters change what appears on the map. The evidence brief includes all available
-        facility categories in the selected geography unless brief scope is explicitly changed.
+        Primary filters show only source-backed facility categories. Unsupported categories and clinical capabilities are hidden until validated source mappings exist; synthetic demo categories are isolated below.
       </p>
 
       <fieldset className="mb-4">
@@ -124,7 +102,7 @@ export function FilterSidebar({
         <p className="mt-1 text-xs font-medium text-slate-600">Selected planning radius: {radiusMiles} miles</p>
       </fieldset>
 
-      <Collapsible title="Facility display filters">
+      <Collapsible title="Source-backed facility filters">
         <div className="flex flex-col gap-1.5">
           {FACILITY_TYPE_ORDER.map((type) => (
             <label key={type} className="flex items-center gap-2 text-sm text-slate-700">
@@ -138,34 +116,25 @@ export function FilterSidebar({
             </label>
           ))}
         </div>
+        <p className="mt-2 text-xs leading-relaxed text-slate-500">Hospital capability filters are hidden until trauma, stroke, STEMI/PCI, pediatric, obstetric, bed availability, diversion, and other mappings are validated.</p>
       </Collapsible>
 
-      <Collapsible title="Hospital capabilities" defaultOpen={false}>
-        <div className="flex flex-col gap-1.5">
-          <label className="flex items-center gap-2 text-sm text-slate-700">
-            <input
-              type="checkbox"
-              checked={filters.capabilities.size === 0}
-              onChange={() => {
-                CAPABILITY_ORDER.forEach((c) => {
-                  if (filters.capabilities.has(c)) onToggleCapability(c);
-                });
-              }}
-              className="h-4 w-4 rounded border-slate-300 text-terrain-600"
-            />
-            Any trauma center / any capability
-          </label>
-          {CAPABILITY_ORDER.map((cap) => (
-            <label key={cap} className="flex items-center gap-2 text-sm text-slate-700">
-              <input
-                type="checkbox"
-                checked={filters.capabilities.has(cap)}
-                onChange={() => onToggleCapability(cap)}
-                className="h-4 w-4 rounded border-slate-300 text-terrain-600"
-              />
-              {CAPABILITY_LABELS[cap]}
-            </label>
-          ))}
+      <Collapsible title="Synthetic demo categories" defaultOpen={false}>
+        <div className="rounded-lg border border-amber-200 bg-amber-50 p-3">
+          <p className="mb-2 text-xs font-semibold text-amber-900">Synthetic demonstration only — not public-data coverage.</p>
+          <div className="flex flex-col gap-1.5">
+            {SYNTHETIC_FACILITY_TYPE_ORDER.map((type) => (
+              <label key={type} className="flex items-center gap-2 text-sm text-amber-950">
+                <input
+                  type="checkbox"
+                  checked={filters.facilityTypes.has(type)}
+                  onChange={() => onToggleFacilityType(type)}
+                  className="h-4 w-4 rounded border-amber-300 text-amber-700"
+                />
+                {FACILITY_TYPE_LABELS[type]} (synthetic demo)
+              </label>
+            ))}
+          </div>
         </div>
       </Collapsible>
 

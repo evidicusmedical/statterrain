@@ -79,7 +79,7 @@ export function FacilityDetailPanel({ facility }: { facility: Facility | null })
         <h3 className="mt-2 text-2xl font-semibold leading-tight text-slate-900 lg:text-lg" data-testid="facility-detail-name">{facility.name}</h3>
         <dl className="mt-3 rounded-lg border border-slate-200 bg-white px-4">
           <DetailRow label="Name" value={facility.name} status={isPreviewRecord ? "Public-data preview record" : syntheticValue} />
-          <DetailRow label="Facility type" value={FACILITY_TYPE_LABELS[facility.facilityType]} status={verifiedYes} />
+          <DetailRow label="Facility type" value={FACILITY_TYPE_LABELS[facility.facilityType]} status={isPreviewRecord ? verifiedYes : syntheticValue} />
           <DetailRow label="Address" value={facility.address} status={isPreviewRecord ? "Public-data preview record" : syntheticValue} />
           <DetailRow label="City/state/ZIP" value={[facility.city, facility.state, facility.zip].filter(Boolean).join(", ") || undefined} />
         </dl>
@@ -108,7 +108,7 @@ export function FacilityDetailPanel({ facility }: { facility: Facility | null })
               return (
                 <li key={c.capability} className="rounded-lg border border-slate-200 bg-white p-3">
                   <p className="text-base font-medium text-slate-800">{c.label}{c.level ? ` — ${c.level}` : ""}</p>
-                  <p className="mt-1 text-sm text-slate-600">Capability status: {verifiedYes}</p>
+                  <p className="mt-1 text-sm text-slate-600">Capability status: {c.isSynthetic ? "Synthetic demonstration value — not a public-data fact" : verifiedYes}</p>
                   <p className="text-sm text-slate-600">Population served: {c.populationServed ?? notVerified}</p>
                   <div className="mt-1 flex flex-wrap gap-1.5"><ConfidenceBadge level={c.confidence} /><FreshnessBadge status={c.freshness} /></div>
                   <p className="mt-2 text-sm text-slate-500">Source: {c.sourceAgency} &middot; Reported {formatDate(c.sourceDate)} &middot; Retrieved {formatDate(c.retrievalDate)}</p>
@@ -130,6 +130,7 @@ export function FacilityDetailPanel({ facility }: { facility: Facility | null })
             })}
           </ul>
         )}
+        <p className="mt-3 rounded-lg border border-amber-200 bg-amber-50 p-3 text-sm text-amber-900">Unsupported capability filters are hidden until validated public source mappings are available. Trauma, stroke, STEMI/PCI, bed availability, diversion, and similar fields are not inferred from name, type, or geography.</p>
         <DefinitionDetails summary="Hospital capability glossary">
           {capabilityDefinitions.map((definition) => (
             <p key={definition.term}><strong>{definition.term}:</strong> {definition.plainLanguageDefinition} {definition.operationalCaution}</p>
@@ -137,7 +138,7 @@ export function FacilityDetailPanel({ facility }: { facility: Facility | null })
         </DefinitionDetails>
         <dl className="mt-3 rounded-lg border border-slate-200 bg-white px-4">
           {Object.entries(CAPABILITY_LABELS).slice(0, 8).map(([key, label]) => (
-            <DetailRow key={key} label={label} value={facility.capabilities.some((c) => c.capability === key) ? verifiedYes : unavailable} />
+            <DetailRow key={key} label={label} value={facility.capabilities.some((c) => c.capability === key) ? (facility.isSynthetic ? syntheticValue : verifiedYes) : unavailable} status={facility.isSynthetic ? "Synthetic demo capability, not public-data evidence" : undefined} />
           ))}
         </dl>
       </section>
