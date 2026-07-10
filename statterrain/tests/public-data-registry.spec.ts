@@ -109,7 +109,7 @@ test.describe("CMS hospital fixture safety", () => {
 test.describe("product version guardrail", () => {
   test("visible product version is centralized and current", async () => {
     const productConfig = await readFile(join(process.cwd(), "src/config/product.ts"), "utf8");
-    expect(productConfig).toContain('prototypeVersion: "v0.3.0.2 prototype"');
+    expect(productConfig).toContain('prototypeVersion: "v0.3.1 prototype"');
     expect(productConfig).not.toContain('prototypeVersion: "v0.2.8 prototype"');
     expect(productConfig).not.toContain('prototypeVersion: "v0.2.8.1 prototype"');
   });
@@ -212,11 +212,12 @@ test.describe("v0.2.9 national location search and coverage status", () => {
 });
 
 test.describe("v0.3.0 national coverage manifest and scaling foundation", () => {
-  test("visible product version is v0.3.0.2 prototype", async () => {
+  test("visible product version is v0.3.1 prototype", async () => {
     const productConfig = await readFile(join(process.cwd(), "src/config/product.ts"), "utf8");
-    expect(productConfig).toContain('prototypeVersion: "v0.3.0.2 prototype"');
+    expect(productConfig).toContain('prototypeVersion: "v0.3.1 prototype"');
     expect(productConfig).not.toContain('prototypeVersion: "v0.2.9 prototype"');
     expect(productConfig).not.toContain('prototypeVersion: "v0.3.0 prototype"');
+    expect(productConfig).not.toContain('prototypeVersion: "v0.3.0.2 prototype"');
   });
 
   test("source coverage manifest captures hospital, dialysis, and synthetic statuses", async () => {
@@ -361,6 +362,83 @@ test.describe("v0.3.0.2 unified search and compact map status UX", () => {
     for (const file of activeFiles) {
       const source = await readFile(join(process.cwd(), file), "utf8");
       expect(source).not.toMatch(/drive[- ]time|travel[- ]time|\bETA\b|isochrone|claims|PHI|bed status|live diversion/i);
+    }
+  });
+});
+
+
+test.describe("v0.3.1 source-backed taxonomy and data-delivery policies", () => {
+  test("facility taxonomy classifies active, synthetic, hidden, and mapping-needed categories", async () => {
+    const taxonomy = await readFile(join(process.cwd(), "src/config/facilityTaxonomy.ts"), "utf8");
+    expect(taxonomy).toContain('taxonomyVersion = "v0.3.1-source-backed-taxonomy"');
+    expect(taxonomy).toContain('id: "hospital"');
+    expect(taxonomy).toContain('status: "source-backed-now"');
+    expect(taxonomy).toContain('cms-hospital-general-information');
+    expect(taxonomy).toContain('id: "dialysis"');
+    expect(taxonomy).toContain('Fixture-only; not real national data');
+    expect(taxonomy).toContain('id: "nursing_home"');
+    expect(taxonomy).toContain('id: "behavioral_health"');
+    expect(taxonomy).toContain('id: "pharmacy"');
+    expect(taxonomy).toContain('status: "future-source-needed"');
+    expect(taxonomy).toContain('id: "critical_access_hospital"');
+    expect(taxonomy).toContain('status: "source-mapping-needed"');
+  });
+
+  test("primary filters hide unsupported categories and capability controls", async () => {
+    const sidebar = await readFile(join(process.cwd(), "src/components/filters/FilterSidebar.tsx"), "utf8");
+    expect(sidebar).toContain("sourceBackedFacilityTypes");
+    expect(sidebar).toContain("Synthetic demo categories");
+    expect(sidebar).toContain("Hospital capability filters are hidden");
+    expect(sidebar).not.toContain("CAPABILITY_ORDER");
+    expect(sidebar).not.toContain("Any trauma center / any capability");
+    expect(sidebar).not.toContain("CAPABILITY_LABELS[cap]");
+  });
+
+  test("details and exports label synthetic capabilities and unavailable source scope", async () => {
+    const detail = await readFile(join(process.cwd(), "src/components/facilities/FacilityDetailPanel.tsx"), "utf8");
+    expect(detail).toContain("Synthetic demonstration value — not a public-data fact");
+    expect(detail).toContain("Unsupported capability filters are hidden until validated public source mappings are available");
+
+    const exportLib = await readFile(join(process.cwd(), "src/lib/export.ts"), "utf8");
+    expect(exportLib).toContain("## Source scope");
+    expect(exportLib).toContain("Unavailable / future-source-needed categories");
+    expect(exportLib).toContain("Trauma, stroke, STEMI/PCI, bed availability, diversion status");
+    expect(exportLib).toContain("unavailable as source-backed coverage in v0.3.1");
+  });
+
+  test("manifests include taxonomy readiness status", async () => {
+    for (const file of ["data/generated/source-coverage-manifest.json", "data/generated/artifact-manifest.json"]) {
+      const manifest = JSON.parse(await readFile(join(process.cwd(), file), "utf8"));
+      expect(manifest.taxonomyReadiness.taxonomyVersion).toBe("v0.3.1-source-backed-taxonomy");
+      expect(manifest.taxonomyReadiness.activeFacilityCategories).toEqual(["hospital"]);
+      expect(manifest.taxonomyReadiness.futureSourceNeededCategories).toContain("pharmacy");
+      expect(manifest.taxonomyReadiness.sourceMappingNeededCategories).toContain("critical_access_hospital");
+      expect(manifest.taxonomyReadiness.activeCapabilityGroups).toHaveLength(0);
+      expect(manifest.taxonomyReadiness.hiddenCapabilityGroups).toContain("diversion");
+    }
+  });
+
+  test("permanent policies and national checklist exist", async () => {
+    const policy = await readFile(join(process.cwd(), "docs/SOURCE_BACKED_UI_AND_DATA_RELEASE_POLICY.md"), "utf8");
+    expect(policy).toContain("A national source release is not complete until");
+    expect(policy).toContain("Scripts, schemas, empty caches, reports, chunk plans, and workflows alone do not constitute completion.");
+    expect(policy).toContain("No active map layer, filter, capability, legend item, summary, or evidence section may appear");
+    const checklist = await readFile(join(process.cwd(), "docs/templates/NATIONAL-DATA-RELEASE-CHECKLIST.md"), "utf8");
+    for (const heading of ["Source verification", "Pull result", "Record count", "Generated-data PRs", "Completion declaration"]) {
+      expect(checklist).toContain(`## ${heading}`);
+    }
+  });
+
+  test("no patient-level, claims, PHI, or live-operational fields were added", async () => {
+    const files = [
+      "src/config/facilityTaxonomy.ts",
+      "src/components/filters/FilterSidebar.tsx",
+      "src/lib/export.ts",
+      "docs/SOURCE_BACKED_UI_AND_DATA_RELEASE_POLICY.md",
+    ];
+    for (const file of files) {
+      const source = await readFile(join(process.cwd(), file), "utf8");
+      expect(source).not.toMatch(/patient[- ]level records|claims records|PHI handling|live bed availability|live diversion/i);
     }
   });
 });

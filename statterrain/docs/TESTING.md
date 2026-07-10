@@ -30,3 +30,7 @@ Recommended next patch: v0.3.1 — CMS Hospital National Pull Expansion. It shou
 The v0.3.0.2 test gate requires `product.prototypeVersion` to be `v0.3.0.2 prototype`. Static and registry tests verify that the top search bar is the primary location search, the large in-map search card is absent by default, the placeholder covers address/ZIP/city/state and lat/lon, coordinate parsing accepts comma and space-separated pairs, invalid coordinates return `invalid-input`, valid coordinate searches do not call the Census Geocoder, and selected coordinate locations are session-only.
 
 Additional tests cover the map-click planning-center handler, concise coordinate labels, selected-radius preservation through existing state, the compact selected-location badge, non-overlap intent for the top-right Show Summary control, absence of persistent summary helper copy, compact public-data status by default, hidden long provenance details until Details is opened, and preservation of coverage manifests, CMS hospital preview bounds, CMS dialysis fixture safety, and synthetic default map behavior.
+
+## v0.3.1 tests
+
+The v0.3.1 test gate requires `product.prototypeVersion` to be `v0.3.1 prototype`, verifies the source-backed taxonomy, confirms unsupported facility categories and hospital capabilities are hidden from normal active controls, checks source-scope export language, validates manifest taxonomy readiness metadata, and confirms the Data-Bearing Release Policy, Source-Backed UI Policy, and national data release checklist exist.

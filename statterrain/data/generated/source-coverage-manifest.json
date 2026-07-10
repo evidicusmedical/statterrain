@@ -117,5 +117,47 @@
       ],
       "nextRequiredStep": "keep separate from generated public-data artifacts"
     }
-  ]
+  ],
+  "taxonomyReadiness": {
+    "taxonomyVersion": "v0.3.1-source-backed-taxonomy",
+    "taxonomyGeneratedAt": "2026-07-10T00:00:00.000Z",
+    "activeFacilityCategories": [
+      "hospital"
+    ],
+    "syntheticDemoCategories": [
+      "critical_access_hospital",
+      "dialysis"
+    ],
+    "hiddenUnsupportedCategories": [
+      "behavioral_health",
+      "pharmacy",
+      "nursing_home"
+    ],
+    "futureSourceNeededCategories": [
+      "dialysis",
+      "nursing_home",
+      "behavioral_health",
+      "pharmacy"
+    ],
+    "sourceMappingNeededCategories": [
+      "critical_access_hospital"
+    ],
+    "activeCapabilityGroups": [],
+    "hiddenCapabilityGroups": [
+      "trauma designation",
+      "stroke designation",
+      "STEMI/PCI",
+      "pediatric capability",
+      "perinatal/obstetric capability",
+      "ICU capability",
+      "heliport",
+      "transfer center",
+      "behavioral-health capability",
+      "emergency surgery",
+      "specialty services",
+      "live operating status",
+      "bed capacity/availability",
+      "diversion"
+    ]
+  }
 }

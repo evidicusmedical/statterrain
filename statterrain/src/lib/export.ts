@@ -1,4 +1,5 @@
 import { product } from "@/config/product";
+import { facilityTaxonomy, syntheticDemoFacilityTypes, futureFacilityTypes } from "@/config/facilityTaxonomy";
 import { populationMetrics } from "@/data/population-metrics";
 import {
   POPULATION_METRIC_EXPORT_CAVEAT,
@@ -163,6 +164,14 @@ export function buildMarkdownBrief(ctx: BriefContext): string {
   });
   lines.push("");
 
+  lines.push("## Source scope");
+  lines.push("");
+  lines.push(`- Active source-backed categories: ${facilityTaxonomy.filter((e) => e.currentUiVisibility === "active").map((e) => e.label).join("; ")}`);
+  lines.push(`- Synthetic categories, if included: ${syntheticDemoFacilityTypes.map((type) => FACILITY_TYPE_LABELS[type]).join("; ") || "None"}`);
+  lines.push(`- Unavailable / future-source-needed categories: ${futureFacilityTypes.map((type) => FACILITY_TYPE_LABELS[type]).join("; ") || "None"}`);
+  lines.push("- Trauma, stroke, STEMI/PCI, bed availability, diversion status, and other clinical capability fields are not included unless backed by a validated public source mapping.");
+  lines.push("");
+
   lines.push("## Emergency-care facility overview");
   lines.push("");
   const hospitals = briefFacilities.filter(
@@ -172,36 +181,24 @@ export function buildMarkdownBrief(ctx: BriefContext): string {
   );
   lines.push(`Hospitals / EDs in range: ${hospitals.length}`);
   lines.push("");
-  lines.push("## Hospital capability summary");
+  lines.push("## Hospital capability source limits");
+  lines.push("");
+  lines.push("Hospital capability filters and findings are hidden unless source-backed. Synthetic demo records may contain capability-like fields for demonstration only, but they are not exported as public-data facts.");
   lines.push("");
   hospitals.forEach((f) => {
     lines.push(`### ${f.name}`);
     lines.push(`- Address: ${f.address}`);
     lines.push(`- Straight-line planning distance: ${f.distanceMiles} mi`);
-    lines.push(`- Critical access: ${f.criticalAccess ? "Yes" : "No"}`);
-    if (f.capabilities.length === 0) {
-      lines.push(
-        "- No publicly documented specialty capability records available.",
-      );
-    } else {
-      f.capabilities.forEach((c) => {
-        lines.push(
-          `- ${c.label}${c.level ? ` (${c.level})` : ""} — ${CONFIDENCE_LABELS[c.confidence]}, ${FRESHNESS_LABELS[c.freshness]}, source: ${c.sourceAgency} (${formatDate(c.sourceDate)})`,
-        );
-      });
-    }
+    lines.push(`- Critical access: ${f.isSynthetic && f.criticalAccess ? "Synthetic demo only" : "Unavailable/not included unless source-mapped"}`);
+    lines.push("- Specialty capabilities: unavailable/not included unless source-mapped; do not infer capability from name, type, or geography.");
     lines.push("");
   });
 
-  lines.push(
-    "## Pharmacy, dialysis, nursing-home, and behavioral-health summary",
-  );
+  lines.push("## Unavailable facility categories");
   lines.push("");
-  (
-    ["pharmacy", "dialysis", "nursing_home", "behavioral_health"] as const
-  ).forEach((type) => {
-    const count = briefFacilities.filter((f) => f.facilityType === type).length;
-    lines.push(`- ${FACILITY_TYPE_LABELS[type]}: ${count}`);
+  (["pharmacy", "dialysis", "nursing_home", "behavioral_health"] as const).forEach((type) => {
+    const syntheticCount = briefFacilities.filter((f) => f.facilityType === type && f.isSynthetic).length;
+    lines.push(`- ${FACILITY_TYPE_LABELS[type]}: unavailable as source-backed coverage in v0.3.1${syntheticCount ? `; ${syntheticCount} synthetic demo record(s) may be present if demo filters were enabled` : ""}.`);
   });
   lines.push("");
 
