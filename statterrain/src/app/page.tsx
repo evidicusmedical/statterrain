@@ -85,7 +85,7 @@ export default function HomePage() {
             className={`relative isolate z-0 h-[62dvh] min-h-[28rem] w-full overflow-hidden border-b border-slate-200 bg-slate-100 ${mobileTab === "map" ? "block" : "hidden"} lg:block lg:h-auto lg:min-h-0 lg:flex-1 lg:border-b-0`}
             aria-label="Map"
           >
-            <div className="absolute right-2 top-2 z-[800] hidden max-w-[calc(100%-1rem)] rounded-lg border border-slate-200 bg-white/95 p-1.5 shadow-sm backdrop-blur sm:right-3 sm:top-3 sm:p-2 lg:block">
+            <div className="absolute right-2 top-2 z-[40] hidden max-w-[calc(100%-1rem)] rounded-lg border border-slate-200 bg-white/95 p-1.5 shadow-sm backdrop-blur sm:right-3 sm:top-3 sm:p-2 lg:block">
               <button
                 type="button"
                 onClick={() => setSummaryOpen((open) => !open)}
@@ -95,13 +95,11 @@ export default function HomePage() {
               >
                 {summaryOpen ? "Hide summary" : "Show summary"}
               </button>
-              <p className="mt-1 hidden text-[11px] text-slate-600 sm:block">
-                {summaryOpen
-                  ? "Hide summary to enlarge the map."
-                  : "Show summary to review facilities and population context."}
-              </p>
+              <span className="sr-only">
+                Summary panel toggle; no persistent map tooltip is shown.
+              </span>
             </div>
-            <div className="absolute left-2 top-2 z-[790] flex max-w-[min(34rem,calc(100%-1rem))] flex-col gap-2 sm:left-3 sm:top-3">
+            <div className="absolute left-2 top-2 z-[30] flex max-w-[min(36rem,calc(100%-1rem))] flex-col gap-2 sm:left-3 sm:top-3">
               <LocationSearchBox
                 radiusMiles={state.radiusMiles}
                 statusMessage={state.searchMessage}

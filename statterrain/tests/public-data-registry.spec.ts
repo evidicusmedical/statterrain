@@ -109,7 +109,7 @@ test.describe("CMS hospital fixture safety", () => {
 test.describe("product version guardrail", () => {
   test("visible product version is centralized and current", async () => {
     const productConfig = await readFile(join(process.cwd(), "src/config/product.ts"), "utf8");
-    expect(productConfig).toContain('prototypeVersion: "v0.3.0 prototype"');
+    expect(productConfig).toContain('prototypeVersion: "v0.3.0.1 prototype"');
     expect(productConfig).not.toContain('prototypeVersion: "v0.2.8 prototype"');
     expect(productConfig).not.toContain('prototypeVersion: "v0.2.8.1 prototype"');
   });
@@ -212,10 +212,11 @@ test.describe("v0.2.9 national location search and coverage status", () => {
 });
 
 test.describe("v0.3.0 national coverage manifest and scaling foundation", () => {
-  test("visible product version is v0.3.0 prototype", async () => {
+  test("visible product version is v0.3.0.1 prototype", async () => {
     const productConfig = await readFile(join(process.cwd(), "src/config/product.ts"), "utf8");
-    expect(productConfig).toContain('prototypeVersion: "v0.3.0 prototype"');
+    expect(productConfig).toContain('prototypeVersion: "v0.3.0.1 prototype"');
     expect(productConfig).not.toContain('prototypeVersion: "v0.2.9 prototype"');
+    expect(productConfig).not.toContain('prototypeVersion: "v0.3.0 prototype"');
   });
 
   test("source coverage manifest captures hospital, dialysis, and synthetic statuses", async () => {
@@ -258,9 +259,27 @@ test.describe("v0.3.0 national coverage manifest and scaling foundation", () => 
     expect(existsSync(join(process.cwd(), "scripts/public-data/create-geocoding-chunks.mjs"))).toBe(true);
   });
 
+  test("summary toggle has no persistent floating help card", async () => {
+    const page = await readFile(join(process.cwd(), "src/app/page.tsx"), "utf8");
+    expect(page).toContain("Show summary");
+    expect(page).toContain("Summary panel toggle; no persistent map tooltip is shown.");
+    expect(page).not.toContain("Show summary to review facilities and population context.");
+    expect(page).not.toContain("Hide summary to enlarge the map.");
+  });
+
   test("coverage UI and export include national coverage summary copy", async () => {
     const panel = await readFile(join(process.cwd(), "src/components/public-data/PublicDataFreshnessPanel.tsx"), "utf8");
-    expect(panel).toContain("Public-data coverage: national coverage in progress");
+    expect(panel).toContain("useState(false)");
+    expect(panel).toContain("aria-expanded={expanded}");
+    expect(panel).toContain("aria-controls={detailsId}");
+    expect(panel).toContain("Public-data coverage: national build in progress");
+    expect(panel).toContain("CMS hospitals: {summary.recordCount} preview-ready sample records");
+    expect(panel).toContain("CMS dialysis: fixture-only / not map-ready");
+    expect(panel).toContain("CMS hospital preview off / optional");
+    expect(panel).toContain("Details");
+    expect(panel).toContain("Collapse details");
+    expect(panel).toContain("Coverage manifest summary");
+    expect(panel).toContain("Limitations and prohibited uses");
     expect(panel).toContain("sourceCoverage.map");
     const coverage = await readFile(join(process.cwd(), "src/lib/coverage/coverageStatus.ts"), "utf8");
     expect(coverage).toContain("bounded 5-record preview sample, not national coverage");
