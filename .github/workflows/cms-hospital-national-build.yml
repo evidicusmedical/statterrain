@@ -80,12 +80,20 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          npm run data:probe-cms-hospital-api | tee cms-probe.json
+          node scripts/public-data/build-national-cms-hospitals.mjs --probe > /tmp/cms-probe.json
+          node -e "
+          const fs = require('fs');
+          const data = JSON.parse(fs.readFileSync('/tmp/cms-probe.json','utf8'));
+          if (data.status !== 200) throw new Error('CMS probe did not return 200');
+          console.log(JSON.stringify(data, null, 2));
+          "
           node <<'NODE' >> "$GITHUB_OUTPUT"
           const fs = require('fs');
-          const probe = JSON.parse(fs.readFileSync('cms-probe.json','utf8'));
+          const probe = JSON.parse(fs.readFileSync('/tmp/cms-probe.json','utf8'));
           console.log(`success=true`);
+          console.log(`status=${probe.status ?? ''}`);
           console.log(`recordArrayKey=${probe.recordArrayKey ?? ''}`);
+          console.log(`rowCount=${probe.rowCount ?? ''}`);
           console.log(`reportedLimit=${probe.paginationMetadata?.limit ?? ''}`);
           console.log(`reportedCount=${probe.paginationMetadata?.count ?? ''}`);
           NODE

@@ -22,3 +22,18 @@ test('invalid page-size override is rejected',()=>{assert.throws(()=>resolveCmsP
 test('limit=50000 does not appear in active national pull code',()=>{const code=readFileSync(new URL('../scripts/public-data/build-national-cms-hospitals.mjs',import.meta.url),'utf8');assert.equal(code.includes('limit=50000'),false);});
 test('pagination report marks complete only after a valid stop condition',async()=>{const f=fetcher([{results:[row(1)]}]);const out=await fetchAllCmsHospitalRecords({fetchImpl:f.fn,pageSize:2});assert.equal(out.report.paginationComplete,true);assert.equal(out.report.stopCondition,'short-page');});
 test('downstream build cannot proceed on incomplete pagination',()=>{assert.throws(()=>assertPaginationComplete({paginationComplete:false}),/cannot proceed/);});
+
+test('probe mode writes JSON-only stdout from mocked CMS fetch', async () => {
+  const {writeCmsProbeJson} = await import('../scripts/public-data/build-national-cms-hospitals.mjs');
+  let stdout = '';
+  const mockRows = Array.from({length: 10}, (_, i) => row(i + 1));
+  const fetchImpl = async () => res({count: 5432, query: {limit: 10, offset: 0}, results: mockRows, schema: {fields: []}}, 200);
+  await writeCmsProbeJson({fetchImpl, stdout: {write(chunk) { stdout += chunk; }}});
+  assert.equal(stdout.startsWith('>'), false);
+  assert.equal(stdout.includes('data:probe-cms-hospital-api'), false);
+  const parsed = JSON.parse(stdout);
+  assert.equal(parsed.status, 200);
+  assert.equal(parsed.recordArrayKey, 'results');
+  assert.equal(parsed.rowCount, 10);
+  assert.deepEqual(parsed.topLevelKeys, ['count', 'query', 'results', 'schema']);
+});

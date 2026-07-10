@@ -68,8 +68,14 @@ export function assertPaginationComplete(report){if(!report?.paginationComplete)
 
 export async function probeCmsHospitalApi({fetchImpl=fetch,limit=10}={}){const pulled=await fetchJson(pageUrl(limit,0),{fetchImpl,retries:1,timeoutMs:30000});const keys=Object.keys(pulled.json).sort();const recordArrayKey=Array.isArray(pulled.json[EXPECTED_RECORD_ARRAY_KEY])?EXPECTED_RECORD_ARRAY_KEY:null;return {status:pulled.res.status,topLevelKeys:keys,recordArrayKey,paginationMetadata:extractMeta(pulled.json),rowCount:recordArrayKey?pulled.json[recordArrayKey].length:null};}
 
+export async function writeCmsProbeJson({fetchImpl=fetch,stdout=process.stdout}={}){
+  const probe=await probeCmsHospitalApi({fetchImpl});
+  stdout.write(`${JSON.stringify(probe,null,2)}\n`);
+  return probe;
+}
+
 async function main(){
-if(process.argv.includes('--probe')){const p=await probeCmsHospitalApi();console.log(JSON.stringify(p,null,2));return;}
+if(process.argv.includes('--probe')){await writeCmsProbeJson();return;}
 dirs.forEach(d=>mkdirSync(d,{recursive:true}));
 console.log('Pulling CMS national hospital records with pagination');
 const pulled=await fetchAllCmsHospitalRecords(); const rows=pulled.rows; assertPaginationComplete(pulled.report); if(rows.length<=5) throw new Error('CMS pull did not return national rows');
