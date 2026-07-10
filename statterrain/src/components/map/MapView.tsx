@@ -168,6 +168,10 @@ export function MapView({
         ))}
       </MapContainer>
 
+      <div className="pointer-events-none absolute right-3 top-3 z-[350] max-w-[calc(100%-1.5rem)] rounded-md bg-white/95 px-3 py-2 text-xs font-semibold text-slate-700 shadow-panel">
+        Selected planning radius: <span className="whitespace-nowrap">{radiusMiles} miles</span>
+      </div>
+
       {showLegend && (
         <div className="pointer-events-none absolute bottom-3 left-3 z-[350] max-w-[calc(100%-1.5rem)]">
           {legendOpen ? (

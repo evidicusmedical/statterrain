@@ -292,7 +292,7 @@ test.describe("StatTerrain critical workflow", () => {
     await expect(feedback).toBeVisible();
     await expect(feedback).toHaveAttribute(
       "href",
-      /mailto:mathew\.h\.lowe\+statterrain@gmail\.com\?subject=StatTerrain%20Beta%20Feedback&body=.*App%3A%20StatTerrain.*Version%3A%20v0.2.0%20prototype.*Selected%20geography/,
+      /mailto:mathew\.h\.lowe\+statterrain@gmail\.com\?subject=StatTerrain%20Beta%20Feedback&body=.*App%3A%20StatTerrain.*Version%3A%20v0.2.8.1%20prototype.*Selected%20geography/,
     );
 
     await page.getByRole("button", { name: "Generate Evidence Brief" }).click();
@@ -310,6 +310,35 @@ test.describe("StatTerrain critical workflow", () => {
     await expect(
       briefDialog.getByRole("button", { name: "Copy feedback context" }),
     ).toHaveCount(0);
+  });
+
+
+  test("radius quick buttons and custom slider update selected planning radius", async ({
+    page,
+  }) => {
+    await page.goto("/");
+    await expect(page.getByRole("button", { name: "10 miles" })).toBeVisible();
+    for (const name of ["25 miles", "50 miles", "100 miles"]) {
+      await expect(page.getByRole("button", { name })).toBeVisible();
+    }
+
+    const slider = page.getByLabel("Distance radius in miles");
+    await expect(slider).toHaveAttribute("min", "1");
+    await expect(slider).toHaveAttribute("max", "250");
+    await expect(slider).toHaveAttribute("step", "1");
+
+    await page.getByRole("button", { name: "10 miles" }).click();
+    await expect(slider).toHaveValue("10");
+    await expect(page.getByText("Selected planning radius: 10 miles").first()).toBeVisible();
+
+    await slider.fill("7");
+    await expect(slider).toHaveValue("7");
+    await expect(page.getByText("Selected planning radius: 7 miles").first()).toBeVisible();
+    await expect(page.getByText("Zero-facility results can occur with small radii.")).toBeVisible();
+
+    await page.getByRole("button", { name: "Generate Evidence Brief" }).click();
+    const drawer = page.getByRole("dialog", { name: /evidence brief/i });
+    await expect(drawer.locator("pre")).toContainText("Selected planning radius: 7 miles");
   });
 
   test("desktop map legend is discoverable and collapsible", async ({
@@ -381,7 +410,7 @@ test.describe("StatTerrain critical workflow", () => {
     await expect(drawer).toBeVisible();
     await expect(
       drawer.getByText(
-        /Brief scope: This evidence brief includes all available facility categories/,
+        /Brief scope: This evidence brief includes all available facility categories within the selected planning radius/,
       ),
     ).toBeVisible();
     await expect(drawer.locator("pre")).toContainText("- Pharmacy: 1");

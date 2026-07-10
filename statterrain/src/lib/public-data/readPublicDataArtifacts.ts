@@ -268,7 +268,6 @@ export function getPreviewCmsHospitalFacilities(): Facility[] {
     zip: record.zip,
     phone: record.phone,
     distanceMiles: 0,
-    approxDriveTimeMinutes: 0,
     criticalAccess: record.criticalAccessHospital === true,
     capabilities: [],
     sourceIds: [record.sourceId ?? summary.datasetId],

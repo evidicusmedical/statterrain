@@ -149,7 +149,7 @@ export function FacilityDetailPanel({ facility }: { facility: Facility | null })
           <DetailRow label="Website" value={facility.website ? <a className="text-terrain-700 underline" href={facility.website}>{facility.website}</a> : undefined} />
           <DetailRow label="Email" value={facility.email} />
           <DetailRow label="Fax" value={facility.fax} />
-          <DetailRow label="Approximate drive time" value={`${facility.distanceMiles} mi · approx. ${facility.approxDriveTimeMinutes} min demonstration drive time`} status={syntheticValue} />
+          <DetailRow label="Straight-line planning distance" value={`${facility.distanceMiles} mi from selected demo location`} status={syntheticValue} />
         </dl>
       </section>
 

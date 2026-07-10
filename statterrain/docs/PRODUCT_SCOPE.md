@@ -137,3 +137,11 @@ The main app remains synthetic by default and the CMS pilot does not power the m
 Release tracking rule: every patch must update `product.prototypeVersion` in `src/config/product.ts`. This visible version is used to confirm Vercel deployment freshness and prevent stale UI confusion. Tests must be updated with each patch to assert the expected visible version.
 
 PR #24 produced a real CMS Hospital General Information preview artifact with 5 bounded live Census Geocoder matches and 5 geography joins. The artifact is eligible only for an explicitly labeled, user-enabled preview layer. The default map remains synthetic, `usedInCurrentApp` remains false, and CMS preview records must not be used for routing, diversion, bed availability, dispatch, triage, transfer, medical control, or clinical decision support. Broader CMS national coverage is not complete. The next patch after this release should be v0.2.8 CMS Dialysis Facility Pilot.
+
+## v0.2.8.1 flexible radius control scope
+
+StatTerrain v0.2.8.1 keeps radius semantics as straight-line planning distance only. It adds quick radius options of 10, 25, 50, and 100 miles plus a 1–250 mile slider with 1-mile steps. Dense markets should use smaller radii, such as 10 miles, when broad distances produce too many facilities.
+
+The selected radius applies to map inclusion/counts, regional summaries, evidence brief scope, and exports. No drive-time calculation, route calculation, travel-time estimate, ETA, real-time traffic, or isochrone capability is added.
+
+Public-data behavior is unchanged: default map data remains synthetic, CMS hospital preview remains optional/off by default, CMS dialysis remains fixture-only/not preview-ready, and this patch does not run or add new ingestion.
