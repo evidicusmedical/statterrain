@@ -149,19 +149,12 @@ test.describe("StatTerrain critical workflow", () => {
     expect(totalAfter).toBeLessThanOrEqual(totalBefore);
   });
 
-  test("a confidence filter changes the displayed results", async ({
+  test("source-confidence display control is not exposed in normal UI", async ({
     page,
   }) => {
     await page.goto("/");
-    await page
-      .getByRole("button", { name: "Source confidence display" })
-      .click();
-
-    const totalBefore = await countVisibleFacilities(page);
-    await page.getByRole("radio", { name: "High confidence only" }).check();
-    const totalAfter = await countVisibleFacilities(page);
-
-    expect(totalAfter).toBeLessThanOrEqual(totalBefore);
+    await expect(page.getByRole("button", { name: "Source confidence display" })).toHaveCount(0);
+    await expect(page.getByRole("radio", { name: "High confidence only" })).toHaveCount(0);
   });
 
   test("a facility can be selected and its detail view appears with source and confidence information", async ({

@@ -12,44 +12,24 @@ import type {
 } from "@/lib/geocoding/searchLocation";
 import type { Facility, FacilityType, CapabilityName } from "@/types/facility";
 import type { OverlayMetricId } from "@/types/metric";
-import type { ConfidenceLevel } from "@/types/source";
-
-export type ConfidenceFilter = "high" | "high_medium" | "all";
-
 export interface AppFilters {
   facilityTypes: Set<FacilityType>;
   capabilities: Set<CapabilityName>;
   overlay: OverlayMetricId | null;
-  confidence: ConfidenceFilter;
   showRadius: boolean;
   showLegend: boolean;
-  showLabels: boolean;
-  showFreshness: boolean;
 }
 
-const ALL_FACILITY_TYPES: FacilityType[] = ["hospital", "critical_access_hospital"];
+const ALL_FACILITY_TYPES: FacilityType[] = ["hospital"];
 
 function defaultFilters(): AppFilters {
   return {
     facilityTypes: new Set(ALL_FACILITY_TYPES),
     capabilities: new Set(),
     overlay: null,
-    confidence: "high_medium",
     showRadius: true,
     showLegend: true,
-    showLabels: false,
-    showFreshness: true,
   };
-}
-
-function confidenceRank(c: ConfidenceLevel): number {
-  return c === "high" ? 3 : c === "medium" ? 2 : 1;
-}
-
-function confidenceThreshold(filter: ConfidenceFilter): number {
-  if (filter === "high") return 3;
-  if (filter === "high_medium") return 2;
-  return 1;
 }
 
 function haversineMiles(
@@ -125,10 +105,8 @@ export function useAppState() {
   );
 
   const visibleFacilities: Facility[] = useMemo(() => {
-    const threshold = confidenceThreshold(filters.confidence);
     return facilitiesInRadius.filter((f) => {
       if (!filters.facilityTypes.has(f.facilityType)) return false;
-      if (confidenceRank(f.confidence) < threshold) return false;
       if (filters.capabilities.size > 0) {
         const hasAny = f.capabilities.some((c) =>
           filters.capabilities.has(c.capability),

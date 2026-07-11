@@ -176,7 +176,7 @@ export function getPublicDataArtifactSummary(): PublicDataArtifactSummary {
 
   let previewStatus: PublicDataPreviewStatus = "available";
   let previewBlockReason =
-    "Validation-safe real public CMS hospital records are available for explicitly labeled preview.";
+    "Validation-safe real public CMS hospital records are available for the active map layer.";
   if (fixtureMode) {
     previewStatus = "blocked-fixture";
     previewBlockReason =
@@ -188,7 +188,7 @@ export function getPublicDataArtifactSummary(): PublicDataArtifactSummary {
   } else if (!safeByContract) {
     previewStatus = recordCount ? "blocked-validation" : "unavailable";
     previewBlockReason =
-      "The generated CMS hospital artifact is not validation-safe for preview.";
+      "The generated CMS hospital artifact is not validation-safe for map display.";
   } else if (!coordinatesReady) {
     previewStatus = "blocked-geography";
     previewBlockReason =
@@ -198,14 +198,14 @@ export function getPublicDataArtifactSummary(): PublicDataArtifactSummary {
   const artifactStatusLabel = fixtureMode
     ? "Fixture/test artifacts only — not real public data."
     : metadata.dataMode === "real-public-data"
-      ? "Real public-data refresh artifact available for review."
+      ? "Real public-data source artifact available."
       : "No real public-data refresh artifact is available.";
   const geocodingDisplayStatus = canPreviewOnMap
     ? `Live Census Geocoder, ${matchedCount} matched, ${joinedCount} joined`
     : dryRunOnly
       ? "dry-run / not map-ready"
       : coordinatesReady
-        ? "live geocoding coordinates present; preview guard not passed"
+        ? "live geocoding coordinates present; validation not complete"
         : (metadata.geocodingStatus ?? "not map-ready");
 
   return {

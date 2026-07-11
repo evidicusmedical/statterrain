@@ -1,9 +1,7 @@
 import type { OverlayMetricId } from "@/types/metric";
 import { OVERLAY_LABELS } from "@/types/metric";
 import { FACILITY_MARKER_COLORS, OVERLAY_COLOR_SCALE } from "./mapStyles";
-import { FACILITY_TYPE_LABELS, type FacilityType } from "@/types/facility";
 
-const LEGEND_FACILITY_TYPES: FacilityType[] = ["hospital", "critical_access_hospital"];
 
 export function MapLegend({
   overlay,
@@ -28,16 +26,22 @@ export function MapLegend({
         </button>
       </div>
       <ul className="mb-2 flex flex-col gap-0.5 sm:gap-1">
-        {LEGEND_FACILITY_TYPES.map((type) => (
-          <li key={type} className="flex items-center gap-2 text-slate-700">
-            <span
-              className="inline-block h-2.5 w-2.5 shrink-0 rounded-full border border-white shadow"
-              style={{ backgroundColor: FACILITY_MARKER_COLORS[type] }}
-              aria-hidden
-            />
-            {FACILITY_TYPE_LABELS[type]}
-          </li>
-        ))}
+        <li className="flex items-center gap-2 text-slate-700">
+          <span
+            className="inline-block h-2.5 w-2.5 shrink-0 rounded-full border border-white shadow"
+            style={{ backgroundColor: FACILITY_MARKER_COLORS.hospital }}
+            aria-hidden
+          />
+          Hospital
+        </li>
+        <li className="flex items-center gap-2 text-slate-700">
+          <span className="inline-block h-2.5 w-2.5 shrink-0 rounded-full bg-slate-800 ring-2 ring-white" aria-hidden />
+          Selected planning location
+        </li>
+        <li className="flex items-center gap-2 text-slate-700">
+          <span className="inline-block h-0 w-5 shrink-0 border-t-2 border-dashed border-[#316559]" aria-hidden />
+          Planning-radius boundary
+        </li>
       </ul>
       {overlay && (
         <div className="border-t border-slate-200 pt-2">

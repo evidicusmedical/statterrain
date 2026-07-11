@@ -11,7 +11,7 @@ function formatDate(value: string | null): string {
   if (!value) return "Not reported";
   const date = new Date(value);
   if (Number.isNaN(date.getTime())) return value;
-  return date.toISOString().slice(0, 10);
+  return date.toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric", timeZone: "UTC" });
 }
 
 export function PublicDataFreshnessPanel({
@@ -35,6 +35,8 @@ export function PublicDataFreshnessPanel({
         </span>
         <span aria-hidden>·</span>
         <span>{cmsLoad?.manifest ? `${cmsLoad.manifest.mapReadyRecords.toLocaleString()} map-ready nationally` : "Loading national public data"}</span>
+        <span aria-hidden>·</span>
+        <span>Updated {formatDate(cmsLoad?.manifest?.retrievedAt ?? summary.retrievedAt)}</span>
         <button
           type="button"
           className="rounded-md border border-amber-300 bg-white px-2 py-1 font-semibold text-amber-900 shadow-sm hover:bg-amber-100 focus:outline-none focus:ring-2 focus:ring-amber-500 focus:ring-offset-2"
@@ -55,35 +57,28 @@ export function PublicDataFreshnessPanel({
             <dd>{cmsLoad?.manifest?.sourceName ?? summary.sourceName}</dd>
           </div>
           <div>
-            <dt className="font-semibold">CMS hospital artifact</dt>
-            <dd>{summary.artifactStatusLabel}</dd>
+            <dt className="font-semibold">Agency</dt>
+            <dd>Centers for Medicare & Medicaid Services</dd>
           </div>
           <div>
             <dt className="font-semibold">Retrieved</dt>
             <dd>{formatDate(cmsLoad?.manifest?.retrievedAt ?? summary.retrievedAt)}</dd>
           </div>
           <div>
-            <dt className="font-semibold">Records</dt>
-            <dd>{cmsLoad?.manifest?.mapReadyRecords ?? summary.recordCount}</dd>
+            <dt className="font-semibold">Map-ready count</dt>
+            <dd>{(cmsLoad?.manifest?.mapReadyRecords ?? summary.recordCount).toLocaleString()}</dd>
           </div>
           <div>
-            <dt className="font-semibold">Mode</dt>
-            <dd>
-              {summary.dataMode}
-              {summary.fixtureMode ? " (fixture)" : ""}
-            </dd>
+            <dt className="font-semibold">Dataset ID</dt>
+            <dd>{summary.datasetId}</dd>
           </div>
           <div>
             <dt className="font-semibold">Geocoding</dt>
             <dd>{summary.geocodingDisplayStatus}</dd>
           </div>
           <div className="sm:col-span-2">
-            <dt className="font-semibold">Preview status</dt>
-            <dd>
-              {summary.canPreviewOnMap
-                ? `Available for ${cmsLoad?.manifest?.mapReadyRecords ?? summary.recordCount} live-geocoded CMS hospital records.`
-                : `Blocked — ${summary.previewBlockReason}`}
-            </dd>
+            <dt className="font-semibold">States/territories represented</dt>
+            <dd>{cmsLoad?.manifest?.statesPresent?.length ?? "Not reported"}</dd>
           </div>
         </dl>
         <div className="rounded-md border border-amber-200 bg-white/80 p-2">

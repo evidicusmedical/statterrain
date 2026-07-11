@@ -5,7 +5,7 @@ import { radiusOptions } from "@/data/demo-region";
 import { FACILITY_TYPE_LABELS, type FacilityType, type CapabilityName } from "@/types/facility";
 import { sourceBackedFacilityTypes } from "@/config/facilityTaxonomy";
 import { OVERLAY_LABELS, type OverlayMetricId } from "@/types/metric";
-import type { AppFilters, ConfidenceFilter } from "@/hooks/useAppState";
+import type { AppFilters } from "@/hooks/useAppState";
 
 const FACILITY_TYPE_ORDER: FacilityType[] = [...sourceBackedFacilityTypes];
 
@@ -30,7 +30,6 @@ interface FilterSidebarProps {
   onToggleFacilityType: (t: FacilityType) => void;
   onToggleCapability: (c: CapabilityName) => void;
   onSetOverlay: (o: OverlayMetricId | null) => void;
-  onSetConfidence: (c: ConfidenceFilter) => void;
   onSetDisplay: (key: keyof AppFilters, value: boolean) => void;
   onReset: () => void;
 }
@@ -41,7 +40,6 @@ export function FilterSidebar({
   filters,
   onToggleFacilityType,
   onSetOverlay,
-  onSetConfidence,
   onSetDisplay,
   onReset,
 }: FilterSidebarProps) {
@@ -146,37 +144,12 @@ export function FilterSidebar({
         </div>
       </Collapsible>
 
-      <Collapsible title="Source confidence display" defaultOpen={false}>
-        <div className="flex flex-col gap-1.5">
-          {(
-            [
-              ["high", "High confidence only"],
-              ["high_medium", "High and medium confidence"],
-              ["all", "Include all source-backed records"],
-            ] as [ConfidenceFilter, string][]
-          ).map(([value, label]) => (
-            <label key={value} className="flex items-center gap-2 text-sm text-slate-700">
-              <input
-                type="radio"
-                name="confidence"
-                checked={filters.confidence === value}
-                onChange={() => onSetConfidence(value)}
-                className="h-4 w-4 border-slate-300 text-terrain-600"
-              />
-              {label}
-            </label>
-          ))}
-        </div>
-      </Collapsible>
-
       <Collapsible title="Display" defaultOpen={false}>
         <div className="flex flex-col gap-1.5">
           {(
             [
               ["showRadius", "Show radius"],
               ["showLegend", "Show legend"],
-              ["showLabels", "Show facility labels"],
-              ["showFreshness", "Show freshness badges"],
             ] as [keyof AppFilters, string][]
           ).map(([key, label]) => (
             <label key={key} className="flex items-center gap-2 text-sm text-slate-700">

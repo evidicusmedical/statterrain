@@ -93,9 +93,6 @@ export default function HomePage() {
             onSetOverlay={(o) =>
               state.setFilters((prev) => ({ ...prev, overlay: o }))
             }
-            onSetConfidence={(c) =>
-              state.setFilters((prev) => ({ ...prev, confidence: c }))
-            }
             onSetDisplay={(key, value) =>
               state.setFilters((prev) => ({ ...prev, [key]: value }))
             }
@@ -141,7 +138,6 @@ export default function HomePage() {
               overlay={state.filters.overlay}
               showRadius={state.filters.showRadius}
               showLegend={state.filters.showLegend}
-              showLabels={state.filters.showLabels}
               selectedLocationLabel={state.selectedLocation?.label ?? null}
               coverageHeadline={state.coverageStatus.headline}
               coverageMessages={state.coverageStatus.messages}
@@ -249,9 +245,6 @@ export default function HomePage() {
           onToggleCapability={state.toggleCapability}
           onSetOverlay={(o) =>
             state.setFilters((prev) => ({ ...prev, overlay: o }))
-          }
-          onSetConfidence={(c) =>
-            state.setFilters((prev) => ({ ...prev, confidence: c }))
           }
           onSetDisplay={(key, value) =>
             state.setFilters((prev) => ({ ...prev, [key]: value }))

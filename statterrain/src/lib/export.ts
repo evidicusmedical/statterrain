@@ -8,7 +8,7 @@ import {
 import { getSourceById, sources } from "@/data/sources";
 import type { Facility } from "@/types/facility";
 import { CAPABILITY_LABELS, FACILITY_TYPE_LABELS } from "@/types/facility";
-import { CONFIDENCE_LABELS, FRESHNESS_LABELS } from "@/types/source";
+import { FRESHNESS_LABELS } from "@/types/source";
 import { OVERLAY_LABELS } from "@/types/metric";
 import { formatDate, todayIso } from "./format";
 import type { AppFilters } from "@/hooks/useAppState";
@@ -37,12 +37,6 @@ function activeFilterSummary(filters: AppFilters) {
       (c) => CAPABILITY_LABELS[c],
     ),
     overlay: filters.overlay ? OVERLAY_LABELS[filters.overlay] : "None active",
-    confidence:
-      filters.confidence === "high"
-        ? "High confidence only"
-        : filters.confidence === "high_medium"
-          ? "High and medium confidence"
-          : "All demonstration records",
   };
 }
 
@@ -86,8 +80,6 @@ export function buildMarkdownBrief(ctx: BriefContext): string {
   lines.push("");
   lines.push(`**${product.tagline}**`);
   lines.push("");
-  lines.push(`> ${product.syntheticDataNotice}`);
-  lines.push("");
   lines.push(`- Search location: ${locationLabel}`);
   lines.push(
     `- Search location source: ${ctx.selectedLocationSource ?? "StatTerrain demo"}`,
@@ -116,33 +108,29 @@ export function buildMarkdownBrief(ctx: BriefContext): string {
   lines.push("## Coverage manifest summary");
   lines.push("");
   const coverageSources = ctx.coverageStatus?.sourceSummaries ?? getSourceCoverageSummaries();
-  lines.push("- National coverage complete: No — national coverage in progress.");
+  lines.push("- National CMS hospital coverage is active from generated map-ready partitions.");
   lines.push(`- Selected location: ${locationLabel}`);
   lines.push(`- Selected radius: ${radiusMiles} miles`);
   coverageSources.forEach((source) => {
     lines.push(`- ${source.label}; map-ready records: ${source.mapReadyRecordCount ?? "not applicable"}; used in current app: ${source.usedInCurrentApp ? "yes" : "no"}`);
   });
-  lines.push("- CMS hospital preview is a bounded sample, not national coverage.");
   lines.push("- CMS dialysis is fixture-only/not map-ready and is not included as real records.");
   lines.push("");
 
-  lines.push("## Generated public-data preview provenance");
+  lines.push("## CMS public-data provenance");
   lines.push("");
   if (publicDataSummary) {
     lines.push(
       `- Dataset: ${publicDataSummary.sourceName} (${publicDataSummary.datasetId})`,
     );
     lines.push(
-      `- Data mode: ${publicDataSummary.dataMode}${publicDataSummary.fixtureMode ? " (synthetic fixture; blocked from real-data map preview)" : ""}`,
+      `- Data mode: ${publicDataSummary.dataMode}${publicDataSummary.fixtureMode ? " (fixture; not used in the active CMS hospital map)" : ""}`,
     );
     lines.push(
       `- Validation: ${publicDataSummary.validationStatus}; geocoding: ${publicDataSummary.geocodingStatus}`,
     );
     lines.push(
       `- Retrieved: ${publicDataSummary.retrievedAt ? formatDate(publicDataSummary.retrievedAt) : "Not reported"}`,
-    );
-    lines.push(
-      `- Map preview status: ${publicDataSummary.canPreviewOnMap ? "available only as explicitly labeled public-data preview" : `blocked — ${publicDataSummary.previewBlockReason}`}`,
     );
   } else {
     lines.push(
@@ -153,13 +141,13 @@ export function buildMarkdownBrief(ctx: BriefContext): string {
 
   lines.push("## Data freshness summary");
   lines.push("");
-  lines.push("| Source | Freshness | Confidence |");
-  lines.push("| --- | --- | --- |");
+  lines.push("| Source | Freshness |");
+  lines.push("| --- | --- |");
   Array.from(relevantSourceIds).forEach((id) => {
     const s = getSourceById(id);
     if (!s) return;
     lines.push(
-      `| ${s.dataset} | ${FRESHNESS_LABELS[s.freshness]} | ${CONFIDENCE_LABELS[s.confidence]} |`,
+      `| ${s.dataset} | ${FRESHNESS_LABELS[s.freshness]} |`,
     );
   });
   lines.push("");
@@ -189,7 +177,7 @@ export function buildMarkdownBrief(ctx: BriefContext): string {
     lines.push(`### ${f.name}`);
     lines.push(`- Address: ${f.address}`);
     lines.push(`- Straight-line planning distance: ${f.distanceMiles} mi`);
-    lines.push(`- Critical access: ${f.isSynthetic && f.criticalAccess ? "Synthetic demo only" : "Unavailable/not included unless source-mapped"}`);
+    if (f.criticalAccess) lines.push("- Critical access: Yes, from CMS hospital metadata.");
     lines.push("- Specialty capabilities: unavailable/not included unless source-mapped; do not infer capability from name, type, or geography.");
     lines.push("");
   });
@@ -267,7 +255,6 @@ export function buildMarkdownBrief(ctx: BriefContext): string {
     lines.push(`- Geography level: ${s.geographyLevel}`);
     lines.push(`- Method: ${s.dataMethod}`);
     lines.push(`- Expected refresh cadence: ${s.expectedRefreshCadence}`);
-    lines.push(`- Confidence: ${CONFIDENCE_LABELS[s.confidence]}`);
     lines.push(`- Freshness: ${FRESHNESS_LABELS[s.freshness]}`);
     lines.push(`- Limitations: ${s.limitations.join("; ")}`);
     lines.push(`- Source URL (example/placeholder): ${s.sourceUrl}`);
@@ -284,21 +271,18 @@ export function buildMarkdownBrief(ctx: BriefContext): string {
     `- Capability filters: ${filterSummary.capabilities.join(", ") || "None"}`,
   );
   lines.push(`- Population overlay: ${filterSummary.overlay}`);
-  lines.push(`- Source confidence filter: ${filterSummary.confidence}`);
   lines.push("");
 
   lines.push("## Limitations");
   lines.push("");
   lines.push(
-    "This brief is generated from a frontend prototype using synthetic demonstration data. No live public datasets were queried. Facility capability, freshness, and population figures are illustrative and must not be used for operational, clinical, or transfer decisions.",
+    "This brief is generated from the active CMS hospital public-data map experience. Facility capability, freshness, and population context must be verified with official sources and must not be used for operational, clinical, routing, or transfer decisions.",
   );
   lines.push("");
 
   lines.push("## Required disclaimer");
   lines.push("");
   lines.push(`> ${product.disclaimer}`);
-  lines.push("");
-  lines.push(`> ${product.syntheticDataNotice}`);
   lines.push("");
 
   return lines.join("\n");
@@ -334,7 +318,7 @@ export function buildJsonBrief(ctx: BriefContext) {
     facilities: briefFacilities,
     populationMetrics,
     populationMetricDefinitions,
-    generatedPublicDataPreview: ctx.publicDataSummary ?? null,
+    cmsPublicDataProvenance: ctx.publicDataSummary ?? null,
     coverageManifestSummary: {
       selectedLocation: locationLabel,
       selectedRadiusMiles: radiusMiles,
@@ -342,16 +326,14 @@ export function buildJsonBrief(ctx: BriefContext) {
       mapReadySources: (ctx.coverageStatus?.sourceSummaries ?? getSourceCoverageSummaries()).filter((source) => (source.mapReadyRecordCount ?? 0) > 0),
       notYetMapReadySources: (ctx.coverageStatus?.sourceSummaries ?? getSourceCoverageSummaries()).filter((source) => (source.mapReadyRecordCount ?? 0) === 0),
       notes: [
-        "National coverage is not complete.",
-        "CMS hospital preview is a bounded 5-record sample.",
+        "National CMS hospital map-ready partitions are active.",
         "CMS dialysis is fixture-only/not map-ready.",
       ],
     },
     coverageStatus: ctx.coverageStatus ?? null,
     selectedLocationSource: ctx.selectedLocationSource ?? "StatTerrain demo",
     dataModeGuardrails: {
-      defaultMapDataset: "synthetic demonstration data",
-      publicDataPreviewRequiresValidationSafeRealData: true,
+      defaultMapDataset: "CMS hospital public-data partitions",
       fixtureDataMayPowerRealDataMapLayer: false,
     },
     plainLanguageMetricInterpretations: populationMetrics.map((m) => {
@@ -397,7 +379,6 @@ export function buildCsvBrief(ctx: BriefContext): string {
     "distance_miles",
     "critical_access",
     "capabilities",
-    "confidence",
     "freshness",
     "synthetic",
   ];
@@ -410,7 +391,6 @@ export function buildCsvBrief(ctx: BriefContext): string {
       f.distanceMiles,
       f.criticalAccess ? "yes" : "no",
       f.capabilities.map((c) => c.label).join("; "),
-      CONFIDENCE_LABELS[f.confidence],
       FRESHNESS_LABELS[f.freshness],
       "yes",
     ]
@@ -423,7 +403,6 @@ export function buildCsvBrief(ctx: BriefContext): string {
     `# Selected planning radius: ${ctx.radiusMiles} miles`,
     `# ${BRIEF_SCOPE_STATEMENT}`,
     `# ${product.disclaimer}`,
-    `# ${product.syntheticDataNotice}`,
     `# Plain-language metric notes are included in Markdown and JSON exports. ${POPULATION_METRIC_EXPORT_CAVEAT}`,
   ];
   return [header.join(","), ...rows, ...notes].join("\n");

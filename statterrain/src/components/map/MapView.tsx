@@ -28,7 +28,6 @@ interface MapViewProps {
   overlay: OverlayMetricId | null;
   showRadius: boolean;
   showLegend: boolean;
-  showLabels: boolean;
   selectedLocationLabel?: string | null;
   coverageHeadline: string;
   coverageMessages: string[];
@@ -72,7 +71,6 @@ export function MapView({
   overlay,
   showRadius,
   showLegend,
-  showLabels,
   selectedLocationLabel,
   coverageHeadline,
   coverageMessages,
@@ -156,7 +154,7 @@ export function MapView({
             className: "search-location-marker",
           }}
         >
-          <Tooltip permanent={showLabels} direction="top">
+          <Tooltip direction="top">
             {selectedLocationLabel ? "Selected location" : location.label}
           </Tooltip>
           <Popup>
@@ -178,7 +176,7 @@ export function MapView({
             }}
             eventHandlers={{ click: (event) => { event.originalEvent.stopPropagation(); onSelectFacility(f.id); } }}
           >
-            <Tooltip permanent={showLabels} direction="top" offset={[0, -6]}>
+            <Tooltip direction="top" offset={[0, -6]}>
               {f.name}
             </Tooltip>
             <Popup>
