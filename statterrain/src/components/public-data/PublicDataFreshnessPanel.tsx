@@ -4,8 +4,7 @@ import { getSourceCoverageSummaries } from "@/lib/coverage/coverageStatus";
 
 interface Props {
   summary: PublicDataArtifactSummary;
-  previewEnabled: boolean;
-  onPreviewEnabledChange: (enabled: boolean) => void;
+  cmsLoad?: { status: string; manifest: any; loadedPartitions: string[]; requestedPartitions: string[]; errors: string[] };
 }
 
 function formatDate(value: string | null): string {
@@ -17,8 +16,7 @@ function formatDate(value: string | null): string {
 
 export function PublicDataFreshnessPanel({
   summary,
-  previewEnabled,
-  onPreviewEnabledChange,
+  cmsLoad,
 }: Props) {
   const sourceCoverage = getSourceCoverageSummaries();
   const [expanded, setExpanded] = useState(false);
@@ -33,10 +31,10 @@ export function PublicDataFreshnessPanel({
     >
       <div className="flex flex-wrap items-center gap-2">
         <span className="font-semibold text-amber-950">
-          {previewEnabled ? "Synthetic demo + CMS preview" : "Synthetic demo active"}
+          CMS hospitals
         </span>
         <span aria-hidden>·</span>
-        <span>{summary.canPreviewOnMap ? (previewEnabled ? "CMS preview enabled" : "CMS preview available / Preview off") : "Preview blocked"}</span>
+        <span>{cmsLoad?.manifest ? `${cmsLoad.manifest.mapReadyRecords.toLocaleString()} map-ready nationally` : "Loading national public data"}</span>
         <button
           type="button"
           className="rounded-md border border-amber-300 bg-white px-2 py-1 font-semibold text-amber-900 shadow-sm hover:bg-amber-100 focus:outline-none focus:ring-2 focus:ring-amber-500 focus:ring-offset-2"
@@ -48,31 +46,13 @@ export function PublicDataFreshnessPanel({
         </button>
       </div>
 
-      <label
-        className={`mt-2 flex items-start gap-2 rounded-md border border-amber-200 bg-white/90 p-2 ${expanded ? "" : "sr-only"} ${summary.canPreviewOnMap ? "cursor-pointer" : "cursor-not-allowed opacity-60"}`}
-      >
-        <input
-          className="mt-0.5"
-          type="checkbox"
-          checked={previewEnabled}
-          disabled={!summary.canPreviewOnMap}
-          onChange={(event) => onPreviewEnabledChange(event.target.checked)}
-        />
-        <span>
-          <span className="block font-semibold text-slate-900">
-            Show explicitly labeled CMS hospital public-data preview layer
-          </span>
-          <span className="block text-slate-600">
-            Optional bounded sample only; default synthetic map behavior is unchanged.
-          </span>
-        </span>
-      </label>
+
 
       <div id={detailsId} hidden={!expanded} className="mt-3 space-y-3">
         <dl className="grid grid-cols-2 gap-2 rounded-md border border-amber-200 bg-white/80 p-2 sm:grid-cols-4">
           <div>
             <dt className="font-semibold">Source</dt>
-            <dd>{summary.sourceName}</dd>
+            <dd>{cmsLoad?.manifest?.sourceName ?? summary.sourceName}</dd>
           </div>
           <div>
             <dt className="font-semibold">CMS hospital artifact</dt>
@@ -80,11 +60,11 @@ export function PublicDataFreshnessPanel({
           </div>
           <div>
             <dt className="font-semibold">Retrieved</dt>
-            <dd>{formatDate(summary.retrievedAt)}</dd>
+            <dd>{formatDate(cmsLoad?.manifest?.retrievedAt ?? summary.retrievedAt)}</dd>
           </div>
           <div>
             <dt className="font-semibold">Records</dt>
-            <dd>{summary.recordCount}</dd>
+            <dd>{cmsLoad?.manifest?.mapReadyRecords ?? summary.recordCount}</dd>
           </div>
           <div>
             <dt className="font-semibold">Mode</dt>
@@ -101,14 +81,14 @@ export function PublicDataFreshnessPanel({
             <dt className="font-semibold">Preview status</dt>
             <dd>
               {summary.canPreviewOnMap
-                ? `Available for ${summary.recordCount} live-geocoded CMS hospital records.`
+                ? `Available for ${cmsLoad?.manifest?.mapReadyRecords ?? summary.recordCount} live-geocoded CMS hospital records.`
                 : `Blocked — ${summary.previewBlockReason}`}
             </dd>
           </div>
         </dl>
         <div className="rounded-md border border-amber-200 bg-white/80 p-2">
           <p className="font-semibold text-slate-900">Coverage manifest summary</p>
-          <p className="mt-1 font-medium text-amber-900">Public-data coverage: national coverage in progress</p>
+          <p className="mt-1 font-medium text-amber-900">Public-data coverage: national CMS hospital coverage active</p>
           <ul className="mt-1 list-disc space-y-1 pl-4">
             {sourceCoverage.map((source) => (
               <li key={source.sourceId}>{source.label}</li>

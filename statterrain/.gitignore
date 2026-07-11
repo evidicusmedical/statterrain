@@ -29,3 +29,6 @@ next-env.d.ts
 /playwright-report/
 /blob-report/
 /playwright/.cache/
+
+# generated deployable public-data copy
+/public/generated/cms-hospitals-national/
