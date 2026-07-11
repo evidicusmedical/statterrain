@@ -21,6 +21,7 @@ import { FACILITY_TYPE_LABELS } from "@/types/facility";
 import { MapLegend } from "./MapLegend";
 
 interface MapViewProps {
+  layoutKey?: string;
   location: SearchLocation;
   radiusMiles: number;
   facilities: Facility[];
@@ -35,6 +36,15 @@ interface MapViewProps {
   onSelectFacility: (id: string) => void;
   onOpenFacilityDetails?: (id: string) => void;
   onMapClick?: (lat: number, lng: number) => void;
+}
+
+function ResizeOnLayoutChange({ layoutKey }: { layoutKey?: string }) {
+  const map = useMap();
+  useEffect(() => {
+    const frame = window.requestAnimationFrame(() => map.invalidateSize());
+    return () => window.cancelAnimationFrame(frame);
+  }, [layoutKey, map]);
+  return null;
 }
 
 function Recenter({ lat, lng }: { lat: number; lng: number }) {
@@ -55,6 +65,7 @@ function MapClickPlanningCenter({ onMapClick }: { onMapClick?: (lat: number, lng
 }
 
 export function MapView({
+  layoutKey,
   location,
   radiusMiles,
   facilities,
@@ -101,6 +112,7 @@ export function MapView({
           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
         />
+        <ResizeOnLayoutChange layoutKey={layoutKey} />
         <Recenter lat={location.lat} lng={location.lng} />
         <MapClickPlanningCenter onMapClick={onMapClick} />
 

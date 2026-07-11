@@ -2,7 +2,6 @@
 
 import { product } from "@/config/product";
 import type { SearchLocation } from "@/data/demo-region";
-import { SyntheticBadge } from "@/components/ui/Badge";
 import { FeedbackButton } from "@/components/feedback/FeedbackButton";
 import { LocationSearchBox } from "@/components/search/LocationSearchBox";
 import type { LocationSearchResult } from "@/lib/geocoding/searchLocation";
@@ -125,10 +124,8 @@ export function Header({
 
         <div className="hidden items-center gap-2 text-xs text-slate-500 md:flex">
           <span className="h-2 w-2 rounded-full bg-terrain-500" aria-hidden />
-          Synthetic demonstration data — not real-world
+          CMS national hospital public-data mode
         </div>
-
-        <SyntheticBadge />
 
         <FeedbackButton
           className="inline-flex text-xs md:text-sm"

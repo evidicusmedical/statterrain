@@ -3,14 +3,7 @@ import { OVERLAY_LABELS } from "@/types/metric";
 import { FACILITY_MARKER_COLORS, OVERLAY_COLOR_SCALE } from "./mapStyles";
 import { FACILITY_TYPE_LABELS, type FacilityType } from "@/types/facility";
 
-const LEGEND_FACILITY_TYPES: FacilityType[] = [
-  "hospital",
-  "critical_access_hospital",
-  "pharmacy",
-  "dialysis",
-  "nursing_home",
-  "behavioral_health",
-];
+const LEGEND_FACILITY_TYPES: FacilityType[] = ["hospital", "critical_access_hospital"];
 
 export function MapLegend({
   overlay,
@@ -63,7 +56,7 @@ export function MapLegend({
       <details className="mt-2 border-t border-slate-200 pt-1.5 text-[10px] leading-snug text-slate-500">
         <summary className="cursor-pointer font-semibold text-slate-600">Map note</summary>
         <p className="mt-1">
-          Synthetic demonstration data. Base map: OpenStreetMap. Map currency depends on contributor and tile-provider updates.
+          CMS hospital markers are source-backed public records. Base map: OpenStreetMap. Map currency depends on contributor and tile-provider updates.
         </p>
       </details>
     </div>
