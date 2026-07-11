@@ -103,9 +103,15 @@ export default function HomePage() {
           />
         </aside>
 
-        <main className="min-h-0 flex-1 bg-slate-100 lg:flex lg:flex-row">
+        <main
+          className={`grid min-h-0 flex-1 grid-cols-1 bg-slate-100 ${
+            summaryOpen || state.selectedFacility
+              ? "lg:grid-cols-[minmax(0,1fr)_380px]"
+              : "lg:grid-cols-[minmax(0,1fr)]"
+          }`}
+        >
           <section
-            className={`relative isolate z-0 h-[62dvh] min-h-[28rem] w-full overflow-hidden border-b border-slate-200 bg-slate-100 ${mobileTab === "map" ? "block" : "hidden"} lg:block lg:h-auto lg:min-h-0 lg:flex-1 lg:border-b-0`}
+            className={`relative isolate z-0 h-[62dvh] min-h-[28rem] w-full overflow-hidden border-b border-slate-200 bg-slate-100 ${mobileTab === "map" ? "block" : "hidden"} lg:block lg:h-auto lg:min-h-0 lg:border-b-0`}
             aria-label="Map"
           >
             <div className="absolute right-2 top-2 z-[40] hidden max-w-[calc(100%-1rem)] rounded-lg border border-slate-200 bg-white/95 p-1.5 shadow-sm backdrop-blur sm:right-3 sm:top-3 sm:p-2 lg:block">
@@ -145,6 +151,7 @@ export default function HomePage() {
                 state.selectFacility(facilityId);
                 setMobileTab("facility");
               }}
+              layoutKey={`${summaryOpen ? "summary-open" : "summary-hidden"}-${state.selectedFacility ? "detail-open" : "detail-hidden"}`}
               onMapClick={(lat, lng) => {
                 const location = buildManualCoordinateLocation(
                   lat,
@@ -163,27 +170,31 @@ export default function HomePage() {
             />
           </section>
 
-          <section
-            id="regional-summary-panel"
-            className={`min-h-[calc(100dvh-12rem)] w-full overflow-y-auto bg-white lg:min-h-0 lg:w-[380px] lg:border-l lg:border-slate-200 ${
-              mobileTab === "summary" ? "block" : "hidden"
-            } ${summaryOpen ? "lg:block" : "lg:hidden"}`}
-            aria-label="Regional summary"
-          >
-            <RegionalSummaryPanel
-              facilities={state.visibleFacilities}
-              radiusMiles={state.radiusMiles}
-              coverageStatus={state.coverageStatus}
-              selectedLocationLabel={
-                state.selectedLocation?.label ?? state.location.label
-              }
-            />
-          </section>
+          {(summaryOpen || mobileTab === "summary") && (
+            <section
+              id="regional-summary-panel"
+              className={`min-h-[calc(100dvh-12rem)] w-full overflow-y-auto bg-white lg:min-h-0 lg:border-l lg:border-slate-200 ${
+                mobileTab === "summary" ? "block" : "hidden"
+              } ${summaryOpen ? "lg:block" : "lg:hidden lg:pointer-events-none"}`}
+              aria-label="Regional summary"
+              aria-hidden={!summaryOpen && mobileTab !== "summary"}
+              inert={!summaryOpen && mobileTab !== "summary" ? true : undefined}
+            >
+              <RegionalSummaryPanel
+                facilities={state.visibleFacilities}
+                radiusMiles={state.radiusMiles}
+                coverageStatus={state.coverageStatus}
+                selectedLocationLabel={
+                  state.selectedLocation?.label ?? state.location.label
+                }
+              />
+            </section>
+          )}
 
           <section
-            className={`min-h-[calc(100dvh-12rem)] w-full overflow-y-auto bg-white lg:block lg:min-h-0 lg:w-[380px] lg:border-l lg:border-slate-200 ${
+            className={`min-h-[calc(100dvh-12rem)] w-full overflow-y-auto bg-white lg:min-h-0 lg:border-l lg:border-slate-200 ${
               mobileTab === "facility" ? "block" : "hidden"
-            }`}
+            } ${!summaryOpen && state.selectedFacility ? "lg:block" : "lg:hidden"}`}
             aria-label="Facility detail"
           >
             <FacilityDetailPanel facility={state.selectedFacility} />

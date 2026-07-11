@@ -27,21 +27,14 @@ export interface AppFilters {
   showFreshness: boolean;
 }
 
-const ALL_FACILITY_TYPES: FacilityType[] = [
-  "hospital",
-  "critical_access_hospital",
-  "pharmacy",
-  "dialysis",
-  "nursing_home",
-  "behavioral_health",
-];
+const ALL_FACILITY_TYPES: FacilityType[] = ["hospital", "critical_access_hospital"];
 
 function defaultFilters(): AppFilters {
   return {
     facilityTypes: new Set(ALL_FACILITY_TYPES),
     capabilities: new Set(),
     overlay: null,
-    confidence: "all",
+    confidence: "high_medium",
     showRadius: true,
     showLegend: true,
     showLabels: false,

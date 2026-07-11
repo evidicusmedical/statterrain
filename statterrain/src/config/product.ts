@@ -16,7 +16,7 @@ export const product = {
     "StatTerrain is a public-data mapping and evidence-brief platform for emergency and EMS clinicians, medical directors, quality-improvement teams, and regional planners to understand nearby facilities, publicly documented capabilities, and population-health context.",
   status:
     "Working product name -- final trademark and domain clearance pending.",
-  prototypeVersion: "v0.3.3.1 prototype",
+  prototypeVersion: "v0.3.3.2 prototype",
   repositoryNamePlaceholder: "statterrain",
   repositoryUrlPlaceholder: "https://github.com/<your-org>/statterrain",
   supportContactPlaceholder:
@@ -27,7 +27,7 @@ export const product = {
     label: "Send Feedback",
   },
   disclaimer:
-    "Planning prototype only. StatTerrain is for education, orientation, quality improvement, and public-data situational awareness. It is not for clinical care, patient-specific decisions, EMS routing, triage, transfer decisions, dispatch, medical control, live diversion, bed availability, or emergency response. CMS hospital facility listings are public source-backed data when enabled; other prototype data remain synthetic demonstration data. Verify facility capability, operating status, maps, and public-data findings with official sources. Population-health metrics are area-level planning context and do not describe or diagnose any individual person. This tool does not provide medical, legal, operational, or emergency advice. In an emergency, use local emergency protocols and official emergency communication channels.",
+    "Planning prototype only. StatTerrain is for education, orientation, quality improvement, and public-data situational awareness. It is not for clinical care, patient-specific decisions, EMS routing, triage, transfer decisions, dispatch, medical control, live diversion, bed availability, or emergency response. CMS hospital facility listings are public source-backed data in normal operation. Developer/demo fixtures, when explicitly enabled, are not real-world sources. Verify facility capability, operating status, maps, and public-data findings with official sources. Population-health metrics are area-level planning context and do not describe or diagnose any individual person. This tool does not provide medical, legal, operational, or emergency advice. In an emergency, use local emergency protocols and official emergency communication channels.",
   syntheticDataNotice:
     "Synthetic demonstration data — not a real-world source. Do not use for operational or clinical purposes.",
 } as const;

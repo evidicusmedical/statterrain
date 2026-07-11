@@ -70,7 +70,7 @@ export function FacilityDetailPanel({ facility }: { facility: Facility | null })
   const sourceDates = sourceRecords.map((s) => s?.releaseDate).filter(Boolean) as string[];
   const retrievalDates = sourceRecords.map((s) => s?.retrievalDate).filter(Boolean) as string[];
   const sourceLinkCount = sourceRecords.filter((s) => s?.sourceUrl).length;
-  const isPreviewRecord = !facility.isSynthetic && facility.id.startsWith("cms-preview-");
+  const isCmsRecord = !facility.isSynthetic && facility.id.startsWith("cms-");
 
   return (
     <div className="flex h-full w-full max-w-none flex-col overflow-y-auto border-l-0 border-t-4 border-terrain-500 bg-terrain-50/30 p-4 sm:p-5 lg:border-l-4 lg:border-t-0" data-testid="facility-detail-panel">
@@ -78,9 +78,9 @@ export function FacilityDetailPanel({ facility }: { facility: Facility | null })
         <h2 id="facility-identity-heading" className="text-sm font-semibold uppercase tracking-wide text-slate-500">Facility identity</h2>
         <h3 className="mt-2 text-2xl font-semibold leading-tight text-slate-900 lg:text-lg" data-testid="facility-detail-name">{facility.name}</h3>
         <dl className="mt-3 rounded-lg border border-slate-200 bg-white px-4">
-          <DetailRow label="Name" value={facility.name} status={isPreviewRecord ? "Public-data preview record" : syntheticValue} />
-          <DetailRow label="Facility type" value={FACILITY_TYPE_LABELS[facility.facilityType]} status={isPreviewRecord ? verifiedYes : syntheticValue} />
-          <DetailRow label="Address" value={facility.address} status={isPreviewRecord ? "Public-data preview record" : syntheticValue} />
+          <DetailRow label="Name" value={facility.name} status={isCmsRecord ? "CMS public-data record" : syntheticValue} />
+          <DetailRow label="Facility type" value={FACILITY_TYPE_LABELS[facility.facilityType]} status={isCmsRecord ? verifiedYes : syntheticValue} />
+          <DetailRow label="Address" value={facility.address} status={isCmsRecord ? "CMS public-data record" : syntheticValue} />
           <DetailRow label="City/state/ZIP" value={[facility.city, facility.state, facility.zip].filter(Boolean).join(", ") || undefined} />
         </dl>
         <DefinitionDetails summary={`What this means: ${categoryDefinition.label}`}>
@@ -150,15 +150,15 @@ export function FacilityDetailPanel({ facility }: { facility: Facility | null })
           <DetailRow label="Website" value={facility.website ? <a className="text-terrain-700 underline" href={facility.website}>{facility.website}</a> : undefined} />
           <DetailRow label="Email" value={facility.email} />
           <DetailRow label="Fax" value={facility.fax} />
-          <DetailRow label="Straight-line planning distance" value={`${facility.distanceMiles} mi from selected demo location`} status={syntheticValue} />
+          <DetailRow label="Straight-line planning distance" value={`${facility.distanceMiles} mi from selected planning center`} />
         </dl>
       </section>
 
       <section className="mt-5" aria-labelledby="source-quality-heading">
         <h2 id="source-quality-heading" className="text-sm font-semibold uppercase tracking-wide text-slate-500">Source and data quality</h2>
-        <p className="mt-3 rounded-lg border border-amber-200 bg-amber-50 p-3 text-sm font-semibold text-amber-900">{isPreviewRecord ? "Public-data preview record — optional layer only; default map remains synthetic." : "Synthetic demonstration data — not a real-world source."}</p>
+        <p className="mt-3 rounded-lg border border-amber-200 bg-amber-50 p-3 text-sm font-semibold text-amber-900">{isCmsRecord ? "CMS hospital public-data record." : "Synthetic demonstration data — developer/demo fixture only."}</p>
         <dl className="mt-3 rounded-lg border border-slate-200 bg-white px-4">
-          <DetailRow label="Synthetic/real status" value={isPreviewRecord ? "Real CMS public-data preview record; not default app data." : "Synthetic demonstration data — not a real-world source."} />
+          <DetailRow label="Synthetic/real status" value={isCmsRecord ? "Real CMS hospital public-data record." : "Synthetic demonstration data — developer/demo fixture only."} />
           <DetailRow label="Source dataset" value={sourceRecords.map((s) => s?.dataset).join("; ") || undefined} />
           <DetailRow label="Source confidence" value={facility.confidence} />
           <DetailRow label="Source date" value={sourceDates.length ? sourceDates.map(formatDate).join("; ") : undefined} />
@@ -180,7 +180,7 @@ export function FacilityDetailPanel({ facility }: { facility: Facility | null })
       <section className="mt-5 rounded-lg bg-slate-50 p-4 text-sm text-slate-600" aria-labelledby="known-limitations-heading">
         <h2 id="known-limitations-heading" className="mb-1 text-sm font-semibold uppercase tracking-wide text-slate-500">Known limitations</h2>
         <ul className="list-disc space-y-1 pl-4">
-          {(facility.limitations.length ? facility.limitations : ["No facility-specific limitations beyond synthetic demonstration status are available in the current source."]).map((l) => <li key={l}>{l}</li>)}
+          {(facility.limitations.length ? facility.limitations : ["No facility-specific limitations beyond current source limitations are available."]).map((l) => <li key={l}>{l}</li>)}
           <li>Missing public data must not be treated as absence of capability.</li>
           <li>Not live routing, diversion, transfer, bed-status, medical-control, destination, or clinical decision support.</li>
         </ul>

@@ -7,10 +7,38 @@ import { spawnSync } from 'node:child_process';
 
 const root = process.cwd();
 
-test('version is v0.3.3.1 prototype and rejects old patch versions', () => {
+test('version is v0.3.3.2 prototype and rejects old patch versions', () => {
   const product = readFileSync(join(root, 'src/config/product.ts'), 'utf8');
-  assert.match(product, /prototypeVersion: "v0\.3\.3\.1 prototype"/);
-  for (const old of ['v0.3.2.4 prototype','v0.3.2.3 prototype','v0.3.2.2 prototype','v0.3.2.1 prototype']) assert.ok(!product.includes(`prototypeVersion: "${old}"`));
+  assert.match(product, /prototypeVersion: "v0\.3\.3\.2 prototype"/);
+  for (const old of ['v0.3.3.1 prototype','v0.3.3 prototype','v0.3.2.4 prototype','v0.3.2.3 prototype']) assert.ok(!product.includes(`prototypeVersion: "${old}"`));
+});
+
+
+test('normal controls and legend are source-aligned and synthetic controls are developer-only', () => {
+  const filters = readFileSync(join(root, 'src/components/filters/FilterSidebar.tsx'), 'utf8');
+  const legend = readFileSync(join(root, 'src/components/map/MapLegend.tsx'), 'utf8');
+  const appState = readFileSync(join(root, 'src/hooks/useAppState.ts'), 'utf8');
+  const header = readFileSync(join(root, 'src/components/layout/Header.tsx'), 'utf8');
+  assert.ok(!filters.includes('Synthetic demo categories'));
+  assert.ok(!filters.includes('Include all demonstration records'));
+  assert.ok(filters.includes('Normal mode shows source-backed CMS hospital controls only.'));
+  assert.ok(legend.includes('CMS hospital markers are source-backed public records.'));
+  assert.ok(!legend.includes('"pharmacy"'));
+  assert.ok(!legend.includes('"dialysis"'));
+  assert.ok(appState.includes('const ALL_FACILITY_TYPES: FacilityType[] = ["hospital", "critical_access_hospital"];'));
+  assert.ok(!header.includes('SyntheticBadge'));
+});
+
+test('summary-hidden workspace removes interactive summary and invalidates map size', () => {
+  const page = readFileSync(join(root, 'src/app/page.tsx'), 'utf8');
+  const map = readFileSync(join(root, 'src/components/map/MapView.tsx'), 'utf8');
+  assert.ok(page.includes('{(summaryOpen || mobileTab === "summary") && ('));
+  assert.ok(page.includes('lg:pointer-events-none'));
+  assert.ok(page.includes('aria-hidden={!summaryOpen && mobileTab !== "summary"}'));
+  assert.ok(page.includes('inert={!summaryOpen && mobileTab !== "summary" ? true : undefined}'));
+  assert.ok(page.includes('lg:grid-cols-[minmax(0,1fr)]'));
+  assert.ok(map.includes('map.invalidateSize()'));
+  assert.ok(map.includes('layoutKey?: string'));
 });
 
 test('sync script copies manifest and fixture partitions without altering source', () => {
