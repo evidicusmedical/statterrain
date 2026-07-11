@@ -1,7 +1,7 @@
 {
-  "generatedAt": "2026-07-10T23:12:17.304Z",
-  "joinedCount": 4505,
-  "stateMismatchCount": 1,
+  "generatedAt": "2026-07-11T23:00:36.879Z",
+  "joinedCount": 4669,
+  "stateMismatchCount": 0,
   "records": [
     {
       "sourceFacilityId": "010001",
@@ -204,6 +204,14 @@
       "geographyJoinStatus": "joined"
     },
     {
+      "sourceFacilityId": "010055",
+      "state": "AL",
+      "stateFips": "01",
+      "countyFips": "01069",
+      "countyName": "Houston County",
+      "geographyJoinStatus": "joined"
+    },
+    {
       "sourceFacilityId": "010056",
       "state": "AL",
       "stateFips": "01",
@@ -265,6 +273,14 @@
       "stateFips": "01",
       "countyFips": "01093",
       "countyName": "Marion County",
+      "geographyJoinStatus": "joined"
+    },
+    {
+      "sourceFacilityId": "010089",
+      "state": "AL",
+      "stateFips": "01",
+      "countyFips": "01127",
+      "countyName": "Walker County",
       "geographyJoinStatus": "joined"
     },
     {
@@ -593,6 +609,14 @@
       "stateFips": "01",
       "countyFips": "01073",
       "countyName": "Jefferson County",
+      "geographyJoinStatus": "joined"
+    },
+    {
+      "sourceFacilityId": "014006",
+      "state": "AL",
+      "stateFips": "01",
+      "countyFips": "01055",
+      "countyName": "Etowah County",
       "geographyJoinStatus": "joined"
     },
     {
@@ -1540,6 +1564,14 @@
       "geographyJoinStatus": "joined"
     },
     {
+      "sourceFacilityId": "040026",
+      "state": "AR",
+      "stateFips": "05",
+      "countyFips": "05051",
+      "countyName": "Garland County",
+      "geographyJoinStatus": "joined"
+    },
+    {
       "sourceFacilityId": "040027",
       "state": "AR",
       "stateFips": "05",
@@ -1652,6 +1684,14 @@
       "geographyJoinStatus": "joined"
     },
     {
+      "sourceFacilityId": "040084",
+      "state": "AR",
+      "stateFips": "05",
+      "countyFips": "05125",
+      "countyName": "Saline County",
+      "geographyJoinStatus": "joined"
+    },
+    {
       "sourceFacilityId": "040088",
       "state": "AR",
       "stateFips": "05",
@@ -1673,6 +1713,14 @@
       "stateFips": "05",
       "countyFips": "05031",
       "countyName": "Craighead County",
+      "geographyJoinStatus": "joined"
+    },
+    {
+      "sourceFacilityId": "040119",
+      "state": "AR",
+      "stateFips": "05",
+      "countyFips": "05063",
+      "countyName": "Independence County",
       "geographyJoinStatus": "joined"
     },
     {
@@ -2092,6 +2140,14 @@
       "geographyJoinStatus": "joined"
     },
     {
+      "sourceFacilityId": "050008",
+      "state": "CA",
+      "stateFips": "06",
+      "countyFips": "06075",
+      "countyName": "San Francisco County",
+      "geographyJoinStatus": "joined"
+    },
+    {
       "sourceFacilityId": "050009",
       "state": "CA",
       "stateFips": "06",
@@ -2297,6 +2353,14 @@
       "stateFips": "06",
       "countyFips": "06059",
       "countyName": "Orange County",
+      "geographyJoinStatus": "joined"
+    },
+    {
+      "sourceFacilityId": "050070",
+      "state": "CA",
+      "stateFips": "06",
+      "countyFips": "06075",
+      "countyName": "San Francisco County",
       "geographyJoinStatus": "joined"
     },
     {
@@ -2740,6 +2804,14 @@
       "geographyJoinStatus": "joined"
     },
     {
+      "sourceFacilityId": "050204",
+      "state": "CA",
+      "stateFips": "06",
+      "countyFips": "06037",
+      "countyName": "Los Angeles County",
+      "geographyJoinStatus": "joined"
+    },
+    {
       "sourceFacilityId": "050211",
       "state": "CA",
       "stateFips": "06",
@@ -2940,11 +3012,27 @@
       "geographyJoinStatus": "joined"
     },
     {
+      "sourceFacilityId": "050278",
+      "state": "CA",
+      "stateFips": "06",
+      "countyFips": "06037",
+      "countyName": "Los Angeles County",
+      "geographyJoinStatus": "joined"
+    },
+    {
       "sourceFacilityId": "050279",
       "state": "CA",
       "stateFips": "06",
       "countyFips": "06071",
       "countyName": "San Bernardino County",
+      "geographyJoinStatus": "joined"
+    },
+    {
+      "sourceFacilityId": "05027F",
+      "state": "CA",
+      "stateFips": "06",
+      "countyFips": "06037",
+      "countyName": "Los Angeles County",
       "geographyJoinStatus": "joined"
     },
     {
@@ -3140,6 +3228,14 @@
       "geographyJoinStatus": "joined"
     },
     {
+      "sourceFacilityId": "050351",
+      "state": "CA",
+      "stateFips": "06",
+      "countyFips": "06037",
+      "countyName": "Los Angeles County",
+      "geographyJoinStatus": "joined"
+    },
+    {
       "sourceFacilityId": "050352",
       "state": "CA",
       "stateFips": "06",
@@ -3173,6 +3269,14 @@
     },
     {
       "sourceFacilityId": "050373",
+      "state": "CA",
+      "stateFips": "06",
+      "countyFips": "06037",
+      "countyName": "Los Angeles County",
+      "geographyJoinStatus": "joined"
+    },
+    {
+      "sourceFacilityId": "050376",
       "state": "CA",
       "stateFips": "06",
       "countyFips": "06037",
@@ -3300,6 +3404,14 @@
       "geographyJoinStatus": "joined"
     },
     {
+      "sourceFacilityId": "050438",
+      "state": "CA",
+      "stateFips": "06",
+      "countyFips": "06037",
+      "countyName": "Los Angeles County",
+      "geographyJoinStatus": "joined"
+    },
+    {
       "sourceFacilityId": "050444",
       "state": "CA",
       "stateFips": "06",
@@ -3385,6 +3497,14 @@
       "stateFips": "06",
       "countyFips": "06013",
       "countyName": "Contra Costa County",
+      "geographyJoinStatus": "joined"
+    },
+    {
+      "sourceFacilityId": "050498",
+      "state": "CA",
+      "stateFips": "06",
+      "countyFips": "06061",
+      "countyName": "Placer County",
       "geographyJoinStatus": "joined"
     },
     {
@@ -3492,6 +3612,14 @@
       "geographyJoinStatus": "joined"
     },
     {
+      "sourceFacilityId": "050546",
+      "state": "CA",
+      "stateFips": "06",
+      "countyFips": "06107",
+      "countyName": "Tulare County",
+      "geographyJoinStatus": "joined"
+    },
+    {
       "sourceFacilityId": "050549",
       "state": "CA",
       "stateFips": "06",
@@ -3569,6 +3697,14 @@
       "stateFips": "06",
       "countyFips": "06067",
       "countyName": "Sacramento County",
+      "geographyJoinStatus": "joined"
+    },
+    {
+      "sourceFacilityId": "050597",
+      "state": "CA",
+      "stateFips": "06",
+      "countyFips": "06037",
+      "countyName": "Los Angeles County",
       "geographyJoinStatus": "joined"
     },
     {
@@ -4308,6 +4444,14 @@
       "geographyJoinStatus": "joined"
     },
     {
+      "sourceFacilityId": "051337",
+      "state": "CA",
+      "stateFips": "06",
+      "countyFips": "06069",
+      "countyName": "San Benito County",
+      "geographyJoinStatus": "joined"
+    },
+    {
       "sourceFacilityId": "051338",
       "state": "CA",
       "stateFips": "06",
@@ -4780,6 +4924,14 @@
       "geographyJoinStatus": "joined"
     },
     {
+      "sourceFacilityId": "060027",
+      "state": "CO",
+      "stateFips": "08",
+      "countyFips": "08013",
+      "countyName": "Boulder County",
+      "geographyJoinStatus": "joined"
+    },
+    {
       "sourceFacilityId": "060030",
       "state": "CO",
       "stateFips": "08",
@@ -4884,6 +5036,14 @@
       "geographyJoinStatus": "joined"
     },
     {
+      "sourceFacilityId": "06007F",
+      "state": "CO",
+      "stateFips": "08",
+      "countyFips": "08077",
+      "countyName": "Mesa County",
+      "geographyJoinStatus": "joined"
+    },
+    {
       "sourceFacilityId": "060096",
       "state": "CO",
       "stateFips": "08",
@@ -4977,6 +5137,14 @@
       "stateFips": "08",
       "countyFips": "08035",
       "countyName": "Douglas County",
+      "geographyJoinStatus": "joined"
+    },
+    {
+      "sourceFacilityId": "060128",
+      "state": "CO",
+      "stateFips": "08",
+      "countyFips": "08013",
+      "countyName": "Boulder County",
       "geographyJoinStatus": "joined"
     },
     {
@@ -5324,6 +5492,14 @@
       "geographyJoinStatus": "joined"
     },
     {
+      "sourceFacilityId": "070005",
+      "state": "CT",
+      "stateFips": "09",
+      "countyFips": "09140",
+      "countyName": "Naugatuck Valley Planning Region",
+      "geographyJoinStatus": "joined"
+    },
+    {
       "sourceFacilityId": "070007",
       "state": "CT",
       "stateFips": "09",
@@ -5356,6 +5532,14 @@
       "geographyJoinStatus": "joined"
     },
     {
+      "sourceFacilityId": "070017",
+      "state": "CT",
+      "stateFips": "09",
+      "countyFips": "09170",
+      "countyName": "South Central Connecticut Planning Region",
+      "geographyJoinStatus": "joined"
+    },
+    {
       "sourceFacilityId": "070018",
       "state": "CT",
       "stateFips": "09",
@@ -5369,6 +5553,22 @@
       "stateFips": "09",
       "countyFips": "09180",
       "countyName": "Southeastern Connecticut Planning Region",
+      "geographyJoinStatus": "joined"
+    },
+    {
+      "sourceFacilityId": "070022",
+      "state": "CT",
+      "stateFips": "09",
+      "countyFips": "09170",
+      "countyName": "South Central Connecticut Planning Region",
+      "geographyJoinStatus": "joined"
+    },
+    {
+      "sourceFacilityId": "070025",
+      "state": "CT",
+      "stateFips": "09",
+      "countyFips": "09110",
+      "countyName": "Capitol Planning Region",
       "geographyJoinStatus": "joined"
     },
     {
@@ -5404,6 +5604,22 @@
       "geographyJoinStatus": "joined"
     },
     {
+      "sourceFacilityId": "070034",
+      "state": "CT",
+      "stateFips": "09",
+      "countyFips": "09190",
+      "countyName": "Western Connecticut Planning Region",
+      "geographyJoinStatus": "joined"
+    },
+    {
+      "sourceFacilityId": "070035",
+      "state": "CT",
+      "stateFips": "09",
+      "countyFips": "09110",
+      "countyName": "Capitol Planning Region",
+      "geographyJoinStatus": "joined"
+    },
+    {
       "sourceFacilityId": "070038",
       "state": "CT",
       "stateFips": "09",
@@ -5425,6 +5641,14 @@
       "stateFips": "09",
       "countyFips": "09110",
       "countyName": "Capitol Planning Region",
+      "geographyJoinStatus": "joined"
+    },
+    {
+      "sourceFacilityId": "074011",
+      "state": "CT",
+      "stateFips": "09",
+      "countyFips": "09170",
+      "countyName": "South Central Connecticut Planning Region",
       "geographyJoinStatus": "joined"
     },
     {
@@ -5457,6 +5681,14 @@
       "stateFips": "09",
       "countyFips": "09110",
       "countyName": "Capitol Planning Region",
+      "geographyJoinStatus": "joined"
+    },
+    {
+      "sourceFacilityId": "080001",
+      "state": "DE",
+      "stateFips": "10",
+      "countyFips": "10003",
+      "countyName": "New Castle County",
       "geographyJoinStatus": "joined"
     },
     {
@@ -5493,6 +5725,14 @@
     },
     {
       "sourceFacilityId": "08002F",
+      "state": "DE",
+      "stateFips": "10",
+      "countyFips": "10003",
+      "countyName": "New Castle County",
+      "geographyJoinStatus": "joined"
+    },
+    {
+      "sourceFacilityId": "083300",
       "state": "DE",
       "stateFips": "10",
       "countyFips": "10003",
@@ -5665,6 +5905,14 @@
       "stateFips": "12",
       "countyFips": "12071",
       "countyName": "Lee County",
+      "geographyJoinStatus": "joined"
+    },
+    {
+      "sourceFacilityId": "100014",
+      "state": "FL",
+      "stateFips": "12",
+      "countyFips": "12127",
+      "countyName": "Volusia County",
       "geographyJoinStatus": "joined"
     },
     {
@@ -5849,6 +6097,14 @@
       "stateFips": "12",
       "countyFips": "12103",
       "countyName": "Pinellas County",
+      "geographyJoinStatus": "joined"
+    },
+    {
+      "sourceFacilityId": "100062",
+      "state": "FL",
+      "stateFips": "12",
+      "countyFips": "12083",
+      "countyName": "Marion County",
       "geographyJoinStatus": "joined"
     },
     {
@@ -6156,6 +6412,14 @@
       "geographyJoinStatus": "joined"
     },
     {
+      "sourceFacilityId": "100156",
+      "state": "FL",
+      "stateFips": "12",
+      "countyFips": "12023",
+      "countyName": "Columbia County",
+      "geographyJoinStatus": "joined"
+    },
+    {
       "sourceFacilityId": "100157",
       "state": "FL",
       "stateFips": "12",
@@ -6253,6 +6517,14 @@
     },
     {
       "sourceFacilityId": "100181",
+      "state": "FL",
+      "stateFips": "12",
+      "countyFips": "12086",
+      "countyName": "Miami-Dade County",
+      "geographyJoinStatus": "joined"
+    },
+    {
+      "sourceFacilityId": "100183",
       "state": "FL",
       "stateFips": "12",
       "countyFips": "12086",
@@ -7124,6 +7396,14 @@
       "geographyJoinStatus": "joined"
     },
     {
+      "sourceFacilityId": "110007",
+      "state": "GA",
+      "stateFips": "13",
+      "countyFips": "13095",
+      "countyName": "Dougherty County",
+      "geographyJoinStatus": "joined"
+    },
+    {
       "sourceFacilityId": "110008",
       "state": "GA",
       "stateFips": "13",
@@ -7185,6 +7465,22 @@
       "stateFips": "13",
       "countyFips": "13139",
       "countyName": "Hall County",
+      "geographyJoinStatus": "joined"
+    },
+    {
+      "sourceFacilityId": "110030",
+      "state": "GA",
+      "stateFips": "13",
+      "countyFips": "13015",
+      "countyName": "Bartow County",
+      "geographyJoinStatus": "joined"
+    },
+    {
+      "sourceFacilityId": "110031",
+      "state": "GA",
+      "stateFips": "13",
+      "countyFips": "13255",
+      "countyName": "Spalding County",
       "geographyJoinStatus": "joined"
     },
     {
@@ -7265,6 +7561,14 @@
       "stateFips": "13",
       "countyFips": "13291",
       "countyName": "Union County",
+      "geographyJoinStatus": "joined"
+    },
+    {
+      "sourceFacilityId": "110054",
+      "state": "GA",
+      "stateFips": "13",
+      "countyFips": "13115",
+      "countyName": "Floyd County",
       "geographyJoinStatus": "joined"
     },
     {
@@ -7353,6 +7657,14 @@
       "stateFips": "13",
       "countyFips": "13303",
       "countyName": "Washington County",
+      "geographyJoinStatus": "joined"
+    },
+    {
+      "sourceFacilityId": "110089",
+      "state": "GA",
+      "stateFips": "13",
+      "countyFips": "13069",
+      "countyName": "Coffee County",
       "geographyJoinStatus": "joined"
     },
     {
@@ -7473,6 +7785,14 @@
       "stateFips": "13",
       "countyFips": "13175",
       "countyName": "Laurens County",
+      "geographyJoinStatus": "joined"
+    },
+    {
+      "sourceFacilityId": "110129",
+      "state": "GA",
+      "stateFips": "13",
+      "countyFips": "13215",
+      "countyName": "Muscogee County",
       "geographyJoinStatus": "joined"
     },
     {
@@ -7684,6 +8004,14 @@
       "geographyJoinStatus": "joined"
     },
     {
+      "sourceFacilityId": "110253",
+      "state": "GA",
+      "stateFips": "13",
+      "countyFips": "13095",
+      "countyName": "Dougherty County",
+      "geographyJoinStatus": "joined"
+    },
+    {
       "sourceFacilityId": "110256",
       "state": "GA",
       "stateFips": "13",
@@ -7777,6 +8105,14 @@
       "stateFips": "13",
       "countyFips": "13251",
       "countyName": "Screven County",
+      "geographyJoinStatus": "joined"
+    },
+    {
+      "sourceFacilityId": "111313",
+      "state": "GA",
+      "stateFips": "13",
+      "countyFips": "13237",
+      "countyName": "Putnam County",
       "geographyJoinStatus": "joined"
     },
     {
@@ -7977,6 +8313,14 @@
       "stateFips": "13",
       "countyFips": "13089",
       "countyName": "DeKalb County",
+      "geographyJoinStatus": "joined"
+    },
+    {
+      "sourceFacilityId": "114028",
+      "state": "GA",
+      "stateFips": "13",
+      "countyFips": "13051",
+      "countyName": "Chatham County",
       "geographyJoinStatus": "joined"
     },
     {
@@ -8612,6 +8956,14 @@
       "geographyJoinStatus": "joined"
     },
     {
+      "sourceFacilityId": "140013",
+      "state": "IL",
+      "stateFips": "17",
+      "countyFips": "17143",
+      "countyName": "Peoria County",
+      "geographyJoinStatus": "joined"
+    },
+    {
       "sourceFacilityId": "140015",
       "state": "IL",
       "stateFips": "17",
@@ -8745,6 +9097,14 @@
       "stateFips": "17",
       "countyFips": "17095",
       "countyName": "Knox County",
+      "geographyJoinStatus": "joined"
+    },
+    {
+      "sourceFacilityId": "140067",
+      "state": "IL",
+      "stateFips": "17",
+      "countyFips": "17143",
+      "countyName": "Peoria County",
       "geographyJoinStatus": "joined"
     },
     {
@@ -8980,6 +9340,14 @@
       "geographyJoinStatus": "joined"
     },
     {
+      "sourceFacilityId": "140148",
+      "state": "IL",
+      "stateFips": "17",
+      "countyFips": "17167",
+      "countyName": "Sangamon County",
+      "geographyJoinStatus": "joined"
+    },
+    {
       "sourceFacilityId": "140150",
       "state": "IL",
       "stateFips": "17",
@@ -9180,6 +9548,14 @@
       "geographyJoinStatus": "joined"
     },
     {
+      "sourceFacilityId": "140209",
+      "state": "IL",
+      "stateFips": "17",
+      "countyFips": "17143",
+      "countyName": "Peoria County",
+      "geographyJoinStatus": "joined"
+    },
+    {
       "sourceFacilityId": "140211",
       "state": "IL",
       "stateFips": "17",
@@ -9353,6 +9729,14 @@
       "stateFips": "17",
       "countyFips": "17197",
       "countyName": "Will County",
+      "geographyJoinStatus": "joined"
+    },
+    {
+      "sourceFacilityId": "14034F",
+      "state": "IL",
+      "stateFips": "17",
+      "countyFips": "17097",
+      "countyName": "Lake County",
       "geographyJoinStatus": "joined"
     },
     {
@@ -9932,6 +10316,14 @@
       "geographyJoinStatus": "joined"
     },
     {
+      "sourceFacilityId": "150010",
+      "state": "IN",
+      "stateFips": "18",
+      "countyFips": "18067",
+      "countyName": "Howard County",
+      "geographyJoinStatus": "joined"
+    },
+    {
       "sourceFacilityId": "150011",
       "state": "IN",
       "stateFips": "18",
@@ -9961,6 +10353,14 @@
       "stateFips": "18",
       "countyFips": "18107",
       "countyName": "Montgomery County",
+      "geographyJoinStatus": "joined"
+    },
+    {
+      "sourceFacilityId": "150023",
+      "state": "IN",
+      "stateFips": "18",
+      "countyFips": "18167",
+      "countyName": "Vigo County",
       "geographyJoinStatus": "joined"
     },
     {
@@ -10225,6 +10625,14 @@
       "stateFips": "18",
       "countyFips": "18145",
       "countyName": "Shelby County",
+      "geographyJoinStatus": "joined"
+    },
+    {
+      "sourceFacilityId": "150100",
+      "state": "IN",
+      "stateFips": "18",
+      "countyFips": "18163",
+      "countyName": "Vanderburgh County",
       "geographyJoinStatus": "joined"
     },
     {
@@ -10761,6 +11169,14 @@
       "stateFips": "18",
       "countyFips": "18081",
       "countyName": "Johnson County",
+      "geographyJoinStatus": "joined"
+    },
+    {
+      "sourceFacilityId": "154031",
+      "state": "IN",
+      "stateFips": "18",
+      "countyFips": "18039",
+      "countyName": "Elkhart County",
       "geographyJoinStatus": "joined"
     },
     {
@@ -12156,14 +12572,6 @@
       "geographyJoinStatus": "joined"
     },
     {
-      "sourceFacilityId": "170203",
-      "state": "KS",
-      "stateFips": "20",
-      "countyFips": "20021",
-      "countyName": "Cherokee County",
-      "geographyJoinStatus": "joined"
-    },
-    {
       "sourceFacilityId": "170204",
       "state": "KS",
       "stateFips": "20",
@@ -13028,6 +13436,14 @@
       "geographyJoinStatus": "joined"
     },
     {
+      "sourceFacilityId": "180051",
+      "state": "KY",
+      "stateFips": "21",
+      "countyFips": "21047",
+      "countyName": "Christian County",
+      "geographyJoinStatus": "joined"
+    },
+    {
       "sourceFacilityId": "180056",
       "state": "KY",
       "stateFips": "21",
@@ -13764,6 +14180,14 @@
       "geographyJoinStatus": "joined"
     },
     {
+      "sourceFacilityId": "190098",
+      "state": "LA",
+      "stateFips": "22",
+      "countyFips": "22017",
+      "countyName": "Caddo Parish",
+      "geographyJoinStatus": "joined"
+    },
+    {
       "sourceFacilityId": "190099",
       "state": "LA",
       "stateFips": "22",
@@ -14396,6 +14820,14 @@
       "geographyJoinStatus": "joined"
     },
     {
+      "sourceFacilityId": "194020",
+      "state": "LA",
+      "stateFips": "22",
+      "countyFips": "22017",
+      "countyName": "Caddo Parish",
+      "geographyJoinStatus": "joined"
+    },
+    {
       "sourceFacilityId": "194022",
       "state": "LA",
       "stateFips": "22",
@@ -14581,6 +15013,14 @@
     },
     {
       "sourceFacilityId": "194103",
+      "state": "LA",
+      "stateFips": "22",
+      "countyFips": "22033",
+      "countyName": "East Baton Rouge Parish",
+      "geographyJoinStatus": "joined"
+    },
+    {
+      "sourceFacilityId": "194105",
       "state": "LA",
       "stateFips": "22",
       "countyFips": "22033",
@@ -14972,6 +15412,14 @@
       "geographyJoinStatus": "joined"
     },
     {
+      "sourceFacilityId": "210009",
+      "state": "MD",
+      "stateFips": "24",
+      "countyFips": "24510",
+      "countyName": "Baltimore city",
+      "geographyJoinStatus": "joined"
+    },
+    {
       "sourceFacilityId": "210011",
       "state": "MD",
       "stateFips": "24",
@@ -15236,6 +15684,14 @@
       "geographyJoinStatus": "joined"
     },
     {
+      "sourceFacilityId": "210064",
+      "state": "MD",
+      "stateFips": "24",
+      "countyFips": "24510",
+      "countyName": "Baltimore city",
+      "geographyJoinStatus": "joined"
+    },
+    {
       "sourceFacilityId": "210065",
       "state": "MD",
       "stateFips": "24",
@@ -15369,6 +15825,14 @@
       "stateFips": "25",
       "countyFips": "25001",
       "countyName": "Barnstable County",
+      "geographyJoinStatus": "joined"
+    },
+    {
+      "sourceFacilityId": "220015",
+      "state": "MA",
+      "stateFips": "25",
+      "countyFips": "25015",
+      "countyName": "Hampshire County",
       "geographyJoinStatus": "joined"
     },
     {
@@ -15508,6 +15972,14 @@
       "geographyJoinStatus": "joined"
     },
     {
+      "sourceFacilityId": "220065",
+      "state": "MA",
+      "stateFips": "25",
+      "countyFips": "25013",
+      "countyName": "Hampden County",
+      "geographyJoinStatus": "joined"
+    },
+    {
       "sourceFacilityId": "220066",
       "state": "MA",
       "stateFips": "25",
@@ -15556,11 +16028,27 @@
       "geographyJoinStatus": "joined"
     },
     {
+      "sourceFacilityId": "220077",
+      "state": "MA",
+      "stateFips": "25",
+      "countyFips": "25013",
+      "countyName": "Hampden County",
+      "geographyJoinStatus": "joined"
+    },
+    {
       "sourceFacilityId": "220080",
       "state": "MA",
       "stateFips": "25",
       "countyFips": "25009",
       "countyName": "Essex County",
+      "geographyJoinStatus": "joined"
+    },
+    {
+      "sourceFacilityId": "220083",
+      "state": "MA",
+      "stateFips": "25",
+      "countyFips": "25021",
+      "countyName": "Norfolk County",
       "geographyJoinStatus": "joined"
     },
     {
@@ -15705,6 +16193,14 @@
       "stateFips": "25",
       "countyFips": "25027",
       "countyName": "Worcester County",
+      "geographyJoinStatus": "joined"
+    },
+    {
+      "sourceFacilityId": "220175",
+      "state": "MA",
+      "stateFips": "25",
+      "countyFips": "25017",
+      "countyName": "Middlesex County",
       "geographyJoinStatus": "joined"
     },
     {
@@ -16236,6 +16732,14 @@
       "geographyJoinStatus": "joined"
     },
     {
+      "sourceFacilityId": "230100",
+      "state": "MI",
+      "stateFips": "26",
+      "countyFips": "26069",
+      "countyName": "Iosco County",
+      "geographyJoinStatus": "joined"
+    },
+    {
       "sourceFacilityId": "230104",
       "state": "MI",
       "stateFips": "26",
@@ -16356,6 +16860,14 @@
       "geographyJoinStatus": "joined"
     },
     {
+      "sourceFacilityId": "230156",
+      "state": "MI",
+      "stateFips": "26",
+      "countyFips": "26161",
+      "countyName": "Washtenaw County",
+      "geographyJoinStatus": "joined"
+    },
+    {
       "sourceFacilityId": "230165",
       "state": "MI",
       "stateFips": "26",
@@ -16425,6 +16937,14 @@
       "stateFips": "26",
       "countyFips": "26117",
       "countyName": "Montcalm County",
+      "geographyJoinStatus": "joined"
+    },
+    {
+      "sourceFacilityId": "230216",
+      "state": "MI",
+      "stateFips": "26",
+      "countyFips": "26147",
+      "countyName": "St. Clair County",
       "geographyJoinStatus": "joined"
     },
     {
@@ -17244,6 +17764,14 @@
       "geographyJoinStatus": "joined"
     },
     {
+      "sourceFacilityId": "240093",
+      "state": "MN",
+      "stateFips": "27",
+      "countyFips": "27013",
+      "countyName": "Blue Earth County",
+      "geographyJoinStatus": "joined"
+    },
+    {
       "sourceFacilityId": "240100",
       "state": "MN",
       "stateFips": "27",
@@ -17852,6 +18380,14 @@
       "geographyJoinStatus": "joined"
     },
     {
+      "sourceFacilityId": "243300",
+      "state": "MN",
+      "stateFips": "27",
+      "countyFips": "27123",
+      "countyName": "Ramsey County",
+      "geographyJoinStatus": "joined"
+    },
+    {
       "sourceFacilityId": "243302",
       "state": "MN",
       "stateFips": "27",
@@ -17985,6 +18521,14 @@
       "stateFips": "28",
       "countyFips": "28061",
       "countyName": "Jasper County",
+      "geographyJoinStatus": "joined"
+    },
+    {
+      "sourceFacilityId": "250019",
+      "state": "MS",
+      "stateFips": "28",
+      "countyFips": "28047",
+      "countyName": "Harrison County",
       "geographyJoinStatus": "joined"
     },
     {
@@ -18145,6 +18689,14 @@
       "stateFips": "28",
       "countyFips": "28075",
       "countyName": "Lauderdale County",
+      "geographyJoinStatus": "joined"
+    },
+    {
+      "sourceFacilityId": "250082",
+      "state": "MS",
+      "stateFips": "28",
+      "countyFips": "28151",
+      "countyName": "Washington County",
       "geographyJoinStatus": "joined"
     },
     {
@@ -18572,6 +19124,14 @@
       "geographyJoinStatus": "joined"
     },
     {
+      "sourceFacilityId": "252013",
+      "state": "MS",
+      "stateFips": "28",
+      "countyFips": "28151",
+      "countyName": "Washington County",
+      "geographyJoinStatus": "joined"
+    },
+    {
       "sourceFacilityId": "254008",
       "state": "MS",
       "stateFips": "28",
@@ -18681,6 +19241,14 @@
       "stateFips": "29",
       "countyFips": "29013",
       "countyName": "Bates County",
+      "geographyJoinStatus": "joined"
+    },
+    {
+      "sourceFacilityId": "260040",
+      "state": "MO",
+      "stateFips": "29",
+      "countyFips": "29077",
+      "countyName": "Greene County",
       "geographyJoinStatus": "joined"
     },
     {
@@ -19244,6 +19812,14 @@
       "geographyJoinStatus": "joined"
     },
     {
+      "sourceFacilityId": "261330",
+      "state": "MO",
+      "stateFips": "29",
+      "countyFips": "29186",
+      "countyName": "Ste. Genevieve County",
+      "geographyJoinStatus": "joined"
+    },
+    {
       "sourceFacilityId": "261331",
       "state": "MO",
       "stateFips": "29",
@@ -19337,6 +19913,14 @@
       "stateFips": "29",
       "countyFips": "29187",
       "countyName": "St. Francois County",
+      "geographyJoinStatus": "joined"
+    },
+    {
+      "sourceFacilityId": "264007",
+      "state": "MO",
+      "stateFips": "29",
+      "countyFips": "29021",
+      "countyName": "Buchanan County",
       "geographyJoinStatus": "joined"
     },
     {
@@ -19457,6 +20041,14 @@
       "stateFips": "30",
       "countyFips": "30063",
       "countyName": "Missoula County",
+      "geographyJoinStatus": "joined"
+    },
+    {
+      "sourceFacilityId": "270049",
+      "state": "MT",
+      "stateFips": "30",
+      "countyFips": "30111",
+      "countyName": "Yellowstone County",
       "geographyJoinStatus": "joined"
     },
     {
@@ -20644,6 +21236,14 @@
       "geographyJoinStatus": "joined"
     },
     {
+      "sourceFacilityId": "290058",
+      "state": "NV",
+      "stateFips": "32",
+      "countyFips": "32003",
+      "countyName": "Clark County",
+      "geographyJoinStatus": "joined"
+    },
+    {
       "sourceFacilityId": "290062",
       "state": "NV",
       "stateFips": "32",
@@ -21076,6 +21676,14 @@
       "geographyJoinStatus": "joined"
     },
     {
+      "sourceFacilityId": "310011",
+      "state": "NJ",
+      "stateFips": "34",
+      "countyFips": "34009",
+      "countyName": "Cape May County",
+      "geographyJoinStatus": "joined"
+    },
+    {
       "sourceFacilityId": "310014",
       "state": "NJ",
       "stateFips": "34",
@@ -21108,6 +21716,14 @@
       "geographyJoinStatus": "joined"
     },
     {
+      "sourceFacilityId": "31001F",
+      "state": "NJ",
+      "stateFips": "34",
+      "countyFips": "34013",
+      "countyName": "Essex County",
+      "geographyJoinStatus": "joined"
+    },
+    {
       "sourceFacilityId": "310022",
       "state": "NJ",
       "stateFips": "34",
@@ -21129,6 +21745,14 @@
       "stateFips": "34",
       "countyFips": "34017",
       "countyName": "Hudson County",
+      "geographyJoinStatus": "joined"
+    },
+    {
+      "sourceFacilityId": "310027",
+      "state": "NJ",
+      "stateFips": "34",
+      "countyFips": "34039",
+      "countyName": "Union County",
       "geographyJoinStatus": "joined"
     },
     {
@@ -21260,6 +21884,14 @@
       "geographyJoinStatus": "joined"
     },
     {
+      "sourceFacilityId": "310073",
+      "state": "NJ",
+      "stateFips": "34",
+      "countyFips": "34025",
+      "countyName": "Monmouth County",
+      "geographyJoinStatus": "joined"
+    },
+    {
       "sourceFacilityId": "310074",
       "state": "NJ",
       "stateFips": "34",
@@ -21313,6 +21945,14 @@
       "stateFips": "34",
       "countyFips": "34013",
       "countyName": "Essex County",
+      "geographyJoinStatus": "joined"
+    },
+    {
+      "sourceFacilityId": "310108",
+      "state": "NJ",
+      "stateFips": "34",
+      "countyFips": "34023",
+      "countyName": "Middlesex County",
       "geographyJoinStatus": "joined"
     },
     {
@@ -21385,6 +22025,14 @@
       "stateFips": "34",
       "countyFips": "34013",
       "countyName": "Essex County",
+      "geographyJoinStatus": "joined"
+    },
+    {
+      "sourceFacilityId": "313302",
+      "state": "NJ",
+      "stateFips": "34",
+      "countyFips": "34005",
+      "countyName": "Burlington County",
       "geographyJoinStatus": "joined"
     },
     {
@@ -21716,6 +22364,14 @@
       "geographyJoinStatus": "joined"
     },
     {
+      "sourceFacilityId": "321309",
+      "state": "NM",
+      "stateFips": "35",
+      "countyFips": "35029",
+      "countyName": "Luna County",
+      "geographyJoinStatus": "joined"
+    },
+    {
       "sourceFacilityId": "321311",
       "state": "NM",
       "stateFips": "35",
@@ -21745,6 +22401,30 @@
       "stateFips": "35",
       "countyFips": "35013",
       "countyName": "Doña Ana County",
+      "geographyJoinStatus": "joined"
+    },
+    {
+      "sourceFacilityId": "324013",
+      "state": "NM",
+      "stateFips": "35",
+      "countyFips": "35001",
+      "countyName": "Bernalillo County",
+      "geographyJoinStatus": "joined"
+    },
+    {
+      "sourceFacilityId": "324014",
+      "state": "NM",
+      "stateFips": "35",
+      "countyFips": "35001",
+      "countyName": "Bernalillo County",
+      "geographyJoinStatus": "joined"
+    },
+    {
+      "sourceFacilityId": "330005",
+      "state": "NY",
+      "stateFips": "36",
+      "countyFips": "36029",
+      "countyName": "Erie County",
       "geographyJoinStatus": "joined"
     },
     {
@@ -21852,6 +22532,14 @@
       "geographyJoinStatus": "joined"
     },
     {
+      "sourceFacilityId": "330044",
+      "state": "NY",
+      "stateFips": "36",
+      "countyFips": "36065",
+      "countyName": "Oneida County",
+      "geographyJoinStatus": "joined"
+    },
+    {
       "sourceFacilityId": "330045",
       "state": "NY",
       "stateFips": "36",
@@ -21892,6 +22580,22 @@
       "geographyJoinStatus": "joined"
     },
     {
+      "sourceFacilityId": "330056",
+      "state": "NY",
+      "stateFips": "36",
+      "countyFips": "36047",
+      "countyName": "Kings County",
+      "geographyJoinStatus": "joined"
+    },
+    {
+      "sourceFacilityId": "330057",
+      "state": "NY",
+      "stateFips": "36",
+      "countyFips": "36001",
+      "countyName": "Albany County",
+      "geographyJoinStatus": "joined"
+    },
+    {
       "sourceFacilityId": "330058",
       "state": "NY",
       "stateFips": "36",
@@ -21913,6 +22617,14 @@
       "stateFips": "36",
       "countyFips": "36045",
       "countyName": "Jefferson County",
+      "geographyJoinStatus": "joined"
+    },
+    {
+      "sourceFacilityId": "330065",
+      "state": "NY",
+      "stateFips": "36",
+      "countyFips": "36063",
+      "countyName": "Niagara County",
       "geographyJoinStatus": "joined"
     },
     {
@@ -22188,6 +22900,14 @@
       "geographyJoinStatus": "joined"
     },
     {
+      "sourceFacilityId": "330164",
+      "state": "NY",
+      "stateFips": "36",
+      "countyFips": "36055",
+      "countyName": "Monroe County",
+      "geographyJoinStatus": "joined"
+    },
+    {
       "sourceFacilityId": "330166",
       "state": "NY",
       "stateFips": "36",
@@ -22249,6 +22969,14 @@
       "stateFips": "36",
       "countyFips": "36059",
       "countyName": "Nassau County",
+      "geographyJoinStatus": "joined"
+    },
+    {
+      "sourceFacilityId": "330184",
+      "state": "NY",
+      "stateFips": "36",
+      "countyFips": "36119",
+      "countyName": "Westchester County",
       "geographyJoinStatus": "joined"
     },
     {
@@ -22580,6 +23308,14 @@
       "geographyJoinStatus": "joined"
     },
     {
+      "sourceFacilityId": "330285",
+      "state": "NY",
+      "stateFips": "36",
+      "countyFips": "36055",
+      "countyName": "Monroe County",
+      "geographyJoinStatus": "joined"
+    },
+    {
       "sourceFacilityId": "330286",
       "state": "NY",
       "stateFips": "36",
@@ -22884,6 +23620,14 @@
       "geographyJoinStatus": "joined"
     },
     {
+      "sourceFacilityId": "334012",
+      "state": "NY",
+      "stateFips": "36",
+      "countyFips": "36007",
+      "countyName": "Broome County",
+      "geographyJoinStatus": "joined"
+    },
+    {
       "sourceFacilityId": "334013",
       "state": "NY",
       "stateFips": "36",
@@ -23012,14 +23756,6 @@
       "geographyJoinStatus": "joined"
     },
     {
-      "sourceFacilityId": "334065",
-      "state": "NY",
-      "stateFips": "36",
-      "countyFips": "36103",
-      "countyName": "Suffolk County",
-      "geographyJoinStatus": "joined"
-    },
-    {
       "sourceFacilityId": "334066",
       "state": "NY",
       "stateFips": "36",
@@ -23065,6 +23801,14 @@
       "stateFips": "37",
       "countyFips": "37171",
       "countyName": "Surry County",
+      "geographyJoinStatus": "joined"
+    },
+    {
+      "sourceFacilityId": "340004",
+      "state": "NC",
+      "stateFips": "37",
+      "countyFips": "37081",
+      "countyName": "Guilford County",
       "geographyJoinStatus": "joined"
     },
     {
@@ -23180,6 +23924,14 @@
       "geographyJoinStatus": "joined"
     },
     {
+      "sourceFacilityId": "340032",
+      "state": "NC",
+      "stateFips": "37",
+      "countyFips": "37071",
+      "countyName": "Gaston County",
+      "geographyJoinStatus": "joined"
+    },
+    {
       "sourceFacilityId": "340039",
       "state": "NC",
       "stateFips": "37",
@@ -23220,6 +23972,14 @@
       "geographyJoinStatus": "joined"
     },
     {
+      "sourceFacilityId": "340050",
+      "state": "NC",
+      "stateFips": "37",
+      "countyFips": "37155",
+      "countyName": "Robeson County",
+      "geographyJoinStatus": "joined"
+    },
+    {
       "sourceFacilityId": "340051",
       "state": "NC",
       "stateFips": "37",
@@ -23231,8 +23991,8 @@
       "sourceFacilityId": "340053",
       "state": "NC",
       "stateFips": "37",
-      "countyFips": "37161",
-      "countyName": "Rutherford County",
+      "countyFips": "37119",
+      "countyName": "Mecklenburg County",
       "geographyJoinStatus": "joined"
     },
     {
@@ -23273,6 +24033,14 @@
       "stateFips": "37",
       "countyFips": "37183",
       "countyName": "Wake County",
+      "geographyJoinStatus": "joined"
+    },
+    {
+      "sourceFacilityId": "340070",
+      "state": "NC",
+      "stateFips": "37",
+      "countyFips": "37001",
+      "countyName": "Alamance County",
       "geographyJoinStatus": "joined"
     },
     {
@@ -23327,8 +24095,8 @@
       "sourceFacilityId": "340096",
       "state": "NC",
       "stateFips": "37",
-      "countyFips": "37065",
-      "countyName": "Edgecombe County",
+      "countyFips": "37057",
+      "countyName": "Davidson County",
       "geographyJoinStatus": "joined"
     },
     {
@@ -23465,6 +24233,14 @@
       "stateFips": "37",
       "countyFips": "37051",
       "countyName": "Cumberland County",
+      "geographyJoinStatus": "joined"
+    },
+    {
+      "sourceFacilityId": "340141",
+      "state": "NC",
+      "stateFips": "37",
+      "countyFips": "37129",
+      "countyName": "New Hanover County",
       "geographyJoinStatus": "joined"
     },
     {
@@ -23716,6 +24492,14 @@
       "geographyJoinStatus": "joined"
     },
     {
+      "sourceFacilityId": "341328",
+      "state": "NC",
+      "stateFips": "37",
+      "countyFips": "37039",
+      "countyName": "Cherokee County",
+      "geographyJoinStatus": "joined"
+    },
+    {
       "sourceFacilityId": "341329",
       "state": "NC",
       "stateFips": "37",
@@ -23737,6 +24521,14 @@
       "stateFips": "37",
       "countyFips": "37183",
       "countyName": "Wake County",
+      "geographyJoinStatus": "joined"
+    },
+    {
+      "sourceFacilityId": "344016",
+      "state": "NC",
+      "stateFips": "37",
+      "countyFips": "37133",
+      "countyName": "Onslow County",
       "geographyJoinStatus": "joined"
     },
     {
@@ -23815,8 +24607,16 @@
       "sourceFacilityId": "350011",
       "state": "ND",
       "stateFips": "38",
-      "countyFips": "38101",
-      "countyName": "Ward County",
+      "countyFips": "38017",
+      "countyName": "Cass County",
+      "geographyJoinStatus": "joined"
+    },
+    {
+      "sourceFacilityId": "350015",
+      "state": "ND",
+      "stateFips": "38",
+      "countyFips": "38015",
+      "countyName": "Burleigh County",
       "geographyJoinStatus": "joined"
     },
     {
@@ -23829,6 +24629,14 @@
     },
     {
       "sourceFacilityId": "35002F",
+      "state": "ND",
+      "stateFips": "38",
+      "countyFips": "38017",
+      "countyName": "Cass County",
+      "geographyJoinStatus": "joined"
+    },
+    {
+      "sourceFacilityId": "350070",
       "state": "ND",
       "stateFips": "38",
       "countyFips": "38017",
@@ -24204,6 +25012,14 @@
       "geographyJoinStatus": "joined"
     },
     {
+      "sourceFacilityId": "360020",
+      "state": "OH",
+      "stateFips": "39",
+      "countyFips": "39153",
+      "countyName": "Summit County",
+      "geographyJoinStatus": "joined"
+    },
+    {
       "sourceFacilityId": "360025",
       "state": "OH",
       "stateFips": "39",
@@ -24308,6 +25124,14 @@
       "geographyJoinStatus": "joined"
     },
     {
+      "sourceFacilityId": "360055",
+      "state": "OH",
+      "stateFips": "39",
+      "countyFips": "39155",
+      "countyName": "Trumbull County",
+      "geographyJoinStatus": "joined"
+    },
+    {
       "sourceFacilityId": "360056",
       "state": "OH",
       "stateFips": "39",
@@ -24329,6 +25153,14 @@
       "stateFips": "39",
       "countyFips": "39035",
       "countyName": "Cuyahoga County",
+      "geographyJoinStatus": "joined"
+    },
+    {
+      "sourceFacilityId": "360064",
+      "state": "OH",
+      "stateFips": "39",
+      "countyFips": "39099",
+      "countyName": "Mahoning County",
       "geographyJoinStatus": "joined"
     },
     {
@@ -24421,6 +25253,14 @@
     },
     {
       "sourceFacilityId": "360079",
+      "state": "OH",
+      "stateFips": "39",
+      "countyFips": "39113",
+      "countyName": "Montgomery County",
+      "geographyJoinStatus": "joined"
+    },
+    {
+      "sourceFacilityId": "36007F",
       "state": "OH",
       "stateFips": "39",
       "countyFips": "39113",
@@ -25428,6 +26268,14 @@
       "geographyJoinStatus": "joined"
     },
     {
+      "sourceFacilityId": "364060",
+      "state": "OH",
+      "stateFips": "39",
+      "countyFips": "39155",
+      "countyName": "Trumbull County",
+      "geographyJoinStatus": "joined"
+    },
+    {
       "sourceFacilityId": "364061",
       "state": "OH",
       "stateFips": "39",
@@ -25476,6 +26324,14 @@
       "geographyJoinStatus": "joined"
     },
     {
+      "sourceFacilityId": "370001",
+      "state": "OK",
+      "stateFips": "40",
+      "countyFips": "40143",
+      "countyName": "Tulsa County",
+      "geographyJoinStatus": "joined"
+    },
+    {
       "sourceFacilityId": "370002",
       "state": "OK",
       "stateFips": "40",
@@ -25487,8 +26343,8 @@
       "sourceFacilityId": "370004",
       "state": "OK",
       "stateFips": "40",
-      "countyFips": "40085",
-      "countyName": "Love County",
+      "countyFips": "40115",
+      "countyName": "Ottawa County",
       "geographyJoinStatus": "joined"
     },
     {
@@ -25564,6 +26420,14 @@
       "geographyJoinStatus": "joined"
     },
     {
+      "sourceFacilityId": "370037",
+      "state": "OK",
+      "stateFips": "40",
+      "countyFips": "40109",
+      "countyName": "Oklahoma County",
+      "geographyJoinStatus": "joined"
+    },
+    {
       "sourceFacilityId": "370039",
       "state": "OK",
       "stateFips": "40",
@@ -25577,6 +26441,14 @@
       "stateFips": "40",
       "countyFips": "40019",
       "countyName": "Carter County",
+      "geographyJoinStatus": "joined"
+    },
+    {
+      "sourceFacilityId": "370049",
+      "state": "OK",
+      "stateFips": "40",
+      "countyFips": "40119",
+      "countyName": "Payne County",
       "geographyJoinStatus": "joined"
     },
     {
@@ -25617,6 +26489,14 @@
       "stateFips": "40",
       "countyFips": "40127",
       "countyName": "Pushmataha County",
+      "geographyJoinStatus": "joined"
+    },
+    {
+      "sourceFacilityId": "370089",
+      "state": "OK",
+      "stateFips": "40",
+      "countyFips": "40021",
+      "countyName": "Cherokee County",
       "geographyJoinStatus": "joined"
     },
     {
@@ -25689,6 +26569,14 @@
       "stateFips": "40",
       "countyFips": "40101",
       "countyName": "Muskogee County",
+      "geographyJoinStatus": "joined"
+    },
+    {
+      "sourceFacilityId": "370149",
+      "state": "OK",
+      "stateFips": "40",
+      "countyFips": "40125",
+      "countyName": "Pottawatomie County",
       "geographyJoinStatus": "joined"
     },
     {
@@ -25796,6 +26684,14 @@
       "geographyJoinStatus": "joined"
     },
     {
+      "sourceFacilityId": "370210",
+      "state": "OK",
+      "stateFips": "40",
+      "countyFips": "40143",
+      "countyName": "Tulsa County",
+      "geographyJoinStatus": "joined"
+    },
+    {
       "sourceFacilityId": "370211",
       "state": "OK",
       "stateFips": "40",
@@ -25853,6 +26749,14 @@
     },
     {
       "sourceFacilityId": "370222",
+      "state": "OK",
+      "stateFips": "40",
+      "countyFips": "40109",
+      "countyName": "Oklahoma County",
+      "geographyJoinStatus": "joined"
+    },
+    {
+      "sourceFacilityId": "370225",
       "state": "OK",
       "stateFips": "40",
       "countyFips": "40109",
@@ -26244,6 +27148,14 @@
       "geographyJoinStatus": "joined"
     },
     {
+      "sourceFacilityId": "374000",
+      "state": "OK",
+      "stateFips": "40",
+      "countyFips": "40027",
+      "countyName": "Cleveland County",
+      "geographyJoinStatus": "joined"
+    },
+    {
       "sourceFacilityId": "374008",
       "state": "OK",
       "stateFips": "40",
@@ -26345,6 +27257,14 @@
       "stateFips": "41",
       "countyFips": "41051",
       "countyName": "Multnomah County",
+      "geographyJoinStatus": "joined"
+    },
+    {
+      "sourceFacilityId": "380014",
+      "state": "OR",
+      "stateFips": "41",
+      "countyFips": "41003",
+      "countyName": "Benton County",
       "geographyJoinStatus": "joined"
     },
     {
@@ -26740,6 +27660,14 @@
       "geographyJoinStatus": "joined"
     },
     {
+      "sourceFacilityId": "384008",
+      "state": "OR",
+      "stateFips": "41",
+      "countyFips": "41047",
+      "countyName": "Marion County",
+      "geographyJoinStatus": "joined"
+    },
+    {
       "sourceFacilityId": "384012",
       "state": "OR",
       "stateFips": "41",
@@ -26980,6 +27908,14 @@
       "geographyJoinStatus": "joined"
     },
     {
+      "sourceFacilityId": "390063",
+      "state": "PA",
+      "stateFips": "42",
+      "countyFips": "42049",
+      "countyName": "Erie County",
+      "geographyJoinStatus": "joined"
+    },
+    {
       "sourceFacilityId": "390065",
       "state": "PA",
       "stateFips": "42",
@@ -26993,6 +27929,14 @@
       "stateFips": "42",
       "countyFips": "42075",
       "countyName": "Lebanon County",
+      "geographyJoinStatus": "joined"
+    },
+    {
+      "sourceFacilityId": "390067",
+      "state": "PA",
+      "stateFips": "42",
+      "countyFips": "42043",
+      "countyName": "Dauphin County",
       "geographyJoinStatus": "joined"
     },
     {
@@ -27172,6 +28116,14 @@
       "geographyJoinStatus": "joined"
     },
     {
+      "sourceFacilityId": "390137",
+      "state": "PA",
+      "stateFips": "42",
+      "countyFips": "42079",
+      "countyName": "Luzerne County",
+      "geographyJoinStatus": "joined"
+    },
+    {
       "sourceFacilityId": "390138",
       "state": "PA",
       "stateFips": "42",
@@ -27185,6 +28137,14 @@
       "stateFips": "42",
       "countyFips": "42091",
       "countyName": "Montgomery County",
+      "geographyJoinStatus": "joined"
+    },
+    {
+      "sourceFacilityId": "39013F",
+      "state": "PA",
+      "stateFips": "42",
+      "countyFips": "42079",
+      "countyName": "Luzerne County",
       "geographyJoinStatus": "joined"
     },
     {
@@ -27452,6 +28412,14 @@
       "geographyJoinStatus": "joined"
     },
     {
+      "sourceFacilityId": "390237",
+      "state": "PA",
+      "stateFips": "42",
+      "countyFips": "42069",
+      "countyName": "Lackawanna County",
+      "geographyJoinStatus": "joined"
+    },
+    {
       "sourceFacilityId": "390265",
       "state": "PA",
       "stateFips": "42",
@@ -27471,8 +28439,8 @@
       "sourceFacilityId": "390270",
       "state": "PA",
       "stateFips": "42",
-      "countyFips": "42103",
-      "countyName": "Pike County",
+      "countyFips": "42079",
+      "countyName": "Luzerne County",
       "geographyJoinStatus": "joined"
     },
     {
@@ -27764,6 +28732,22 @@
       "geographyJoinStatus": "joined"
     },
     {
+      "sourceFacilityId": "393307",
+      "state": "PA",
+      "stateFips": "42",
+      "countyFips": "42101",
+      "countyName": "Philadelphia County",
+      "geographyJoinStatus": "joined"
+    },
+    {
+      "sourceFacilityId": "393309",
+      "state": "PA",
+      "stateFips": "42",
+      "countyFips": "42101",
+      "countyName": "Philadelphia County",
+      "geographyJoinStatus": "joined"
+    },
+    {
       "sourceFacilityId": "394001",
       "state": "PA",
       "stateFips": "42",
@@ -27964,6 +28948,30 @@
       "geographyJoinStatus": "joined"
     },
     {
+      "sourceFacilityId": "400011",
+      "state": "PR",
+      "stateFips": "72",
+      "countyFips": "72069",
+      "countyName": "Humacao Municipio",
+      "geographyJoinStatus": "joined"
+    },
+    {
+      "sourceFacilityId": "400016",
+      "state": "PR",
+      "stateFips": "72",
+      "countyFips": "72127",
+      "countyName": "San Juan Municipio",
+      "geographyJoinStatus": "joined"
+    },
+    {
+      "sourceFacilityId": "40003F",
+      "state": "PR",
+      "stateFips": "72",
+      "countyFips": "72127",
+      "countyName": "San Juan Municipio",
+      "geographyJoinStatus": "joined"
+    },
+    {
       "sourceFacilityId": "400087",
       "state": "PR",
       "stateFips": "72",
@@ -27985,6 +28993,22 @@
       "stateFips": "72",
       "countyFips": "72013",
       "countyName": "Arecibo Municipio",
+      "geographyJoinStatus": "joined"
+    },
+    {
+      "sourceFacilityId": "400122",
+      "state": "PR",
+      "stateFips": "72",
+      "countyFips": "72061",
+      "countyName": "Guaynabo Municipio",
+      "geographyJoinStatus": "joined"
+    },
+    {
+      "sourceFacilityId": "400123",
+      "state": "PR",
+      "stateFips": "72",
+      "countyFips": "72097",
+      "countyName": "Mayagüez Municipio",
       "geographyJoinStatus": "joined"
     },
     {
@@ -28020,6 +29044,14 @@
       "geographyJoinStatus": "joined"
     },
     {
+      "sourceFacilityId": "404005",
+      "state": "PR",
+      "stateFips": "72",
+      "countyFips": "72127",
+      "countyName": "San Juan Municipio",
+      "geographyJoinStatus": "joined"
+    },
+    {
       "sourceFacilityId": "404007",
       "state": "PR",
       "stateFips": "72",
@@ -28049,6 +29081,14 @@
       "stateFips": "44",
       "countyFips": "44005",
       "countyName": "Newport County",
+      "geographyJoinStatus": "joined"
+    },
+    {
+      "sourceFacilityId": "410007",
+      "state": "RI",
+      "stateFips": "44",
+      "countyFips": "44007",
+      "countyName": "Providence County",
       "geographyJoinStatus": "joined"
     },
     {
@@ -28500,6 +29540,14 @@
       "geographyJoinStatus": "joined"
     },
     {
+      "sourceFacilityId": "421304",
+      "state": "SC",
+      "stateFips": "45",
+      "countyFips": "45037",
+      "countyName": "Edgefield County",
+      "geographyJoinStatus": "joined"
+    },
+    {
       "sourceFacilityId": "423300",
       "state": "SC",
       "stateFips": "45",
@@ -28553,6 +29601,14 @@
       "stateFips": "45",
       "countyFips": "45045",
       "countyName": "Greenville County",
+      "geographyJoinStatus": "joined"
+    },
+    {
+      "sourceFacilityId": "424011",
+      "state": "SC",
+      "stateFips": "45",
+      "countyFips": "45007",
+      "countyName": "Anderson County",
       "geographyJoinStatus": "joined"
     },
     {
@@ -28636,6 +29692,14 @@
       "geographyJoinStatus": "joined"
     },
     {
+      "sourceFacilityId": "43005F",
+      "state": "SD",
+      "stateFips": "46",
+      "countyFips": "46099",
+      "countyName": "Minnehaha County",
+      "geographyJoinStatus": "joined"
+    },
+    {
       "sourceFacilityId": "430077",
       "state": "SD",
       "stateFips": "46",
@@ -28660,6 +29724,14 @@
       "geographyJoinStatus": "joined"
     },
     {
+      "sourceFacilityId": "430091",
+      "state": "SD",
+      "stateFips": "46",
+      "countyFips": "46103",
+      "countyName": "Pennington County",
+      "geographyJoinStatus": "joined"
+    },
+    {
       "sourceFacilityId": "430093",
       "state": "SD",
       "stateFips": "46",
@@ -28673,6 +29745,14 @@
       "stateFips": "46",
       "countyFips": "46083",
       "countyName": "Lincoln County",
+      "geographyJoinStatus": "joined"
+    },
+    {
+      "sourceFacilityId": "430097",
+      "state": "SD",
+      "stateFips": "46",
+      "countyFips": "46013",
+      "countyName": "Brown County",
       "geographyJoinStatus": "joined"
     },
     {
@@ -29036,6 +30116,14 @@
       "geographyJoinStatus": "joined"
     },
     {
+      "sourceFacilityId": "440017",
+      "state": "TN",
+      "stateFips": "47",
+      "countyFips": "47163",
+      "countyName": "Sullivan County",
+      "geographyJoinStatus": "joined"
+    },
+    {
       "sourceFacilityId": "440018",
       "state": "TN",
       "stateFips": "47",
@@ -29201,6 +30289,14 @@
       "stateFips": "47",
       "countyFips": "47179",
       "countyName": "Washington County",
+      "geographyJoinStatus": "joined"
+    },
+    {
+      "sourceFacilityId": "440068",
+      "state": "TN",
+      "stateFips": "47",
+      "countyFips": "47107",
+      "countyName": "McMinn County",
       "geographyJoinStatus": "joined"
     },
     {
@@ -29908,6 +31004,14 @@
       "geographyJoinStatus": "joined"
     },
     {
+      "sourceFacilityId": "450018",
+      "state": "TX",
+      "stateFips": "48",
+      "countyFips": "48167",
+      "countyName": "Galveston County",
+      "geographyJoinStatus": "joined"
+    },
+    {
       "sourceFacilityId": "450021",
       "state": "TX",
       "stateFips": "48",
@@ -29937,6 +31041,14 @@
       "stateFips": "48",
       "countyFips": "48061",
       "countyName": "Cameron County",
+      "geographyJoinStatus": "joined"
+    },
+    {
+      "sourceFacilityId": "450029",
+      "state": "TX",
+      "stateFips": "48",
+      "countyFips": "48479",
+      "countyName": "Webb County",
       "geographyJoinStatus": "joined"
     },
     {
@@ -29993,6 +31105,14 @@
       "stateFips": "48",
       "countyFips": "48309",
       "countyName": "McLennan County",
+      "geographyJoinStatus": "joined"
+    },
+    {
+      "sourceFacilityId": "450044",
+      "state": "TX",
+      "stateFips": "48",
+      "countyFips": "48113",
+      "countyName": "Dallas County",
       "geographyJoinStatus": "joined"
     },
     {
@@ -30188,6 +31308,22 @@
       "geographyJoinStatus": "joined"
     },
     {
+      "sourceFacilityId": "450148",
+      "state": "TX",
+      "stateFips": "48",
+      "countyFips": "48251",
+      "countyName": "Johnson County",
+      "geographyJoinStatus": "joined"
+    },
+    {
+      "sourceFacilityId": "450152",
+      "state": "TX",
+      "stateFips": "48",
+      "countyFips": "48027",
+      "countyName": "Bell County",
+      "geographyJoinStatus": "joined"
+    },
+    {
       "sourceFacilityId": "450154",
       "state": "TX",
       "stateFips": "48",
@@ -30297,6 +31433,14 @@
       "stateFips": "48",
       "countyFips": "48365",
       "countyName": "Panola County",
+      "geographyJoinStatus": "joined"
+    },
+    {
+      "sourceFacilityId": "450211",
+      "state": "TX",
+      "stateFips": "48",
+      "countyFips": "48005",
+      "countyName": "Angelina County",
       "geographyJoinStatus": "joined"
     },
     {
@@ -30676,6 +31820,14 @@
       "geographyJoinStatus": "joined"
     },
     {
+      "sourceFacilityId": "450643",
+      "state": "TX",
+      "stateFips": "48",
+      "countyFips": "48479",
+      "countyName": "Webb County",
+      "geographyJoinStatus": "joined"
+    },
+    {
       "sourceFacilityId": "450644",
       "state": "TX",
       "stateFips": "48",
@@ -30961,6 +32113,14 @@
       "stateFips": "48",
       "countyFips": "48201",
       "countyName": "Harris County",
+      "geographyJoinStatus": "joined"
+    },
+    {
+      "sourceFacilityId": "450775",
+      "state": "TX",
+      "stateFips": "48",
+      "countyFips": "48339",
+      "countyName": "Montgomery County",
       "geographyJoinStatus": "joined"
     },
     {
@@ -31932,14 +33092,6 @@
       "geographyJoinStatus": "joined"
     },
     {
-      "sourceFacilityId": "454000",
-      "state": "TX",
-      "stateFips": "48",
-      "countyFips": "48419",
-      "countyName": "Shelby County",
-      "geographyJoinStatus": "joined"
-    },
-    {
       "sourceFacilityId": "454006",
       "state": "TX",
       "stateFips": "48",
@@ -32004,6 +33156,14 @@
       "geographyJoinStatus": "joined"
     },
     {
+      "sourceFacilityId": "454064",
+      "state": "TX",
+      "stateFips": "48",
+      "countyFips": "48451",
+      "countyName": "Tom Green County",
+      "geographyJoinStatus": "joined"
+    },
+    {
       "sourceFacilityId": "454065",
       "state": "TX",
       "stateFips": "48",
@@ -32033,6 +33193,14 @@
       "stateFips": "48",
       "countyFips": "48061",
       "countyName": "Cameron County",
+      "geographyJoinStatus": "joined"
+    },
+    {
+      "sourceFacilityId": "454093",
+      "state": "TX",
+      "stateFips": "48",
+      "countyFips": "48303",
+      "countyName": "Lubbock County",
       "geographyJoinStatus": "joined"
     },
     {
@@ -32268,11 +33436,27 @@
       "geographyJoinStatus": "joined"
     },
     {
+      "sourceFacilityId": "454153",
+      "state": "TX",
+      "stateFips": "48",
+      "countyFips": "48181",
+      "countyName": "Grayson County",
+      "geographyJoinStatus": "joined"
+    },
+    {
       "sourceFacilityId": "454154",
       "state": "TX",
       "stateFips": "48",
       "countyFips": "48375",
       "countyName": "Potter County",
+      "geographyJoinStatus": "joined"
+    },
+    {
+      "sourceFacilityId": "454156",
+      "state": "TX",
+      "stateFips": "48",
+      "countyFips": "48157",
+      "countyName": "Fort Bend County",
       "geographyJoinStatus": "joined"
     },
     {
@@ -32417,6 +33601,14 @@
       "stateFips": "49",
       "countyFips": "49041",
       "countyName": "Sevier County",
+      "geographyJoinStatus": "joined"
+    },
+    {
+      "sourceFacilityId": "46002F",
+      "state": "UT",
+      "stateFips": "49",
+      "countyFips": "49035",
+      "countyName": "Salt Lake County",
       "geographyJoinStatus": "joined"
     },
     {
@@ -32612,6 +33804,14 @@
       "geographyJoinStatus": "joined"
     },
     {
+      "sourceFacilityId": "464001",
+      "state": "UT",
+      "stateFips": "49",
+      "countyFips": "49049",
+      "countyName": "Utah County",
+      "geographyJoinStatus": "joined"
+    },
+    {
       "sourceFacilityId": "464012",
       "state": "UT",
       "stateFips": "49",
@@ -32633,6 +33833,14 @@
       "stateFips": "49",
       "countyFips": "49049",
       "countyName": "Utah County",
+      "geographyJoinStatus": "joined"
+    },
+    {
+      "sourceFacilityId": "470001",
+      "state": "VT",
+      "stateFips": "50",
+      "countyFips": "50023",
+      "countyName": "Washington County",
       "geographyJoinStatus": "joined"
     },
     {
@@ -32665,6 +33873,14 @@
       "stateFips": "50",
       "countyFips": "50003",
       "countyName": "Bennington County",
+      "geographyJoinStatus": "joined"
+    },
+    {
+      "sourceFacilityId": "47001F",
+      "state": "VT",
+      "stateFips": "50",
+      "countyFips": "50027",
+      "countyName": "Windsor County",
       "geographyJoinStatus": "joined"
     },
     {
@@ -33044,6 +34260,14 @@
       "geographyJoinStatus": "joined"
     },
     {
+      "sourceFacilityId": "490098",
+      "state": "VA",
+      "stateFips": "51",
+      "countyFips": "51117",
+      "countyName": "Mecklenburg County",
+      "geographyJoinStatus": "joined"
+    },
+    {
       "sourceFacilityId": "490101",
       "state": "VA",
       "stateFips": "51",
@@ -33284,6 +34508,14 @@
       "geographyJoinStatus": "joined"
     },
     {
+      "sourceFacilityId": "494021",
+      "state": "VA",
+      "stateFips": "51",
+      "countyFips": "51790",
+      "countyName": "Staunton city",
+      "geographyJoinStatus": "joined"
+    },
+    {
       "sourceFacilityId": "494022",
       "state": "VA",
       "stateFips": "51",
@@ -33476,6 +34708,14 @@
       "geographyJoinStatus": "joined"
     },
     {
+      "sourceFacilityId": "500044",
+      "state": "WA",
+      "stateFips": "53",
+      "countyFips": "53063",
+      "countyName": "Spokane County",
+      "geographyJoinStatus": "joined"
+    },
+    {
       "sourceFacilityId": "500050",
       "state": "WA",
       "stateFips": "53",
@@ -33513,6 +34753,14 @@
       "stateFips": "53",
       "countyFips": "53005",
       "countyName": "Benton County",
+      "geographyJoinStatus": "joined"
+    },
+    {
+      "sourceFacilityId": "50005F",
+      "state": "WA",
+      "stateFips": "53",
+      "countyFips": "53053",
+      "countyName": "Pierce County",
       "geographyJoinStatus": "joined"
     },
     {
@@ -34012,6 +35260,14 @@
       "geographyJoinStatus": "joined"
     },
     {
+      "sourceFacilityId": "504008",
+      "state": "WA",
+      "stateFips": "53",
+      "countyFips": "53005",
+      "countyName": "Benton County",
+      "geographyJoinStatus": "joined"
+    },
+    {
       "sourceFacilityId": "504009",
       "state": "WA",
       "stateFips": "53",
@@ -34209,6 +35465,14 @@
       "stateFips": "54",
       "countyFips": "54011",
       "countyName": "Cabell County",
+      "geographyJoinStatus": "joined"
+    },
+    {
+      "sourceFacilityId": "510058",
+      "state": "WV",
+      "stateFips": "54",
+      "countyFips": "54107",
+      "countyName": "Wood County",
       "geographyJoinStatus": "joined"
     },
     {
@@ -34612,6 +35876,14 @@
       "geographyJoinStatus": "joined"
     },
     {
+      "sourceFacilityId": "520066",
+      "state": "WI",
+      "stateFips": "55",
+      "countyFips": "55105",
+      "countyName": "Rock County",
+      "geographyJoinStatus": "joined"
+    },
+    {
       "sourceFacilityId": "520071",
       "state": "WI",
       "stateFips": "55",
@@ -34732,6 +36004,14 @@
       "geographyJoinStatus": "joined"
     },
     {
+      "sourceFacilityId": "520107",
+      "state": "WI",
+      "stateFips": "55",
+      "countyFips": "55071",
+      "countyName": "Manitowoc County",
+      "geographyJoinStatus": "joined"
+    },
+    {
       "sourceFacilityId": "520109",
       "state": "WI",
       "stateFips": "55",
@@ -34793,6 +36073,14 @@
       "stateFips": "55",
       "countyFips": "55079",
       "countyName": "Milwaukee County",
+      "geographyJoinStatus": "joined"
+    },
+    {
+      "sourceFacilityId": "520193",
+      "state": "WI",
+      "stateFips": "55",
+      "countyFips": "55009",
+      "countyName": "Brown County",
       "geographyJoinStatus": "joined"
     },
     {
@@ -35636,6 +36924,22 @@
       "geographyJoinStatus": "joined"
     },
     {
+      "sourceFacilityId": "670034",
+      "state": "TX",
+      "stateFips": "48",
+      "countyFips": "48491",
+      "countyName": "Williamson County",
+      "geographyJoinStatus": "joined"
+    },
+    {
+      "sourceFacilityId": "670041",
+      "state": "TX",
+      "stateFips": "48",
+      "countyFips": "48491",
+      "countyName": "Williamson County",
+      "geographyJoinStatus": "joined"
+    },
+    {
       "sourceFacilityId": "670043",
       "state": "TX",
       "stateFips": "48",
@@ -35812,14 +37116,6 @@
       "geographyJoinStatus": "joined"
     },
     {
-      "sourceFacilityId": "670088",
-      "state": "TX",
-      "stateFips": "48",
-      "countyFips": "48163",
-      "countyName": "Frio County",
-      "geographyJoinStatus": "joined"
-    },
-    {
       "sourceFacilityId": "670093",
       "state": "TX",
       "stateFips": "48",
@@ -35924,6 +37220,14 @@
       "geographyJoinStatus": "joined"
     },
     {
+      "sourceFacilityId": "670135",
+      "state": "TX",
+      "stateFips": "48",
+      "countyFips": "48201",
+      "countyName": "Harris County",
+      "geographyJoinStatus": "joined"
+    },
+    {
       "sourceFacilityId": "670136",
       "state": "TX",
       "stateFips": "48",
@@ -35961,6 +37265,14 @@
       "stateFips": "48",
       "countyFips": "48201",
       "countyName": "Harris County",
+      "geographyJoinStatus": "joined"
+    },
+    {
+      "sourceFacilityId": "670322",
+      "state": "TX",
+      "stateFips": "48",
+      "countyFips": "48085",
+      "countyName": "Collin County",
       "geographyJoinStatus": "joined"
     },
     {
