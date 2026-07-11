@@ -15,14 +15,33 @@ const verifiedYes = "Verified yes";
 type DetailRowProps = { label: string; value?: React.ReactNode; status?: string };
 
 function DetailRow({ label, value, status }: DetailRowProps) {
-  const displayValue = value ?? unavailable;
+  if (value === undefined || value === null || value === "") return null;
   return (
     <div className="grid gap-1 border-b border-slate-100 py-3 last:border-b-0">
       <dt className="text-xs font-semibold uppercase tracking-wide text-slate-500">{label}</dt>
-      <dd className="text-base leading-6 text-slate-800">{displayValue}</dd>
+      <dd className="text-base leading-6 text-slate-800">{value}</dd>
       {status && <dd className="text-sm text-slate-500">{status}</dd>}
     </div>
   );
+}
+
+function phoneHref(phone: string): string | null {
+  const trimmed = phone.trim();
+  if (!trimmed) return null;
+  const normalized = trimmed.replace(/(?!^\+)\D/g, "");
+  return normalized ? `tel:${normalized}` : null;
+}
+
+function safeWebsiteHref(website: string): string | null {
+  const trimmed = website.trim();
+  if (!trimmed) return null;
+  try {
+    const url = new URL(trimmed.startsWith("http://") || trimmed.startsWith("https://") ? trimmed : `https://${trimmed}`);
+    if (url.protocol !== "http:" && url.protocol !== "https:") return null;
+    return url.toString();
+  } catch {
+    return null;
+  }
 }
 
 function DefinitionDetails({ summary, children }: { summary: string; children: React.ReactNode }) {
@@ -71,6 +90,8 @@ export function FacilityDetailPanel({ facility }: { facility: Facility | null })
   const retrievalDates = sourceRecords.map((s) => s?.retrievalDate).filter(Boolean) as string[];
   const sourceLinkCount = sourceRecords.filter((s) => s?.sourceUrl).length;
   const isCmsRecord = !facility.isSynthetic && facility.id.startsWith("cms-");
+  const phoneLink = facility.phone ? phoneHref(facility.phone) : null;
+  const websiteLink = facility.website ? safeWebsiteHref(facility.website) : null;
 
   return (
     <div className="flex h-full w-full max-w-none flex-col overflow-y-auto border-l-0 border-t-4 border-terrain-500 bg-terrain-50/30 p-4 sm:p-5 lg:border-l-4 lg:border-t-0" data-testid="facility-detail-panel">
@@ -146,9 +167,9 @@ export function FacilityDetailPanel({ facility }: { facility: Facility | null })
       <section className="mt-5" aria-labelledby="contact-access-heading">
         <h2 id="contact-access-heading" className="text-sm font-semibold uppercase tracking-wide text-slate-500">Contact and access information</h2>
         <dl className="mt-3 rounded-lg border border-slate-200 bg-white px-4">
-          <DetailRow label="Phone" value={facility.phone} />
-          <DetailRow label="Website" value={facility.website ? <a className="text-terrain-700 underline" href={facility.website}>{facility.website}</a> : undefined} />
-          <DetailRow label="Email" value={facility.email} />
+          <DetailRow label="Phone" value={facility.phone && phoneLink ? <a className="text-terrain-700 underline" href={phoneLink}>{facility.phone}</a> : facility.phone} />
+          <DetailRow label="Website" value={facility.website && websiteLink ? <a className="text-terrain-700 underline" href={websiteLink} target="_blank" rel="noreferrer">{facility.website}</a> : undefined} />
+          <DetailRow label="Email" value={facility.email ? <a className="text-terrain-700 underline" href={`mailto:${facility.email}`}>{facility.email}</a> : undefined} />
           <DetailRow label="Fax" value={facility.fax} />
           <DetailRow label="Straight-line planning distance" value={`${facility.distanceMiles} mi from selected planning center`} />
         </dl>
@@ -160,7 +181,7 @@ export function FacilityDetailPanel({ facility }: { facility: Facility | null })
         <dl className="mt-3 rounded-lg border border-slate-200 bg-white px-4">
           <DetailRow label="Synthetic/real status" value={isCmsRecord ? "Real CMS hospital public-data record." : "Synthetic demonstration data — developer/demo fixture only."} />
           <DetailRow label="Source dataset" value={sourceRecords.map((s) => s?.dataset).join("; ") || undefined} />
-          <DetailRow label="Source confidence" value={facility.confidence} />
+          <DetailRow label="Geocoding validation" value={isCmsRecord ? "Validated CMS map-ready record" : facility.confidence} />
           <DetailRow label="Source date" value={sourceDates.length ? sourceDates.map(formatDate).join("; ") : undefined} />
           <DetailRow label="Retrieved date" value={retrievalDates.length ? retrievalDates.map(formatDate).join("; ") : undefined} />
           <DetailRow label="Source link" value={sourceLinkCount ? `${sourceLinkCount} source link(s) listed below` : undefined} />
