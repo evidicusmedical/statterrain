@@ -27,7 +27,7 @@ export default function HomePage() {
       state.setSelectedLocation(null);
       state.setSearchStatus("idle");
       state.setSearchMessage(
-        "Synthetic demo region active. Default map remains synthetic demonstration data.",
+        "CMS national hospital public-data mode active.",
       );
       state.resetFilters();
       state.clearSelectedFacility();
@@ -74,7 +74,7 @@ export default function HomePage() {
           state.setLocation(searchLocations[0]);
           state.setSearchStatus("idle");
           state.setSearchMessage(
-            "Synthetic demo region active. Default map remains synthetic demonstration data.",
+            "CMS national hospital public-data mode active.",
           );
           state.clearSelectedFacility();
         }}
@@ -125,8 +125,7 @@ export default function HomePage() {
             <div className="absolute bottom-3 right-3 z-[40] max-w-[calc(100%-1.5rem)]">
               <PublicDataFreshnessPanel
                 summary={state.publicDataSummary}
-                previewEnabled={state.publicDataPreviewEnabled}
-                onPreviewEnabledChange={state.setPublicDataPreviewEnabled}
+                cmsLoad={state.cmsLoad}
               />
             </div>
             <MapViewClient

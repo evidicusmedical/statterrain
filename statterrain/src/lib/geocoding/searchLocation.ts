@@ -26,6 +26,7 @@ export interface SelectedLocation extends SearchLocation {
   isDemoRegion: boolean;
   searchedAt: string;
   status: LocationSearchStatus;
+  state?: string;
   sessionOnly: true;
 }
 export interface LocationSearchResult {

@@ -1,12 +1,10 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { searchLocations, type SearchLocation } from "@/data/demo-region";
-import { facilities as syntheticFacilities } from "@/data/facilities";
-import {
-  getPreviewCmsHospitalFacilities,
-  getPublicDataArtifactSummary,
-} from "@/lib/public-data/readPublicDataArtifacts";
+import { getPublicDataArtifactSummary } from "@/lib/public-data/readPublicDataArtifacts";
+import { loadNationalCmsHospitals, filterFacilitiesByRadius, CMS_LOAD_FAILURE_COPY } from "@/lib/public-data/loadNationalCmsHospitals";
+import { selectCmsHospitalPartitions } from "@/lib/geography/selectCmsHospitalPartitions";
 import { buildCoverageStatus } from "@/lib/coverage/coverageStatus";
 import type {
   LocationSearchStatus,
@@ -85,7 +83,7 @@ export function useAppState() {
   const [searchStatus, setSearchStatus] =
     useState<LocationSearchStatus>("idle");
   const [searchMessage, setSearchMessage] = useState(
-    "Synthetic demo region active. Default map remains synthetic demonstration data.",
+    "CMS national hospital public-data mode active.",
   );
   const [radiusMiles, setRadiusMiles] = useState<number>(25);
   const [filters, setFilters] = useState<AppFilters>(defaultFilters());
@@ -96,70 +94,37 @@ export function useAppState() {
   const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false);
   const [mobileDetailOpen, setMobileDetailOpen] = useState(false);
   const publicDataSummary = useMemo(() => getPublicDataArtifactSummary(), []);
-  const publicDataPreviewFacilities = useMemo(
-    () => getPreviewCmsHospitalFacilities(),
-    [],
-  );
-  const [publicDataPreviewEnabled, setPublicDataPreviewEnabled] =
-    useState(false);
+  const [cmsLoad, setCmsLoad] = useState<{status: string; facilities: Facility[]; manifest: any; requestedPartitions: string[]; loadedPartitions: string[]; errors: string[]}>({ status: "loading", facilities: [], manifest: null, requestedPartitions: [], loadedPartitions: [], errors: [] });
 
-  const searchedOutsideDemoRegion = Boolean(
-    selectedLocation && !selectedLocation.isDemoRegion,
-  );
+  const partitionCodes = useMemo(() => selectCmsHospitalPartitions({ lat: location.lat, lng: location.lng, radiusMiles, state: selectedLocation?.state, label: selectedLocation?.label ?? location.label, query: selectedLocation?.query }), [location, radiusMiles, selectedLocation]);
 
-  const previewFacilitiesInRadius = useMemo(() => {
-    return publicDataPreviewFacilities
-      .map((f) => ({
-        ...f,
-        distanceMiles: Number(
-          haversineMiles(location.lat, location.lng, f.lat, f.lng).toFixed(1),
-        ),
-      }))
-      .filter((f) => f.distanceMiles <= radiusMiles)
-      .sort((a, b) => a.distanceMiles - b.distanceMiles);
-  }, [publicDataPreviewFacilities, location, radiusMiles]);
+  const partitionKey = partitionCodes.join(",");
 
-  const allFacilities = useMemo(() => {
-    const synthetic = searchedOutsideDemoRegion ? [] : syntheticFacilities;
-    if (!publicDataPreviewEnabled || !publicDataSummary.canPreviewOnMap)
-      return synthetic;
-    return [...synthetic, ...publicDataPreviewFacilities];
-  }, [
-    publicDataPreviewEnabled,
-    publicDataSummary.canPreviewOnMap,
-    publicDataPreviewFacilities,
-    searchedOutsideDemoRegion,
-  ]);
+  useEffect(() => {
+    let cancelled = false;
+    const requested = partitionKey ? partitionKey.split(",") : [];
+    setCmsLoad((prev) => ({ ...prev, status: "loading", requestedPartitions: requested }));
+    loadNationalCmsHospitals({ partitionCodes: requested }).then((result) => {
+      if (!cancelled) setCmsLoad(result);
+    });
+    return () => { cancelled = true; };
+  }, [partitionKey]);
+
+  const facilitiesInRadius = useMemo(() => filterFacilitiesByRadius(cmsLoad.facilities, location.lat, location.lng, radiusMiles), [cmsLoad.facilities, location, radiusMiles]);
+
+  const previewFacilitiesInRadius = facilitiesInRadius;
 
   const coverageStatus = useMemo(
     () =>
       buildCoverageStatus({
         selectedLocation,
         radiusMiles,
-        publicPreviewEnabled: publicDataPreviewEnabled,
+        publicPreviewEnabled: true,
         previewFacilitiesInRadius,
-        searchStatus,
+        searchStatus: cmsLoad.status === "error" ? "geocoder-unavailable" : searchStatus,
       }),
-    [
-      selectedLocation,
-      radiusMiles,
-      publicDataPreviewEnabled,
-      previewFacilitiesInRadius,
-      searchStatus,
-    ],
+    [selectedLocation, radiusMiles, previewFacilitiesInRadius, searchStatus, cmsLoad.status],
   );
-
-  const facilitiesInRadius = useMemo(() => {
-    return allFacilities
-      .map((f) => ({
-        ...f,
-        distanceMiles: Number(
-          haversineMiles(location.lat, location.lng, f.lat, f.lng).toFixed(1),
-        ),
-      }))
-      .filter((f) => f.distanceMiles <= radiusMiles)
-      .sort((a, b) => a.distanceMiles - b.distanceMiles);
-  }, [allFacilities, location, radiusMiles]);
 
   const visibleFacilities: Facility[] = useMemo(() => {
     const threshold = confidenceThreshold(filters.confidence);
@@ -238,8 +203,9 @@ export function useAppState() {
     mobileDetailOpen,
     setMobileDetailOpen,
     publicDataSummary,
-    publicDataPreviewEnabled,
-    setPublicDataPreviewEnabled,
+    publicDataPreviewEnabled: true,
+    setPublicDataPreviewEnabled: () => {},
+    cmsLoad,
   };
 }
 
