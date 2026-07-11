@@ -11,7 +11,7 @@ const names = readFileSync(join(root,'src/lib/geography/stateCodes.ts'),'utf8');
 const product = readFileSync(join(root,'src/config/product.ts'),'utf8');
 const manifest = JSON.parse(readFileSync(join(root,'data/generated/cms-hospitals-national/manifest.json'),'utf8'));
 
-test('version and arbitrary fallback removal',()=>{ assert.match(product,/v0\.3\.3\.3 prototype/); for (const old of ['v0.3.3.2 prototype','v0.3.3.1 prototype','v0.3.3 prototype','v0.3.2.4 prototype']) assert.ok(!product.includes(`prototypeVersion: "${old}"`)); assert.ok(!selector.includes('["CA","DC","FL","IL","NY","TX"]')); assert.match(selector,/status:"unresolved"/); });
+test('version and arbitrary fallback removal',()=>{ assert.match(product,/v0\.3\.4 prototype/); for (const old of ['v0.3.3.2 prototype','v0.3.3.1 prototype','v0.3.3 prototype','v0.3.2.4 prototype']) assert.ok(!product.includes(`prototypeVersion: "${old}"`)); assert.ok(!selector.includes('["CA","DC","FL","IL","NY","TX"]')); assert.match(selector,/status:"unresolved"/); });
 test('resolver and bounds cover every manifest state',()=>{ assert.match(resolver,/resolveStateFromCoordinates/); for (const code of manifest.statesPresent) { assert.ok(bounds.includes(`${code}: {`), code); assert.ok(names.includes(`"${code}"`), code); } });
 test('coordinate and map-click selected locations populate state',()=>{ assert.match(search,/resolveStateFromCoordinates\(lat, lng\)/); assert.match(search,/source === "Map click"/); assert.match(search,/state: resolvedState \?\? undefined/); });
 test('census structured state and full names are supported',()=>{ assert.match(search,/addressComponents\.stateCode/); for (const name of ['montana','new mexico','district of columbia','puerto rico']) assert.ok(names.includes(name)); });
