@@ -39,7 +39,9 @@
     "test:cms-national-validation": "node --test tests/cms-national-validation.test.mjs",
     "data:sync-national-cms-hospital-public-assets": "node scripts/public-data/sync-national-cms-hospital-public-assets.mjs",
     "prebuild": "npm run data:sync-national-cms-hospital-public-assets",
-    "test:cms-public-activation": "node --test tests/cms-public-activation.test.mjs"
+    "test:cms-public-activation": "node --test tests/cms-public-activation.test.mjs",
+    "data:audit-cms-partition-resolution": "node scripts/public-data/audit-cms-partition-resolution.mjs",
+    "test:cms-partition-resolution": "node --test tests/cms-partition-resolution.test.mjs"
   },
   "dependencies": {
     "leaflet": "^1.9.4",

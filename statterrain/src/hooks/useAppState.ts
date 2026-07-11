@@ -4,7 +4,7 @@ import { useEffect, useMemo, useState } from "react";
 import { searchLocations, type SearchLocation } from "@/data/demo-region";
 import { getPublicDataArtifactSummary } from "@/lib/public-data/readPublicDataArtifacts";
 import { loadNationalCmsHospitals, filterFacilitiesByRadius, CMS_LOAD_FAILURE_COPY } from "@/lib/public-data/loadNationalCmsHospitals";
-import { selectCmsHospitalPartitions } from "@/lib/geography/selectCmsHospitalPartitions";
+import { selectCmsHospitalPartitionResult } from "@/lib/geography/selectCmsHospitalPartitions";
 import { buildCoverageStatus } from "@/lib/coverage/coverageStatus";
 import type {
   LocationSearchStatus,
@@ -94,21 +94,26 @@ export function useAppState() {
   const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false);
   const [mobileDetailOpen, setMobileDetailOpen] = useState(false);
   const publicDataSummary = useMemo(() => getPublicDataArtifactSummary(), []);
-  const [cmsLoad, setCmsLoad] = useState<{status: string; facilities: Facility[]; manifest: any; requestedPartitions: string[]; loadedPartitions: string[]; errors: string[]}>({ status: "loading", facilities: [], manifest: null, requestedPartitions: [], loadedPartitions: [], errors: [] });
+  const [cmsLoad, setCmsLoad] = useState<{status: string; facilities: Facility[]; manifest: any; requestedPartitions: string[]; loadedPartitions: string[]; errors: string[]; primaryState?: string; selectionStrategy?: string; partialCoverage?: boolean}>({ status: "loading", facilities: [], manifest: null, requestedPartitions: [], loadedPartitions: [], errors: [] });
 
-  const partitionCodes = useMemo(() => selectCmsHospitalPartitions({ lat: location.lat, lng: location.lng, radiusMiles, state: selectedLocation?.state, label: selectedLocation?.label ?? location.label, query: selectedLocation?.query }), [location, radiusMiles, selectedLocation]);
+  const partitionSelection = useMemo(() => selectCmsHospitalPartitionResult({ lat: location.lat, lng: location.lng, radiusMiles, state: selectedLocation?.state, label: selectedLocation?.label ?? location.label, query: selectedLocation?.query }), [location, radiusMiles, selectedLocation]);
+  const partitionCodes = partitionSelection.partitions;
 
   const partitionKey = partitionCodes.join(",");
 
   useEffect(() => {
     let cancelled = false;
     const requested = partitionKey ? partitionKey.split(",") : [];
-    setCmsLoad((prev) => ({ ...prev, status: "loading", requestedPartitions: requested }));
+    if (partitionSelection.status === "unresolved") {
+      setCmsLoad({ status: "unresolved", facilities: [], manifest: null, requestedPartitions: [], loadedPartitions: [], errors: [partitionSelection.message], selectionStrategy: partitionSelection.strategy });
+      return () => { cancelled = true; };
+    }
+    setCmsLoad((prev) => ({ ...prev, status: "loading", requestedPartitions: requested, primaryState: partitionSelection.primaryState, selectionStrategy: partitionSelection.strategy }));
     loadNationalCmsHospitals({ partitionCodes: requested }).then((result) => {
-      if (!cancelled) setCmsLoad(result);
+      if (!cancelled) setCmsLoad({ ...result, primaryState: partitionSelection.primaryState, selectionStrategy: partitionSelection.strategy, partialCoverage: result.status === "partial-failure" });
     });
     return () => { cancelled = true; };
-  }, [partitionKey]);
+  }, [partitionKey, partitionSelection]);
 
   const facilitiesInRadius = useMemo(() => filterFacilitiesByRadius(cmsLoad.facilities, location.lat, location.lng, radiusMiles), [cmsLoad.facilities, location, radiusMiles]);
 

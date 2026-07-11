@@ -30,3 +30,10 @@ Recommended next patch: v0.3.1 — CMS Hospital National Pull Expansion. It shou
 StatTerrain v0.3.0.2 makes the top search bar the primary planning-location search. It accepts U.S. addresses, ZIP codes, city/state queries, states, and latitude/longitude pairs such as `43.615, -116.202`; valid coordinates are handled session-only without calling the Census Geocoder. Users can also click the map background to set a session-only planning center and recenter the straight-line radius.
 
 Searched and clicked locations are not stored, are not patient addresses, and do not enable routing, travel-time, ETA, diversion, bed-status, dispatch, triage, transfer, or clinical decision-support behavior. The default map remains synthetic demonstration data. Public-data source/freshness status is shown as a compact map note by default, with Details preserving source, provenance, limitations, and preview controls. No public-data ingestion, CMS refresh, or live facility geocoding behavior changed in this patch.
+
+
+## v0.3.3.1 nationwide CMS partition resolution hotfix
+
+StatTerrain resolves CMS hospital partitions by explicit selected-location state, deterministic local coordinate-to-state/territory resolution, Census structured state fields, and state abbreviation/full-name parsing. The prior arbitrary CA/DC/FL/IL/NY/TX fallback was removed. Candidate hospital partitions are selected from manifest-supported state/territory bounds intersecting the selected radius bounding box, with final Haversine filtering remaining authoritative.
+
+User-visible coverage states now distinguish unresolved planning locations, partition load failures or partial coverage, and genuine zero-result radius searches after requested partitions loaded successfully. The bundled resolver metadata covers all 50 states, District of Columbia, and Puerto Rico represented by the national CMS hospital manifest. Border searches may load multiple intersecting partitions; excluded or unmatched CMS facilities remain limited to the existing map-ready national artifact.

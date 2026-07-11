@@ -1,19 +1,34 @@
-export const STATE_ADJACENCY: Record<string, string[]> = {
-  AL:["FL","GA","MS","TN"], AK:[], AZ:["CA","CO","NM","NV","UT"], AR:["LA","MO","MS","OK","TN","TX"], CA:["AZ","NV","OR"], CO:["AZ","KS","NE","NM","OK","UT","WY"], CT:["MA","NY","RI"], DC:["MD","VA"], DE:["MD","NJ","PA"], FL:["AL","GA"], GA:["AL","FL","NC","SC","TN"], HI:[], IA:["IL","MN","MO","NE","SD","WI"], ID:["MT","NV","OR","UT","WA","WY"], IL:["IA","IN","KY","MO","WI"], IN:["IL","KY","MI","OH"], KS:["CO","MO","NE","OK"], KY:["IL","IN","MO","OH","TN","VA","WV"], LA:["AR","MS","TX"], MA:["CT","NH","NY","RI","VT"], MD:["DC","DE","PA","VA","WV"], ME:["NH"], MI:["IN","OH","WI"], MN:["IA","ND","SD","WI"], MO:["AR","IA","IL","KS","KY","NE","OK","TN"], MS:["AL","AR","LA","TN"], MT:["ID","ND","SD","WY"], NC:["GA","SC","TN","VA"], ND:["MN","MT","SD"], NE:["CO","IA","KS","MO","SD","WY"], NH:["MA","ME","VT"], NJ:["DE","NY","PA"], NM:["AZ","CO","OK","TX","UT"], NV:["AZ","CA","ID","OR","UT"], NY:["CT","MA","NJ","PA","VT"], OH:["IN","KY","MI","PA","WV"], OK:["AR","CO","KS","MO","NM","TX"], OR:["CA","ID","NV","WA"], PA:["DE","MD","NJ","NY","OH","WV"], PR:[], RI:["CT","MA"], SC:["GA","NC"], SD:["IA","MN","MT","ND","NE","WY"], TN:["AL","AR","GA","KY","MO","MS","NC","VA"], TX:["AR","LA","NM","OK"], UT:["AZ","CO","ID","NM","NV","WY"], VA:["DC","KY","MD","NC","TN","WV"], VT:["MA","NH","NY"], WA:["ID","OR"], WI:["IA","IL","MI","MN"], WV:["KY","MD","OH","PA","VA"], WY:["CO","ID","MT","NE","SD","UT"]
-};
-export interface PartitionSelectionInput { lat:number; lng:number; radiusMiles:number; state?:string | null; label?:string | null; query?:string | null; }
+import { resolveStateFromCoordinates } from "./resolveStateFromCoordinates";
+import { STATE_BOUNDS } from "./stateBounds";
+import { normalizeStateCode, parseStateFromText } from "./stateCodes";
+
+export interface PartitionSelectionInput { lat:number; lng:number; radiusMiles:number; state?:string | null; label?:string | null; query?:string | null; availableStates?: string[] | null; }
+export type PartitionSelectionResult =
+  | { status:"resolved"; primaryState:string; partitions:string[]; strategy:string; message?: string }
+  | { status:"unresolved"; partitions:[]; strategy:"unresolved"; message:string };
+
 export function inferStateCode(input: PartitionSelectionInput): string | null {
-  const explicit = input.state?.toUpperCase(); if (explicit && STATE_ADJACENCY[explicit]) return explicit;
-  const text = `${input.label ?? ''} ${input.query ?? ''}`.toUpperCase();
-  const m = text.match(/(?:,|\s)(A[LKZR]|C[AOT]|D[CE]|FL|GA|HI|I[ADLN]|K[SY]|LA|M[ADEINOST]|N[CDEHJMVY]|O[HKR]|PA|PR|RI|S[CD]|T[NX]|UT|V[AIT]|W[AIVY])(?:\b|,)/);
-  if (m && STATE_ADJACENCY[m[1]]) return m[1];
-  return null;
+  return normalizeStateCode(input.state)
+    ?? resolveStateFromCoordinates(input.lat, input.lng)
+    ?? parseStateFromText(`${input.label ?? ""} ${input.query ?? ""}`);
 }
-export function selectCmsHospitalPartitions(input: PartitionSelectionInput): string[] {
-  const state = inferStateCode(input);
-  if (!state) return ["CA","DC","FL","IL","NY","TX"];
-  const set = new Set([state]);
-  for (const adj of STATE_ADJACENCY[state] ?? []) set.add(adj);
-  if (input.radiusMiles >= 150) for (const adj of [...set]) for (const two of STATE_ADJACENCY[adj] ?? []) set.add(two);
-  return [...set].sort();
+
+function radiusBounds(lat:number, lng:number, radiusMiles:number) {
+  const latDelta = radiusMiles / 69;
+  const lngDelta = radiusMiles / Math.max(1, 69 * Math.cos((lat * Math.PI) / 180));
+  return { minLat: lat-latDelta, maxLat: lat+latDelta, minLng: lng-lngDelta, maxLng: lng+lngDelta };
 }
+function intersects(a:{minLat:number;maxLat:number;minLng:number;maxLng:number}, b:{minLat:number;maxLat:number;minLng:number;maxLng:number}) { return a.minLat <= b.maxLat && a.maxLat >= b.minLat && a.minLng <= b.maxLng && a.maxLng >= b.minLng; }
+
+export function selectCmsHospitalPartitionResult(input: PartitionSelectionInput): PartitionSelectionResult {
+  const primaryState = inferStateCode(input);
+  if (!primaryState) return { status:"unresolved", partitions:[], strategy:"unresolved", message:"StatTerrain could not determine the state or territory for this planning location. Hospital partitions were not loaded. Try a full address, city/state, ZIP code, or another map point." };
+  const available = new Set((input.availableStates?.length ? input.availableStates : Object.keys(STATE_BOUNDS)).map(s=>s.toUpperCase()));
+  const box = radiusBounds(input.lat, input.lng, input.radiusMiles);
+  const partitions = Object.entries(STATE_BOUNDS)
+    .filter(([code,bounds]) => available.has(code) && (code === primaryState || intersects(box, bounds)))
+    .map(([code])=>code);
+  if (available.has(primaryState) && !partitions.includes(primaryState)) partitions.push(primaryState);
+  return { status:"resolved", primaryState, partitions: [...new Set(partitions)].sort(), strategy:"primary-state-plus-radius-bounds" };
+}
+export function selectCmsHospitalPartitions(input: PartitionSelectionInput): string[] { return selectCmsHospitalPartitionResult(input).partitions; }

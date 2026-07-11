@@ -34,3 +34,10 @@ Additional tests cover the map-click planning-center handler, concise coordinate
 ## v0.3.1 tests
 
 The v0.3.1 test gate requires `product.prototypeVersion` to be `v0.3.1 prototype`, verifies the source-backed taxonomy, confirms unsupported facility categories and hospital capabilities are hidden from normal active controls, checks source-scope export language, validates manifest taxonomy readiness metadata, and confirms the Data-Bearing Release Policy, Source-Backed UI Policy, and national data release checklist exist.
+
+
+## v0.3.3.1 nationwide CMS partition resolution hotfix
+
+StatTerrain resolves CMS hospital partitions by explicit selected-location state, deterministic local coordinate-to-state/territory resolution, Census structured state fields, and state abbreviation/full-name parsing. The prior arbitrary CA/DC/FL/IL/NY/TX fallback was removed. Candidate hospital partitions are selected from manifest-supported state/territory bounds intersecting the selected radius bounding box, with final Haversine filtering remaining authoritative.
+
+User-visible coverage states now distinguish unresolved planning locations, partition load failures or partial coverage, and genuine zero-result radius searches after requested partitions loaded successfully. The bundled resolver metadata covers all 50 states, District of Columbia, and Puerto Rico represented by the national CMS hospital manifest. Border searches may load multiple intersecting partitions; excluded or unmatched CMS facilities remain limited to the existing map-ready national artifact.
