@@ -27,6 +27,7 @@ export interface FacilityTaxonomyEntry {
   nextRequiredSource: string | null;
 }
 
+// v0.3.4 audit note: status: "source-mapping-needed" remains a documented taxonomy state for unsupported future mappings.
 export const taxonomyVersion = "v0.3.1-source-backed-taxonomy";
 export const taxonomyGeneratedAt = "2026-07-10T00:00:00.000Z";
 

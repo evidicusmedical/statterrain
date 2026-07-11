@@ -16,6 +16,7 @@ import { PLANNING_CONSIDERATIONS } from "./planning-considerations";
 import type { PublicDataArtifactSummary } from "@/lib/public-data/readPublicDataArtifacts";
 import type { CoverageStatus } from "@/lib/coverage/coverageStatus";
 import { getSourceCoverageSummaries } from "@/lib/coverage/coverageStatus";
+import { normalizeCmsPhoneDisplay, normalizeFacilityWebsite } from "@/lib/facilityIdentity";
 
 export interface BriefContext {
   locationLabel: string;
@@ -175,9 +176,19 @@ export function buildMarkdownBrief(ctx: BriefContext): string {
   lines.push("");
   hospitals.forEach((f) => {
     lines.push(`### ${f.name}`);
+    lines.push(`- CMS facility ID: ${f.sourceFacilityId ?? f.sourceIds[0]}`);
+    if (f.hospitalType) lines.push(`- Hospital type: ${f.hospitalType}`);
+    if (f.ownershipType) lines.push(`- Ownership: ${f.ownershipType}`);
     lines.push(`- Address: ${f.address}`);
+    if (f.countyName) lines.push(`- County: ${f.countyName}`);
+    const phone = normalizeCmsPhoneDisplay(f.phone);
+    if (phone) lines.push(`- Phone: ${phone}`);
+    const website = normalizeFacilityWebsite(f.website);
+    if (website) lines.push(`- Website: [Visit facility website](${website})`);
+    if (f.emergencyServicesIndicator) lines.push(`- Emergency services: ${f.emergencyServicesIndicator === "Yes" || f.emergencyServicesIndicator === "No" ? f.emergencyServicesIndicator : "Not reported in this source"} (CMS designation; not live operational status.)`);
+    lines.push(`- Source: ${f.sourceName ?? "CMS Hospital General Information"}${f.retrievedAt ? `; retrieved ${formatDate(f.retrievedAt)}` : ""}`);
     lines.push(`- Straight-line planning distance: ${f.distanceMiles} mi`);
-    if (f.criticalAccess) lines.push("- Critical access: Yes, from CMS hospital metadata.");
+    if (f.criticalAccess) lines.push("- Critical access: Yes, mapped from CMS hospital_type = Critical Access Hospitals.");
     lines.push("- Specialty capabilities: unavailable/not included unless source-mapped; do not infer capability from name, type, or geography.");
     lines.push("");
   });
@@ -328,6 +339,8 @@ export function buildJsonBrief(ctx: BriefContext) {
       notes: [
         "National CMS hospital map-ready partitions are active.",
         "CMS dialysis is fixture-only/not map-ready.",
+        "CMS emergency-services designation is not live operational status.",
+        "Website URL is not provided by the current CMS Hospital General Information source mapping unless a future source-backed field is added.",
       ],
     },
     coverageStatus: ctx.coverageStatus ?? null,
@@ -356,8 +369,14 @@ export function buildJsonBrief(ctx: BriefContext) {
       .filter(Boolean),
     planningConsiderations: PLANNING_CONSIDERATIONS,
     disclaimer: product.disclaimer,
+    limitations: [
+      "Not live operating status.",
+      "Not live emergency service availability.",
+      "Not bed availability.",
+      "Verify current facility status directly."
+    ],
     syntheticDataNotice: product.syntheticDataNotice,
-    isSynthetic: true,
+    isSynthetic: false,
   };
 }
 
