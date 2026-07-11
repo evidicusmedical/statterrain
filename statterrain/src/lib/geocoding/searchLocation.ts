@@ -1,4 +1,6 @@
 import { demoRegion, type SearchLocation } from "@/data/demo-region";
+import { resolveStateFromCoordinates } from "@/lib/geography/resolveStateFromCoordinates";
+import { parseStateFromText, normalizeStateCode } from "@/lib/geography/stateCodes";
 
 export type LocationSearchStatus =
   | "idle"
@@ -39,7 +41,7 @@ function inferMatchType(query: string): LocationMatchType {
   const q = query.trim();
   if (/^\d{5}(?:-\d{4})?$/.test(q)) return "zip";
   if (/county/i.test(q)) return "county";
-  if (/^[A-Za-z]{2}$/.test(q)) return "state";
+  if (/^[A-Za-z]{2}$/.test(q) || parseStateFromText(q) === q.toUpperCase()) return "state";
   if (/\d/.test(q)) return "address";
   if (/,/.test(q)) return "city";
   return "place";
@@ -83,6 +85,7 @@ export function parseCoordinateSearch(query: string): { lat: number; lng: number
 }
 
 export function buildManualCoordinateLocation(lat: number, lng: number, query: string, source: "Manual coordinates" | "Map click" = "Manual coordinates"): SelectedLocation {
+  const resolvedState = resolveStateFromCoordinates(lat, lng) ?? parseStateFromText(query);
   const label = source === "Map click" ? `Map point: ${lat.toFixed(4)}, ${lng.toFixed(4)}` : `${lat.toFixed(4)}, ${lng.toFixed(4)}`;
   return {
     id: `${source === "Map click" ? "map-click" : "manual-coordinates"}-${Date.now()}`,
@@ -99,6 +102,7 @@ export function buildManualCoordinateLocation(lat: number, lng: number, query: s
     searchedAt: new Date().toISOString(),
     status: "found",
     sessionOnly: true,
+    state: resolvedState ?? undefined,
   };
 }
 
@@ -180,6 +184,9 @@ export async function searchLocation(
     matches.length > 1 ? "multiple-matches-top-used" : "found";
   const label = String(top.matchedAddress ?? clean);
   const matchType = inferMatchType(clean);
+  const addressComponents = top?.addressComponents ?? top?.address ?? {};
+  const structuredState = normalizeStateCode(addressComponents.stateCode ?? addressComponents.state ?? addressComponents.State);
+  const resolvedState = structuredState ?? resolveStateFromCoordinates(lat, lng) ?? parseStateFromText(`${label} ${clean}`);
   const location: SelectedLocation = {
     id: `census-${Date.now()}`,
     label,
@@ -195,6 +202,7 @@ export async function searchLocation(
     searchedAt: new Date().toISOString(),
     status,
     sessionOnly: true,
+    state: resolvedState ?? undefined,
   };
   return {
     status,

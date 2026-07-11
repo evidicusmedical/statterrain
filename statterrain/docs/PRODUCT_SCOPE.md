@@ -38,3 +38,10 @@ StatTerrain v0.3.1 uses a central source-backed facility taxonomy. Normal active
 A national source release is not complete until the official source data has been pulled, normalized, deduplicated, geocoded where necessary, geography-joined, validated, written to generated artifacts, and made available to the application under source-backed guardrails. Scripts, schemas, empty caches, reports, chunk plans, and workflows alone do not constitute completion. When local or Codex network restrictions prevent execution, the same release must execute through GitHub Actions and remains incomplete until the required generated-data pull request or pull requests are merged.
 
 Future or unsupported items must be hidden from primary controls, marked docs-only, marked future-source-needed, or removed. They must not appear as normal active checkboxes or map layers.
+
+
+## v0.3.3.1 nationwide CMS partition resolution hotfix
+
+StatTerrain resolves CMS hospital partitions by explicit selected-location state, deterministic local coordinate-to-state/territory resolution, Census structured state fields, and state abbreviation/full-name parsing. The prior arbitrary CA/DC/FL/IL/NY/TX fallback was removed. Candidate hospital partitions are selected from manifest-supported state/territory bounds intersecting the selected radius bounding box, with final Haversine filtering remaining authoritative.
+
+User-visible coverage states now distinguish unresolved planning locations, partition load failures or partial coverage, and genuine zero-result radius searches after requested partitions loaded successfully. The bundled resolver metadata covers all 50 states, District of Columbia, and Puerto Rico represented by the national CMS hospital manifest. Border searches may load multiple intersecting partitions; excluded or unmatched CMS facilities remain limited to the existing map-ready national artifact.

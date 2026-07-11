@@ -7,7 +7,7 @@ export const CMS_EMPTY_RESULT_CLARIFICATION = "This reflects the current CMS map
 
 export interface NationalCmsManifest { sourceName:string; retrievedAt:string|null; mapReadyRecords:number; statesPresent:string[]; partitions:{state:string; publicPath?:string; path?:string; recordCount:number}[]; validationStatus?:string; }
 export type CmsLoadStatus = "loading" | "success" | "partial-failure" | "error";
-export interface CmsLoadResult { status:CmsLoadStatus; manifest:NationalCmsManifest|null; facilities:Facility[]; requestedPartitions:string[]; loadedPartitions:string[]; errors:string[]; }
+export interface CmsLoadResult { status:CmsLoadStatus; manifest:NationalCmsManifest|null; facilities:Facility[]; requestedPartitions:string[]; loadedPartitions:string[]; errors:string[]; missingManifestPartitions?: string[]; failedPartitions?: string[]; partialCoverage?: boolean; }
 export interface LoadOptions { partitionCodes:string[]; fetcher?: typeof fetch; basePath?: string; }
 
 const partitionCache = new Map<string, Facility[]>();
@@ -39,8 +39,14 @@ export async function loadNationalCmsHospitals(options: LoadOptions): Promise<Cm
     }
     const manifest = manifestCache;
     if (!manifest) throw new Error("manifest unavailable");
+    const manifestStates = new Set(manifest.statesPresent ?? manifest.partitions.map(p=>p.state));
+    const manifestPartitionStates = new Set(manifest.partitions.map(p=>p.state));
+    const missingManifestPartitions = requestedPartitions.filter(state => !manifestStates.has(state) || !manifestPartitionStates.has(state));
+    errors.push(...missingManifestPartitions.map(state => `missing manifest partition ${state}`));
+    const loadablePartitions = requestedPartitions.filter(state => !missingManifestPartitions.includes(state));
+    const failedPartitions:string[]=[];
     const facilities:Facility[]=[]; const seen = new Set<string>();
-    await Promise.all(requestedPartitions.map(async state => {
+    await Promise.all(loadablePartitions.map(async state => {
       const cacheKey = `${basePath}:${state}`;
       try {
         let partitionFacilities = partitionCache.get(cacheKey);
@@ -52,8 +58,9 @@ export async function loadNationalCmsHospitals(options: LoadOptions): Promise<Cm
         }
         for (const f of partitionFacilities) { const id = f.sourceIds[0]; if (!seen.has(id)) { seen.add(id); facilities.push(f); } }
         loadedPartitions.push(state);
-      } catch (err) { errors.push(err instanceof Error ? err.message : String(err)); }
+      } catch (err) { failedPartitions.push(state); errors.push(err instanceof Error ? err.message : String(err)); }
     }));
-    return { status: errors.length ? (facilities.length ? "partial-failure" : "error") : "success", manifest, facilities, requestedPartitions, loadedPartitions: loadedPartitions.sort(), errors };
+    const status = errors.length ? (facilities.length ? "partial-failure" : "error") : "success";
+    return { status, manifest, facilities, requestedPartitions, loadedPartitions: loadedPartitions.sort(), errors, missingManifestPartitions, failedPartitions, partialCoverage: status === "partial-failure" };
   } catch (err) { return { status:"error", manifest:null, facilities:[], requestedPartitions, loadedPartitions:[], errors:[CMS_LOAD_FAILURE_COPY, err instanceof Error ? err.message : String(err)] }; }
 }
