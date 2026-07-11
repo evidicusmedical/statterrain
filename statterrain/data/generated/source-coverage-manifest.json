@@ -1,6 +1,6 @@
 {
   "schemaVersion": "source-coverage-manifest-v0.3.2",
-  "generatedAt": "2026-07-10T23:37:31.741Z",
+  "generatedAt": "2026-07-11T23:22:54.359Z",
   "nationalCoverageComplete": true,
   "sources": [
     {
@@ -9,8 +9,8 @@
       "nationalCoverageStatus": "national-source-loaded",
       "currentArtifactStatus": "validated-national-map-ready-partitions",
       "recordCount": 5432,
-      "mapReadyRecordCount": 4505,
-      "previewEligibleRecordCount": 4505,
+      "mapReadyRecordCount": 4669,
+      "previewEligibleRecordCount": 4669,
       "usedInCurrentApp": true,
       "safeToDisplay": true
     },

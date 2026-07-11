@@ -10,13 +10,13 @@
   "chunksCompleted": 55,
   "chunksFailed": 0,
   "recordsAttempted": 5432,
-  "matchedRecords": 4499,
-  "noMatchRecords": 925,
+  "matchedRecords": 9161,
+  "noMatchRecords": 1687,
   "multipleMatchRecords": 0,
   "failedRecords": 0,
   "retryableFailures": 0,
   "needsReviewRecords": 0,
   "completionPercentage": 100,
   "allPlannedChunksCompleted": true,
-  "lastGeocodedAt": "2026-07-10T23:12:17.304Z"
+  "lastGeocodedAt": "2026-07-11T23:00:36.879Z"
 }
