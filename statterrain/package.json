@@ -70,7 +70,10 @@
     "test:acs-county-validation": "node --test tests/acs-county-validation.test.mjs",
     "test:acs-workflow-gates": "node --test tests/acs-workflow-gates.test.mjs",
     "test:acs-summary-truthfulness": "node --test tests/acs-summary-truthfulness.test.mjs",
-    "test:acs-artifact-promotion": "node --test tests/acs-artifact-promotion.test.mjs"
+    "test:acs-artifact-promotion": "node --test tests/acs-artifact-promotion.test.mjs",
+    "test:acs-metadata-semantics": "node --test tests/acs-metadata-semantics.test.mjs",
+    "test:acs-metadata-dataset-family": "node --test tests/acs-metadata-dataset-family.test.mjs",
+    "test:acs-metadata-diagnostics": "node --test tests/acs-metadata-diagnostics.test.mjs"
   },
   "dependencies": {
     "leaflet": "^1.9.4",
