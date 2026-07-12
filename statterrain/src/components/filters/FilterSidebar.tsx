@@ -56,7 +56,7 @@ export function FilterSidebar({
         </button>
       </div>
       <p className="mb-4 rounded-md bg-terrain-50 p-2 text-xs leading-relaxed text-terrain-900">
-        Normal mode shows source-backed CMS hospital controls only. Synthetic demo categories remain hidden outside developer/demo fixture mode. Unsupported facility categories and clinical capabilities remain hidden until validated source mappings exist.
+        Normal mode shows source-backed CMS hospital controls only. Demonstration-only categories remain hidden outside developer/demo fixture mode. Unsupported facility categories and clinical capabilities remain hidden until validated source mappings exist.
       </p>
 
       <fieldset className="mb-4">

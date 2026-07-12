@@ -1,0 +1,49 @@
+{
+  "generatedAt": "2026-07-11T23:59:00.725Z",
+  "sourceMetrics": {
+    "rawRows": 5432,
+    "uniqueSourceIds": 5432,
+    "normalizedRecords": 5432,
+    "duplicateSourceIds": 0,
+    "geocodingEligible": 5432,
+    "geocodingIneligible": 0
+  },
+  "cacheMetrics": {
+    "cacheEntriesLoaded": 10848,
+    "validCacheHits": 5424,
+    "staleCacheEntries": 0,
+    "cacheMisses": 8,
+    "changedAddressRecords": 0,
+    "newRecords": 0,
+    "unresolvedCacheEntries": 0,
+    "retryableCacheEntries": 0,
+    "duplicateCacheEntries": 0
+  },
+  "requestMetrics": {
+    "externalRequestsAttempted": 0,
+    "externalRequestsSucceeded": 0,
+    "externalRequestsFailed": 0,
+    "recordsSubmittedToGeocoder": 0,
+    "chunksPlanned": 0,
+    "chunksCompleted": 0,
+    "chunksFailed": 0
+  },
+  "finalMetrics": {
+    "finalMatched": 4662,
+    "finalNoMatch": 762,
+    "finalMultipleMatch": 0,
+    "finalFailed": 0,
+    "finalInvalidInput": 8,
+    "duplicateCacheEntries": 0,
+    "statusesById": {}
+  },
+  "artifactMetrics": {
+    "geographyJoined": 4669,
+    "geographyFailed": 763,
+    "mapReady": 4669,
+    "excluded": 763,
+    "partitions": 52
+  },
+  "status": "PASS",
+  "failures": []
+}

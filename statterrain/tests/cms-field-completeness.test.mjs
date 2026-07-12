@@ -5,10 +5,10 @@ import { spawnSync } from 'node:child_process';
 
 const required = ['facilityName','cmsFacilityId','hospitalType','criticalAccessIndicator','ownershipType','emergencyServicesIndicator','addressLine1','addressLine2','city','state','zip','county','stateFips','countyFips','latitude','longitude','phone','website','sourceName','sourceDatasetId','sourceUrl','retrievedAt','sourceReleaseDate','validationStatus','geocodingStatus','geocodingConfidence','geographyJoinStatus','limitations','prohibitedUses'];
 
-test('version is v0.3.4 and stale active versions are rejected',()=>{
+test('version is v0.3.4.2 and stale active versions are rejected',()=>{
  const product=readFileSync('src/config/product.ts','utf8');
- assert.match(product,/prototypeVersion: "v0\.3\.4 prototype"/);
- for (const stale of ['v0.3.3.3 prototype','v0.3.3.2 prototype','v0.3.3.1 prototype','v0.3.3 prototype']) assert.doesNotMatch(product,new RegExp(stale.replaceAll('.','\\.')));
+ assert.match(product,/prototypeVersion: "v0\.3\.4\.2 prototype"/);
+ for (const stale of ['v0.3.4 prototype','v0.3.3.3 prototype','v0.3.3.2 prototype','v0.3.3.1 prototype','v0.3.3 prototype']) assert.doesNotMatch(product,new RegExp(stale.replaceAll('.','\\.')));
 });
 
 test('field completeness report covers required fields and reconciles totals',()=>{
@@ -16,11 +16,11 @@ test('field completeness report covers required fields and reconciles totals',()
  const fields=new Map(report.fields.map(f=>[f.logicalField,f]));
  for (const field of required) assert.ok(fields.has(field), field);
  assert.equal(report.totals.totalNormalizedRecords, 5432);
- assert.equal(report.totals.mapReadyRecords, 4505);
- assert.equal(report.totals.deployedPartitionRecords, 4505);
+ assert.equal(report.totals.mapReadyRecords, 4669);
+ assert.equal(report.totals.deployedPartitionRecords, 4669);
  for (const f of report.fields) assert.equal(f.lostBetweenNormalizedAndPartition, Math.max(0, f.nonEmptyMapReadyCount - f.deployedPartitionNonEmptyCount));
  assert.equal(report.findings.phone.rawSourceNonEmptyCount, 5432);
- assert.equal(report.findings.phone.normalizedCount, 0);
+ assert.equal(report.findings.phone.normalizedCount, 5432);
  assert.equal(report.findings.website.availableInCurrentCmsSource, false);
  assert.equal(fields.get('website').status, 'unavailable-in-current-cms-source');
 });
