@@ -1,0 +1,2 @@
+import test from 'node:test';import assert from 'node:assert/strict';import {readFileSync} from 'node:fs';
+test('search helper text uses approved copy and removes CMS mode banner',()=>{const s=readFileSync('src/components/search/LocationSearchBox.tsx','utf8'); assert.match(s,/Search by full address, city and state, ZIP code, or coordinates\./); const h=readFileSync('src/components/layout/Header.tsx','utf8'); assert.doesNotMatch(h,/CMS national hospital public-data mode/);});

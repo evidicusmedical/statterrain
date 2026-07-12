@@ -1,0 +1,11 @@
+{
+  "schemaVersion":"county-boundary-fixtures-v0.3.7",
+  "fixtureOnly":true,
+  "features":[
+    {"type":"Feature","properties":{"GEOID":"26001","NAME":"Alcona County","STATEFP":"26","fixtureOnly":true},"geometry":{"type":"Polygon","coordinates":[[[-83.9,44.5],[-83.2,44.5],[-83.2,45.0],[-83.9,45.0],[-83.9,44.5]]]}},
+    {"type":"Feature","properties":{"GEOID":"39035","NAME":"Cuyahoga County","STATEFP":"39","fixtureOnly":true},"geometry":{"type":"Polygon","coordinates":[[[-81.98,41.25],[-81.37,41.25],[-81.37,41.65],[-81.98,41.65],[-81.98,41.25]]]}},
+    {"type":"Feature","properties":{"GEOID":"11001","NAME":"District of Columbia","STATEFP":"11","fixtureOnly":true},"geometry":{"type":"Polygon","coordinates":[[[-77.12,38.79],[-76.91,38.79],[-76.91,39.00],[-77.12,39.00],[-77.12,38.79]]]}},
+    {"type":"Feature","properties":{"GEOID":"51510","NAME":"Alexandria city","STATEFP":"51","fixtureOnly":true},"geometry":{"type":"Polygon","coordinates":[[[-77.16,38.78],[-77.04,38.78],[-77.04,38.86],[-77.16,38.86],[-77.16,38.78]]]}},
+    {"type":"Feature","properties":{"GEOID":"72127","NAME":"San Juan Municipio","STATEFP":"72","fixtureOnly":true},"geometry":{"type":"Polygon","coordinates":[[[-66.18,18.37],[-66.00,18.37],[-66.00,18.48],[-66.18,18.48],[-66.18,18.37]]]}}
+  ]
+}

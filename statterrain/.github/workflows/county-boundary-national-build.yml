@@ -1,0 +1,34 @@
+name: County Boundary National Build
+on:
+  workflow_dispatch:
+    inputs:
+      target_branch: { description: Target generated-data branch, required: true, default: v0.3.7-county-boundaries-generated-data }
+      boundary_vintage: { description: Census TIGER vintage, required: true, default: '2024' }
+      commit_generated_artifacts: { description: Commit generated artifacts, type: boolean, default: true }
+      auto_merge: { description: Never auto-merge; must remain false, type: boolean, default: false }
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with: { ref: ${{ inputs.target_branch }} }
+      - uses: actions/setup-node@v4
+        with: { node-version: '24' }
+      - run: npm ci
+        working-directory: statterrain
+      - name: Download, normalize, partition, validate, and report official county boundaries
+        run: BOUNDARY_VINTAGE='${{ inputs.boundary_vintage }}' node scripts/public-data/build-county-boundaries.mjs --national --reject-incomplete
+        working-directory: statterrain
+      - name: Reject incomplete national coverage
+        run: test -f data/generated/county-boundaries/manifest.json && node -e "const m=require('./data/generated/county-boundaries/manifest.json'); if(!(m.validationStatus==='PASS'&&m.coverageStatus==='national'&&m.partitionCount>=52)) process.exit(1)"
+        working-directory: statterrain
+      - name: Commit generated boundary artifacts and reports only
+        if: ${{ inputs.commit_generated_artifacts && !inputs.auto_merge }}
+        run: |
+          git config user.name github-actions
+          git config user.email github-actions@github.com
+          git add statterrain/data/generated/county-boundaries/manifest.json statterrain/data/generated/county-boundaries/states/*.json statterrain/data/reports/county-boundary-completeness-v0.3.7.json
+          git commit -m "data: build national county boundary partitions" || true
+          git push origin '${{ inputs.target_branch }}'
+      - name: Never auto-merge
+        run: test '${{ inputs.auto_merge }}' = 'false'

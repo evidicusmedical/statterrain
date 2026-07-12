@@ -1,0 +1,3 @@
+export interface CountyBoundaryManifest { schemaVersion: string; vintage: string; validationStatus: "PASS" | "FAIL" | "PENDING"; coverageStatus: "national" | "fixture" | "incomplete"; partitionCount: number; source: { agency: string; url: string; vintage: string }; checksums?: Record<string,string>; }
+export interface CountyBoundaryFeature { type: "Feature"; properties: { GEOID: string; NAME: string; STATEFP: string; fixtureOnly?: boolean }; geometry: { type: "Polygon" | "MultiPolygon"; coordinates: number[][][] | number[][][][] }; }
+export function isNationalCountyBoundaryActive(m: CountyBoundaryManifest | null | undefined) { return !!m && m.validationStatus === "PASS" && m.coverageStatus === "national" && m.partitionCount >= 52; }

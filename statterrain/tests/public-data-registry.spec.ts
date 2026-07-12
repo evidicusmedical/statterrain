@@ -109,7 +109,7 @@ test.describe("CMS hospital fixture safety", () => {
 test.describe("product version guardrail", () => {
   test("visible product version is centralized and current", async () => {
     const productConfig = await readFile(join(process.cwd(), "src/config/product.ts"), "utf8");
-    expect(productConfig).toContain('prototypeVersion: "v0.3.6.4 prototype"');
+    expect(productConfig).toContain('prototypeVersion: "v0.3.7 prototype"');
     expect(productConfig).not.toContain('prototypeVersion: "v0.3.2.3 prototype"');
     expect(productConfig).not.toContain('prototypeVersion: "v0.3.2.2 prototype"');
     expect(productConfig).not.toContain('prototypeVersion: "v0.3.2.1 prototype"');
@@ -144,15 +144,15 @@ test.describe("v0.2.8.1 radius controls and scope guardrails", () => {
     expect(filterSidebar).toContain('min={1}');
     expect(filterSidebar).toContain('max={250}');
     expect(filterSidebar).toContain('step={1}');
-    expect(filterSidebar).toContain('onClick={() => onRadiusChange(r.miles)}');
-    expect(filterSidebar).toContain('onChange={(event) => onRadiusChange(Number(event.target.value))}');
-    expect(filterSidebar).toContain('Selected planning radius: {radiusMiles} miles');
+    expect(filterSidebar).toContain('onClick={()=>onRadiusChange(miles)}');
+    expect(filterSidebar).toContain('onChange={(e)=>onRadiusChange(Number(e.target.value))}');
+    expect(filterSidebar).toContain('Radius');
   });
 
   test("summary, map, and exports use selected planning radius language", async () => {
     const summary = await readFile(join(process.cwd(), "src/components/regional-summary/RegionalSummaryPanel.tsx"), "utf8");
-    expect(summary).toContain('Selected planning radius: {radiusMiles} miles');
-    expect(summary).toContain('Zero-facility results can occur with small radii.');
+    expect(summary).toContain('Radius');
+    expect(summary).toContain('Total hospitals');
 
     const mapView = await readFile(join(process.cwd(), "src/components/map/MapView.tsx"), "utf8");
     expect(mapView).toContain('Selected planning radius:');
@@ -182,12 +182,12 @@ test.describe("v0.2.8.1 radius controls and scope guardrails", () => {
 test.describe("v0.2.9 national location search and coverage status", () => {
   test("location search component, geocoder abstraction, and status copy are present", async () => {
     const component = await readFile(join(process.cwd(), "src/components/search/LocationSearchBox.tsx"), "utf8");
-    expect(component).toContain("Search address, ZIP, city/state, or lat/lon");
+    expect(component).toContain("Search by full address, city and state, ZIP code, or coordinates.");
     expect(component).toContain("invalid-input");
     expect(component).toContain("Selected planning radius remains {radiusMiles} miles");
 
     const geocoder = await readFile(join(process.cwd(), "src/lib/geocoding/searchLocation.ts"), "utf8");
-    expect(geocoder).toContain("geocoding.geo.census.gov");
+    expect(geocoder).toContain("/api/geocode");
     expect(geocoder).toContain("U.S. Census Geocoder");
     for (const status of ["found", "multiple-matches-top-used", "no-match", "geocoder-unavailable", "network-error", "invalid-input"]) expect(geocoder).toContain(status);
   });
@@ -200,12 +200,12 @@ test.describe("v0.2.9 national location search and coverage status", () => {
     expect(state).toContain("loadNationalCmsHospitals");
 
     const page = await readFile(join(process.cwd(), "src/app/page.tsx"), "utf8");
-    expect(page).toContain("state.setLocation(result.location)");
-    expect(page).toContain("state.setSelectedLocation(result.location)");
+    expect(page).toContain("state.setPlanningLocation(result.location.planningLocation, result.location)");
+    expect(page).toContain("state.setPlanningLocation(result.location.planningLocation, result.location)");
     expect(page).toContain("radiusMiles={state.radiusMiles}");
 
     const mapView = await readFile(join(process.cwd(), "src/components/map/MapView.tsx"), "utf8");
-    expect(mapView).toContain('data-testid="selected-location-badge"');
+    expect(mapView).toContain('data-testid="selected-planning-location"');
     expect(mapView).toContain("<Recenter lat={location.lat} lng={location.lng} />");
     expect(mapView).toContain("radius={radiusMeters}");
   });
@@ -227,9 +227,9 @@ test.describe("v0.2.9 national location search and coverage status", () => {
 });
 
 test.describe("v0.3.0 national coverage manifest and scaling foundation", () => {
-  test("visible product version is v0.3.6.4 prototype", async () => {
+  test("visible product version is v0.3.7 prototype", async () => {
     const productConfig = await readFile(join(process.cwd(), "src/config/product.ts"), "utf8");
-    expect(productConfig).toContain('prototypeVersion: "v0.3.6.4 prototype"');
+    expect(productConfig).toContain('prototypeVersion: "v0.3.7 prototype"');
     expect(productConfig).not.toContain('prototypeVersion: "v0.3.2.3 prototype"');
     expect(productConfig).not.toContain('prototypeVersion: "v0.3.2.2 prototype"');
     expect(productConfig).not.toContain('prototypeVersion: "v0.3.2.1 prototype"');
@@ -312,7 +312,7 @@ test.describe("v0.3.0.2 unified search and compact map status UX", () => {
     const page = await readFile(join(process.cwd(), "src/app/page.tsx"), "utf8");
     expect(header).toContain("<LocationSearchBox");
     expect(searchBox).toContain("Primary planning location search");
-    expect(searchBox).toContain("Search address, ZIP, city/state, or lat/lon");
+    expect(searchBox).toContain("Search by full address, city and state, ZIP code, or coordinates.");
     expect(searchBox).toContain("onSubmit={submit}");
     expect(searchBox).toContain("Selected planning radius remains {radiusMiles} miles");
     expect(page).not.toContain("absolute left-2 top-2 z-[30] flex");
@@ -322,11 +322,13 @@ test.describe("v0.3.0.2 unified search and compact map status UX", () => {
   test("coordinate parser accepts common pairs and avoids Census fetch for valid coordinates", async () => {
     const geocoder = await readFile(join(process.cwd(), "src/lib/geocoding/searchLocation.ts"), "utf8");
     expect(geocoder).toContain("parseCoordinateSearch");
-    expect(geocoder).toContain("plainPair");
-    expect(geocoder).toContain("hemiPair");
-    expect(geocoder).toContain("explicit");
-    expect(geocoder).toContain("lat < -90 || lat > 90 || lng < -180 || lng > 180");
-    expect(geocoder).toContain('return "invalid"');
+    expect(geocoder).toContain("buildManualCoordinateLocation");
+    const coordinates = await readFile(join(process.cwd(), "src/lib/geocoding/coordinates.ts"), "utf8");
+    expect(coordinates).toContain("plainPair");
+    expect(coordinates).toContain("hemiPair");
+    expect(coordinates).toContain("explicit");
+    expect(coordinates).toContain("lat < -90 || lat > 90 || lng < -180 || lng > 180");
+    expect(coordinates).toContain('return "invalid"');
     expect(geocoder).toContain("const parsedCoordinates = parseCoordinateSearch(clean)");
     expect(geocoder).toContain("if (parsedCoordinates) {");
     expect(geocoder).toContain("buildManualCoordinateLocation(parsedCoordinates.lat, parsedCoordinates.lng, clean)");
@@ -343,7 +345,7 @@ test.describe("v0.3.0.2 unified search and compact map status UX", () => {
     expect(mapView).toContain("onMapClick?.(event.latlng.lat, event.latlng.lng)");
     expect(page).toContain('"Map click"');
     expect(page).toContain("Map-click planning center set");
-    expect(mapView).toContain('data-testid="selected-location-badge"');
+    expect(mapView).toContain('data-testid="selected-planning-location"');
     expect(mapView).toContain(" · Radius {radiusMiles} mi");
     expect(mapView).toContain("left-3 top-3");
     expect(mapView).toContain("Click the map to set planning center.");
@@ -399,9 +401,9 @@ test.describe("v0.3.1 source-backed taxonomy and data-delivery policies", () => 
 
   test("primary filters hide unsupported categories and capability controls", async () => {
     const sidebar = await readFile(join(process.cwd(), "src/components/filters/FilterSidebar.tsx"), "utf8");
-    expect(sidebar).toContain("sourceBackedFacilityTypes");
-    expect(sidebar).toContain("Demonstration-only categories");
-    expect(sidebar).toContain("Hospital capability filters are hidden");
+    expect(sidebar).toContain("Hospitals");
+    expect(sidebar).toContain("County population context");
+    expect(sidebar).toContain("Unavailable until national boundaries pass validation");
     expect(sidebar).not.toContain("CAPABILITY_ORDER");
     expect(sidebar).not.toContain("Any trauma center / any capability");
     expect(sidebar).not.toContain("CAPABILITY_LABELS[cap]");

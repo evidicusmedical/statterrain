@@ -11,12 +11,12 @@
 export const product = {
   name: "StatTerrain",
   shortName: "StatTerrain",
-  tagline: "Emergency-care resources and population-health intelligence",
+  tagline: "Emergency-care resources and population context for research and planning",
   description:
     "StatTerrain is a public-data mapping and evidence-brief platform for emergency and EMS clinicians, medical directors, quality-improvement teams, and regional planners to understand nearby facilities, publicly documented capabilities, and population-health context.",
   status:
     "Working product name -- final trademark and domain clearance pending.",
-  prototypeVersion: "v0.3.6.4 prototype",
+  prototypeVersion: "v0.3.7 prototype",
   repositoryNamePlaceholder: "statterrain",
   repositoryUrlPlaceholder: "https://github.com/<your-org>/statterrain",
   supportContactPlaceholder:

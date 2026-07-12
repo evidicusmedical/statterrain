@@ -1,0 +1,5 @@
+export type Point = [number, number];
+export function pointInRing(point: Point, ring: Point[]) { const [x,y]=point; let inside=false; for(let i=0,j=ring.length-1;i<ring.length;j=i++){const xi=ring[i][0], yi=ring[i][1], xj=ring[j][0], yj=ring[j][1]; const hit=((yi>y)!==(yj>y)) && x < ((xj-xi)*(y-yi))/(yj-yi)+xi; if(hit) inside=!inside;} return inside; }
+export function pointInPolygon(point: Point, polygon: Point[][]) { if (!pointInRing(point, polygon[0] ?? [])) return false; return !polygon.slice(1).some((hole)=>pointInRing(point,hole)); }
+export function haversineMiles(a: Point, b: Point) { const R=3958.8; const toRad=(n:number)=>n*Math.PI/180; const dLat=toRad(b[1]-a[1]); const dLng=toRad(b[0]-a[0]); const lat1=toRad(a[1]); const lat2=toRad(b[1]); const h=Math.sin(dLat/2)**2+Math.cos(lat1)*Math.cos(lat2)*Math.sin(dLng/2)**2; return R*2*Math.asin(Math.sqrt(h)); }
+export function polygonIntersectsRadius(polygon: Point[][], center: Point, radiusMiles: number) { return (polygon[0] ?? []).some((p)=>haversineMiles(p, center) <= radiusMiles) || pointInPolygon(center, polygon); }

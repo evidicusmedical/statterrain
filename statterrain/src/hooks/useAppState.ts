@@ -60,7 +60,7 @@ export function useAppState() {
   const [searchStatus, setSearchStatus] =
     useState<LocationSearchStatus>("idle");
   const [searchMessage, setSearchMessage] = useState(
-    "CMS national hospital public-data mode active.",
+    "Ready for address, city, ZIP, or coordinate search.",
   );
   const [radiusMiles, setRadiusMiles] = useState<number>(25);
   const [filters, setFilters] = useState<AppFilters>(defaultFilters());

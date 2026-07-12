@@ -19,6 +19,8 @@ import { getSourceCoverageSummaries } from "@/lib/coverage/coverageStatus";
 import { normalizeCmsPhoneDisplay, normalizeFacilityWebsite } from "@/lib/facilityIdentity";
 import type { PlanningLocation } from "@/types/planningLocation";
 import { activeResearchLayers } from "@/config/researchLayerRegistry";
+import type { AcsCountyRecord } from "@/lib/acs/types";
+import { ACS_METRIC_LABELS, ACS_METRIC_ORDER } from "@/lib/acs/types";
 
 export interface BriefContext {
   locationLabel: string;
@@ -30,6 +32,8 @@ export interface BriefContext {
   coverageStatus?: CoverageStatus;
   selectedLocationSource?: string;
   planningLocation?: PlanningLocation | null;
+  containingCounty?: AcsCountyRecord | null;
+  intersectingCounties?: AcsCountyRecord[];
 }
 
 function activeFilterSummary(filters: AppFilters) {
@@ -77,7 +81,7 @@ export function buildMarkdownBrief(ctx: BriefContext): string {
   briefFacilities.forEach((f) =>
     f.sourceIds.forEach((id) => relevantSourceIds.add(id)),
   );
-  // Population context is intentionally unavailable in v0.3.5; do not add population source ids.
+
 
   const lines: string[] = [];
   lines.push(`# ${product.name} Regional Emergency Care Evidence Brief`);
@@ -217,7 +221,11 @@ export function buildMarkdownBrief(ctx: BriefContext): string {
 
   lines.push("## Population context");
   lines.push("");
-  lines.push("Population context is unavailable until a future source-backed ACS/population patch. No demographic values are fabricated in this evidence brief.");
+  lines.push("Whole-county ACS totals are shown as county context only. Whole-county ACS totals are not estimates of population located inside the selected radius.");
+  (ctx.intersectingCounties ?? []).forEach((county) => {
+    lines.push(`- ${county.fullName} (${county.geoid})`);
+    ACS_METRIC_ORDER.forEach((metricId) => { const metric = county.metrics[metricId]; lines.push(`  - ${ACS_METRIC_LABELS[metricId]}: ${metric?.estimate ?? "unavailable"}; MOE: ${metric?.marginOfError ?? "unavailable"}; status: ${metric?.status ?? "unavailable"}`); });
+  });
   lines.push("");
 
   lines.push("## Accessibility, redundancy, and resilience");
@@ -299,7 +307,7 @@ export function buildEvidenceSchema(ctx: BriefContext) {
   const sourcesForBrief = Array.from(relevantSourceIds).map((id) => getSourceById(id)).filter(Boolean);
   const planningLocation = ctx.planningLocation ?? null;
   return {
-    schemaVersion: "statterrain-evidence-v1",
+    schemaVersion: "statterrain-evidence-v2",
     generatedAt: new Date().toISOString(),
     productVersion: product.prototypeVersion,
     researchArea: {
@@ -349,7 +357,14 @@ export function buildEvidenceSchema(ctx: BriefContext) {
         website: "unavailable-in-current-CMS-source-mapping",
       },
     })),
-    population: null,
+    population: {
+      containingCounty: ctx.containingCounty ?? null,
+      intersectingCounties: ctx.intersectingCounties ?? [],
+      metrics: ACS_METRIC_ORDER,
+      limitation: "Whole-county ACS totals are not estimates of population located inside the selected radius.",
+      geometrySource: "County boundary partitions pending generated-data PR",
+      representativePointLimitation: "Point-in-county and radius intersection may use representative or simplified geometry until validated national boundaries are available.",
+    },
     accessibility: null,
     resilience: null,
     unavailableSections: ["populationContext", "accessibility", "redundancyAndResilience"],
@@ -362,7 +377,8 @@ export function buildEvidenceSchema(ctx: BriefContext) {
     limitations: [
       "CMS hospital data are not live operating status, bed availability, diversion status, routing, transfer guidance, or clinical decision support.",
       "Missing fields indicate unavailable or unmapped source data, not absence of a service.",
-      "Population data are unavailable in v0.3.6; ACS county baseline activation is pending v0.3.7. Accessibility, redundancy, and resilience data remain unavailable.",
+      "Whole-county ACS totals are not estimates of population located inside the selected radius.",
+      "National county boundaries remain pending until the generated-data PR validates complete coverage.",
     ],
     freshness: sourcesForBrief.map((source: any) => ({ sourceId: source.id, dataset: source.dataset, releaseDate: source.releaseDate, retrievalDate: source.retrievalDate, freshness: source.freshness })),
     completeness: {
@@ -372,7 +388,7 @@ export function buildEvidenceSchema(ctx: BriefContext) {
     },
     exportManifest: {
       includesRawFacilityRecords: true,
-      includesPopulationRecords: false,
+      includesPopulationRecords: true,
       includesAiApiCalls: false,
       prohibitedUsesExcluded: true,
     },
@@ -447,3 +463,14 @@ export function downloadCsvBrief(ctx: BriefContext) {
 }
 
 export { sources };
+
+export function buildCountyAcsCsv(ctx: BriefContext): string {
+  const header = ["geoid","county_name","metric_id","metric_label","estimate","moe","numerator","numerator_moe","denominator","denominator_moe","percentage","status","universe","variables","calculation_method","release","estimate_period"];
+  const rows = (ctx.intersectingCounties ?? []).flatMap((county) =>
+    ACS_METRIC_ORDER.map((metricId) => {
+      const m = county.metrics[metricId];
+      return [county.geoid, county.fullName, metricId, ACS_METRIC_LABELS[metricId], m?.estimate ?? "", m?.marginOfError ?? "", m?.numerator ?? "", m?.numeratorMarginOfError ?? "", m?.denominator ?? "", m?.denominatorMarginOfError ?? "", m?.percentage ?? "", m?.status ?? "unavailable", m?.universe ?? "", (m?.sourceVariables ?? []).join(";"), m?.calculationMethod ?? "", county.acsRelease, county.estimatePeriod].map(csvEscape).join(",");
+    })
+  );
+  return [header.join(","), ...rows].join("\n");
+}
