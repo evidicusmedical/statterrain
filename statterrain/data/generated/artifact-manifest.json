@@ -1,6 +1,6 @@
 {
   "schemaVersion": "artifact-manifest-v0.3.2",
-  "generatedAt": "2026-07-11T23:22:54.492Z",
+  "generatedAt": "2026-07-12T00:16:53.916Z",
   "taxonomyReadiness": {
     "taxonomyVersion": "v0.3.2-source-backed-national-hospitals"
   },
@@ -9,7 +9,7 @@
       "id": "cms-hospitals-national",
       "path": "data/generated/cms-hospitals-national/manifest.json",
       "exists": true,
-      "recordCount": 4669,
+      "recordCount": 4662,
       "partitionCount": 52,
       "usedInCurrentApp": true
     },

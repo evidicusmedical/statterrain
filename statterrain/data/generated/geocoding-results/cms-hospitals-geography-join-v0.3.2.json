@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-07-11T23:00:36.879Z",
-  "joinedCount": 4669,
+  "generatedAt": "2026-07-12T00:16:52.049Z",
+  "joinedCount": 4662,
   "stateMismatchCount": 0,
   "records": [
     {
@@ -345,14 +345,6 @@
       "stateFips": "01",
       "countyFips": "01001",
       "countyName": "Autauga County",
-      "geographyJoinStatus": "joined"
-    },
-    {
-      "sourceFacilityId": "010110",
-      "state": "AL",
-      "stateFips": "01",
-      "countyFips": "01011",
-      "countyName": "Bullock County",
       "geographyJoinStatus": "joined"
     },
     {
@@ -1753,14 +1745,6 @@
       "stateFips": "05",
       "countyFips": "05119",
       "countyName": "Pulaski County",
-      "geographyJoinStatus": "joined"
-    },
-    {
-      "sourceFacilityId": "040153",
-      "state": "AR",
-      "stateFips": "05",
-      "countyFips": "05057",
-      "countyName": "Hempstead County",
       "geographyJoinStatus": "joined"
     },
     {
@@ -6881,14 +6865,6 @@
       "stateFips": "12",
       "countyFips": "12086",
       "countyName": "Miami-Dade County",
-      "geographyJoinStatus": "joined"
-    },
-    {
-      "sourceFacilityId": "100298",
-      "state": "FL",
-      "stateFips": "12",
-      "countyFips": "12039",
-      "countyName": "Gadsden County",
       "geographyJoinStatus": "joined"
     },
     {
@@ -18508,14 +18484,6 @@
       "geographyJoinStatus": "joined"
     },
     {
-      "sourceFacilityId": "250017",
-      "state": "MS",
-      "stateFips": "28",
-      "countyFips": "28017",
-      "countyName": "Chickasaw County",
-      "geographyJoinStatus": "joined"
-    },
-    {
       "sourceFacilityId": "250018",
       "state": "MS",
       "stateFips": "28",
@@ -25380,14 +25348,6 @@
       "geographyJoinStatus": "joined"
     },
     {
-      "sourceFacilityId": "360112",
-      "state": "OH",
-      "stateFips": "39",
-      "countyFips": "39095",
-      "countyName": "Lucas County",
-      "geographyJoinStatus": "joined"
-    },
-    {
       "sourceFacilityId": "360118",
       "state": "OH",
       "stateFips": "39",
@@ -25449,14 +25409,6 @@
       "stateFips": "39",
       "countyFips": "39061",
       "countyName": "Hamilton County",
-      "geographyJoinStatus": "joined"
-    },
-    {
-      "sourceFacilityId": "360137",
-      "state": "OH",
-      "stateFips": "39",
-      "countyFips": "39035",
-      "countyName": "Cuyahoga County",
       "geographyJoinStatus": "joined"
     },
     {
@@ -32953,14 +32905,6 @@
       "stateFips": "48",
       "countyFips": "48299",
       "countyName": "Llano County",
-      "geographyJoinStatus": "joined"
-    },
-    {
-      "sourceFacilityId": "451397",
-      "state": "TX",
-      "stateFips": "48",
-      "countyFips": "48477",
-      "countyName": "Washington County",
       "geographyJoinStatus": "joined"
     },
     {

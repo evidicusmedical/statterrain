@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-07-11T23:59:00.725Z",
+  "generatedAt": "2026-07-12T00:16:52.049Z",
   "sourceMetrics": {
     "rawRows": 5432,
     "uniqueSourceIds": 5432,
@@ -38,10 +38,10 @@
     "statusesById": {}
   },
   "artifactMetrics": {
-    "geographyJoined": 4669,
-    "geographyFailed": 763,
-    "mapReady": 4669,
-    "excluded": 763,
+    "geographyJoined": 4662,
+    "geographyFailed": 770,
+    "mapReady": 4662,
+    "excluded": 770,
     "partitions": 52
   },
   "status": "PASS",

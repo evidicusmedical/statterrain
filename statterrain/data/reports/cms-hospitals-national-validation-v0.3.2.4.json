@@ -2,7 +2,7 @@
   "schemaVersion": "cms-hospitals-validation-v0.3.2.4",
   "validationMode": "national",
   "status": "pass",
-  "validatedAt": "2026-07-11T23:22:56.446Z",
+  "validatedAt": "2026-07-12T00:16:56.976Z",
   "rulesRun": 1,
   "rulesPassed": 1,
   "rulesFailed": 0,
@@ -28,9 +28,9 @@
   },
   "counts": {
     "normalizedCount": 5432,
-    "mapReadyCount": 4669,
-    "excludedCount": 763,
-    "unmatchedCount": 763,
+    "mapReadyCount": 4662,
+    "excludedCount": 770,
+    "unmatchedCount": 770,
     "partitionCount": 52
   },
   "safeToActivate": true,
