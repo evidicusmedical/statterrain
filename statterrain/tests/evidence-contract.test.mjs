@@ -1,0 +1,10 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import { readFileSync } from 'node:fs';
+import { join } from 'node:path';
+const root=process.cwd();
+const exp=readFileSync(join(root,'src/lib/export.ts'),'utf8');
+test('versioned evidence schema records planning point and radius',()=>{assert.match(exp,/schemaVersion: "statterrain-evidence-v1"/);assert.match(exp,/planningLocation/);assert.match(exp,/radiusMiles: ctx\.radiusMiles/);assert.match(exp,/distanceMethod: "great-circle-haversine"/);});
+test('schema includes source freshness methods limitations completeness',()=>{for (const word of ['sources: sourcesForBrief','methods:','limitations:','freshness:','completeness:']) assert.match(exp,new RegExp(word.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')));});
+test('inactive population accessibility resilience are unavailable not fabricated',()=>{assert.match(exp,/population: null/);assert.match(exp,/accessibility: null/);assert.match(exp,/resilience: null/);assert.match(exp,/No demographic values are fabricated/);});
+test('CMS evidence fields are retained',()=>{for (const word of ['cmsFacilityId','facilityName','county','coordinates','distanceFromPlanningLocationMiles','hospitalType','ownership','emergencyServices','criticalAccess','missingFieldStatus']) assert.match(exp,new RegExp(word));});

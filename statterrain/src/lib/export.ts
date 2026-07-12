@@ -17,6 +17,8 @@ import type { PublicDataArtifactSummary } from "@/lib/public-data/readPublicData
 import type { CoverageStatus } from "@/lib/coverage/coverageStatus";
 import { getSourceCoverageSummaries } from "@/lib/coverage/coverageStatus";
 import { normalizeCmsPhoneDisplay, normalizeFacilityWebsite } from "@/lib/facilityIdentity";
+import type { PlanningLocation } from "@/types/planningLocation";
+import { activeResearchLayers } from "@/config/researchLayerRegistry";
 
 export interface BriefContext {
   locationLabel: string;
@@ -27,6 +29,7 @@ export interface BriefContext {
   publicDataSummary?: PublicDataArtifactSummary;
   coverageStatus?: CoverageStatus;
   selectedLocationSource?: string;
+  planningLocation?: PlanningLocation | null;
 }
 
 function activeFilterSummary(filters: AppFilters) {
@@ -74,7 +77,7 @@ export function buildMarkdownBrief(ctx: BriefContext): string {
   briefFacilities.forEach((f) =>
     f.sourceIds.forEach((id) => relevantSourceIds.add(id)),
   );
-  populationMetrics.forEach((m) => relevantSourceIds.add(m.sourceId));
+  // Population context is intentionally unavailable in v0.3.5; do not add population source ids.
 
   const lines: string[] = [];
   lines.push(`# ${product.name} Regional Emergency Care Evidence Brief`);
@@ -201,34 +204,14 @@ export function buildMarkdownBrief(ctx: BriefContext): string {
   });
   lines.push("");
 
-  lines.push("## Population demographics");
+  lines.push("## Population context");
   lines.push("");
-  lines.push("| Metric | Local | State | National |");
-  lines.push("| --- | --- | --- | --- |");
-  populationMetrics.forEach((m) => {
-    lines.push(
-      `| ${m.label} | ${m.value.local}${m.unit.includes("%") ? "%" : ""} | ${m.value.state}${m.unit.includes("%") ? "%" : ""} | ${m.value.national}${m.unit.includes("%") ? "%" : ""} |`,
-    );
-  });
+  lines.push("Population context is unavailable until a future source-backed ACS/population patch. No demographic values are fabricated in this evidence brief.");
   lines.push("");
 
-  lines.push("## How to read these metrics");
+  lines.push("## Accessibility, redundancy, and resilience");
   lines.push("");
-  lines.push(POPULATION_METRIC_EXPORT_CAVEAT);
-  lines.push("");
-  populationMetrics.forEach((m) => {
-    const definition = populationMetricDefinitions[m.metricId];
-    lines.push(
-      `- **${definition.label}:** What it is: ${definition.simpleWhatItIs} Higher means: ${definition.higherMeans} Lower means: ${definition.lowerMeans} Do not assume: ${definition.doNotAssume}`,
-    );
-  });
-  lines.push("");
-
-  lines.push("## Disease burden and vulnerability / access considerations");
-  lines.push("");
-  lines.push(
-    "See the Population demographics table above for disease-burden, vulnerability, and access-related metrics (COPD, coronary heart disease, stroke prevalence, poor mental health, social vulnerability, no-vehicle access, limited English proficiency, and rurality).",
-  );
+  lines.push("Accessibility, redundancy, and resilience sections are unavailable until source-backed datasets are activated. No routing, road-time, live status, or clinical conclusions are included.");
   lines.push("");
 
   lines.push("## Planning considerations");
@@ -299,85 +282,94 @@ export function buildMarkdownBrief(ctx: BriefContext): string {
   return lines.join("\n");
 }
 
-export function buildJsonBrief(ctx: BriefContext) {
-  const {
-    locationLabel,
-    radiusMiles,
-    filters,
-    visibleFacilities,
-    briefFacilities,
-  } = ctx;
+export function buildEvidenceSchema(ctx: BriefContext) {
   const relevantSourceIds = new Set<string>();
-  briefFacilities.forEach((f) =>
-    f.sourceIds.forEach((id) => relevantSourceIds.add(id)),
-  );
-  populationMetrics.forEach((m) => relevantSourceIds.add(m.sourceId));
-
+  ctx.briefFacilities.forEach((f) => f.sourceIds.forEach((id) => relevantSourceIds.add(id)));
+  const sourcesForBrief = Array.from(relevantSourceIds).map((id) => getSourceById(id)).filter(Boolean);
+  const planningLocation = ctx.planningLocation ?? null;
   return {
-    product: {
-      name: product.name,
-      tagline: product.tagline,
-      status: product.status,
-      version: product.prototypeVersion,
-    },
+    schemaVersion: "statterrain-evidence-v1",
     generatedAt: new Date().toISOString(),
-    searchLocation: locationLabel,
-    radiusMiles,
-    activeDisplayFilters: activeFilterSummary(filters),
-    briefScope: BRIEF_SCOPE_STATEMENT,
-    displayedFacilities: visibleFacilities,
-    facilities: briefFacilities,
-    populationMetrics,
-    populationMetricDefinitions,
-    cmsPublicDataProvenance: ctx.publicDataSummary ?? null,
-    coverageManifestSummary: {
-      selectedLocation: locationLabel,
-      selectedRadiusMiles: radiusMiles,
-      nationalCoverageComplete: false,
-      mapReadySources: (ctx.coverageStatus?.sourceSummaries ?? getSourceCoverageSummaries()).filter((source) => (source.mapReadyRecordCount ?? 0) > 0),
-      notYetMapReadySources: (ctx.coverageStatus?.sourceSummaries ?? getSourceCoverageSummaries()).filter((source) => (source.mapReadyRecordCount ?? 0) === 0),
-      notes: [
-        "National CMS hospital map-ready partitions are active.",
-        "CMS dialysis is fixture-only/not map-ready.",
-        "CMS emergency-services designation is not live operational status.",
-        "Website URL is not provided by the current CMS Hospital General Information source mapping unless a future source-backed field is added.",
-      ],
+    productVersion: product.prototypeVersion,
+    researchArea: {
+      planningLocation,
+      radiusMiles: ctx.radiusMiles,
+      radiusUnits: "miles",
+      distanceMethod: "great-circle-haversine",
     },
-    coverageStatus: ctx.coverageStatus ?? null,
-    selectedLocationSource: ctx.selectedLocationSource ?? "StatTerrain demo",
-    dataModeGuardrails: {
-      defaultMapDataset: "CMS hospital public-data partitions",
-      fixtureDataMayPowerRealDataMapLayer: false,
+    activeLayers: activeResearchLayers,
+    summary: {
+      facilityCount: ctx.briefFacilities.length,
+      displayedFacilityCount: ctx.visibleFacilities.length,
+      noHospitalsWithinRadius: ctx.briefFacilities.length === 0,
+      coverageHeadline: ctx.coverageStatus?.headline ?? null,
+      coverageManifestSummary: {
+        selectedLocation: ctx.locationLabel,
+        selectedRadiusMiles: ctx.radiusMiles,
+        mapReadySources: (ctx.coverageStatus?.sourceSummaries ?? getSourceCoverageSummaries()).filter((source) => (source.mapReadyRecordCount ?? 0) > 0),
+        notYetMapReadySources: (ctx.coverageStatus?.sourceSummaries ?? getSourceCoverageSummaries()).filter((source) => (source.mapReadyRecordCount ?? 0) === 0),
+      },
     },
-    plainLanguageMetricInterpretations: populationMetrics.map((m) => {
-      const definition = populationMetricDefinitions[m.metricId];
-      return {
-        metricId: m.metricId,
-        label: definition.label,
-        whatItIs: definition.simpleWhatItIs,
-        higherMeans: definition.higherMeans,
-        lowerMeans: definition.lowerMeans,
-        whyItMatters: definition.whyItMatters,
-        planningUse: definition.planningUse,
-        doNotAssume: definition.doNotAssume,
-        currentDataNote: definition.currentDataNote,
-      };
-    }),
-    populationMetricLimitationsStatement: POPULATION_METRIC_EXPORT_CAVEAT,
-    sources: Array.from(relevantSourceIds)
-      .map((id) => getSourceById(id))
-      .filter(Boolean),
-    planningConsiderations: PLANNING_CONSIDERATIONS,
-    disclaimer: product.disclaimer,
-    limitations: [
-      "Not live operating status.",
-      "Not live emergency service availability.",
-      "Not bed availability.",
-      "Verify current facility status directly."
+    facilities: ctx.briefFacilities.map((f) => ({
+      cmsFacilityId: f.sourceFacilityId ?? null,
+      facilityName: f.name,
+      address: f.address,
+      city: f.city ?? null,
+      state: f.state ?? null,
+      zip: f.zip ?? null,
+      county: f.countyName ?? null,
+      coordinates: { latitude: f.lat, longitude: f.lng },
+      distanceFromPlanningLocationMiles: f.distanceMiles,
+      hospitalType: f.hospitalType ?? null,
+      ownership: f.ownershipType ?? null,
+      emergencyServices: f.emergencyServicesIndicator ?? null,
+      criticalAccess: f.criticalAccessIndicator ?? (f.criticalAccess ? "Yes" : null),
+      phone: f.phone ?? null,
+      source: f.sourceName ?? "CMS Hospital General Information",
+      sourceDatasetId: f.sourceDatasetId ?? null,
+      sourceRelease: f.retrievedAt ?? null,
+      sourceUrl: f.sourceUrl ?? null,
+      fieldProvenance: "CMS Hospital General Information map-ready public-data artifact",
+      missingFieldStatus: {
+        county: f.countyName ? "present" : "missing-or-unavailable",
+        emergencyServices: f.emergencyServicesIndicator ? "present" : "missing-or-unavailable",
+        criticalAccess: f.criticalAccessIndicator || f.criticalAccess ? "present" : "missing-or-unavailable",
+        phone: f.phone ? "present" : "missing-or-unavailable",
+        website: "unavailable-in-current-CMS-source-mapping",
+      },
+    })),
+    population: null,
+    accessibility: null,
+    resilience: null,
+    unavailableSections: ["populationContext", "accessibility", "redundancyAndResilience"],
+    sources: sourcesForBrief,
+    methods: [
+      "Planning location is set through one canonical PlanningLocation state from search or map click.",
+      "Candidate CMS partitions are selected by radius-intersecting state/territory bounds; final inclusion uses great-circle Haversine distance in miles.",
+      "Unsupported capabilities and inactive layers are hidden rather than represented as absent.",
     ],
-    syntheticDataNotice: product.syntheticDataNotice,
-    isSynthetic: false,
+    limitations: [
+      "CMS hospital data are not live operating status, bed availability, diversion status, routing, transfer guidance, or clinical decision support.",
+      "Missing fields indicate unavailable or unmapped source data, not absence of a service.",
+      "Population, accessibility, redundancy, and resilience data are unavailable in v0.3.5.",
+    ],
+    freshness: sourcesForBrief.map((source: any) => ({ sourceId: source.id, dataset: source.dataset, releaseDate: source.releaseDate, retrievalDate: source.retrievalDate, freshness: source.freshness })),
+    completeness: {
+      activeFacilitySource: "CMS hospitals",
+      missingDoesNotMeanAbsent: true,
+      inactiveSectionsRepresentedAsUnavailable: true,
+    },
+    exportManifest: {
+      includesRawFacilityRecords: true,
+      includesPopulationRecords: false,
+      includesAiApiCalls: false,
+      prohibitedUsesExcluded: true,
+    },
   };
+}
+
+export function buildJsonBrief(ctx: BriefContext) {
+  return buildEvidenceSchema(ctx);
 }
 
 function csvEscape(value: string | number): string {

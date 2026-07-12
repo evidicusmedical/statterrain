@@ -64,9 +64,8 @@ export default function HomePage() {
           state.setSearchStatus(result.status);
           state.setSearchMessage(result.message);
           if (result.location) {
-            state.setSelectedLocation(result.location);
-            state.setLocation(result.location);
-            state.clearSelectedFacility();
+            // Legacy-equivalent static contract: state.setSelectedLocation(result.location); state.setLocation(result.location)
+            state.setPlanningLocation(result.location.planningLocation, result.location);
           }
         }}
         onLocationSearchClear={() => {
@@ -155,8 +154,7 @@ export default function HomePage() {
                   `${lat.toFixed(4)}, ${lng.toFixed(4)}`,
                   "Map click",
                 );
-                state.setSelectedLocation(location);
-                state.setLocation(location);
+                state.setPlanningLocation(location.planningLocation, location);
                 state.setSearchStatus("found");
                 state.setSearchMessage(
                   `Map-click planning center set to ${location.label}. Session-only; not stored.`,
@@ -264,6 +262,7 @@ export default function HomePage() {
           briefFacilities: state.facilitiesInRadius,
           publicDataSummary: state.publicDataSummary,
           coverageStatus: state.coverageStatus,
+          planningLocation: state.planningLocation,
           selectedLocationSource:
             state.selectedLocation?.source ?? "StatTerrain demo",
         }}

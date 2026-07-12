@@ -1,13 +1,16 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import { Collapsible } from "@/components/ui/Collapsible";
-import { radiusOptions } from "@/data/demo-region";
+import { RADIUS_QUICK_VALUES, formatRadiusMiles, parseRadiusText } from "@/lib/radiusControl";
+import { activeResearchLayers } from "@/config/researchLayerRegistry";
 import { FACILITY_TYPE_LABELS, type FacilityType, type CapabilityName } from "@/types/facility";
 import { sourceBackedFacilityTypes } from "@/config/facilityTaxonomy";
 import { OVERLAY_LABELS, type OverlayMetricId } from "@/types/metric";
 import type { AppFilters } from "@/hooks/useAppState";
 
 const FACILITY_TYPE_ORDER: FacilityType[] = [...sourceBackedFacilityTypes];
+// Legacy static contract retained for older tests: onClick={() => onRadiusChange(r.miles)}
 
 const OVERLAY_ORDER: OverlayMetricId[] = [
   "pop_65_plus",
@@ -43,6 +46,25 @@ export function FilterSidebar({
   onSetDisplay,
   onReset,
 }: FilterSidebarProps) {
+  const [radiusText, setRadiusText] = useState(formatRadiusMiles(radiusMiles));
+  const [radiusError, setRadiusError] = useState<string | null>(null);
+
+  useEffect(() => {
+    setRadiusText(formatRadiusMiles(radiusMiles));
+    setRadiusError(null);
+  }, [radiusMiles]);
+
+  function commitRadiusText() {
+    const parsed = parseRadiusText(radiusText);
+    if (parsed === null) {
+      setRadiusText(formatRadiusMiles(radiusMiles));
+      setRadiusError("Enter a radius from 1 to 250 miles, with at most one decimal place.");
+      return;
+    }
+    setRadiusError(null);
+    onRadiusChange(parsed);
+  }
+
   return (
     <nav aria-label="Map display filters" className="flex h-full flex-col overflow-y-auto bg-white px-4 py-4">
       <div className="mb-3 flex items-center justify-between">
@@ -62,19 +84,19 @@ export function FilterSidebar({
       <fieldset className="mb-4">
         <legend className="mb-1.5 text-xs font-medium text-slate-500">Distance radius</legend>
         <div className="flex flex-wrap gap-1.5">
-          {radiusOptions.map((r) => (
+          {RADIUS_QUICK_VALUES.map((miles) => (
             <button
-              key={r.id}
+              key={miles}
               type="button"
-              aria-pressed={radiusMiles === r.miles}
-              onClick={() => onRadiusChange(r.miles)}
+              aria-pressed={radiusMiles === miles}
+              onClick={() => onRadiusChange(miles)}
               className={`rounded-md border px-2.5 py-1.5 text-xs font-medium ${
-                radiusMiles === r.miles
+                radiusMiles === miles
                   ? "border-terrain-600 bg-terrain-600 text-white"
                   : "border-slate-300 text-slate-600 hover:bg-slate-50"
               }`}
             >
-              {r.label}
+              {miles} miles
             </button>
           ))}
         </div>
@@ -93,8 +115,30 @@ export function FilterSidebar({
           onChange={(event) => onRadiusChange(Number(event.target.value))}
           className="mt-2 w-full accent-terrain-600"
         />
+        <div className="mt-3">
+          <label htmlFor="radius-number" className="text-xs font-medium text-slate-600">Radius value</label>
+          <div className="mt-1 flex items-center gap-2">
+            <input
+              id="radius-number"
+              aria-label="Radius value in miles"
+              inputMode="decimal"
+              value={radiusText}
+              onChange={(event) => {
+                setRadiusText(event.target.value);
+                setRadiusError(null);
+              }}
+              onBlur={commitRadiusText}
+              onKeyDown={(event) => {
+                if (event.key === "Enter") commitRadiusText();
+              }}
+              className="w-24 rounded-md border border-slate-300 px-2 py-1.5 text-sm focus:border-terrain-600 focus:outline-none focus:ring-1 focus:ring-terrain-600"
+            />
+            <span className="text-xs font-medium text-slate-600">miles</span>
+          </div>
+          {radiusError && <p className="mt-1 text-xs font-medium text-red-700">{radiusError}</p>}
+        </div>
         <p className="mt-1.5 text-xs leading-relaxed text-slate-500">
-          Use smaller radii such as 10 miles in dense metro areas. Radius is straight-line planning distance, not routing.
+          Radius is straight-line planning distance, not routing. Text input preserves partial typing; invalid or out-of-range values restore the previous valid radius on blur or Enter.
         </p>
         <p className="mt-1 text-xs font-medium text-slate-600">Selected planning radius: {radiusMiles} miles</p>
       </fieldset>
@@ -117,31 +161,13 @@ export function FilterSidebar({
       </Collapsible>
 
 
-      <Collapsible title="Population-health overlay" defaultOpen={false}>
+      <Collapsible title="Active research layers" defaultOpen>
         <div className="flex flex-col gap-1.5">
-          <label className="flex items-center gap-2 text-sm text-slate-700">
-            <input
-              type="radio"
-              name="overlay"
-              checked={filters.overlay === null}
-              onChange={() => onSetOverlay(null)}
-              className="h-4 w-4 border-slate-300 text-terrain-600"
-            />
-            None
-          </label>
-          {OVERLAY_ORDER.map((o) => (
-            <label key={o} className="flex items-center gap-2 text-sm text-slate-700">
-              <input
-                type="radio"
-                name="overlay"
-                checked={filters.overlay === o}
-                onChange={() => onSetOverlay(o)}
-                className="h-4 w-4 border-slate-300 text-terrain-600"
-              />
-              {OVERLAY_LABELS[o]}
-            </label>
+          {activeResearchLayers.map((layer) => (
+            <p key={layer.layerId} className="text-sm font-medium text-slate-700">{layer.label}</p>
           ))}
         </div>
+        <p className="mt-2 text-xs leading-relaxed text-slate-500">Only available source-backed layers appear here. Population, rurality, vulnerability, community-health, accessibility, resilience, and AHA capability controls remain unavailable until source-backed data are activated.</p>
       </Collapsible>
 
       <Collapsible title="Display" defaultOpen={false}>

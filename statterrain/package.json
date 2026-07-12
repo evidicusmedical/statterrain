@@ -47,7 +47,11 @@
     "test:facility-contact-fields": "node --test tests/facility-contact-fields.test.mjs",
     "data:audit-cms-identity-refresh": "node scripts/public-data/audit-cms-identity-refresh.mjs",
     "test:cms-cache-reuse": "node --test tests/cms-cache-reuse.test.mjs",
-    "test:cms-metric-reconciliation": "node --test tests/cms-metric-reconciliation.test.mjs"
+    "test:cms-metric-reconciliation": "node --test tests/cms-metric-reconciliation.test.mjs",
+    "test:planning-location": "node --test tests/planning-location.test.mjs",
+    "test:radius-control": "node --test tests/radius-control.test.mjs",
+    "test:research-layer-registry": "node --test tests/research-layer-registry.test.mjs",
+    "test:evidence-contract": "node --test tests/evidence-contract.test.mjs"
   },
   "dependencies": {
     "leaflet": "^1.9.4",
