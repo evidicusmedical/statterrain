@@ -1,11 +1,11 @@
 {
-  "runId": "29212317043-1",
-  "workflowRunId": "29212317043",
+  "runId": "29213835673-1",
+  "workflowRunId": "29213835673",
   "workflowRunAttempt": "1",
-  "targetBranch": "v0.3.6.5-ACS-DATA",
+  "targetBranch": "v0.3.7-county-boundaries-generated-data",
   "buildMode": "national",
   "requestedRelease": "2024",
-  "startedAt": "2026-07-12T22:51:40.069Z",
+  "startedAt": "2026-07-12T23:41:27.881Z",
   "metadataValidationStatus": "PASS",
   "liveEstimateMoeQueryabilityStatus": "PASS",
   "probeStatus": "PASS",
@@ -15,13 +15,13 @@
   "commitGateStatus": "PASS",
   "commitStatus": "PASS",
   "pushStatus": "PASS",
-  "committedSha": "874fab63c79fe58be5d298d4dcc75b0cf20035d3",
-  "pushedBranch": "v0.3.6.5-ACS-DATA",
+  "committedSha": "0d8a3762c09a7bf5c6f2dafd326202a1a2ee5b09",
+  "pushedBranch": "v0.3.7-county-boundaries-generated-data",
   "finalWorkflowStatus": "PROMOTED AND COMMITTED",
   "commitEligible": true,
   "completionDeclaration": "COMPLETE — NATIONAL ACS COUNTY POPULATION BASELINE BUILT",
   "failureStage": null,
   "failureMessage": null,
   "generatedManifestPath": "data/generated/acs-county-population-national/manifest.json",
-  "generatedManifestRunId": "29212317043-1"
+  "generatedManifestRunId": "29213835673-1"
 }

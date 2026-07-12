@@ -4,8 +4,8 @@
   "endpointFamilies": [
     "https://api.census.gov/data/2024/acs/acs5"
   ],
-  "checkedAt": "2026-07-12T22:51:40.194Z",
-  "runId": "29212317043-1",
+  "checkedAt": "2026-07-12T23:41:28.043Z",
+  "runId": "29213835673-1",
   "status": "PASS",
   "failureRules": [],
   "groupMetadataChecks": [
