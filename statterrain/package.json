@@ -78,7 +78,9 @@
     "test:acs-moe-queryability": "node --test tests/acs-moe-queryability.test.mjs",
     "test:acs-table-universe-contract": "node --test tests/acs-table-universe-contract.test.mjs",
     "test:acs-variable-chunking": "node --test tests/acs-variable-chunking.test.mjs",
-    "test:acs-county-chunk-merge": "node --test tests/acs-county-chunk-merge.test.mjs"
+    "test:acs-county-chunk-merge": "node --test tests/acs-county-chunk-merge.test.mjs",
+    "test:acs-workflow-summary": "node --test tests/acs-workflow-summary.test.mjs",
+    "test:acs-workflow-order": "node --test tests/acs-workflow-order.test.mjs"
   },
   "dependencies": {
     "leaflet": "^1.9.4",

@@ -9,7 +9,7 @@ const state = readFileSync(join(root,'src/hooks/useAppState.ts'),'utf8');
 const page = readFileSync(join(root,'src/app/page.tsx'),'utf8');
 const map = readFileSync(join(root,'src/components/map/MapView.tsx'),'utf8');
 
-test('version is v0.3.6.3 prototype',()=>assert.match(product,/prototypeVersion: "v0\.3\.6\.3 prototype"/));
+test('version is v0.3.6.4 prototype',()=>assert.match(product,/prototypeVersion: "v0\.3\.6\.4 prototype"/));
 test('search modes create canonical PlanningLocation',()=>{
   assert.match(search,/planningLocation: PlanningLocation/);
   assert.match(search,/"address-search"/);
