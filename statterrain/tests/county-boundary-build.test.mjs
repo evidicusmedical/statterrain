@@ -1,0 +1,2 @@
+import test from 'node:test';import assert from 'node:assert/strict';import {generateManifest,BOUNDARY_SOURCE_CONTRACT} from '../scripts/public-data/build-county-boundaries.mjs';
+test('boundary build contract pins official source and gates national coverage',()=>{assert.match(BOUNDARY_SOURCE_CONTRACT.url,/census\.gov/); const m=generateManifest(['S']); assert.equal(m.coverageStatus,'fixture'); assert.equal(generateManifest(Array.from({length:52},(_,i)=>String(i))).coverageStatus,'national');});

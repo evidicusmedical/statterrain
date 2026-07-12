@@ -1,0 +1,2 @@
+import test from 'node:test';import assert from 'node:assert/strict';import {readFileSync} from 'node:fs';
+test('ACS county records preserve GEOID join fields',()=>{const d=JSON.parse(readFileSync('data/generated/acs-county-population-national/states/MI.json','utf8')); const r=d.records.find(r=>r.geoid==='26001'); assert.equal(r.stateCode,'MI'); assert.equal(r.countyName,'Alcona County'); assert.ok(r.metrics.total_population);});

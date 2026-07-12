@@ -2,10 +2,11 @@ import { product } from "@/config/product";
 
 export function Footer() {
   return (
-    <footer className="border-t border-slate-200 bg-white px-4 py-3 text-xs leading-relaxed text-slate-500 sm:px-6">
-      <p>{product.disclaimer}</p>
-      <p className="mt-1 font-medium text-slate-600">{product.syntheticDataNotice}</p>
-      <p className="mt-1 text-[11px] text-slate-400">{product.status}</p>
+    <footer className="border-t border-slate-200 bg-white px-4 py-2 text-xs leading-snug text-slate-500 sm:px-6">
+      <p className="font-semibold text-slate-700">{product.name}</p>
+      <p>Emergency-care resources and population context for research and planning.</p>
+      <p>Data sources: CMS and U.S. Census Bureau</p>
+      <p className="font-medium text-slate-600">Research prototype — not for clinical or operational use.</p>
     </footer>
   );
 }

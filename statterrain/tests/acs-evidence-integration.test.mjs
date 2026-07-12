@@ -1,0 +1,2 @@
+import test from 'node:test';import assert from 'node:assert/strict';import {readFileSync} from 'node:fs';
+test('evidence v2 includes ACS limitation and raw facility support',()=>{const s=readFileSync('src/lib/export.ts','utf8'); assert.match(s,/statterrain-evidence-v2/); assert.match(s,/Whole-county ACS totals are not estimates of population located inside the selected radius/); assert.match(s,/includesRawFacilityRecords: true/);});

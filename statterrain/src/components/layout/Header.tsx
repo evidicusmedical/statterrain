@@ -122,11 +122,6 @@ export function Header({
           />
         </div>
 
-        <div className="hidden items-center gap-2 text-xs text-slate-500 md:flex">
-          <span className="h-2 w-2 rounded-full bg-terrain-500" aria-hidden />
-          CMS national hospital public-data mode
-        </div>
-
         <FeedbackButton
           className="inline-flex text-xs md:text-sm"
           context={{

@@ -27,7 +27,7 @@ export default function HomePage() {
       state.setSelectedLocation(null);
       state.setSearchStatus("idle");
       state.setSearchMessage(
-        "CMS national hospital public-data mode active.",
+        "Ready for address, city, ZIP, or coordinate search.",
       );
       state.resetFilters();
       state.clearSelectedFacility();
@@ -73,7 +73,7 @@ export default function HomePage() {
           state.setLocation(searchLocations[0]);
           state.setSearchStatus("idle");
           state.setSearchMessage(
-            "CMS national hospital public-data mode active.",
+            "Ready for address, city, ZIP, or coordinate search.",
           );
           state.clearSelectedFacility();
         }}

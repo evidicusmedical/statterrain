@@ -29,7 +29,7 @@ export function LocationSearchBox({
       onSearchComplete({
         status: "invalid-input",
         location: null,
-        message: "Search by full address, city and state, ZIP code, or latitude/longitude.",
+        message: "Search by full address, city and state, ZIP code, or coordinates.",
         matchCount: 0,
       });
       return;
@@ -47,7 +47,7 @@ export function LocationSearchBox({
       data-testid="location-search-form"
     >
       <label htmlFor="global-search" className="sr-only">
-        Search by full address, city and state, ZIP code, or latitude/longitude
+        Search by full address, city and state, ZIP code, or coordinates
       </label>
       <div className="flex min-w-0 flex-1 gap-2">
         <input
@@ -56,9 +56,9 @@ export function LocationSearchBox({
           onChange={(e) => setQuery(e.target.value)}
           type="search"
           autoComplete="off"
-          placeholder="1600 Pennsylvania Ave NW, Washington, DC; Washington, DC; 20500; or 38.8977, -77.0365"
+          placeholder="Search by full address, city and state, ZIP code, or coordinates."
           data-testid="location-search-input"
-          className="min-h-10 w-full rounded-md border border-slate-300 px-3 py-2 text-sm text-slate-800 placeholder:text-slate-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-terrain-600"
+          className="min-h-10 min-w-[26rem] w-full rounded-md border border-slate-300 px-3 py-2 text-sm text-slate-800 placeholder:text-slate-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-terrain-600"
         />
         <button
           type="submit"

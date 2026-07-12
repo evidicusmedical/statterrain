@@ -1,0 +1,2 @@
+import test from 'node:test';import assert from 'node:assert/strict';import {readFileSync} from 'node:fs';
+test('boundary fixture covers requested county-equivalent examples only',()=>{const d=JSON.parse(readFileSync('tests/fixtures/county-boundaries/fixture-counties.json','utf8')); assert.equal(d.fixtureOnly,true); assert.deepEqual(d.features.map(f=>f.properties.GEOID),['26001','39035','11001','51510','72127']);});

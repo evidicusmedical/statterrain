@@ -2,7 +2,7 @@
   "name": "statterrain",
   "version": "0.1.0",
   "private": true,
-  "description": "StatTerrain — Emergency-care resources and population-health intelligence (frontend prototype).",
+  "description": "StatTerrain \u2014 Emergency-care resources and population-health intelligence (frontend prototype).",
   "scripts": {
     "dev": "next dev -p 3000 -H 0.0.0.0",
     "build": "next build",
@@ -80,7 +80,18 @@
     "test:acs-variable-chunking": "node --test tests/acs-variable-chunking.test.mjs",
     "test:acs-county-chunk-merge": "node --test tests/acs-county-chunk-merge.test.mjs",
     "test:acs-workflow-summary": "node --test tests/acs-workflow-summary.test.mjs",
-    "test:acs-workflow-order": "node --test tests/acs-workflow-order.test.mjs"
+    "test:acs-workflow-order": "node --test tests/acs-workflow-order.test.mjs",
+    "test:acs-runtime-loader": "node --test tests/acs-runtime-loader.test.mjs",
+    "test:acs-county-resolution": "node --test tests/acs-county-resolution.test.mjs",
+    "test:acs-radius-county-intersection": "node --test tests/acs-radius-county-intersection.test.mjs",
+    "test:acs-summary-integration": "node --test tests/acs-summary-integration.test.mjs",
+    "test:acs-evidence-integration": "node --test tests/acs-evidence-integration.test.mjs",
+    "test:acs-export": "node --test tests/acs-export.test.mjs",
+    "test:county-boundary-build": "node --test tests/county-boundary-build.test.mjs",
+    "test:county-boundary-validation": "node --test tests/county-boundary-validation.test.mjs",
+    "test:workspace-simplification": "node --test tests/workspace-simplification.test.mjs",
+    "test:search-layout": "node --test tests/search-layout.test.mjs",
+    "test:footer-simplification": "node --test tests/footer-simplification.test.mjs"
   },
   "dependencies": {
     "leaflet": "^1.9.4",
