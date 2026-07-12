@@ -1,0 +1,15 @@
+{
+  "version": "v0.3.5.1",
+  "basis": "Local codebase lacked origin/main; reproduction performed against checked-out pre-edit worktree behavior before patching.",
+  "cases": [
+    {"input":"1600 Pennsylvania Avenue NW, Washington, DC","submit":"button","prePatchResult":"browser attempted direct Census geocoder; downstream success depended on external browser CORS/network response","rootCause":"browser UI called external Census URL directly and exposed upstream response assumptions"},
+    {"input":"1600 Pennsylvania Avenue NW, Washington, DC","submit":"enter","prePatchResult":"same path as button when form submitted","rootCause":"same direct external browser fetch"},
+    {"input":"Washington, DC","prePatchResult":"same direct external browser fetch path"},
+    {"input":"20500","prePatchResult":"same direct external browser fetch path"},
+    {"input":"38.8977, -77.0365","prePatchResult":"local coordinate path available"},
+    {"input":"38.8977 -77.0365","prePatchResult":"local coordinate path available"},
+    {"input":"999, 999","prePatchResult":"local invalid-coordinate rejection"},
+    {"input":"","prePatchResult":"invalid-input no network"}
+  ],
+  "postPatchContract": {"addressNetwork":"GET /api/geocode?q=<encoded>","coordinatesNetwork":"none","completionDeclaration":"PARTIAL — SEARCH FIX IMPLEMENTED, DEPLOYED BROWSER VERIFICATION PENDING"}
+}

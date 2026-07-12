@@ -67,7 +67,7 @@ export function RegionalSummaryPanel({
             <div
               key={type}
               className="rounded-md border border-slate-200 p-2.5 text-center"
-              data-testid={`facility-count-${type}`}
+              data-testid={type === "hospital" ? "facility-results-count" : `facility-count-${type}`}
             >
               <p className="text-xl font-semibold text-slate-900">
                 {facilities.filter((f) => f.facilityType === type).length}

@@ -151,7 +151,7 @@ export function MapView({
             fillColor: "#1f2937",
             fillOpacity: 1,
             weight: 2,
-            className: "search-location-marker",
+            className: "search-location-marker planning-location-marker",
           }}
         >
           <Tooltip direction="top">
@@ -203,7 +203,7 @@ export function MapView({
 
       <div
         className="pointer-events-none absolute left-3 top-3 z-[350] max-w-[min(30rem,calc(100%-6rem))] rounded-full bg-white/95 px-3 py-2 text-xs font-semibold text-slate-700 shadow-panel"
-        data-testid="selected-location-badge"
+        data-testid="selected-planning-location"
       >
         <span className="whitespace-nowrap">{selectedLocationLabel ?? location.label}</span>
         <span> · Radius {radiusMiles} mi</span>
