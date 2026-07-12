@@ -76,6 +76,9 @@ jobs:
             statterrain/data/work/acs-county-population/${{ github.run_id }}-${{ github.run_attempt }}
             statterrain/data/generated/acs-county-population-national
             statterrain/data/generated/acs-county-population-fixture
+            statterrain/data/reports/acs-county-variable-validation-v0.3.6.2.json
+            statterrain/data/reports/acs-variable-metadata-regression-v0.3.6.2.json
+            statterrain/data/reports/acs-county-current-run-status.json
             statterrain/data/reports/acs-*.json
       - name: Write truthful job summary
         if: always()
