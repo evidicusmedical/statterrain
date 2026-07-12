@@ -4,45 +4,45 @@
   "endpointFamilies": [
     "https://api.census.gov/data/2024/acs/acs5"
   ],
-  "checkedAt": "2026-07-12T21:34:45.801Z",
-  "runId": null,
+  "checkedAt": "2026-07-12T22:51:40.194Z",
+  "runId": "29212317043-1",
   "status": "PASS",
   "failureRules": [],
   "groupMetadataChecks": [
     {
       "groupId": "B01003",
       "exists": true,
-      "title": "Total population"
+      "title": null
     },
     {
       "groupId": "B01001",
       "exists": true,
-      "title": "Total population"
+      "title": null
     },
     {
       "groupId": "B17001",
       "exists": true,
-      "title": "Population for whom poverty status is determined"
+      "title": null
     },
     {
       "groupId": "B27010",
       "exists": true,
-      "title": "Civilian noninstitutionalized population"
+      "title": null
     },
     {
       "groupId": "B08201",
       "exists": true,
-      "title": "Households"
+      "title": null
     },
     {
       "groupId": "B18101",
       "exists": true,
-      "title": "Civilian noninstitutionalized population"
+      "title": null
     },
     {
       "groupId": "C16002",
       "exists": true,
-      "title": "Households"
+      "title": null
     }
   ],
   "variableChecks": [
@@ -56,7 +56,7 @@
       "variableRole": "direct-estimate",
       "variableExists": true,
       "metadataEstimateExists": true,
-      "metadataMoeListed": true,
+      "metadataMoeListed": false,
       "liveEstimateQueryable": null,
       "liveMoeQueryable": null,
       "livePairQueryable": null,
@@ -71,7 +71,7 @@
       "expectedLabelPatterns": [
         "includes:total"
       ],
-      "actualConcept": "Total population",
+      "actualConcept": "Total Population",
       "predicateType": "int",
       "datasetFamily": "acs/acs5",
       "expectedDatasetFamily": "acs/acs5",
@@ -103,7 +103,7 @@
       "variableRole": "margin-of-error",
       "variableExists": true,
       "metadataEstimateExists": true,
-      "metadataMoeListed": true,
+      "metadataMoeListed": false,
       "liveEstimateQueryable": null,
       "liveMoeQueryable": null,
       "livePairQueryable": null,
@@ -118,7 +118,7 @@
       "expectedLabelPatterns": [
         "includes:total"
       ],
-      "actualConcept": "Total population",
+      "actualConcept": "Total Population",
       "predicateType": "int",
       "datasetFamily": "acs/acs5",
       "expectedDatasetFamily": "acs/acs5",
@@ -150,7 +150,7 @@
       "variableRole": "numerator-component",
       "variableExists": true,
       "metadataEstimateExists": true,
-      "metadataMoeListed": true,
+      "metadataMoeListed": false,
       "liveEstimateQueryable": null,
       "liveMoeQueryable": null,
       "livePairQueryable": null,
@@ -169,7 +169,7 @@
         "excludes:62 to 64",
         "excludes:65"
       ],
-      "actualConcept": "Total population",
+      "actualConcept": "Sex by Age",
       "predicateType": "int",
       "datasetFamily": "acs/acs5",
       "expectedDatasetFamily": "acs/acs5",
@@ -201,7 +201,7 @@
       "variableRole": "numerator-component",
       "variableExists": true,
       "metadataEstimateExists": true,
-      "metadataMoeListed": true,
+      "metadataMoeListed": false,
       "liveEstimateQueryable": null,
       "liveMoeQueryable": null,
       "livePairQueryable": null,
@@ -220,7 +220,7 @@
         "excludes:62 to 64",
         "excludes:65"
       ],
-      "actualConcept": "Total population",
+      "actualConcept": "Sex by Age",
       "predicateType": "int",
       "datasetFamily": "acs/acs5",
       "expectedDatasetFamily": "acs/acs5",
@@ -252,7 +252,7 @@
       "variableRole": "numerator-component",
       "variableExists": true,
       "metadataEstimateExists": true,
-      "metadataMoeListed": true,
+      "metadataMoeListed": false,
       "liveEstimateQueryable": null,
       "liveMoeQueryable": null,
       "livePairQueryable": null,
@@ -271,7 +271,7 @@
         "excludes:62 to 64",
         "excludes:65"
       ],
-      "actualConcept": "Total population",
+      "actualConcept": "Sex by Age",
       "predicateType": "int",
       "datasetFamily": "acs/acs5",
       "expectedDatasetFamily": "acs/acs5",
@@ -303,7 +303,7 @@
       "variableRole": "numerator-component",
       "variableExists": true,
       "metadataEstimateExists": true,
-      "metadataMoeListed": true,
+      "metadataMoeListed": false,
       "liveEstimateQueryable": null,
       "liveMoeQueryable": null,
       "livePairQueryable": null,
@@ -322,7 +322,7 @@
         "excludes:62 to 64",
         "excludes:65"
       ],
-      "actualConcept": "Total population",
+      "actualConcept": "Sex by Age",
       "predicateType": "int",
       "datasetFamily": "acs/acs5",
       "expectedDatasetFamily": "acs/acs5",
@@ -354,7 +354,7 @@
       "variableRole": "numerator-component",
       "variableExists": true,
       "metadataEstimateExists": true,
-      "metadataMoeListed": true,
+      "metadataMoeListed": false,
       "liveEstimateQueryable": null,
       "liveMoeQueryable": null,
       "livePairQueryable": null,
@@ -365,7 +365,7 @@
       "variableInGroup": true,
       "pairExists": true,
       "estimateOrMoeType": "estimate",
-      "actualLabel": "Estimate!!Total:!!Male:!!Under 5 years",
+      "actualLabel": "Estimate!!Total:!!Female:!!Under 5 years",
       "expectedLabelPatterns": [
         "excludes:18 and 19 years",
         "excludes:20 years",
@@ -373,7 +373,7 @@
         "excludes:62 to 64",
         "excludes:65"
       ],
-      "actualConcept": "Total population",
+      "actualConcept": "Sex by Age",
       "predicateType": "int",
       "datasetFamily": "acs/acs5",
       "expectedDatasetFamily": "acs/acs5",
@@ -405,7 +405,7 @@
       "variableRole": "numerator-component",
       "variableExists": true,
       "metadataEstimateExists": true,
-      "metadataMoeListed": true,
+      "metadataMoeListed": false,
       "liveEstimateQueryable": null,
       "liveMoeQueryable": null,
       "livePairQueryable": null,
@@ -416,7 +416,7 @@
       "variableInGroup": true,
       "pairExists": true,
       "estimateOrMoeType": "estimate",
-      "actualLabel": "Estimate!!Total:!!Male:!!5 to 9 years",
+      "actualLabel": "Estimate!!Total:!!Female:!!5 to 9 years",
       "expectedLabelPatterns": [
         "excludes:18 and 19 years",
         "excludes:20 years",
@@ -424,7 +424,7 @@
         "excludes:62 to 64",
         "excludes:65"
       ],
-      "actualConcept": "Total population",
+      "actualConcept": "Sex by Age",
       "predicateType": "int",
       "datasetFamily": "acs/acs5",
       "expectedDatasetFamily": "acs/acs5",
@@ -456,7 +456,7 @@
       "variableRole": "numerator-component",
       "variableExists": true,
       "metadataEstimateExists": true,
-      "metadataMoeListed": true,
+      "metadataMoeListed": false,
       "liveEstimateQueryable": null,
       "liveMoeQueryable": null,
       "livePairQueryable": null,
@@ -467,7 +467,7 @@
       "variableInGroup": true,
       "pairExists": true,
       "estimateOrMoeType": "estimate",
-      "actualLabel": "Estimate!!Total:!!Male:!!10 to 14 years",
+      "actualLabel": "Estimate!!Total:!!Female:!!10 to 14 years",
       "expectedLabelPatterns": [
         "excludes:18 and 19 years",
         "excludes:20 years",
@@ -475,7 +475,7 @@
         "excludes:62 to 64",
         "excludes:65"
       ],
-      "actualConcept": "Total population",
+      "actualConcept": "Sex by Age",
       "predicateType": "int",
       "datasetFamily": "acs/acs5",
       "expectedDatasetFamily": "acs/acs5",
@@ -507,7 +507,7 @@
       "variableRole": "numerator-component",
       "variableExists": true,
       "metadataEstimateExists": true,
-      "metadataMoeListed": true,
+      "metadataMoeListed": false,
       "liveEstimateQueryable": null,
       "liveMoeQueryable": null,
       "livePairQueryable": null,
@@ -518,7 +518,7 @@
       "variableInGroup": true,
       "pairExists": true,
       "estimateOrMoeType": "estimate",
-      "actualLabel": "Estimate!!Total:!!Male:!!15 to 17 years",
+      "actualLabel": "Estimate!!Total:!!Female:!!15 to 17 years",
       "expectedLabelPatterns": [
         "excludes:18 and 19 years",
         "excludes:20 years",
@@ -526,7 +526,7 @@
         "excludes:62 to 64",
         "excludes:65"
       ],
-      "actualConcept": "Total population",
+      "actualConcept": "Sex by Age",
       "predicateType": "int",
       "datasetFamily": "acs/acs5",
       "expectedDatasetFamily": "acs/acs5",
@@ -558,7 +558,7 @@
       "variableRole": "margin-of-error",
       "variableExists": true,
       "metadataEstimateExists": true,
-      "metadataMoeListed": true,
+      "metadataMoeListed": false,
       "liveEstimateQueryable": null,
       "liveMoeQueryable": null,
       "livePairQueryable": null,
@@ -577,7 +577,7 @@
         "excludes:62 to 64",
         "excludes:65"
       ],
-      "actualConcept": "Total population",
+      "actualConcept": "Sex by Age",
       "predicateType": "int",
       "datasetFamily": "acs/acs5",
       "expectedDatasetFamily": "acs/acs5",
@@ -609,7 +609,7 @@
       "variableRole": "margin-of-error",
       "variableExists": true,
       "metadataEstimateExists": true,
-      "metadataMoeListed": true,
+      "metadataMoeListed": false,
       "liveEstimateQueryable": null,
       "liveMoeQueryable": null,
       "livePairQueryable": null,
@@ -628,7 +628,7 @@
         "excludes:62 to 64",
         "excludes:65"
       ],
-      "actualConcept": "Total population",
+      "actualConcept": "Sex by Age",
       "predicateType": "int",
       "datasetFamily": "acs/acs5",
       "expectedDatasetFamily": "acs/acs5",
@@ -660,7 +660,7 @@
       "variableRole": "margin-of-error",
       "variableExists": true,
       "metadataEstimateExists": true,
-      "metadataMoeListed": true,
+      "metadataMoeListed": false,
       "liveEstimateQueryable": null,
       "liveMoeQueryable": null,
       "livePairQueryable": null,
@@ -679,7 +679,7 @@
         "excludes:62 to 64",
         "excludes:65"
       ],
-      "actualConcept": "Total population",
+      "actualConcept": "Sex by Age",
       "predicateType": "int",
       "datasetFamily": "acs/acs5",
       "expectedDatasetFamily": "acs/acs5",
@@ -711,7 +711,7 @@
       "variableRole": "margin-of-error",
       "variableExists": true,
       "metadataEstimateExists": true,
-      "metadataMoeListed": true,
+      "metadataMoeListed": false,
       "liveEstimateQueryable": null,
       "liveMoeQueryable": null,
       "livePairQueryable": null,
@@ -730,7 +730,7 @@
         "excludes:62 to 64",
         "excludes:65"
       ],
-      "actualConcept": "Total population",
+      "actualConcept": "Sex by Age",
       "predicateType": "int",
       "datasetFamily": "acs/acs5",
       "expectedDatasetFamily": "acs/acs5",
@@ -762,7 +762,7 @@
       "variableRole": "margin-of-error",
       "variableExists": true,
       "metadataEstimateExists": true,
-      "metadataMoeListed": true,
+      "metadataMoeListed": false,
       "liveEstimateQueryable": null,
       "liveMoeQueryable": null,
       "livePairQueryable": null,
@@ -773,7 +773,7 @@
       "variableInGroup": true,
       "pairExists": true,
       "estimateOrMoeType": "moe",
-      "actualLabel": "Estimate!!Total:!!Male:!!Under 5 years",
+      "actualLabel": "Estimate!!Total:!!Female:!!Under 5 years",
       "expectedLabelPatterns": [
         "excludes:18 and 19 years",
         "excludes:20 years",
@@ -781,7 +781,7 @@
         "excludes:62 to 64",
         "excludes:65"
       ],
-      "actualConcept": "Total population",
+      "actualConcept": "Sex by Age",
       "predicateType": "int",
       "datasetFamily": "acs/acs5",
       "expectedDatasetFamily": "acs/acs5",
@@ -813,7 +813,7 @@
       "variableRole": "margin-of-error",
       "variableExists": true,
       "metadataEstimateExists": true,
-      "metadataMoeListed": true,
+      "metadataMoeListed": false,
       "liveEstimateQueryable": null,
       "liveMoeQueryable": null,
       "livePairQueryable": null,
@@ -824,7 +824,7 @@
       "variableInGroup": true,
       "pairExists": true,
       "estimateOrMoeType": "moe",
-      "actualLabel": "Estimate!!Total:!!Male:!!5 to 9 years",
+      "actualLabel": "Estimate!!Total:!!Female:!!5 to 9 years",
       "expectedLabelPatterns": [
         "excludes:18 and 19 years",
         "excludes:20 years",
@@ -832,7 +832,7 @@
         "excludes:62 to 64",
         "excludes:65"
       ],
-      "actualConcept": "Total population",
+      "actualConcept": "Sex by Age",
       "predicateType": "int",
       "datasetFamily": "acs/acs5",
       "expectedDatasetFamily": "acs/acs5",
@@ -864,7 +864,7 @@
       "variableRole": "margin-of-error",
       "variableExists": true,
       "metadataEstimateExists": true,
-      "metadataMoeListed": true,
+      "metadataMoeListed": false,
       "liveEstimateQueryable": null,
       "liveMoeQueryable": null,
       "livePairQueryable": null,
@@ -875,7 +875,7 @@
       "variableInGroup": true,
       "pairExists": true,
       "estimateOrMoeType": "moe",
-      "actualLabel": "Estimate!!Total:!!Male:!!10 to 14 years",
+      "actualLabel": "Estimate!!Total:!!Female:!!10 to 14 years",
       "expectedLabelPatterns": [
         "excludes:18 and 19 years",
         "excludes:20 years",
@@ -883,7 +883,7 @@
         "excludes:62 to 64",
         "excludes:65"
       ],
-      "actualConcept": "Total population",
+      "actualConcept": "Sex by Age",
       "predicateType": "int",
       "datasetFamily": "acs/acs5",
       "expectedDatasetFamily": "acs/acs5",
@@ -915,7 +915,7 @@
       "variableRole": "margin-of-error",
       "variableExists": true,
       "metadataEstimateExists": true,
-      "metadataMoeListed": true,
+      "metadataMoeListed": false,
       "liveEstimateQueryable": null,
       "liveMoeQueryable": null,
       "livePairQueryable": null,
@@ -926,7 +926,7 @@
       "variableInGroup": true,
       "pairExists": true,
       "estimateOrMoeType": "moe",
-      "actualLabel": "Estimate!!Total:!!Male:!!15 to 17 years",
+      "actualLabel": "Estimate!!Total:!!Female:!!15 to 17 years",
       "expectedLabelPatterns": [
         "excludes:18 and 19 years",
         "excludes:20 years",
@@ -934,7 +934,7 @@
         "excludes:62 to 64",
         "excludes:65"
       ],
-      "actualConcept": "Total population",
+      "actualConcept": "Sex by Age",
       "predicateType": "int",
       "datasetFamily": "acs/acs5",
       "expectedDatasetFamily": "acs/acs5",
@@ -966,7 +966,7 @@
       "variableRole": "denominator-total",
       "variableExists": true,
       "metadataEstimateExists": true,
-      "metadataMoeListed": true,
+      "metadataMoeListed": false,
       "liveEstimateQueryable": null,
       "liveMoeQueryable": null,
       "livePairQueryable": null,
@@ -977,7 +977,7 @@
       "variableInGroup": true,
       "pairExists": true,
       "estimateOrMoeType": "estimate",
-      "actualLabel": "Estimate!!Total:!!Male:!!65 and 66 years",
+      "actualLabel": "Estimate!!Total:",
       "expectedLabelPatterns": [
         "excludes:18 and 19 years",
         "excludes:20 years",
@@ -985,7 +985,7 @@
         "excludes:62 to 64",
         "excludes:65"
       ],
-      "actualConcept": "Total population",
+      "actualConcept": "Sex by Age",
       "predicateType": "int",
       "datasetFamily": "acs/acs5",
       "expectedDatasetFamily": "acs/acs5",
@@ -1017,7 +1017,7 @@
       "variableRole": "margin-of-error",
       "variableExists": true,
       "metadataEstimateExists": true,
-      "metadataMoeListed": true,
+      "metadataMoeListed": false,
       "liveEstimateQueryable": null,
       "liveMoeQueryable": null,
       "livePairQueryable": null,
@@ -1028,7 +1028,7 @@
       "variableInGroup": true,
       "pairExists": true,
       "estimateOrMoeType": "moe",
-      "actualLabel": "Estimate!!Total:!!Male:!!65 and 66 years",
+      "actualLabel": "Estimate!!Total:",
       "expectedLabelPatterns": [
         "excludes:18 and 19 years",
         "excludes:20 years",
@@ -1036,7 +1036,7 @@
         "excludes:62 to 64",
         "excludes:65"
       ],
-      "actualConcept": "Total population",
+      "actualConcept": "Sex by Age",
       "predicateType": "int",
       "datasetFamily": "acs/acs5",
       "expectedDatasetFamily": "acs/acs5",
@@ -1068,7 +1068,7 @@
       "variableRole": "numerator-component",
       "variableExists": true,
       "metadataEstimateExists": true,
-      "metadataMoeListed": true,
+      "metadataMoeListed": false,
       "liveEstimateQueryable": null,
       "liveMoeQueryable": null,
       "livePairQueryable": null,
@@ -1091,7 +1091,7 @@
         "excludes:60 and 61 years",
         "excludes:62 to 64 years"
       ],
-      "actualConcept": "Total population",
+      "actualConcept": "Sex by Age",
       "predicateType": "int",
       "datasetFamily": "acs/acs5",
       "expectedDatasetFamily": "acs/acs5",
@@ -1123,7 +1123,7 @@
       "variableRole": "numerator-component",
       "variableExists": true,
       "metadataEstimateExists": true,
-      "metadataMoeListed": true,
+      "metadataMoeListed": false,
       "liveEstimateQueryable": null,
       "liveMoeQueryable": null,
       "livePairQueryable": null,
@@ -1134,7 +1134,7 @@
       "variableInGroup": true,
       "pairExists": true,
       "estimateOrMoeType": "estimate",
-      "actualLabel": "Estimate!!Total:!!Male:!!65 and 66 years",
+      "actualLabel": "Estimate!!Total:!!Male:!!67 to 69 years",
       "expectedLabelPatterns": [
         "excludes:under 5 years",
         "excludes:5 to 9 years",
@@ -1146,7 +1146,7 @@
         "excludes:60 and 61 years",
         "excludes:62 to 64 years"
       ],
-      "actualConcept": "Total population",
+      "actualConcept": "Sex by Age",
       "predicateType": "int",
       "datasetFamily": "acs/acs5",
       "expectedDatasetFamily": "acs/acs5",
@@ -1178,7 +1178,7 @@
       "variableRole": "numerator-component",
       "variableExists": true,
       "metadataEstimateExists": true,
-      "metadataMoeListed": true,
+      "metadataMoeListed": false,
       "liveEstimateQueryable": null,
       "liveMoeQueryable": null,
       "livePairQueryable": null,
@@ -1189,7 +1189,7 @@
       "variableInGroup": true,
       "pairExists": true,
       "estimateOrMoeType": "estimate",
-      "actualLabel": "Estimate!!Total:!!Male:!!65 and 66 years",
+      "actualLabel": "Estimate!!Total:!!Male:!!70 to 74 years",
       "expectedLabelPatterns": [
         "excludes:under 5 years",
         "excludes:5 to 9 years",
@@ -1201,7 +1201,7 @@
         "excludes:60 and 61 years",
         "excludes:62 to 64 years"
       ],
-      "actualConcept": "Total population",
+      "actualConcept": "Sex by Age",
       "predicateType": "int",
       "datasetFamily": "acs/acs5",
       "expectedDatasetFamily": "acs/acs5",
@@ -1233,7 +1233,7 @@
       "variableRole": "numerator-component",
       "variableExists": true,
       "metadataEstimateExists": true,
-      "metadataMoeListed": true,
+      "metadataMoeListed": false,
       "liveEstimateQueryable": null,
       "liveMoeQueryable": null,
       "livePairQueryable": null,
@@ -1244,7 +1244,7 @@
       "variableInGroup": true,
       "pairExists": true,
       "estimateOrMoeType": "estimate",
-      "actualLabel": "Estimate!!Total:!!Male:!!65 and 66 years",
+      "actualLabel": "Estimate!!Total:!!Male:!!75 to 79 years",
       "expectedLabelPatterns": [
         "excludes:under 5 years",
         "excludes:5 to 9 years",
@@ -1256,7 +1256,7 @@
         "excludes:60 and 61 years",
         "excludes:62 to 64 years"
       ],
-      "actualConcept": "Total population",
+      "actualConcept": "Sex by Age",
       "predicateType": "int",
       "datasetFamily": "acs/acs5",
       "expectedDatasetFamily": "acs/acs5",
@@ -1288,7 +1288,7 @@
       "variableRole": "numerator-component",
       "variableExists": true,
       "metadataEstimateExists": true,
-      "metadataMoeListed": true,
+      "metadataMoeListed": false,
       "liveEstimateQueryable": null,
       "liveMoeQueryable": null,
       "livePairQueryable": null,
@@ -1299,7 +1299,7 @@
       "variableInGroup": true,
       "pairExists": true,
       "estimateOrMoeType": "estimate",
-      "actualLabel": "Estimate!!Total:!!Male:!!65 and 66 years",
+      "actualLabel": "Estimate!!Total:!!Male:!!80 to 84 years",
       "expectedLabelPatterns": [
         "excludes:under 5 years",
         "excludes:5 to 9 years",
@@ -1311,7 +1311,7 @@
         "excludes:60 and 61 years",
         "excludes:62 to 64 years"
       ],
-      "actualConcept": "Total population",
+      "actualConcept": "Sex by Age",
       "predicateType": "int",
       "datasetFamily": "acs/acs5",
       "expectedDatasetFamily": "acs/acs5",
@@ -1343,7 +1343,7 @@
       "variableRole": "numerator-component",
       "variableExists": true,
       "metadataEstimateExists": true,
-      "metadataMoeListed": true,
+      "metadataMoeListed": false,
       "liveEstimateQueryable": null,
       "liveMoeQueryable": null,
       "livePairQueryable": null,
@@ -1354,7 +1354,7 @@
       "variableInGroup": true,
       "pairExists": true,
       "estimateOrMoeType": "estimate",
-      "actualLabel": "Estimate!!Total:!!Male:!!65 and 66 years",
+      "actualLabel": "Estimate!!Total:!!Male:!!85 years and over",
       "expectedLabelPatterns": [
         "excludes:under 5 years",
         "excludes:5 to 9 years",
@@ -1366,7 +1366,7 @@
         "excludes:60 and 61 years",
         "excludes:62 to 64 years"
       ],
-      "actualConcept": "Total population",
+      "actualConcept": "Sex by Age",
       "predicateType": "int",
       "datasetFamily": "acs/acs5",
       "expectedDatasetFamily": "acs/acs5",
@@ -1398,7 +1398,7 @@
       "variableRole": "numerator-component",
       "variableExists": true,
       "metadataEstimateExists": true,
-      "metadataMoeListed": true,
+      "metadataMoeListed": false,
       "liveEstimateQueryable": null,
       "liveMoeQueryable": null,
       "livePairQueryable": null,
@@ -1409,7 +1409,7 @@
       "variableInGroup": true,
       "pairExists": true,
       "estimateOrMoeType": "estimate",
-      "actualLabel": "Estimate!!Total:!!Male:!!65 and 66 years",
+      "actualLabel": "Estimate!!Total:!!Female:!!65 and 66 years",
       "expectedLabelPatterns": [
         "excludes:under 5 years",
         "excludes:5 to 9 years",
@@ -1421,7 +1421,7 @@
         "excludes:60 and 61 years",
         "excludes:62 to 64 years"
       ],
-      "actualConcept": "Total population",
+      "actualConcept": "Sex by Age",
       "predicateType": "int",
       "datasetFamily": "acs/acs5",
       "expectedDatasetFamily": "acs/acs5",
@@ -1453,7 +1453,7 @@
       "variableRole": "numerator-component",
       "variableExists": true,
       "metadataEstimateExists": true,
-      "metadataMoeListed": true,
+      "metadataMoeListed": false,
       "liveEstimateQueryable": null,
       "liveMoeQueryable": null,
       "livePairQueryable": null,
@@ -1464,7 +1464,7 @@
       "variableInGroup": true,
       "pairExists": true,
       "estimateOrMoeType": "estimate",
-      "actualLabel": "Estimate!!Total:!!Male:!!65 and 66 years",
+      "actualLabel": "Estimate!!Total:!!Female:!!67 to 69 years",
       "expectedLabelPatterns": [
         "excludes:under 5 years",
         "excludes:5 to 9 years",
@@ -1476,7 +1476,7 @@
         "excludes:60 and 61 years",
         "excludes:62 to 64 years"
       ],
-      "actualConcept": "Total population",
+      "actualConcept": "Sex by Age",
       "predicateType": "int",
       "datasetFamily": "acs/acs5",
       "expectedDatasetFamily": "acs/acs5",
@@ -1508,7 +1508,7 @@
       "variableRole": "numerator-component",
       "variableExists": true,
       "metadataEstimateExists": true,
-      "metadataMoeListed": true,
+      "metadataMoeListed": false,
       "liveEstimateQueryable": null,
       "liveMoeQueryable": null,
       "livePairQueryable": null,
@@ -1519,7 +1519,7 @@
       "variableInGroup": true,
       "pairExists": true,
       "estimateOrMoeType": "estimate",
-      "actualLabel": "Estimate!!Total:!!Male:!!65 and 66 years",
+      "actualLabel": "Estimate!!Total:!!Female:!!70 to 74 years",
       "expectedLabelPatterns": [
         "excludes:under 5 years",
         "excludes:5 to 9 years",
@@ -1531,7 +1531,7 @@
         "excludes:60 and 61 years",
         "excludes:62 to 64 years"
       ],
-      "actualConcept": "Total population",
+      "actualConcept": "Sex by Age",
       "predicateType": "int",
       "datasetFamily": "acs/acs5",
       "expectedDatasetFamily": "acs/acs5",
@@ -1563,7 +1563,7 @@
       "variableRole": "numerator-component",
       "variableExists": true,
       "metadataEstimateExists": true,
-      "metadataMoeListed": true,
+      "metadataMoeListed": false,
       "liveEstimateQueryable": null,
       "liveMoeQueryable": null,
       "livePairQueryable": null,
@@ -1574,7 +1574,7 @@
       "variableInGroup": true,
       "pairExists": true,
       "estimateOrMoeType": "estimate",
-      "actualLabel": "Estimate!!Total:!!Male:!!65 and 66 years",
+      "actualLabel": "Estimate!!Total:!!Female:!!75 to 79 years",
       "expectedLabelPatterns": [
         "excludes:under 5 years",
         "excludes:5 to 9 years",
@@ -1586,7 +1586,7 @@
         "excludes:60 and 61 years",
         "excludes:62 to 64 years"
       ],
-      "actualConcept": "Total population",
+      "actualConcept": "Sex by Age",
       "predicateType": "int",
       "datasetFamily": "acs/acs5",
       "expectedDatasetFamily": "acs/acs5",
@@ -1618,7 +1618,7 @@
       "variableRole": "numerator-component",
       "variableExists": true,
       "metadataEstimateExists": true,
-      "metadataMoeListed": true,
+      "metadataMoeListed": false,
       "liveEstimateQueryable": null,
       "liveMoeQueryable": null,
       "livePairQueryable": null,
@@ -1629,7 +1629,7 @@
       "variableInGroup": true,
       "pairExists": true,
       "estimateOrMoeType": "estimate",
-      "actualLabel": "Estimate!!Total:!!Male:!!65 and 66 years",
+      "actualLabel": "Estimate!!Total:!!Female:!!80 to 84 years",
       "expectedLabelPatterns": [
         "excludes:under 5 years",
         "excludes:5 to 9 years",
@@ -1641,7 +1641,7 @@
         "excludes:60 and 61 years",
         "excludes:62 to 64 years"
       ],
-      "actualConcept": "Total population",
+      "actualConcept": "Sex by Age",
       "predicateType": "int",
       "datasetFamily": "acs/acs5",
       "expectedDatasetFamily": "acs/acs5",
@@ -1673,7 +1673,7 @@
       "variableRole": "numerator-component",
       "variableExists": true,
       "metadataEstimateExists": true,
-      "metadataMoeListed": true,
+      "metadataMoeListed": false,
       "liveEstimateQueryable": null,
       "liveMoeQueryable": null,
       "livePairQueryable": null,
@@ -1684,7 +1684,7 @@
       "variableInGroup": true,
       "pairExists": true,
       "estimateOrMoeType": "estimate",
-      "actualLabel": "Estimate!!Total:!!Male:!!65 and 66 years",
+      "actualLabel": "Estimate!!Total:!!Female:!!85 years and over",
       "expectedLabelPatterns": [
         "excludes:under 5 years",
         "excludes:5 to 9 years",
@@ -1696,7 +1696,7 @@
         "excludes:60 and 61 years",
         "excludes:62 to 64 years"
       ],
-      "actualConcept": "Total population",
+      "actualConcept": "Sex by Age",
       "predicateType": "int",
       "datasetFamily": "acs/acs5",
       "expectedDatasetFamily": "acs/acs5",
@@ -1728,7 +1728,7 @@
       "variableRole": "margin-of-error",
       "variableExists": true,
       "metadataEstimateExists": true,
-      "metadataMoeListed": true,
+      "metadataMoeListed": false,
       "liveEstimateQueryable": null,
       "liveMoeQueryable": null,
       "livePairQueryable": null,
@@ -1751,7 +1751,7 @@
         "excludes:60 and 61 years",
         "excludes:62 to 64 years"
       ],
-      "actualConcept": "Total population",
+      "actualConcept": "Sex by Age",
       "predicateType": "int",
       "datasetFamily": "acs/acs5",
       "expectedDatasetFamily": "acs/acs5",
@@ -1783,7 +1783,7 @@
       "variableRole": "margin-of-error",
       "variableExists": true,
       "metadataEstimateExists": true,
-      "metadataMoeListed": true,
+      "metadataMoeListed": false,
       "liveEstimateQueryable": null,
       "liveMoeQueryable": null,
       "livePairQueryable": null,
@@ -1794,7 +1794,7 @@
       "variableInGroup": true,
       "pairExists": true,
       "estimateOrMoeType": "moe",
-      "actualLabel": "Estimate!!Total:!!Male:!!65 and 66 years",
+      "actualLabel": "Estimate!!Total:!!Male:!!67 to 69 years",
       "expectedLabelPatterns": [
         "excludes:under 5 years",
         "excludes:5 to 9 years",
@@ -1806,7 +1806,7 @@
         "excludes:60 and 61 years",
         "excludes:62 to 64 years"
       ],
-      "actualConcept": "Total population",
+      "actualConcept": "Sex by Age",
       "predicateType": "int",
       "datasetFamily": "acs/acs5",
       "expectedDatasetFamily": "acs/acs5",
@@ -1838,7 +1838,7 @@
       "variableRole": "margin-of-error",
       "variableExists": true,
       "metadataEstimateExists": true,
-      "metadataMoeListed": true,
+      "metadataMoeListed": false,
       "liveEstimateQueryable": null,
       "liveMoeQueryable": null,
       "livePairQueryable": null,
@@ -1849,7 +1849,7 @@
       "variableInGroup": true,
       "pairExists": true,
       "estimateOrMoeType": "moe",
-      "actualLabel": "Estimate!!Total:!!Male:!!65 and 66 years",
+      "actualLabel": "Estimate!!Total:!!Male:!!70 to 74 years",
       "expectedLabelPatterns": [
         "excludes:under 5 years",
         "excludes:5 to 9 years",
@@ -1861,7 +1861,7 @@
         "excludes:60 and 61 years",
         "excludes:62 to 64 years"
       ],
-      "actualConcept": "Total population",
+      "actualConcept": "Sex by Age",
       "predicateType": "int",
       "datasetFamily": "acs/acs5",
       "expectedDatasetFamily": "acs/acs5",
@@ -1893,7 +1893,7 @@
       "variableRole": "margin-of-error",
       "variableExists": true,
       "metadataEstimateExists": true,
-      "metadataMoeListed": true,
+      "metadataMoeListed": false,
       "liveEstimateQueryable": null,
       "liveMoeQueryable": null,
       "livePairQueryable": null,
@@ -1904,7 +1904,7 @@
       "variableInGroup": true,
       "pairExists": true,
       "estimateOrMoeType": "moe",
-      "actualLabel": "Estimate!!Total:!!Male:!!65 and 66 years",
+      "actualLabel": "Estimate!!Total:!!Male:!!75 to 79 years",
       "expectedLabelPatterns": [
         "excludes:under 5 years",
         "excludes:5 to 9 years",
@@ -1916,7 +1916,7 @@
         "excludes:60 and 61 years",
         "excludes:62 to 64 years"
       ],
-      "actualConcept": "Total population",
+      "actualConcept": "Sex by Age",
       "predicateType": "int",
       "datasetFamily": "acs/acs5",
       "expectedDatasetFamily": "acs/acs5",
@@ -1948,7 +1948,7 @@
       "variableRole": "margin-of-error",
       "variableExists": true,
       "metadataEstimateExists": true,
-      "metadataMoeListed": true,
+      "metadataMoeListed": false,
       "liveEstimateQueryable": null,
       "liveMoeQueryable": null,
       "livePairQueryable": null,
@@ -1959,7 +1959,7 @@
       "variableInGroup": true,
       "pairExists": true,
       "estimateOrMoeType": "moe",
-      "actualLabel": "Estimate!!Total:!!Male:!!65 and 66 years",
+      "actualLabel": "Estimate!!Total:!!Male:!!80 to 84 years",
       "expectedLabelPatterns": [
         "excludes:under 5 years",
         "excludes:5 to 9 years",
@@ -1971,7 +1971,7 @@
         "excludes:60 and 61 years",
         "excludes:62 to 64 years"
       ],
-      "actualConcept": "Total population",
+      "actualConcept": "Sex by Age",
       "predicateType": "int",
       "datasetFamily": "acs/acs5",
       "expectedDatasetFamily": "acs/acs5",
@@ -2003,7 +2003,7 @@
       "variableRole": "margin-of-error",
       "variableExists": true,
       "metadataEstimateExists": true,
-      "metadataMoeListed": true,
+      "metadataMoeListed": false,
       "liveEstimateQueryable": null,
       "liveMoeQueryable": null,
       "livePairQueryable": null,
@@ -2014,7 +2014,7 @@
       "variableInGroup": true,
       "pairExists": true,
       "estimateOrMoeType": "moe",
-      "actualLabel": "Estimate!!Total:!!Male:!!65 and 66 years",
+      "actualLabel": "Estimate!!Total:!!Male:!!85 years and over",
       "expectedLabelPatterns": [
         "excludes:under 5 years",
         "excludes:5 to 9 years",
@@ -2026,7 +2026,7 @@
         "excludes:60 and 61 years",
         "excludes:62 to 64 years"
       ],
-      "actualConcept": "Total population",
+      "actualConcept": "Sex by Age",
       "predicateType": "int",
       "datasetFamily": "acs/acs5",
       "expectedDatasetFamily": "acs/acs5",
@@ -2058,7 +2058,7 @@
       "variableRole": "margin-of-error",
       "variableExists": true,
       "metadataEstimateExists": true,
-      "metadataMoeListed": true,
+      "metadataMoeListed": false,
       "liveEstimateQueryable": null,
       "liveMoeQueryable": null,
       "livePairQueryable": null,
@@ -2069,7 +2069,7 @@
       "variableInGroup": true,
       "pairExists": true,
       "estimateOrMoeType": "moe",
-      "actualLabel": "Estimate!!Total:!!Male:!!65 and 66 years",
+      "actualLabel": "Estimate!!Total:!!Female:!!65 and 66 years",
       "expectedLabelPatterns": [
         "excludes:under 5 years",
         "excludes:5 to 9 years",
@@ -2081,7 +2081,7 @@
         "excludes:60 and 61 years",
         "excludes:62 to 64 years"
       ],
-      "actualConcept": "Total population",
+      "actualConcept": "Sex by Age",
       "predicateType": "int",
       "datasetFamily": "acs/acs5",
       "expectedDatasetFamily": "acs/acs5",
@@ -2113,7 +2113,7 @@
       "variableRole": "margin-of-error",
       "variableExists": true,
       "metadataEstimateExists": true,
-      "metadataMoeListed": true,
+      "metadataMoeListed": false,
       "liveEstimateQueryable": null,
       "liveMoeQueryable": null,
       "livePairQueryable": null,
@@ -2124,7 +2124,7 @@
       "variableInGroup": true,
       "pairExists": true,
       "estimateOrMoeType": "moe",
-      "actualLabel": "Estimate!!Total:!!Male:!!65 and 66 years",
+      "actualLabel": "Estimate!!Total:!!Female:!!67 to 69 years",
       "expectedLabelPatterns": [
         "excludes:under 5 years",
         "excludes:5 to 9 years",
@@ -2136,7 +2136,7 @@
         "excludes:60 and 61 years",
         "excludes:62 to 64 years"
       ],
-      "actualConcept": "Total population",
+      "actualConcept": "Sex by Age",
       "predicateType": "int",
       "datasetFamily": "acs/acs5",
       "expectedDatasetFamily": "acs/acs5",
@@ -2168,7 +2168,7 @@
       "variableRole": "margin-of-error",
       "variableExists": true,
       "metadataEstimateExists": true,
-      "metadataMoeListed": true,
+      "metadataMoeListed": false,
       "liveEstimateQueryable": null,
       "liveMoeQueryable": null,
       "livePairQueryable": null,
@@ -2179,7 +2179,7 @@
       "variableInGroup": true,
       "pairExists": true,
       "estimateOrMoeType": "moe",
-      "actualLabel": "Estimate!!Total:!!Male:!!65 and 66 years",
+      "actualLabel": "Estimate!!Total:!!Female:!!70 to 74 years",
       "expectedLabelPatterns": [
         "excludes:under 5 years",
         "excludes:5 to 9 years",
@@ -2191,7 +2191,7 @@
         "excludes:60 and 61 years",
         "excludes:62 to 64 years"
       ],
-      "actualConcept": "Total population",
+      "actualConcept": "Sex by Age",
       "predicateType": "int",
       "datasetFamily": "acs/acs5",
       "expectedDatasetFamily": "acs/acs5",
@@ -2223,7 +2223,7 @@
       "variableRole": "margin-of-error",
       "variableExists": true,
       "metadataEstimateExists": true,
-      "metadataMoeListed": true,
+      "metadataMoeListed": false,
       "liveEstimateQueryable": null,
       "liveMoeQueryable": null,
       "livePairQueryable": null,
@@ -2234,7 +2234,7 @@
       "variableInGroup": true,
       "pairExists": true,
       "estimateOrMoeType": "moe",
-      "actualLabel": "Estimate!!Total:!!Male:!!65 and 66 years",
+      "actualLabel": "Estimate!!Total:!!Female:!!75 to 79 years",
       "expectedLabelPatterns": [
         "excludes:under 5 years",
         "excludes:5 to 9 years",
@@ -2246,7 +2246,7 @@
         "excludes:60 and 61 years",
         "excludes:62 to 64 years"
       ],
-      "actualConcept": "Total population",
+      "actualConcept": "Sex by Age",
       "predicateType": "int",
       "datasetFamily": "acs/acs5",
       "expectedDatasetFamily": "acs/acs5",
@@ -2278,7 +2278,7 @@
       "variableRole": "margin-of-error",
       "variableExists": true,
       "metadataEstimateExists": true,
-      "metadataMoeListed": true,
+      "metadataMoeListed": false,
       "liveEstimateQueryable": null,
       "liveMoeQueryable": null,
       "livePairQueryable": null,
@@ -2289,7 +2289,7 @@
       "variableInGroup": true,
       "pairExists": true,
       "estimateOrMoeType": "moe",
-      "actualLabel": "Estimate!!Total:!!Male:!!65 and 66 years",
+      "actualLabel": "Estimate!!Total:!!Female:!!80 to 84 years",
       "expectedLabelPatterns": [
         "excludes:under 5 years",
         "excludes:5 to 9 years",
@@ -2301,7 +2301,7 @@
         "excludes:60 and 61 years",
         "excludes:62 to 64 years"
       ],
-      "actualConcept": "Total population",
+      "actualConcept": "Sex by Age",
       "predicateType": "int",
       "datasetFamily": "acs/acs5",
       "expectedDatasetFamily": "acs/acs5",
@@ -2333,7 +2333,7 @@
       "variableRole": "margin-of-error",
       "variableExists": true,
       "metadataEstimateExists": true,
-      "metadataMoeListed": true,
+      "metadataMoeListed": false,
       "liveEstimateQueryable": null,
       "liveMoeQueryable": null,
       "livePairQueryable": null,
@@ -2344,7 +2344,7 @@
       "variableInGroup": true,
       "pairExists": true,
       "estimateOrMoeType": "moe",
-      "actualLabel": "Estimate!!Total:!!Male:!!65 and 66 years",
+      "actualLabel": "Estimate!!Total:!!Female:!!85 years and over",
       "expectedLabelPatterns": [
         "excludes:under 5 years",
         "excludes:5 to 9 years",
@@ -2356,7 +2356,7 @@
         "excludes:60 and 61 years",
         "excludes:62 to 64 years"
       ],
-      "actualConcept": "Total population",
+      "actualConcept": "Sex by Age",
       "predicateType": "int",
       "datasetFamily": "acs/acs5",
       "expectedDatasetFamily": "acs/acs5",
@@ -2388,7 +2388,7 @@
       "variableRole": "denominator-total",
       "variableExists": true,
       "metadataEstimateExists": true,
-      "metadataMoeListed": true,
+      "metadataMoeListed": false,
       "liveEstimateQueryable": null,
       "liveMoeQueryable": null,
       "livePairQueryable": null,
@@ -2399,7 +2399,7 @@
       "variableInGroup": true,
       "pairExists": true,
       "estimateOrMoeType": "estimate",
-      "actualLabel": "Estimate!!Total:!!Male:!!65 and 66 years",
+      "actualLabel": "Estimate!!Total:",
       "expectedLabelPatterns": [
         "excludes:under 5 years",
         "excludes:5 to 9 years",
@@ -2411,7 +2411,7 @@
         "excludes:60 and 61 years",
         "excludes:62 to 64 years"
       ],
-      "actualConcept": "Total population",
+      "actualConcept": "Sex by Age",
       "predicateType": "int",
       "datasetFamily": "acs/acs5",
       "expectedDatasetFamily": "acs/acs5",
@@ -2443,7 +2443,7 @@
       "variableRole": "margin-of-error",
       "variableExists": true,
       "metadataEstimateExists": true,
-      "metadataMoeListed": true,
+      "metadataMoeListed": false,
       "liveEstimateQueryable": null,
       "liveMoeQueryable": null,
       "livePairQueryable": null,
@@ -2454,7 +2454,7 @@
       "variableInGroup": true,
       "pairExists": true,
       "estimateOrMoeType": "moe",
-      "actualLabel": "Estimate!!Total:!!Male:!!65 and 66 years",
+      "actualLabel": "Estimate!!Total:",
       "expectedLabelPatterns": [
         "excludes:under 5 years",
         "excludes:5 to 9 years",
@@ -2466,7 +2466,7 @@
         "excludes:60 and 61 years",
         "excludes:62 to 64 years"
       ],
-      "actualConcept": "Total population",
+      "actualConcept": "Sex by Age",
       "predicateType": "int",
       "datasetFamily": "acs/acs5",
       "expectedDatasetFamily": "acs/acs5",
@@ -2498,7 +2498,7 @@
       "variableRole": "numerator-component",
       "variableExists": true,
       "metadataEstimateExists": true,
-      "metadataMoeListed": true,
+      "metadataMoeListed": false,
       "liveEstimateQueryable": null,
       "liveMoeQueryable": null,
       "livePairQueryable": null,
@@ -2509,12 +2509,12 @@
       "variableInGroup": true,
       "pairExists": true,
       "estimateOrMoeType": "estimate",
-      "actualLabel": "Estimate!!Total:!!Income in the past 12 months below poverty level",
+      "actualLabel": "Estimate!!Total:!!Income in the past 12 months below poverty level:",
       "expectedLabelPatterns": [
         "includes:income",
         "includes:below poverty level"
       ],
-      "actualConcept": "Population for whom poverty status is determined",
+      "actualConcept": "Poverty Status in the Past 12 Months by Sex by Age",
       "predicateType": "int",
       "datasetFamily": "acs/acs5",
       "expectedDatasetFamily": "acs/acs5",
@@ -2546,7 +2546,7 @@
       "variableRole": "margin-of-error",
       "variableExists": true,
       "metadataEstimateExists": true,
-      "metadataMoeListed": true,
+      "metadataMoeListed": false,
       "liveEstimateQueryable": null,
       "liveMoeQueryable": null,
       "livePairQueryable": null,
@@ -2557,12 +2557,12 @@
       "variableInGroup": true,
       "pairExists": true,
       "estimateOrMoeType": "moe",
-      "actualLabel": "Estimate!!Total:!!Income in the past 12 months below poverty level",
+      "actualLabel": "Estimate!!Total:!!Income in the past 12 months below poverty level:",
       "expectedLabelPatterns": [
         "includes:income",
         "includes:below poverty level"
       ],
-      "actualConcept": "Population for whom poverty status is determined",
+      "actualConcept": "Poverty Status in the Past 12 Months by Sex by Age",
       "predicateType": "int",
       "datasetFamily": "acs/acs5",
       "expectedDatasetFamily": "acs/acs5",
@@ -2594,7 +2594,7 @@
       "variableRole": "denominator-total",
       "variableExists": true,
       "metadataEstimateExists": true,
-      "metadataMoeListed": true,
+      "metadataMoeListed": false,
       "liveEstimateQueryable": null,
       "liveMoeQueryable": null,
       "livePairQueryable": null,
@@ -2605,12 +2605,12 @@
       "variableInGroup": true,
       "pairExists": true,
       "estimateOrMoeType": "estimate",
-      "actualLabel": "Estimate!!Total:!!Income in the past 12 months below poverty level",
+      "actualLabel": "Estimate!!Total:",
       "expectedLabelPatterns": [
         "includes:income",
         "includes:below poverty level"
       ],
-      "actualConcept": "Population for whom poverty status is determined",
+      "actualConcept": "Poverty Status in the Past 12 Months by Sex by Age",
       "predicateType": "int",
       "datasetFamily": "acs/acs5",
       "expectedDatasetFamily": "acs/acs5",
@@ -2642,7 +2642,7 @@
       "variableRole": "margin-of-error",
       "variableExists": true,
       "metadataEstimateExists": true,
-      "metadataMoeListed": true,
+      "metadataMoeListed": false,
       "liveEstimateQueryable": null,
       "liveMoeQueryable": null,
       "livePairQueryable": null,
@@ -2653,12 +2653,12 @@
       "variableInGroup": true,
       "pairExists": true,
       "estimateOrMoeType": "moe",
-      "actualLabel": "Estimate!!Total:!!Income in the past 12 months below poverty level",
+      "actualLabel": "Estimate!!Total:",
       "expectedLabelPatterns": [
         "includes:income",
         "includes:below poverty level"
       ],
-      "actualConcept": "Population for whom poverty status is determined",
+      "actualConcept": "Poverty Status in the Past 12 Months by Sex by Age",
       "predicateType": "int",
       "datasetFamily": "acs/acs5",
       "expectedDatasetFamily": "acs/acs5",
@@ -2690,7 +2690,7 @@
       "variableRole": "numerator-component",
       "variableExists": true,
       "metadataEstimateExists": true,
-      "metadataMoeListed": true,
+      "metadataMoeListed": false,
       "liveEstimateQueryable": null,
       "liveMoeQueryable": null,
       "livePairQueryable": null,
@@ -2701,12 +2701,12 @@
       "variableInGroup": true,
       "pairExists": true,
       "estimateOrMoeType": "estimate",
-      "actualLabel": "Estimate!!Total:!!No health insurance coverage",
+      "actualLabel": "Estimate!!Total:!!Under 19 years:!!No health insurance coverage",
       "expectedLabelPatterns": [
         "includes:no health insurance coverage",
         "excludes:with health insurance coverage"
       ],
-      "actualConcept": "Civilian noninstitutionalized population",
+      "actualConcept": "Types of Health Insurance Coverage by Age",
       "predicateType": "int",
       "datasetFamily": "acs/acs5",
       "expectedDatasetFamily": "acs/acs5",
@@ -2738,7 +2738,7 @@
       "variableRole": "numerator-component",
       "variableExists": true,
       "metadataEstimateExists": true,
-      "metadataMoeListed": true,
+      "metadataMoeListed": false,
       "liveEstimateQueryable": null,
       "liveMoeQueryable": null,
       "livePairQueryable": null,
@@ -2749,12 +2749,12 @@
       "variableInGroup": true,
       "pairExists": true,
       "estimateOrMoeType": "estimate",
-      "actualLabel": "Estimate!!Total:!!No health insurance coverage",
+      "actualLabel": "Estimate!!Total:!!19 to 34 years:!!No health insurance coverage",
       "expectedLabelPatterns": [
         "includes:no health insurance coverage",
         "excludes:with health insurance coverage"
       ],
-      "actualConcept": "Civilian noninstitutionalized population",
+      "actualConcept": "Types of Health Insurance Coverage by Age",
       "predicateType": "int",
       "datasetFamily": "acs/acs5",
       "expectedDatasetFamily": "acs/acs5",
@@ -2786,7 +2786,7 @@
       "variableRole": "numerator-component",
       "variableExists": true,
       "metadataEstimateExists": true,
-      "metadataMoeListed": true,
+      "metadataMoeListed": false,
       "liveEstimateQueryable": null,
       "liveMoeQueryable": null,
       "livePairQueryable": null,
@@ -2797,12 +2797,12 @@
       "variableInGroup": true,
       "pairExists": true,
       "estimateOrMoeType": "estimate",
-      "actualLabel": "Estimate!!Total:!!No health insurance coverage",
+      "actualLabel": "Estimate!!Total:!!35 to 64 years:!!No health insurance coverage",
       "expectedLabelPatterns": [
         "includes:no health insurance coverage",
         "excludes:with health insurance coverage"
       ],
-      "actualConcept": "Civilian noninstitutionalized population",
+      "actualConcept": "Types of Health Insurance Coverage by Age",
       "predicateType": "int",
       "datasetFamily": "acs/acs5",
       "expectedDatasetFamily": "acs/acs5",
@@ -2834,7 +2834,7 @@
       "variableRole": "numerator-component",
       "variableExists": true,
       "metadataEstimateExists": true,
-      "metadataMoeListed": true,
+      "metadataMoeListed": false,
       "liveEstimateQueryable": null,
       "liveMoeQueryable": null,
       "livePairQueryable": null,
@@ -2845,12 +2845,12 @@
       "variableInGroup": true,
       "pairExists": true,
       "estimateOrMoeType": "estimate",
-      "actualLabel": "Estimate!!Total:!!No health insurance coverage",
+      "actualLabel": "Estimate!!Total:!!65 years and over:!!No health insurance coverage",
       "expectedLabelPatterns": [
         "includes:no health insurance coverage",
         "excludes:with health insurance coverage"
       ],
-      "actualConcept": "Civilian noninstitutionalized population",
+      "actualConcept": "Types of Health Insurance Coverage by Age",
       "predicateType": "int",
       "datasetFamily": "acs/acs5",
       "expectedDatasetFamily": "acs/acs5",
@@ -2882,7 +2882,7 @@
       "variableRole": "margin-of-error",
       "variableExists": true,
       "metadataEstimateExists": true,
-      "metadataMoeListed": true,
+      "metadataMoeListed": false,
       "liveEstimateQueryable": null,
       "liveMoeQueryable": null,
       "livePairQueryable": null,
@@ -2893,12 +2893,12 @@
       "variableInGroup": true,
       "pairExists": true,
       "estimateOrMoeType": "moe",
-      "actualLabel": "Estimate!!Total:!!No health insurance coverage",
+      "actualLabel": "Estimate!!Total:!!Under 19 years:!!No health insurance coverage",
       "expectedLabelPatterns": [
         "includes:no health insurance coverage",
         "excludes:with health insurance coverage"
       ],
-      "actualConcept": "Civilian noninstitutionalized population",
+      "actualConcept": "Types of Health Insurance Coverage by Age",
       "predicateType": "int",
       "datasetFamily": "acs/acs5",
       "expectedDatasetFamily": "acs/acs5",
@@ -2930,7 +2930,7 @@
       "variableRole": "margin-of-error",
       "variableExists": true,
       "metadataEstimateExists": true,
-      "metadataMoeListed": true,
+      "metadataMoeListed": false,
       "liveEstimateQueryable": null,
       "liveMoeQueryable": null,
       "livePairQueryable": null,
@@ -2941,12 +2941,12 @@
       "variableInGroup": true,
       "pairExists": true,
       "estimateOrMoeType": "moe",
-      "actualLabel": "Estimate!!Total:!!No health insurance coverage",
+      "actualLabel": "Estimate!!Total:!!19 to 34 years:!!No health insurance coverage",
       "expectedLabelPatterns": [
         "includes:no health insurance coverage",
         "excludes:with health insurance coverage"
       ],
-      "actualConcept": "Civilian noninstitutionalized population",
+      "actualConcept": "Types of Health Insurance Coverage by Age",
       "predicateType": "int",
       "datasetFamily": "acs/acs5",
       "expectedDatasetFamily": "acs/acs5",
@@ -2978,7 +2978,7 @@
       "variableRole": "margin-of-error",
       "variableExists": true,
       "metadataEstimateExists": true,
-      "metadataMoeListed": true,
+      "metadataMoeListed": false,
       "liveEstimateQueryable": null,
       "liveMoeQueryable": null,
       "livePairQueryable": null,
@@ -2989,12 +2989,12 @@
       "variableInGroup": true,
       "pairExists": true,
       "estimateOrMoeType": "moe",
-      "actualLabel": "Estimate!!Total:!!No health insurance coverage",
+      "actualLabel": "Estimate!!Total:!!35 to 64 years:!!No health insurance coverage",
       "expectedLabelPatterns": [
         "includes:no health insurance coverage",
         "excludes:with health insurance coverage"
       ],
-      "actualConcept": "Civilian noninstitutionalized population",
+      "actualConcept": "Types of Health Insurance Coverage by Age",
       "predicateType": "int",
       "datasetFamily": "acs/acs5",
       "expectedDatasetFamily": "acs/acs5",
@@ -3026,7 +3026,7 @@
       "variableRole": "margin-of-error",
       "variableExists": true,
       "metadataEstimateExists": true,
-      "metadataMoeListed": true,
+      "metadataMoeListed": false,
       "liveEstimateQueryable": null,
       "liveMoeQueryable": null,
       "livePairQueryable": null,
@@ -3037,12 +3037,12 @@
       "variableInGroup": true,
       "pairExists": true,
       "estimateOrMoeType": "moe",
-      "actualLabel": "Estimate!!Total:!!No health insurance coverage",
+      "actualLabel": "Estimate!!Total:!!65 years and over:!!No health insurance coverage",
       "expectedLabelPatterns": [
         "includes:no health insurance coverage",
         "excludes:with health insurance coverage"
       ],
-      "actualConcept": "Civilian noninstitutionalized population",
+      "actualConcept": "Types of Health Insurance Coverage by Age",
       "predicateType": "int",
       "datasetFamily": "acs/acs5",
       "expectedDatasetFamily": "acs/acs5",
@@ -3074,7 +3074,7 @@
       "variableRole": "denominator-total",
       "variableExists": true,
       "metadataEstimateExists": true,
-      "metadataMoeListed": true,
+      "metadataMoeListed": false,
       "liveEstimateQueryable": null,
       "liveMoeQueryable": null,
       "livePairQueryable": null,
@@ -3085,12 +3085,12 @@
       "variableInGroup": true,
       "pairExists": true,
       "estimateOrMoeType": "estimate",
-      "actualLabel": "Estimate!!Total:!!No health insurance coverage",
+      "actualLabel": "Estimate!!Total:",
       "expectedLabelPatterns": [
         "includes:no health insurance coverage",
         "excludes:with health insurance coverage"
       ],
-      "actualConcept": "Civilian noninstitutionalized population",
+      "actualConcept": "Types of Health Insurance Coverage by Age",
       "predicateType": "int",
       "datasetFamily": "acs/acs5",
       "expectedDatasetFamily": "acs/acs5",
@@ -3122,7 +3122,7 @@
       "variableRole": "margin-of-error",
       "variableExists": true,
       "metadataEstimateExists": true,
-      "metadataMoeListed": true,
+      "metadataMoeListed": false,
       "liveEstimateQueryable": null,
       "liveMoeQueryable": null,
       "livePairQueryable": null,
@@ -3133,12 +3133,12 @@
       "variableInGroup": true,
       "pairExists": true,
       "estimateOrMoeType": "moe",
-      "actualLabel": "Estimate!!Total:!!No health insurance coverage",
+      "actualLabel": "Estimate!!Total:",
       "expectedLabelPatterns": [
         "includes:no health insurance coverage",
         "excludes:with health insurance coverage"
       ],
-      "actualConcept": "Civilian noninstitutionalized population",
+      "actualConcept": "Types of Health Insurance Coverage by Age",
       "predicateType": "int",
       "datasetFamily": "acs/acs5",
       "expectedDatasetFamily": "acs/acs5",
@@ -3170,7 +3170,7 @@
       "variableRole": "numerator-component",
       "variableExists": true,
       "metadataEstimateExists": true,
-      "metadataMoeListed": true,
+      "metadataMoeListed": false,
       "liveEstimateQueryable": null,
       "liveMoeQueryable": null,
       "livePairQueryable": null,
@@ -3190,7 +3190,7 @@
         "excludes:4 vehicles",
         "excludes:5 or more"
       ],
-      "actualConcept": "Households",
+      "actualConcept": "Household Size by Vehicles Available",
       "predicateType": "int",
       "datasetFamily": "acs/acs5",
       "expectedDatasetFamily": "acs/acs5",
@@ -3222,7 +3222,7 @@
       "variableRole": "margin-of-error",
       "variableExists": true,
       "metadataEstimateExists": true,
-      "metadataMoeListed": true,
+      "metadataMoeListed": false,
       "liveEstimateQueryable": null,
       "liveMoeQueryable": null,
       "livePairQueryable": null,
@@ -3242,7 +3242,7 @@
         "excludes:4 vehicles",
         "excludes:5 or more"
       ],
-      "actualConcept": "Households",
+      "actualConcept": "Household Size by Vehicles Available",
       "predicateType": "int",
       "datasetFamily": "acs/acs5",
       "expectedDatasetFamily": "acs/acs5",
@@ -3274,7 +3274,7 @@
       "variableRole": "denominator-total",
       "variableExists": true,
       "metadataEstimateExists": true,
-      "metadataMoeListed": true,
+      "metadataMoeListed": false,
       "liveEstimateQueryable": null,
       "liveMoeQueryable": null,
       "livePairQueryable": null,
@@ -3285,7 +3285,7 @@
       "variableInGroup": true,
       "pairExists": true,
       "estimateOrMoeType": "estimate",
-      "actualLabel": "Estimate!!Total:!!No vehicle available",
+      "actualLabel": "Estimate!!Total:",
       "expectedLabelPatterns": [
         "includes:no vehicle available",
         "excludes:1 vehicle",
@@ -3294,7 +3294,7 @@
         "excludes:4 vehicles",
         "excludes:5 or more"
       ],
-      "actualConcept": "Households",
+      "actualConcept": "Household Size by Vehicles Available",
       "predicateType": "int",
       "datasetFamily": "acs/acs5",
       "expectedDatasetFamily": "acs/acs5",
@@ -3326,7 +3326,7 @@
       "variableRole": "margin-of-error",
       "variableExists": true,
       "metadataEstimateExists": true,
-      "metadataMoeListed": true,
+      "metadataMoeListed": false,
       "liveEstimateQueryable": null,
       "liveMoeQueryable": null,
       "livePairQueryable": null,
@@ -3337,7 +3337,7 @@
       "variableInGroup": true,
       "pairExists": true,
       "estimateOrMoeType": "moe",
-      "actualLabel": "Estimate!!Total:!!No vehicle available",
+      "actualLabel": "Estimate!!Total:",
       "expectedLabelPatterns": [
         "includes:no vehicle available",
         "excludes:1 vehicle",
@@ -3346,7 +3346,7 @@
         "excludes:4 vehicles",
         "excludes:5 or more"
       ],
-      "actualConcept": "Households",
+      "actualConcept": "Household Size by Vehicles Available",
       "predicateType": "int",
       "datasetFamily": "acs/acs5",
       "expectedDatasetFamily": "acs/acs5",
@@ -3378,7 +3378,7 @@
       "variableRole": "numerator-component",
       "variableExists": true,
       "metadataEstimateExists": true,
-      "metadataMoeListed": true,
+      "metadataMoeListed": false,
       "liveEstimateQueryable": null,
       "liveMoeQueryable": null,
       "livePairQueryable": null,
@@ -3394,7 +3394,7 @@
         "includes:with a disability",
         "excludes:no disability"
       ],
-      "actualConcept": "Civilian noninstitutionalized population",
+      "actualConcept": "Sex by Age by Disability Status",
       "predicateType": "int",
       "datasetFamily": "acs/acs5",
       "expectedDatasetFamily": "acs/acs5",
@@ -3426,7 +3426,7 @@
       "variableRole": "numerator-component",
       "variableExists": true,
       "metadataEstimateExists": true,
-      "metadataMoeListed": true,
+      "metadataMoeListed": false,
       "liveEstimateQueryable": null,
       "liveMoeQueryable": null,
       "livePairQueryable": null,
@@ -3437,12 +3437,12 @@
       "variableInGroup": true,
       "pairExists": true,
       "estimateOrMoeType": "estimate",
-      "actualLabel": "Estimate!!Total:!!Male:!!Under 5 years:!!With a disability",
+      "actualLabel": "Estimate!!Total:!!Male:!!5 to 17 years:!!With a disability",
       "expectedLabelPatterns": [
         "includes:with a disability",
         "excludes:no disability"
       ],
-      "actualConcept": "Civilian noninstitutionalized population",
+      "actualConcept": "Sex by Age by Disability Status",
       "predicateType": "int",
       "datasetFamily": "acs/acs5",
       "expectedDatasetFamily": "acs/acs5",
@@ -3474,7 +3474,7 @@
       "variableRole": "numerator-component",
       "variableExists": true,
       "metadataEstimateExists": true,
-      "metadataMoeListed": true,
+      "metadataMoeListed": false,
       "liveEstimateQueryable": null,
       "liveMoeQueryable": null,
       "livePairQueryable": null,
@@ -3485,12 +3485,12 @@
       "variableInGroup": true,
       "pairExists": true,
       "estimateOrMoeType": "estimate",
-      "actualLabel": "Estimate!!Total:!!Male:!!Under 5 years:!!With a disability",
+      "actualLabel": "Estimate!!Total:!!Male:!!18 to 34 years:!!With a disability",
       "expectedLabelPatterns": [
         "includes:with a disability",
         "excludes:no disability"
       ],
-      "actualConcept": "Civilian noninstitutionalized population",
+      "actualConcept": "Sex by Age by Disability Status",
       "predicateType": "int",
       "datasetFamily": "acs/acs5",
       "expectedDatasetFamily": "acs/acs5",
@@ -3522,7 +3522,7 @@
       "variableRole": "numerator-component",
       "variableExists": true,
       "metadataEstimateExists": true,
-      "metadataMoeListed": true,
+      "metadataMoeListed": false,
       "liveEstimateQueryable": null,
       "liveMoeQueryable": null,
       "livePairQueryable": null,
@@ -3533,12 +3533,12 @@
       "variableInGroup": true,
       "pairExists": true,
       "estimateOrMoeType": "estimate",
-      "actualLabel": "Estimate!!Total:!!Male:!!Under 5 years:!!With a disability",
+      "actualLabel": "Estimate!!Total:!!Male:!!35 to 64 years:!!With a disability",
       "expectedLabelPatterns": [
         "includes:with a disability",
         "excludes:no disability"
       ],
-      "actualConcept": "Civilian noninstitutionalized population",
+      "actualConcept": "Sex by Age by Disability Status",
       "predicateType": "int",
       "datasetFamily": "acs/acs5",
       "expectedDatasetFamily": "acs/acs5",
@@ -3570,7 +3570,7 @@
       "variableRole": "numerator-component",
       "variableExists": true,
       "metadataEstimateExists": true,
-      "metadataMoeListed": true,
+      "metadataMoeListed": false,
       "liveEstimateQueryable": null,
       "liveMoeQueryable": null,
       "livePairQueryable": null,
@@ -3581,12 +3581,12 @@
       "variableInGroup": true,
       "pairExists": true,
       "estimateOrMoeType": "estimate",
-      "actualLabel": "Estimate!!Total:!!Male:!!Under 5 years:!!With a disability",
+      "actualLabel": "Estimate!!Total:!!Male:!!65 to 74 years:!!With a disability",
       "expectedLabelPatterns": [
         "includes:with a disability",
         "excludes:no disability"
       ],
-      "actualConcept": "Civilian noninstitutionalized population",
+      "actualConcept": "Sex by Age by Disability Status",
       "predicateType": "int",
       "datasetFamily": "acs/acs5",
       "expectedDatasetFamily": "acs/acs5",
@@ -3618,7 +3618,7 @@
       "variableRole": "numerator-component",
       "variableExists": true,
       "metadataEstimateExists": true,
-      "metadataMoeListed": true,
+      "metadataMoeListed": false,
       "liveEstimateQueryable": null,
       "liveMoeQueryable": null,
       "livePairQueryable": null,
@@ -3629,12 +3629,12 @@
       "variableInGroup": true,
       "pairExists": true,
       "estimateOrMoeType": "estimate",
-      "actualLabel": "Estimate!!Total:!!Male:!!Under 5 years:!!With a disability",
+      "actualLabel": "Estimate!!Total:!!Male:!!75 years and over:!!With a disability",
       "expectedLabelPatterns": [
         "includes:with a disability",
         "excludes:no disability"
       ],
-      "actualConcept": "Civilian noninstitutionalized population",
+      "actualConcept": "Sex by Age by Disability Status",
       "predicateType": "int",
       "datasetFamily": "acs/acs5",
       "expectedDatasetFamily": "acs/acs5",
@@ -3666,7 +3666,7 @@
       "variableRole": "numerator-component",
       "variableExists": true,
       "metadataEstimateExists": true,
-      "metadataMoeListed": true,
+      "metadataMoeListed": false,
       "liveEstimateQueryable": null,
       "liveMoeQueryable": null,
       "livePairQueryable": null,
@@ -3677,12 +3677,12 @@
       "variableInGroup": true,
       "pairExists": true,
       "estimateOrMoeType": "estimate",
-      "actualLabel": "Estimate!!Total:!!Male:!!Under 5 years:!!With a disability",
+      "actualLabel": "Estimate!!Total:!!Female:!!Under 5 years:!!With a disability",
       "expectedLabelPatterns": [
         "includes:with a disability",
         "excludes:no disability"
       ],
-      "actualConcept": "Civilian noninstitutionalized population",
+      "actualConcept": "Sex by Age by Disability Status",
       "predicateType": "int",
       "datasetFamily": "acs/acs5",
       "expectedDatasetFamily": "acs/acs5",
@@ -3714,7 +3714,7 @@
       "variableRole": "numerator-component",
       "variableExists": true,
       "metadataEstimateExists": true,
-      "metadataMoeListed": true,
+      "metadataMoeListed": false,
       "liveEstimateQueryable": null,
       "liveMoeQueryable": null,
       "livePairQueryable": null,
@@ -3725,12 +3725,12 @@
       "variableInGroup": true,
       "pairExists": true,
       "estimateOrMoeType": "estimate",
-      "actualLabel": "Estimate!!Total:!!Male:!!Under 5 years:!!With a disability",
+      "actualLabel": "Estimate!!Total:!!Female:!!5 to 17 years:!!With a disability",
       "expectedLabelPatterns": [
         "includes:with a disability",
         "excludes:no disability"
       ],
-      "actualConcept": "Civilian noninstitutionalized population",
+      "actualConcept": "Sex by Age by Disability Status",
       "predicateType": "int",
       "datasetFamily": "acs/acs5",
       "expectedDatasetFamily": "acs/acs5",
@@ -3762,7 +3762,7 @@
       "variableRole": "numerator-component",
       "variableExists": true,
       "metadataEstimateExists": true,
-      "metadataMoeListed": true,
+      "metadataMoeListed": false,
       "liveEstimateQueryable": null,
       "liveMoeQueryable": null,
       "livePairQueryable": null,
@@ -3773,12 +3773,12 @@
       "variableInGroup": true,
       "pairExists": true,
       "estimateOrMoeType": "estimate",
-      "actualLabel": "Estimate!!Total:!!Male:!!Under 5 years:!!With a disability",
+      "actualLabel": "Estimate!!Total:!!Female:!!18 to 34 years:!!With a disability",
       "expectedLabelPatterns": [
         "includes:with a disability",
         "excludes:no disability"
       ],
-      "actualConcept": "Civilian noninstitutionalized population",
+      "actualConcept": "Sex by Age by Disability Status",
       "predicateType": "int",
       "datasetFamily": "acs/acs5",
       "expectedDatasetFamily": "acs/acs5",
@@ -3810,7 +3810,7 @@
       "variableRole": "numerator-component",
       "variableExists": true,
       "metadataEstimateExists": true,
-      "metadataMoeListed": true,
+      "metadataMoeListed": false,
       "liveEstimateQueryable": null,
       "liveMoeQueryable": null,
       "livePairQueryable": null,
@@ -3821,12 +3821,12 @@
       "variableInGroup": true,
       "pairExists": true,
       "estimateOrMoeType": "estimate",
-      "actualLabel": "Estimate!!Total:!!Male:!!Under 5 years:!!With a disability",
+      "actualLabel": "Estimate!!Total:!!Female:!!35 to 64 years:!!With a disability",
       "expectedLabelPatterns": [
         "includes:with a disability",
         "excludes:no disability"
       ],
-      "actualConcept": "Civilian noninstitutionalized population",
+      "actualConcept": "Sex by Age by Disability Status",
       "predicateType": "int",
       "datasetFamily": "acs/acs5",
       "expectedDatasetFamily": "acs/acs5",
@@ -3858,7 +3858,7 @@
       "variableRole": "numerator-component",
       "variableExists": true,
       "metadataEstimateExists": true,
-      "metadataMoeListed": true,
+      "metadataMoeListed": false,
       "liveEstimateQueryable": null,
       "liveMoeQueryable": null,
       "livePairQueryable": null,
@@ -3869,12 +3869,12 @@
       "variableInGroup": true,
       "pairExists": true,
       "estimateOrMoeType": "estimate",
-      "actualLabel": "Estimate!!Total:!!Male:!!Under 5 years:!!With a disability",
+      "actualLabel": "Estimate!!Total:!!Female:!!65 to 74 years:!!With a disability",
       "expectedLabelPatterns": [
         "includes:with a disability",
         "excludes:no disability"
       ],
-      "actualConcept": "Civilian noninstitutionalized population",
+      "actualConcept": "Sex by Age by Disability Status",
       "predicateType": "int",
       "datasetFamily": "acs/acs5",
       "expectedDatasetFamily": "acs/acs5",
@@ -3906,7 +3906,7 @@
       "variableRole": "numerator-component",
       "variableExists": true,
       "metadataEstimateExists": true,
-      "metadataMoeListed": true,
+      "metadataMoeListed": false,
       "liveEstimateQueryable": null,
       "liveMoeQueryable": null,
       "livePairQueryable": null,
@@ -3917,12 +3917,12 @@
       "variableInGroup": true,
       "pairExists": true,
       "estimateOrMoeType": "estimate",
-      "actualLabel": "Estimate!!Total:!!Male:!!Under 5 years:!!With a disability",
+      "actualLabel": "Estimate!!Total:!!Female:!!75 years and over:!!With a disability",
       "expectedLabelPatterns": [
         "includes:with a disability",
         "excludes:no disability"
       ],
-      "actualConcept": "Civilian noninstitutionalized population",
+      "actualConcept": "Sex by Age by Disability Status",
       "predicateType": "int",
       "datasetFamily": "acs/acs5",
       "expectedDatasetFamily": "acs/acs5",
@@ -3954,7 +3954,7 @@
       "variableRole": "margin-of-error",
       "variableExists": true,
       "metadataEstimateExists": true,
-      "metadataMoeListed": true,
+      "metadataMoeListed": false,
       "liveEstimateQueryable": null,
       "liveMoeQueryable": null,
       "livePairQueryable": null,
@@ -3970,7 +3970,7 @@
         "includes:with a disability",
         "excludes:no disability"
       ],
-      "actualConcept": "Civilian noninstitutionalized population",
+      "actualConcept": "Sex by Age by Disability Status",
       "predicateType": "int",
       "datasetFamily": "acs/acs5",
       "expectedDatasetFamily": "acs/acs5",
@@ -4002,7 +4002,7 @@
       "variableRole": "margin-of-error",
       "variableExists": true,
       "metadataEstimateExists": true,
-      "metadataMoeListed": true,
+      "metadataMoeListed": false,
       "liveEstimateQueryable": null,
       "liveMoeQueryable": null,
       "livePairQueryable": null,
@@ -4013,12 +4013,12 @@
       "variableInGroup": true,
       "pairExists": true,
       "estimateOrMoeType": "moe",
-      "actualLabel": "Estimate!!Total:!!Male:!!Under 5 years:!!With a disability",
+      "actualLabel": "Estimate!!Total:!!Male:!!5 to 17 years:!!With a disability",
       "expectedLabelPatterns": [
         "includes:with a disability",
         "excludes:no disability"
       ],
-      "actualConcept": "Civilian noninstitutionalized population",
+      "actualConcept": "Sex by Age by Disability Status",
       "predicateType": "int",
       "datasetFamily": "acs/acs5",
       "expectedDatasetFamily": "acs/acs5",
@@ -4050,7 +4050,7 @@
       "variableRole": "margin-of-error",
       "variableExists": true,
       "metadataEstimateExists": true,
-      "metadataMoeListed": true,
+      "metadataMoeListed": false,
       "liveEstimateQueryable": null,
       "liveMoeQueryable": null,
       "livePairQueryable": null,
@@ -4061,12 +4061,12 @@
       "variableInGroup": true,
       "pairExists": true,
       "estimateOrMoeType": "moe",
-      "actualLabel": "Estimate!!Total:!!Male:!!Under 5 years:!!With a disability",
+      "actualLabel": "Estimate!!Total:!!Male:!!18 to 34 years:!!With a disability",
       "expectedLabelPatterns": [
         "includes:with a disability",
         "excludes:no disability"
       ],
-      "actualConcept": "Civilian noninstitutionalized population",
+      "actualConcept": "Sex by Age by Disability Status",
       "predicateType": "int",
       "datasetFamily": "acs/acs5",
       "expectedDatasetFamily": "acs/acs5",
@@ -4098,7 +4098,7 @@
       "variableRole": "margin-of-error",
       "variableExists": true,
       "metadataEstimateExists": true,
-      "metadataMoeListed": true,
+      "metadataMoeListed": false,
       "liveEstimateQueryable": null,
       "liveMoeQueryable": null,
       "livePairQueryable": null,
@@ -4109,12 +4109,12 @@
       "variableInGroup": true,
       "pairExists": true,
       "estimateOrMoeType": "moe",
-      "actualLabel": "Estimate!!Total:!!Male:!!Under 5 years:!!With a disability",
+      "actualLabel": "Estimate!!Total:!!Male:!!35 to 64 years:!!With a disability",
       "expectedLabelPatterns": [
         "includes:with a disability",
         "excludes:no disability"
       ],
-      "actualConcept": "Civilian noninstitutionalized population",
+      "actualConcept": "Sex by Age by Disability Status",
       "predicateType": "int",
       "datasetFamily": "acs/acs5",
       "expectedDatasetFamily": "acs/acs5",
@@ -4146,7 +4146,7 @@
       "variableRole": "margin-of-error",
       "variableExists": true,
       "metadataEstimateExists": true,
-      "metadataMoeListed": true,
+      "metadataMoeListed": false,
       "liveEstimateQueryable": null,
       "liveMoeQueryable": null,
       "livePairQueryable": null,
@@ -4157,12 +4157,12 @@
       "variableInGroup": true,
       "pairExists": true,
       "estimateOrMoeType": "moe",
-      "actualLabel": "Estimate!!Total:!!Male:!!Under 5 years:!!With a disability",
+      "actualLabel": "Estimate!!Total:!!Male:!!65 to 74 years:!!With a disability",
       "expectedLabelPatterns": [
         "includes:with a disability",
         "excludes:no disability"
       ],
-      "actualConcept": "Civilian noninstitutionalized population",
+      "actualConcept": "Sex by Age by Disability Status",
       "predicateType": "int",
       "datasetFamily": "acs/acs5",
       "expectedDatasetFamily": "acs/acs5",
@@ -4194,7 +4194,7 @@
       "variableRole": "margin-of-error",
       "variableExists": true,
       "metadataEstimateExists": true,
-      "metadataMoeListed": true,
+      "metadataMoeListed": false,
       "liveEstimateQueryable": null,
       "liveMoeQueryable": null,
       "livePairQueryable": null,
@@ -4205,12 +4205,12 @@
       "variableInGroup": true,
       "pairExists": true,
       "estimateOrMoeType": "moe",
-      "actualLabel": "Estimate!!Total:!!Male:!!Under 5 years:!!With a disability",
+      "actualLabel": "Estimate!!Total:!!Male:!!75 years and over:!!With a disability",
       "expectedLabelPatterns": [
         "includes:with a disability",
         "excludes:no disability"
       ],
-      "actualConcept": "Civilian noninstitutionalized population",
+      "actualConcept": "Sex by Age by Disability Status",
       "predicateType": "int",
       "datasetFamily": "acs/acs5",
       "expectedDatasetFamily": "acs/acs5",
@@ -4242,7 +4242,7 @@
       "variableRole": "margin-of-error",
       "variableExists": true,
       "metadataEstimateExists": true,
-      "metadataMoeListed": true,
+      "metadataMoeListed": false,
       "liveEstimateQueryable": null,
       "liveMoeQueryable": null,
       "livePairQueryable": null,
@@ -4253,12 +4253,12 @@
       "variableInGroup": true,
       "pairExists": true,
       "estimateOrMoeType": "moe",
-      "actualLabel": "Estimate!!Total:!!Male:!!Under 5 years:!!With a disability",
+      "actualLabel": "Estimate!!Total:!!Female:!!Under 5 years:!!With a disability",
       "expectedLabelPatterns": [
         "includes:with a disability",
         "excludes:no disability"
       ],
-      "actualConcept": "Civilian noninstitutionalized population",
+      "actualConcept": "Sex by Age by Disability Status",
       "predicateType": "int",
       "datasetFamily": "acs/acs5",
       "expectedDatasetFamily": "acs/acs5",
@@ -4290,7 +4290,7 @@
       "variableRole": "margin-of-error",
       "variableExists": true,
       "metadataEstimateExists": true,
-      "metadataMoeListed": true,
+      "metadataMoeListed": false,
       "liveEstimateQueryable": null,
       "liveMoeQueryable": null,
       "livePairQueryable": null,
@@ -4301,12 +4301,12 @@
       "variableInGroup": true,
       "pairExists": true,
       "estimateOrMoeType": "moe",
-      "actualLabel": "Estimate!!Total:!!Male:!!Under 5 years:!!With a disability",
+      "actualLabel": "Estimate!!Total:!!Female:!!5 to 17 years:!!With a disability",
       "expectedLabelPatterns": [
         "includes:with a disability",
         "excludes:no disability"
       ],
-      "actualConcept": "Civilian noninstitutionalized population",
+      "actualConcept": "Sex by Age by Disability Status",
       "predicateType": "int",
       "datasetFamily": "acs/acs5",
       "expectedDatasetFamily": "acs/acs5",
@@ -4338,7 +4338,7 @@
       "variableRole": "margin-of-error",
       "variableExists": true,
       "metadataEstimateExists": true,
-      "metadataMoeListed": true,
+      "metadataMoeListed": false,
       "liveEstimateQueryable": null,
       "liveMoeQueryable": null,
       "livePairQueryable": null,
@@ -4349,12 +4349,12 @@
       "variableInGroup": true,
       "pairExists": true,
       "estimateOrMoeType": "moe",
-      "actualLabel": "Estimate!!Total:!!Male:!!Under 5 years:!!With a disability",
+      "actualLabel": "Estimate!!Total:!!Female:!!18 to 34 years:!!With a disability",
       "expectedLabelPatterns": [
         "includes:with a disability",
         "excludes:no disability"
       ],
-      "actualConcept": "Civilian noninstitutionalized population",
+      "actualConcept": "Sex by Age by Disability Status",
       "predicateType": "int",
       "datasetFamily": "acs/acs5",
       "expectedDatasetFamily": "acs/acs5",
@@ -4386,7 +4386,7 @@
       "variableRole": "margin-of-error",
       "variableExists": true,
       "metadataEstimateExists": true,
-      "metadataMoeListed": true,
+      "metadataMoeListed": false,
       "liveEstimateQueryable": null,
       "liveMoeQueryable": null,
       "livePairQueryable": null,
@@ -4397,12 +4397,12 @@
       "variableInGroup": true,
       "pairExists": true,
       "estimateOrMoeType": "moe",
-      "actualLabel": "Estimate!!Total:!!Male:!!Under 5 years:!!With a disability",
+      "actualLabel": "Estimate!!Total:!!Female:!!35 to 64 years:!!With a disability",
       "expectedLabelPatterns": [
         "includes:with a disability",
         "excludes:no disability"
       ],
-      "actualConcept": "Civilian noninstitutionalized population",
+      "actualConcept": "Sex by Age by Disability Status",
       "predicateType": "int",
       "datasetFamily": "acs/acs5",
       "expectedDatasetFamily": "acs/acs5",
@@ -4434,7 +4434,7 @@
       "variableRole": "margin-of-error",
       "variableExists": true,
       "metadataEstimateExists": true,
-      "metadataMoeListed": true,
+      "metadataMoeListed": false,
       "liveEstimateQueryable": null,
       "liveMoeQueryable": null,
       "livePairQueryable": null,
@@ -4445,12 +4445,12 @@
       "variableInGroup": true,
       "pairExists": true,
       "estimateOrMoeType": "moe",
-      "actualLabel": "Estimate!!Total:!!Male:!!Under 5 years:!!With a disability",
+      "actualLabel": "Estimate!!Total:!!Female:!!65 to 74 years:!!With a disability",
       "expectedLabelPatterns": [
         "includes:with a disability",
         "excludes:no disability"
       ],
-      "actualConcept": "Civilian noninstitutionalized population",
+      "actualConcept": "Sex by Age by Disability Status",
       "predicateType": "int",
       "datasetFamily": "acs/acs5",
       "expectedDatasetFamily": "acs/acs5",
@@ -4482,7 +4482,7 @@
       "variableRole": "margin-of-error",
       "variableExists": true,
       "metadataEstimateExists": true,
-      "metadataMoeListed": true,
+      "metadataMoeListed": false,
       "liveEstimateQueryable": null,
       "liveMoeQueryable": null,
       "livePairQueryable": null,
@@ -4493,12 +4493,12 @@
       "variableInGroup": true,
       "pairExists": true,
       "estimateOrMoeType": "moe",
-      "actualLabel": "Estimate!!Total:!!Male:!!Under 5 years:!!With a disability",
+      "actualLabel": "Estimate!!Total:!!Female:!!75 years and over:!!With a disability",
       "expectedLabelPatterns": [
         "includes:with a disability",
         "excludes:no disability"
       ],
-      "actualConcept": "Civilian noninstitutionalized population",
+      "actualConcept": "Sex by Age by Disability Status",
       "predicateType": "int",
       "datasetFamily": "acs/acs5",
       "expectedDatasetFamily": "acs/acs5",
@@ -4530,7 +4530,7 @@
       "variableRole": "denominator-total",
       "variableExists": true,
       "metadataEstimateExists": true,
-      "metadataMoeListed": true,
+      "metadataMoeListed": false,
       "liveEstimateQueryable": null,
       "liveMoeQueryable": null,
       "livePairQueryable": null,
@@ -4541,12 +4541,12 @@
       "variableInGroup": true,
       "pairExists": true,
       "estimateOrMoeType": "estimate",
-      "actualLabel": "Estimate!!Total:!!Male:!!Under 5 years:!!With a disability",
+      "actualLabel": "Estimate!!Total:",
       "expectedLabelPatterns": [
         "includes:with a disability",
         "excludes:no disability"
       ],
-      "actualConcept": "Civilian noninstitutionalized population",
+      "actualConcept": "Sex by Age by Disability Status",
       "predicateType": "int",
       "datasetFamily": "acs/acs5",
       "expectedDatasetFamily": "acs/acs5",
@@ -4578,7 +4578,7 @@
       "variableRole": "margin-of-error",
       "variableExists": true,
       "metadataEstimateExists": true,
-      "metadataMoeListed": true,
+      "metadataMoeListed": false,
       "liveEstimateQueryable": null,
       "liveMoeQueryable": null,
       "livePairQueryable": null,
@@ -4589,12 +4589,12 @@
       "variableInGroup": true,
       "pairExists": true,
       "estimateOrMoeType": "moe",
-      "actualLabel": "Estimate!!Total:!!Male:!!Under 5 years:!!With a disability",
+      "actualLabel": "Estimate!!Total:",
       "expectedLabelPatterns": [
         "includes:with a disability",
         "excludes:no disability"
       ],
-      "actualConcept": "Civilian noninstitutionalized population",
+      "actualConcept": "Sex by Age by Disability Status",
       "predicateType": "int",
       "datasetFamily": "acs/acs5",
       "expectedDatasetFamily": "acs/acs5",
@@ -4626,7 +4626,7 @@
       "variableRole": "numerator-component",
       "variableExists": true,
       "metadataEstimateExists": true,
-      "metadataMoeListed": true,
+      "metadataMoeListed": false,
       "liveEstimateQueryable": null,
       "liveMoeQueryable": null,
       "livePairQueryable": null,
@@ -4641,7 +4641,7 @@
       "expectedLabelPatterns": [
         "includes:limited english speaking household"
       ],
-      "actualConcept": "Households",
+      "actualConcept": "Household Language by Household Limited English Speaking Status",
       "predicateType": "int",
       "datasetFamily": "acs/acs5",
       "expectedDatasetFamily": "acs/acs5",
@@ -4673,7 +4673,7 @@
       "variableRole": "numerator-component",
       "variableExists": true,
       "metadataEstimateExists": true,
-      "metadataMoeListed": true,
+      "metadataMoeListed": false,
       "liveEstimateQueryable": null,
       "liveMoeQueryable": null,
       "livePairQueryable": null,
@@ -4684,11 +4684,11 @@
       "variableInGroup": true,
       "pairExists": true,
       "estimateOrMoeType": "estimate",
-      "actualLabel": "Estimate!!Total:!!Spanish:!!Limited English speaking household",
+      "actualLabel": "Estimate!!Total:!!Other Indo-European languages:!!Limited English speaking household",
       "expectedLabelPatterns": [
         "includes:limited english speaking household"
       ],
-      "actualConcept": "Households",
+      "actualConcept": "Household Language by Household Limited English Speaking Status",
       "predicateType": "int",
       "datasetFamily": "acs/acs5",
       "expectedDatasetFamily": "acs/acs5",
@@ -4720,7 +4720,7 @@
       "variableRole": "numerator-component",
       "variableExists": true,
       "metadataEstimateExists": true,
-      "metadataMoeListed": true,
+      "metadataMoeListed": false,
       "liveEstimateQueryable": null,
       "liveMoeQueryable": null,
       "livePairQueryable": null,
@@ -4731,11 +4731,11 @@
       "variableInGroup": true,
       "pairExists": true,
       "estimateOrMoeType": "estimate",
-      "actualLabel": "Estimate!!Total:!!Spanish:!!Limited English speaking household",
+      "actualLabel": "Estimate!!Total:!!Asian and Pacific Island languages:!!Limited English speaking household",
       "expectedLabelPatterns": [
         "includes:limited english speaking household"
       ],
-      "actualConcept": "Households",
+      "actualConcept": "Household Language by Household Limited English Speaking Status",
       "predicateType": "int",
       "datasetFamily": "acs/acs5",
       "expectedDatasetFamily": "acs/acs5",
@@ -4767,7 +4767,7 @@
       "variableRole": "numerator-component",
       "variableExists": true,
       "metadataEstimateExists": true,
-      "metadataMoeListed": true,
+      "metadataMoeListed": false,
       "liveEstimateQueryable": null,
       "liveMoeQueryable": null,
       "livePairQueryable": null,
@@ -4778,11 +4778,11 @@
       "variableInGroup": true,
       "pairExists": true,
       "estimateOrMoeType": "estimate",
-      "actualLabel": "Estimate!!Total:!!Spanish:!!Limited English speaking household",
+      "actualLabel": "Estimate!!Total:!!Other languages:!!Limited English speaking household",
       "expectedLabelPatterns": [
         "includes:limited english speaking household"
       ],
-      "actualConcept": "Households",
+      "actualConcept": "Household Language by Household Limited English Speaking Status",
       "predicateType": "int",
       "datasetFamily": "acs/acs5",
       "expectedDatasetFamily": "acs/acs5",
@@ -4814,7 +4814,7 @@
       "variableRole": "margin-of-error",
       "variableExists": true,
       "metadataEstimateExists": true,
-      "metadataMoeListed": true,
+      "metadataMoeListed": false,
       "liveEstimateQueryable": null,
       "liveMoeQueryable": null,
       "livePairQueryable": null,
@@ -4829,7 +4829,7 @@
       "expectedLabelPatterns": [
         "includes:limited english speaking household"
       ],
-      "actualConcept": "Households",
+      "actualConcept": "Household Language by Household Limited English Speaking Status",
       "predicateType": "int",
       "datasetFamily": "acs/acs5",
       "expectedDatasetFamily": "acs/acs5",
@@ -4861,7 +4861,7 @@
       "variableRole": "margin-of-error",
       "variableExists": true,
       "metadataEstimateExists": true,
-      "metadataMoeListed": true,
+      "metadataMoeListed": false,
       "liveEstimateQueryable": null,
       "liveMoeQueryable": null,
       "livePairQueryable": null,
@@ -4872,11 +4872,11 @@
       "variableInGroup": true,
       "pairExists": true,
       "estimateOrMoeType": "moe",
-      "actualLabel": "Estimate!!Total:!!Spanish:!!Limited English speaking household",
+      "actualLabel": "Estimate!!Total:!!Other Indo-European languages:!!Limited English speaking household",
       "expectedLabelPatterns": [
         "includes:limited english speaking household"
       ],
-      "actualConcept": "Households",
+      "actualConcept": "Household Language by Household Limited English Speaking Status",
       "predicateType": "int",
       "datasetFamily": "acs/acs5",
       "expectedDatasetFamily": "acs/acs5",
@@ -4908,7 +4908,7 @@
       "variableRole": "margin-of-error",
       "variableExists": true,
       "metadataEstimateExists": true,
-      "metadataMoeListed": true,
+      "metadataMoeListed": false,
       "liveEstimateQueryable": null,
       "liveMoeQueryable": null,
       "livePairQueryable": null,
@@ -4919,11 +4919,11 @@
       "variableInGroup": true,
       "pairExists": true,
       "estimateOrMoeType": "moe",
-      "actualLabel": "Estimate!!Total:!!Spanish:!!Limited English speaking household",
+      "actualLabel": "Estimate!!Total:!!Asian and Pacific Island languages:!!Limited English speaking household",
       "expectedLabelPatterns": [
         "includes:limited english speaking household"
       ],
-      "actualConcept": "Households",
+      "actualConcept": "Household Language by Household Limited English Speaking Status",
       "predicateType": "int",
       "datasetFamily": "acs/acs5",
       "expectedDatasetFamily": "acs/acs5",
@@ -4955,7 +4955,7 @@
       "variableRole": "margin-of-error",
       "variableExists": true,
       "metadataEstimateExists": true,
-      "metadataMoeListed": true,
+      "metadataMoeListed": false,
       "liveEstimateQueryable": null,
       "liveMoeQueryable": null,
       "livePairQueryable": null,
@@ -4966,11 +4966,11 @@
       "variableInGroup": true,
       "pairExists": true,
       "estimateOrMoeType": "moe",
-      "actualLabel": "Estimate!!Total:!!Spanish:!!Limited English speaking household",
+      "actualLabel": "Estimate!!Total:!!Other languages:!!Limited English speaking household",
       "expectedLabelPatterns": [
         "includes:limited english speaking household"
       ],
-      "actualConcept": "Households",
+      "actualConcept": "Household Language by Household Limited English Speaking Status",
       "predicateType": "int",
       "datasetFamily": "acs/acs5",
       "expectedDatasetFamily": "acs/acs5",
@@ -5002,7 +5002,7 @@
       "variableRole": "denominator-total",
       "variableExists": true,
       "metadataEstimateExists": true,
-      "metadataMoeListed": true,
+      "metadataMoeListed": false,
       "liveEstimateQueryable": null,
       "liveMoeQueryable": null,
       "livePairQueryable": null,
@@ -5013,11 +5013,11 @@
       "variableInGroup": true,
       "pairExists": true,
       "estimateOrMoeType": "estimate",
-      "actualLabel": "Estimate!!Total:!!Spanish:!!Limited English speaking household",
+      "actualLabel": "Estimate!!Total:",
       "expectedLabelPatterns": [
         "includes:limited english speaking household"
       ],
-      "actualConcept": "Households",
+      "actualConcept": "Household Language by Household Limited English Speaking Status",
       "predicateType": "int",
       "datasetFamily": "acs/acs5",
       "expectedDatasetFamily": "acs/acs5",
@@ -5049,7 +5049,7 @@
       "variableRole": "margin-of-error",
       "variableExists": true,
       "metadataEstimateExists": true,
-      "metadataMoeListed": true,
+      "metadataMoeListed": false,
       "liveEstimateQueryable": null,
       "liveMoeQueryable": null,
       "livePairQueryable": null,
@@ -5060,11 +5060,11 @@
       "variableInGroup": true,
       "pairExists": true,
       "estimateOrMoeType": "moe",
-      "actualLabel": "Estimate!!Total:!!Spanish:!!Limited English speaking household",
+      "actualLabel": "Estimate!!Total:",
       "expectedLabelPatterns": [
         "includes:limited english speaking household"
       ],
-      "actualConcept": "Households",
+      "actualConcept": "Household Language by Household Limited English Speaking Status",
       "predicateType": "int",
       "datasetFamily": "acs/acs5",
       "expectedDatasetFamily": "acs/acs5",
@@ -5656,7 +5656,7 @@
     },
     {
       "variableId": "B01001_027E",
-      "actualLabel": "Estimate!!Total:!!Male:!!Under 5 years",
+      "actualLabel": "Estimate!!Total:!!Female:!!Under 5 years",
       "expectedLabelPatterns": [
         "excludes:18 and 19 years",
         "excludes:20 years",
@@ -5668,7 +5668,7 @@
     },
     {
       "variableId": "B01001_028E",
-      "actualLabel": "Estimate!!Total:!!Male:!!5 to 9 years",
+      "actualLabel": "Estimate!!Total:!!Female:!!5 to 9 years",
       "expectedLabelPatterns": [
         "excludes:18 and 19 years",
         "excludes:20 years",
@@ -5680,7 +5680,7 @@
     },
     {
       "variableId": "B01001_029E",
-      "actualLabel": "Estimate!!Total:!!Male:!!10 to 14 years",
+      "actualLabel": "Estimate!!Total:!!Female:!!10 to 14 years",
       "expectedLabelPatterns": [
         "excludes:18 and 19 years",
         "excludes:20 years",
@@ -5692,7 +5692,7 @@
     },
     {
       "variableId": "B01001_030E",
-      "actualLabel": "Estimate!!Total:!!Male:!!15 to 17 years",
+      "actualLabel": "Estimate!!Total:!!Female:!!15 to 17 years",
       "expectedLabelPatterns": [
         "excludes:18 and 19 years",
         "excludes:20 years",
@@ -5752,7 +5752,7 @@
     },
     {
       "variableId": "B01001_027M",
-      "actualLabel": "Estimate!!Total:!!Male:!!Under 5 years",
+      "actualLabel": "Estimate!!Total:!!Female:!!Under 5 years",
       "expectedLabelPatterns": [
         "excludes:18 and 19 years",
         "excludes:20 years",
@@ -5764,7 +5764,7 @@
     },
     {
       "variableId": "B01001_028M",
-      "actualLabel": "Estimate!!Total:!!Male:!!5 to 9 years",
+      "actualLabel": "Estimate!!Total:!!Female:!!5 to 9 years",
       "expectedLabelPatterns": [
         "excludes:18 and 19 years",
         "excludes:20 years",
@@ -5776,7 +5776,7 @@
     },
     {
       "variableId": "B01001_029M",
-      "actualLabel": "Estimate!!Total:!!Male:!!10 to 14 years",
+      "actualLabel": "Estimate!!Total:!!Female:!!10 to 14 years",
       "expectedLabelPatterns": [
         "excludes:18 and 19 years",
         "excludes:20 years",
@@ -5788,7 +5788,7 @@
     },
     {
       "variableId": "B01001_030M",
-      "actualLabel": "Estimate!!Total:!!Male:!!15 to 17 years",
+      "actualLabel": "Estimate!!Total:!!Female:!!15 to 17 years",
       "expectedLabelPatterns": [
         "excludes:18 and 19 years",
         "excludes:20 years",
@@ -5800,7 +5800,7 @@
     },
     {
       "variableId": "B01001_001E",
-      "actualLabel": "Estimate!!Total:!!Male:!!65 and 66 years",
+      "actualLabel": "Estimate!!Total:",
       "expectedLabelPatterns": [
         "excludes:18 and 19 years",
         "excludes:20 years",
@@ -5812,7 +5812,7 @@
     },
     {
       "variableId": "B01001_001M",
-      "actualLabel": "Estimate!!Total:!!Male:!!65 and 66 years",
+      "actualLabel": "Estimate!!Total:",
       "expectedLabelPatterns": [
         "excludes:18 and 19 years",
         "excludes:20 years",
@@ -5840,7 +5840,7 @@
     },
     {
       "variableId": "B01001_021E",
-      "actualLabel": "Estimate!!Total:!!Male:!!65 and 66 years",
+      "actualLabel": "Estimate!!Total:!!Male:!!67 to 69 years",
       "expectedLabelPatterns": [
         "excludes:under 5 years",
         "excludes:5 to 9 years",
@@ -5856,7 +5856,7 @@
     },
     {
       "variableId": "B01001_022E",
-      "actualLabel": "Estimate!!Total:!!Male:!!65 and 66 years",
+      "actualLabel": "Estimate!!Total:!!Male:!!70 to 74 years",
       "expectedLabelPatterns": [
         "excludes:under 5 years",
         "excludes:5 to 9 years",
@@ -5872,7 +5872,7 @@
     },
     {
       "variableId": "B01001_023E",
-      "actualLabel": "Estimate!!Total:!!Male:!!65 and 66 years",
+      "actualLabel": "Estimate!!Total:!!Male:!!75 to 79 years",
       "expectedLabelPatterns": [
         "excludes:under 5 years",
         "excludes:5 to 9 years",
@@ -5888,7 +5888,7 @@
     },
     {
       "variableId": "B01001_024E",
-      "actualLabel": "Estimate!!Total:!!Male:!!65 and 66 years",
+      "actualLabel": "Estimate!!Total:!!Male:!!80 to 84 years",
       "expectedLabelPatterns": [
         "excludes:under 5 years",
         "excludes:5 to 9 years",
@@ -5904,7 +5904,7 @@
     },
     {
       "variableId": "B01001_025E",
-      "actualLabel": "Estimate!!Total:!!Male:!!65 and 66 years",
+      "actualLabel": "Estimate!!Total:!!Male:!!85 years and over",
       "expectedLabelPatterns": [
         "excludes:under 5 years",
         "excludes:5 to 9 years",
@@ -5920,7 +5920,7 @@
     },
     {
       "variableId": "B01001_044E",
-      "actualLabel": "Estimate!!Total:!!Male:!!65 and 66 years",
+      "actualLabel": "Estimate!!Total:!!Female:!!65 and 66 years",
       "expectedLabelPatterns": [
         "excludes:under 5 years",
         "excludes:5 to 9 years",
@@ -5936,7 +5936,7 @@
     },
     {
       "variableId": "B01001_045E",
-      "actualLabel": "Estimate!!Total:!!Male:!!65 and 66 years",
+      "actualLabel": "Estimate!!Total:!!Female:!!67 to 69 years",
       "expectedLabelPatterns": [
         "excludes:under 5 years",
         "excludes:5 to 9 years",
@@ -5952,7 +5952,7 @@
     },
     {
       "variableId": "B01001_046E",
-      "actualLabel": "Estimate!!Total:!!Male:!!65 and 66 years",
+      "actualLabel": "Estimate!!Total:!!Female:!!70 to 74 years",
       "expectedLabelPatterns": [
         "excludes:under 5 years",
         "excludes:5 to 9 years",
@@ -5968,7 +5968,7 @@
     },
     {
       "variableId": "B01001_047E",
-      "actualLabel": "Estimate!!Total:!!Male:!!65 and 66 years",
+      "actualLabel": "Estimate!!Total:!!Female:!!75 to 79 years",
       "expectedLabelPatterns": [
         "excludes:under 5 years",
         "excludes:5 to 9 years",
@@ -5984,7 +5984,7 @@
     },
     {
       "variableId": "B01001_048E",
-      "actualLabel": "Estimate!!Total:!!Male:!!65 and 66 years",
+      "actualLabel": "Estimate!!Total:!!Female:!!80 to 84 years",
       "expectedLabelPatterns": [
         "excludes:under 5 years",
         "excludes:5 to 9 years",
@@ -6000,7 +6000,7 @@
     },
     {
       "variableId": "B01001_049E",
-      "actualLabel": "Estimate!!Total:!!Male:!!65 and 66 years",
+      "actualLabel": "Estimate!!Total:!!Female:!!85 years and over",
       "expectedLabelPatterns": [
         "excludes:under 5 years",
         "excludes:5 to 9 years",
@@ -6032,7 +6032,7 @@
     },
     {
       "variableId": "B01001_021M",
-      "actualLabel": "Estimate!!Total:!!Male:!!65 and 66 years",
+      "actualLabel": "Estimate!!Total:!!Male:!!67 to 69 years",
       "expectedLabelPatterns": [
         "excludes:under 5 years",
         "excludes:5 to 9 years",
@@ -6048,7 +6048,7 @@
     },
     {
       "variableId": "B01001_022M",
-      "actualLabel": "Estimate!!Total:!!Male:!!65 and 66 years",
+      "actualLabel": "Estimate!!Total:!!Male:!!70 to 74 years",
       "expectedLabelPatterns": [
         "excludes:under 5 years",
         "excludes:5 to 9 years",
@@ -6064,7 +6064,7 @@
     },
     {
       "variableId": "B01001_023M",
-      "actualLabel": "Estimate!!Total:!!Male:!!65 and 66 years",
+      "actualLabel": "Estimate!!Total:!!Male:!!75 to 79 years",
       "expectedLabelPatterns": [
         "excludes:under 5 years",
         "excludes:5 to 9 years",
@@ -6080,7 +6080,7 @@
     },
     {
       "variableId": "B01001_024M",
-      "actualLabel": "Estimate!!Total:!!Male:!!65 and 66 years",
+      "actualLabel": "Estimate!!Total:!!Male:!!80 to 84 years",
       "expectedLabelPatterns": [
         "excludes:under 5 years",
         "excludes:5 to 9 years",
@@ -6096,7 +6096,7 @@
     },
     {
       "variableId": "B01001_025M",
-      "actualLabel": "Estimate!!Total:!!Male:!!65 and 66 years",
+      "actualLabel": "Estimate!!Total:!!Male:!!85 years and over",
       "expectedLabelPatterns": [
         "excludes:under 5 years",
         "excludes:5 to 9 years",
@@ -6112,7 +6112,7 @@
     },
     {
       "variableId": "B01001_044M",
-      "actualLabel": "Estimate!!Total:!!Male:!!65 and 66 years",
+      "actualLabel": "Estimate!!Total:!!Female:!!65 and 66 years",
       "expectedLabelPatterns": [
         "excludes:under 5 years",
         "excludes:5 to 9 years",
@@ -6128,7 +6128,7 @@
     },
     {
       "variableId": "B01001_045M",
-      "actualLabel": "Estimate!!Total:!!Male:!!65 and 66 years",
+      "actualLabel": "Estimate!!Total:!!Female:!!67 to 69 years",
       "expectedLabelPatterns": [
         "excludes:under 5 years",
         "excludes:5 to 9 years",
@@ -6144,7 +6144,7 @@
     },
     {
       "variableId": "B01001_046M",
-      "actualLabel": "Estimate!!Total:!!Male:!!65 and 66 years",
+      "actualLabel": "Estimate!!Total:!!Female:!!70 to 74 years",
       "expectedLabelPatterns": [
         "excludes:under 5 years",
         "excludes:5 to 9 years",
@@ -6160,7 +6160,7 @@
     },
     {
       "variableId": "B01001_047M",
-      "actualLabel": "Estimate!!Total:!!Male:!!65 and 66 years",
+      "actualLabel": "Estimate!!Total:!!Female:!!75 to 79 years",
       "expectedLabelPatterns": [
         "excludes:under 5 years",
         "excludes:5 to 9 years",
@@ -6176,7 +6176,7 @@
     },
     {
       "variableId": "B01001_048M",
-      "actualLabel": "Estimate!!Total:!!Male:!!65 and 66 years",
+      "actualLabel": "Estimate!!Total:!!Female:!!80 to 84 years",
       "expectedLabelPatterns": [
         "excludes:under 5 years",
         "excludes:5 to 9 years",
@@ -6192,7 +6192,7 @@
     },
     {
       "variableId": "B01001_049M",
-      "actualLabel": "Estimate!!Total:!!Male:!!65 and 66 years",
+      "actualLabel": "Estimate!!Total:!!Female:!!85 years and over",
       "expectedLabelPatterns": [
         "excludes:under 5 years",
         "excludes:5 to 9 years",
@@ -6208,7 +6208,7 @@
     },
     {
       "variableId": "B01001_001E",
-      "actualLabel": "Estimate!!Total:!!Male:!!65 and 66 years",
+      "actualLabel": "Estimate!!Total:",
       "expectedLabelPatterns": [
         "excludes:under 5 years",
         "excludes:5 to 9 years",
@@ -6224,7 +6224,7 @@
     },
     {
       "variableId": "B01001_001M",
-      "actualLabel": "Estimate!!Total:!!Male:!!65 and 66 years",
+      "actualLabel": "Estimate!!Total:",
       "expectedLabelPatterns": [
         "excludes:under 5 years",
         "excludes:5 to 9 years",
@@ -6240,7 +6240,7 @@
     },
     {
       "variableId": "B17001_002E",
-      "actualLabel": "Estimate!!Total:!!Income in the past 12 months below poverty level",
+      "actualLabel": "Estimate!!Total:!!Income in the past 12 months below poverty level:",
       "expectedLabelPatterns": [
         "includes:income",
         "includes:below poverty level"
@@ -6249,7 +6249,7 @@
     },
     {
       "variableId": "B17001_002M",
-      "actualLabel": "Estimate!!Total:!!Income in the past 12 months below poverty level",
+      "actualLabel": "Estimate!!Total:!!Income in the past 12 months below poverty level:",
       "expectedLabelPatterns": [
         "includes:income",
         "includes:below poverty level"
@@ -6258,7 +6258,7 @@
     },
     {
       "variableId": "B17001_001E",
-      "actualLabel": "Estimate!!Total:!!Income in the past 12 months below poverty level",
+      "actualLabel": "Estimate!!Total:",
       "expectedLabelPatterns": [
         "includes:income",
         "includes:below poverty level"
@@ -6267,7 +6267,7 @@
     },
     {
       "variableId": "B17001_001M",
-      "actualLabel": "Estimate!!Total:!!Income in the past 12 months below poverty level",
+      "actualLabel": "Estimate!!Total:",
       "expectedLabelPatterns": [
         "includes:income",
         "includes:below poverty level"
@@ -6276,7 +6276,7 @@
     },
     {
       "variableId": "B27010_017E",
-      "actualLabel": "Estimate!!Total:!!No health insurance coverage",
+      "actualLabel": "Estimate!!Total:!!Under 19 years:!!No health insurance coverage",
       "expectedLabelPatterns": [
         "includes:no health insurance coverage",
         "excludes:with health insurance coverage"
@@ -6285,7 +6285,7 @@
     },
     {
       "variableId": "B27010_033E",
-      "actualLabel": "Estimate!!Total:!!No health insurance coverage",
+      "actualLabel": "Estimate!!Total:!!19 to 34 years:!!No health insurance coverage",
       "expectedLabelPatterns": [
         "includes:no health insurance coverage",
         "excludes:with health insurance coverage"
@@ -6294,7 +6294,7 @@
     },
     {
       "variableId": "B27010_050E",
-      "actualLabel": "Estimate!!Total:!!No health insurance coverage",
+      "actualLabel": "Estimate!!Total:!!35 to 64 years:!!No health insurance coverage",
       "expectedLabelPatterns": [
         "includes:no health insurance coverage",
         "excludes:with health insurance coverage"
@@ -6303,7 +6303,7 @@
     },
     {
       "variableId": "B27010_066E",
-      "actualLabel": "Estimate!!Total:!!No health insurance coverage",
+      "actualLabel": "Estimate!!Total:!!65 years and over:!!No health insurance coverage",
       "expectedLabelPatterns": [
         "includes:no health insurance coverage",
         "excludes:with health insurance coverage"
@@ -6312,7 +6312,7 @@
     },
     {
       "variableId": "B27010_017M",
-      "actualLabel": "Estimate!!Total:!!No health insurance coverage",
+      "actualLabel": "Estimate!!Total:!!Under 19 years:!!No health insurance coverage",
       "expectedLabelPatterns": [
         "includes:no health insurance coverage",
         "excludes:with health insurance coverage"
@@ -6321,7 +6321,7 @@
     },
     {
       "variableId": "B27010_033M",
-      "actualLabel": "Estimate!!Total:!!No health insurance coverage",
+      "actualLabel": "Estimate!!Total:!!19 to 34 years:!!No health insurance coverage",
       "expectedLabelPatterns": [
         "includes:no health insurance coverage",
         "excludes:with health insurance coverage"
@@ -6330,7 +6330,7 @@
     },
     {
       "variableId": "B27010_050M",
-      "actualLabel": "Estimate!!Total:!!No health insurance coverage",
+      "actualLabel": "Estimate!!Total:!!35 to 64 years:!!No health insurance coverage",
       "expectedLabelPatterns": [
         "includes:no health insurance coverage",
         "excludes:with health insurance coverage"
@@ -6339,7 +6339,7 @@
     },
     {
       "variableId": "B27010_066M",
-      "actualLabel": "Estimate!!Total:!!No health insurance coverage",
+      "actualLabel": "Estimate!!Total:!!65 years and over:!!No health insurance coverage",
       "expectedLabelPatterns": [
         "includes:no health insurance coverage",
         "excludes:with health insurance coverage"
@@ -6348,7 +6348,7 @@
     },
     {
       "variableId": "B27010_001E",
-      "actualLabel": "Estimate!!Total:!!No health insurance coverage",
+      "actualLabel": "Estimate!!Total:",
       "expectedLabelPatterns": [
         "includes:no health insurance coverage",
         "excludes:with health insurance coverage"
@@ -6357,7 +6357,7 @@
     },
     {
       "variableId": "B27010_001M",
-      "actualLabel": "Estimate!!Total:!!No health insurance coverage",
+      "actualLabel": "Estimate!!Total:",
       "expectedLabelPatterns": [
         "includes:no health insurance coverage",
         "excludes:with health insurance coverage"
@@ -6392,7 +6392,7 @@
     },
     {
       "variableId": "B08201_001E",
-      "actualLabel": "Estimate!!Total:!!No vehicle available",
+      "actualLabel": "Estimate!!Total:",
       "expectedLabelPatterns": [
         "includes:no vehicle available",
         "excludes:1 vehicle",
@@ -6405,7 +6405,7 @@
     },
     {
       "variableId": "B08201_001M",
-      "actualLabel": "Estimate!!Total:!!No vehicle available",
+      "actualLabel": "Estimate!!Total:",
       "expectedLabelPatterns": [
         "includes:no vehicle available",
         "excludes:1 vehicle",
@@ -6427,7 +6427,7 @@
     },
     {
       "variableId": "B18101_007E",
-      "actualLabel": "Estimate!!Total:!!Male:!!Under 5 years:!!With a disability",
+      "actualLabel": "Estimate!!Total:!!Male:!!5 to 17 years:!!With a disability",
       "expectedLabelPatterns": [
         "includes:with a disability",
         "excludes:no disability"
@@ -6436,7 +6436,7 @@
     },
     {
       "variableId": "B18101_010E",
-      "actualLabel": "Estimate!!Total:!!Male:!!Under 5 years:!!With a disability",
+      "actualLabel": "Estimate!!Total:!!Male:!!18 to 34 years:!!With a disability",
       "expectedLabelPatterns": [
         "includes:with a disability",
         "excludes:no disability"
@@ -6445,7 +6445,7 @@
     },
     {
       "variableId": "B18101_013E",
-      "actualLabel": "Estimate!!Total:!!Male:!!Under 5 years:!!With a disability",
+      "actualLabel": "Estimate!!Total:!!Male:!!35 to 64 years:!!With a disability",
       "expectedLabelPatterns": [
         "includes:with a disability",
         "excludes:no disability"
@@ -6454,7 +6454,7 @@
     },
     {
       "variableId": "B18101_016E",
-      "actualLabel": "Estimate!!Total:!!Male:!!Under 5 years:!!With a disability",
+      "actualLabel": "Estimate!!Total:!!Male:!!65 to 74 years:!!With a disability",
       "expectedLabelPatterns": [
         "includes:with a disability",
         "excludes:no disability"
@@ -6463,7 +6463,7 @@
     },
     {
       "variableId": "B18101_019E",
-      "actualLabel": "Estimate!!Total:!!Male:!!Under 5 years:!!With a disability",
+      "actualLabel": "Estimate!!Total:!!Male:!!75 years and over:!!With a disability",
       "expectedLabelPatterns": [
         "includes:with a disability",
         "excludes:no disability"
@@ -6472,7 +6472,7 @@
     },
     {
       "variableId": "B18101_023E",
-      "actualLabel": "Estimate!!Total:!!Male:!!Under 5 years:!!With a disability",
+      "actualLabel": "Estimate!!Total:!!Female:!!Under 5 years:!!With a disability",
       "expectedLabelPatterns": [
         "includes:with a disability",
         "excludes:no disability"
@@ -6481,7 +6481,7 @@
     },
     {
       "variableId": "B18101_026E",
-      "actualLabel": "Estimate!!Total:!!Male:!!Under 5 years:!!With a disability",
+      "actualLabel": "Estimate!!Total:!!Female:!!5 to 17 years:!!With a disability",
       "expectedLabelPatterns": [
         "includes:with a disability",
         "excludes:no disability"
@@ -6490,7 +6490,7 @@
     },
     {
       "variableId": "B18101_029E",
-      "actualLabel": "Estimate!!Total:!!Male:!!Under 5 years:!!With a disability",
+      "actualLabel": "Estimate!!Total:!!Female:!!18 to 34 years:!!With a disability",
       "expectedLabelPatterns": [
         "includes:with a disability",
         "excludes:no disability"
@@ -6499,7 +6499,7 @@
     },
     {
       "variableId": "B18101_032E",
-      "actualLabel": "Estimate!!Total:!!Male:!!Under 5 years:!!With a disability",
+      "actualLabel": "Estimate!!Total:!!Female:!!35 to 64 years:!!With a disability",
       "expectedLabelPatterns": [
         "includes:with a disability",
         "excludes:no disability"
@@ -6508,7 +6508,7 @@
     },
     {
       "variableId": "B18101_035E",
-      "actualLabel": "Estimate!!Total:!!Male:!!Under 5 years:!!With a disability",
+      "actualLabel": "Estimate!!Total:!!Female:!!65 to 74 years:!!With a disability",
       "expectedLabelPatterns": [
         "includes:with a disability",
         "excludes:no disability"
@@ -6517,7 +6517,7 @@
     },
     {
       "variableId": "B18101_038E",
-      "actualLabel": "Estimate!!Total:!!Male:!!Under 5 years:!!With a disability",
+      "actualLabel": "Estimate!!Total:!!Female:!!75 years and over:!!With a disability",
       "expectedLabelPatterns": [
         "includes:with a disability",
         "excludes:no disability"
@@ -6535,7 +6535,7 @@
     },
     {
       "variableId": "B18101_007M",
-      "actualLabel": "Estimate!!Total:!!Male:!!Under 5 years:!!With a disability",
+      "actualLabel": "Estimate!!Total:!!Male:!!5 to 17 years:!!With a disability",
       "expectedLabelPatterns": [
         "includes:with a disability",
         "excludes:no disability"
@@ -6544,7 +6544,7 @@
     },
     {
       "variableId": "B18101_010M",
-      "actualLabel": "Estimate!!Total:!!Male:!!Under 5 years:!!With a disability",
+      "actualLabel": "Estimate!!Total:!!Male:!!18 to 34 years:!!With a disability",
       "expectedLabelPatterns": [
         "includes:with a disability",
         "excludes:no disability"
@@ -6553,7 +6553,7 @@
     },
     {
       "variableId": "B18101_013M",
-      "actualLabel": "Estimate!!Total:!!Male:!!Under 5 years:!!With a disability",
+      "actualLabel": "Estimate!!Total:!!Male:!!35 to 64 years:!!With a disability",
       "expectedLabelPatterns": [
         "includes:with a disability",
         "excludes:no disability"
@@ -6562,7 +6562,7 @@
     },
     {
       "variableId": "B18101_016M",
-      "actualLabel": "Estimate!!Total:!!Male:!!Under 5 years:!!With a disability",
+      "actualLabel": "Estimate!!Total:!!Male:!!65 to 74 years:!!With a disability",
       "expectedLabelPatterns": [
         "includes:with a disability",
         "excludes:no disability"
@@ -6571,7 +6571,7 @@
     },
     {
       "variableId": "B18101_019M",
-      "actualLabel": "Estimate!!Total:!!Male:!!Under 5 years:!!With a disability",
+      "actualLabel": "Estimate!!Total:!!Male:!!75 years and over:!!With a disability",
       "expectedLabelPatterns": [
         "includes:with a disability",
         "excludes:no disability"
@@ -6580,7 +6580,7 @@
     },
     {
       "variableId": "B18101_023M",
-      "actualLabel": "Estimate!!Total:!!Male:!!Under 5 years:!!With a disability",
+      "actualLabel": "Estimate!!Total:!!Female:!!Under 5 years:!!With a disability",
       "expectedLabelPatterns": [
         "includes:with a disability",
         "excludes:no disability"
@@ -6589,7 +6589,7 @@
     },
     {
       "variableId": "B18101_026M",
-      "actualLabel": "Estimate!!Total:!!Male:!!Under 5 years:!!With a disability",
+      "actualLabel": "Estimate!!Total:!!Female:!!5 to 17 years:!!With a disability",
       "expectedLabelPatterns": [
         "includes:with a disability",
         "excludes:no disability"
@@ -6598,7 +6598,7 @@
     },
     {
       "variableId": "B18101_029M",
-      "actualLabel": "Estimate!!Total:!!Male:!!Under 5 years:!!With a disability",
+      "actualLabel": "Estimate!!Total:!!Female:!!18 to 34 years:!!With a disability",
       "expectedLabelPatterns": [
         "includes:with a disability",
         "excludes:no disability"
@@ -6607,7 +6607,7 @@
     },
     {
       "variableId": "B18101_032M",
-      "actualLabel": "Estimate!!Total:!!Male:!!Under 5 years:!!With a disability",
+      "actualLabel": "Estimate!!Total:!!Female:!!35 to 64 years:!!With a disability",
       "expectedLabelPatterns": [
         "includes:with a disability",
         "excludes:no disability"
@@ -6616,7 +6616,7 @@
     },
     {
       "variableId": "B18101_035M",
-      "actualLabel": "Estimate!!Total:!!Male:!!Under 5 years:!!With a disability",
+      "actualLabel": "Estimate!!Total:!!Female:!!65 to 74 years:!!With a disability",
       "expectedLabelPatterns": [
         "includes:with a disability",
         "excludes:no disability"
@@ -6625,7 +6625,7 @@
     },
     {
       "variableId": "B18101_038M",
-      "actualLabel": "Estimate!!Total:!!Male:!!Under 5 years:!!With a disability",
+      "actualLabel": "Estimate!!Total:!!Female:!!75 years and over:!!With a disability",
       "expectedLabelPatterns": [
         "includes:with a disability",
         "excludes:no disability"
@@ -6634,7 +6634,7 @@
     },
     {
       "variableId": "B18101_001E",
-      "actualLabel": "Estimate!!Total:!!Male:!!Under 5 years:!!With a disability",
+      "actualLabel": "Estimate!!Total:",
       "expectedLabelPatterns": [
         "includes:with a disability",
         "excludes:no disability"
@@ -6643,7 +6643,7 @@
     },
     {
       "variableId": "B18101_001M",
-      "actualLabel": "Estimate!!Total:!!Male:!!Under 5 years:!!With a disability",
+      "actualLabel": "Estimate!!Total:",
       "expectedLabelPatterns": [
         "includes:with a disability",
         "excludes:no disability"
@@ -6660,7 +6660,7 @@
     },
     {
       "variableId": "C16002_007E",
-      "actualLabel": "Estimate!!Total:!!Spanish:!!Limited English speaking household",
+      "actualLabel": "Estimate!!Total:!!Other Indo-European languages:!!Limited English speaking household",
       "expectedLabelPatterns": [
         "includes:limited english speaking household"
       ],
@@ -6668,7 +6668,7 @@
     },
     {
       "variableId": "C16002_010E",
-      "actualLabel": "Estimate!!Total:!!Spanish:!!Limited English speaking household",
+      "actualLabel": "Estimate!!Total:!!Asian and Pacific Island languages:!!Limited English speaking household",
       "expectedLabelPatterns": [
         "includes:limited english speaking household"
       ],
@@ -6676,7 +6676,7 @@
     },
     {
       "variableId": "C16002_013E",
-      "actualLabel": "Estimate!!Total:!!Spanish:!!Limited English speaking household",
+      "actualLabel": "Estimate!!Total:!!Other languages:!!Limited English speaking household",
       "expectedLabelPatterns": [
         "includes:limited english speaking household"
       ],
@@ -6692,7 +6692,7 @@
     },
     {
       "variableId": "C16002_007M",
-      "actualLabel": "Estimate!!Total:!!Spanish:!!Limited English speaking household",
+      "actualLabel": "Estimate!!Total:!!Other Indo-European languages:!!Limited English speaking household",
       "expectedLabelPatterns": [
         "includes:limited english speaking household"
       ],
@@ -6700,7 +6700,7 @@
     },
     {
       "variableId": "C16002_010M",
-      "actualLabel": "Estimate!!Total:!!Spanish:!!Limited English speaking household",
+      "actualLabel": "Estimate!!Total:!!Asian and Pacific Island languages:!!Limited English speaking household",
       "expectedLabelPatterns": [
         "includes:limited english speaking household"
       ],
@@ -6708,7 +6708,7 @@
     },
     {
       "variableId": "C16002_013M",
-      "actualLabel": "Estimate!!Total:!!Spanish:!!Limited English speaking household",
+      "actualLabel": "Estimate!!Total:!!Other languages:!!Limited English speaking household",
       "expectedLabelPatterns": [
         "includes:limited english speaking household"
       ],
@@ -6716,7 +6716,7 @@
     },
     {
       "variableId": "C16002_001E",
-      "actualLabel": "Estimate!!Total:!!Spanish:!!Limited English speaking household",
+      "actualLabel": "Estimate!!Total:",
       "expectedLabelPatterns": [
         "includes:limited english speaking household"
       ],
@@ -6724,7 +6724,7 @@
     },
     {
       "variableId": "C16002_001M",
-      "actualLabel": "Estimate!!Total:!!Spanish:!!Limited English speaking household",
+      "actualLabel": "Estimate!!Total:",
       "expectedLabelPatterns": [
         "includes:limited english speaking household"
       ],

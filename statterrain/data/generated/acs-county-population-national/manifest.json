@@ -1,5 +1,7 @@
 {
   "schemaVersion": "acs-county-population-v0.3.6",
+  "runId": "29212317043-1",
+  "buildMode": "national",
   "source": {
     "sourceId": "census-acs5-county-population-2024",
     "agency": "United States Census Bureau",
@@ -33,12 +35,12 @@
   },
   "release": "2024",
   "estimatePeriod": "2020-2024",
-  "retrievedAt": "2026-07-12T19:52:09.988Z",
-  "generationTimestamp": "2026-07-12T19:52:10.026Z",
+  "retrievedAt": "2026-07-12T22:51:46.245Z",
+  "generationTimestamp": "2026-07-12T22:52:48.376Z",
   "dataMode": "real-public-data",
   "geographyType": "county",
-  "stateCount": 3,
-  "countyRecordCount": 4,
+  "stateCount": 52,
+  "countyRecordCount": 3222,
   "metricList": [
     "total_population",
     "population_under_18",
@@ -149,6 +151,127 @@
     "C16002_013E",
     "C16002_013M"
   ],
+  "variableChunks": [
+    {
+      "chunkId": "acs-vars-001",
+      "variables": [
+        "B01001_001E",
+        "B01001_001M",
+        "B01001_003E",
+        "B01001_003M",
+        "B01001_004E",
+        "B01001_004M",
+        "B01001_005E",
+        "B01001_005M",
+        "B01001_006E",
+        "B01001_006M",
+        "B01001_020E",
+        "B01001_020M",
+        "B01001_021E",
+        "B01001_021M",
+        "B01001_022E",
+        "B01001_022M",
+        "B01001_023E",
+        "B01001_023M",
+        "B01001_024E",
+        "B01001_024M",
+        "B01001_025E",
+        "B01001_025M",
+        "B01001_027E",
+        "B01001_027M",
+        "B01001_028E",
+        "B01001_028M",
+        "B01001_029E",
+        "B01001_029M",
+        "B01001_030E",
+        "B01001_030M",
+        "B01001_044E",
+        "B01001_044M",
+        "B01001_045E",
+        "B01001_045M",
+        "B01001_046E",
+        "B01001_046M",
+        "B01001_047E",
+        "B01001_047M",
+        "B01001_048E",
+        "B01001_048M"
+      ],
+      "pairCount": 20,
+      "checksum": "469da03ed72c3e4e"
+    },
+    {
+      "chunkId": "acs-vars-002",
+      "variables": [
+        "B01001_049E",
+        "B01001_049M",
+        "B01003_001E",
+        "B01003_001M",
+        "B08201_001E",
+        "B08201_001M",
+        "B08201_002E",
+        "B08201_002M",
+        "B17001_001E",
+        "B17001_001M",
+        "B17001_002E",
+        "B17001_002M",
+        "B18101_001E",
+        "B18101_001M",
+        "B18101_004E",
+        "B18101_004M",
+        "B18101_007E",
+        "B18101_007M",
+        "B18101_010E",
+        "B18101_010M",
+        "B18101_013E",
+        "B18101_013M",
+        "B18101_016E",
+        "B18101_016M",
+        "B18101_019E",
+        "B18101_019M",
+        "B18101_023E",
+        "B18101_023M",
+        "B18101_026E",
+        "B18101_026M",
+        "B18101_029E",
+        "B18101_029M",
+        "B18101_032E",
+        "B18101_032M",
+        "B18101_035E",
+        "B18101_035M",
+        "B18101_038E",
+        "B18101_038M",
+        "B27010_001E",
+        "B27010_001M"
+      ],
+      "pairCount": 20,
+      "checksum": "468dc24706a46859"
+    },
+    {
+      "chunkId": "acs-vars-003",
+      "variables": [
+        "B27010_017E",
+        "B27010_017M",
+        "B27010_033E",
+        "B27010_033M",
+        "B27010_050E",
+        "B27010_050M",
+        "B27010_066E",
+        "B27010_066M",
+        "C16002_001E",
+        "C16002_001M",
+        "C16002_004E",
+        "C16002_004M",
+        "C16002_007E",
+        "C16002_007M",
+        "C16002_010E",
+        "C16002_010M",
+        "C16002_013E",
+        "C16002_013M"
+      ],
+      "pairCount": 9,
+      "checksum": "e666f634559b1eb6"
+    }
+  ],
   "groupIds": [
     "B01001",
     "B01003",
@@ -159,86 +282,331 @@
     "C16002"
   ],
   "partitions": {
+    "AK": {
+      "path": "states/AK.json",
+      "recordCount": 30,
+      "sha256": "2db707851e01d56c1db403d33406b39646932a9657f0dc5e26cbb180f3553933"
+    },
+    "AL": {
+      "path": "states/AL.json",
+      "recordCount": 67,
+      "sha256": "210b8bc6aa5dc30745cf34e2e8a89ee84dfe7449833e98a32a19786394de38b6"
+    },
+    "AR": {
+      "path": "states/AR.json",
+      "recordCount": 75,
+      "sha256": "8e6386738ac5ff0bba72f9644e531a1fb5e72a66e7223dd0fd83c32e1937128b"
+    },
+    "AZ": {
+      "path": "states/AZ.json",
+      "recordCount": 15,
+      "sha256": "903e4f047077599be010c76b8beaa3388e7623e7f370deff6fbb9c07f05e5dc7"
+    },
+    "CA": {
+      "path": "states/CA.json",
+      "recordCount": 58,
+      "sha256": "c8d04498ac7c7c6e396db5606fc6ba4a0509c1e29c84ff09326ba2d7fb935627"
+    },
+    "CO": {
+      "path": "states/CO.json",
+      "recordCount": 64,
+      "sha256": "cd234360375c0af1c63042ec37e212acb97351cd9a48aa905ecf059dc8afcd89"
+    },
+    "CT": {
+      "path": "states/CT.json",
+      "recordCount": 9,
+      "sha256": "03b1d001bc759fe8ab7c5dbfb8309699dedc53297f1ca162f5c9945a6922cca0"
+    },
+    "DC": {
+      "path": "states/DC.json",
+      "recordCount": 1,
+      "sha256": "843c164c6e9135d6e01406481b6e829c58a792629b3146b2d248e8e5d271e7ef"
+    },
+    "DE": {
+      "path": "states/DE.json",
+      "recordCount": 3,
+      "sha256": "8dbfb4745467d1275ee2ea3fdfe5c9da0f806a4d11845a9a3c0c35c892979e1b"
+    },
+    "FL": {
+      "path": "states/FL.json",
+      "recordCount": 67,
+      "sha256": "4f1b2af053dd47a82a3b0d23a2f8c6ea1e73d24d6c812c507b39d806cc2b58c3"
+    },
+    "GA": {
+      "path": "states/GA.json",
+      "recordCount": 159,
+      "sha256": "930661be0cc9272ceb2db960aa19be4faf0ce601e9f88664f182a38410c41fb1"
+    },
+    "HI": {
+      "path": "states/HI.json",
+      "recordCount": 5,
+      "sha256": "b373c7b8338b786bf33252316976ceab8c2979c3f7c0a248b03776c152a5eb48"
+    },
+    "IA": {
+      "path": "states/IA.json",
+      "recordCount": 99,
+      "sha256": "1e09a38ddb00d51c1b61a7d121bd14246cacef63b88a1bf81614a6343a14ebd8"
+    },
+    "ID": {
+      "path": "states/ID.json",
+      "recordCount": 44,
+      "sha256": "f865d04f722e518f5cf6414afaaebf11acd9681782f938868431195306725ad8"
+    },
+    "IL": {
+      "path": "states/IL.json",
+      "recordCount": 102,
+      "sha256": "30bb3ae4e23f8d283ac010ca916c64f0838cb15bd5d01b9c0c312c66e64192e9"
+    },
+    "IN": {
+      "path": "states/IN.json",
+      "recordCount": 92,
+      "sha256": "917b7201594901f18d80248cd544009a66e70fe94b362e4625622ab1c3ef7065"
+    },
+    "KS": {
+      "path": "states/KS.json",
+      "recordCount": 105,
+      "sha256": "dca0d9fa1f0da03f2746e8892f8a421744ec7c2d1d00f0a44ef5649ef8c24c72"
+    },
+    "KY": {
+      "path": "states/KY.json",
+      "recordCount": 120,
+      "sha256": "a18ac78e62f3a0b304a8a3f3574fca622955b5f9e5fcc68cd6b051c20c8a85cd"
+    },
+    "LA": {
+      "path": "states/LA.json",
+      "recordCount": 64,
+      "sha256": "513b099e6b272a34179ca5f809d6d2e11e5469baebe91d74a23586bc9d121847"
+    },
+    "MA": {
+      "path": "states/MA.json",
+      "recordCount": 14,
+      "sha256": "bae85745faeca7f0e5bedd37ba72e0992f942bb5f7da5d919bb5719b0c50159e"
+    },
+    "MD": {
+      "path": "states/MD.json",
+      "recordCount": 24,
+      "sha256": "eb8efdaae120ada5602b82f9b59f1a17d4cf5724b5d8442e669409463c30ba7c"
+    },
+    "ME": {
+      "path": "states/ME.json",
+      "recordCount": 16,
+      "sha256": "9def049b1681cfc5f38f44a427117779c071ed24c38496789ed85296160b044d"
+    },
     "MI": {
       "path": "states/MI.json",
-      "recordCount": 2,
-      "sha256": "b1711aa7417541631775abbdfce4062ee7146442286e1680b559f9a526db53fa"
+      "recordCount": 83,
+      "sha256": "c534149615b92843b4c4880e5777b06b71593bdcdc86fe6b5b4ffd3ba7386c42"
+    },
+    "MN": {
+      "path": "states/MN.json",
+      "recordCount": 87,
+      "sha256": "1bcf7bd8ec4633c0c57fbd20c4b2055bffbfb78fed5bb6c838c3a311fb5fc5f9"
+    },
+    "MO": {
+      "path": "states/MO.json",
+      "recordCount": 115,
+      "sha256": "daee1d9da01183beb1a23cad3b6aecd17b7383169985b7c03f6b15d11d833161"
+    },
+    "MS": {
+      "path": "states/MS.json",
+      "recordCount": 82,
+      "sha256": "0ec1b97c3f5c9da024be47a23874206124b62c2ad2bda8dfc78c6137da7c5891"
+    },
+    "MT": {
+      "path": "states/MT.json",
+      "recordCount": 56,
+      "sha256": "b7cee1ea5f0b744332253f7425b3e92bbaf7e9a3a5ee87bca8e05eb2c70063e9"
+    },
+    "NC": {
+      "path": "states/NC.json",
+      "recordCount": 100,
+      "sha256": "828aabbb317eb8b747bc6d1f4a81f52bbaddf8d3fd1f27847cbdf6af94daac9b"
+    },
+    "ND": {
+      "path": "states/ND.json",
+      "recordCount": 53,
+      "sha256": "3ce354fcb14025100e6066cc350c047e1b1cded2765287d6d03b8e8d6190ca44"
+    },
+    "NE": {
+      "path": "states/NE.json",
+      "recordCount": 93,
+      "sha256": "7af763f8a108149fc3ec1ab51cc0fca72d8359fc3a1d5fae7988eb165c18c281"
+    },
+    "NH": {
+      "path": "states/NH.json",
+      "recordCount": 10,
+      "sha256": "aff5433c7f8bf0b4db6a59bf58694352ef624aac748adc4adc3f9e3dbb334cde"
+    },
+    "NJ": {
+      "path": "states/NJ.json",
+      "recordCount": 21,
+      "sha256": "608206514fca5232a66e24fef78ed9cf1ea675f7757abc0e5a9136f7833f8c88"
+    },
+    "NM": {
+      "path": "states/NM.json",
+      "recordCount": 33,
+      "sha256": "d330ce31ff2bf49e5411283181c1cb6edf47280af1e55ee57984beb89574321b"
+    },
+    "NV": {
+      "path": "states/NV.json",
+      "recordCount": 17,
+      "sha256": "ffbb98ee90a8f14be6eb03403a69212ea03cfee4f71d4db7d109b15809f9a0c3"
+    },
+    "NY": {
+      "path": "states/NY.json",
+      "recordCount": 62,
+      "sha256": "e3831d11a4b0f0ca8f33ec535ff38af261a45f7ff1030a857579d1a1c57b2676"
     },
     "OH": {
       "path": "states/OH.json",
-      "recordCount": 1,
-      "sha256": "e0041f4e21b2bb0bcbda640889b1a16554b6e3f4ea1fc64688fe67ecb6347c01"
+      "recordCount": 88,
+      "sha256": "7a5e059132140ef6543c68a2bf3162cf23bfa4d069a4bb74ea5135078b06c953"
+    },
+    "OK": {
+      "path": "states/OK.json",
+      "recordCount": 77,
+      "sha256": "7c4d6866c5fe2cbd7e9a510f00d48c9ed78cc9691823aed2043ec71d4c22431a"
+    },
+    "OR": {
+      "path": "states/OR.json",
+      "recordCount": 36,
+      "sha256": "55790d893bb54cd3d26921a305fd7181360f09bb5857277ab3d5da36a47ccaa2"
+    },
+    "PA": {
+      "path": "states/PA.json",
+      "recordCount": 67,
+      "sha256": "7f650fdbf66f261c59d7701fb20bc1e53ffaeea265422bbeb5cac4f5a4ae5a02"
     },
     "PR": {
       "path": "states/PR.json",
-      "recordCount": 1,
-      "sha256": "cb068556d33548e4a95090949b51f75ab2315efaa59e19c39fc010031e0bb718"
+      "recordCount": 78,
+      "sha256": "1a981f758a76b3ed16350ac91156035f32d5c8bd0eb2cffc5b6a73b6721ae92e"
+    },
+    "RI": {
+      "path": "states/RI.json",
+      "recordCount": 5,
+      "sha256": "abd15f8180aa099914208c3390dbd5c72b249bf18d79745232a241822759b3c6"
+    },
+    "SC": {
+      "path": "states/SC.json",
+      "recordCount": 46,
+      "sha256": "4a1abce7ee6ac5ff166c6dae34ac85d73c5de768f367536c1ec389a59d398eac"
+    },
+    "SD": {
+      "path": "states/SD.json",
+      "recordCount": 66,
+      "sha256": "40768a954095589cbded9380a69fe7e263af7a9d3b263b0dc6c5fa4b196b4915"
+    },
+    "TN": {
+      "path": "states/TN.json",
+      "recordCount": 95,
+      "sha256": "251c4e6e5a7b8965718b18b8ca7acf9c26540afded130cab9ce6d6c984525495"
+    },
+    "TX": {
+      "path": "states/TX.json",
+      "recordCount": 254,
+      "sha256": "eedbdca81a773de929d1bea74230013ab19455bba7e0fd5195b0e925dff5e37c"
+    },
+    "UT": {
+      "path": "states/UT.json",
+      "recordCount": 29,
+      "sha256": "54db8442e1231af690d6369b44bc1f7e48baa7fdea9c8fe33b3c318772b5b5e3"
+    },
+    "VA": {
+      "path": "states/VA.json",
+      "recordCount": 133,
+      "sha256": "18989b33fb9f3c25634a2b7238f249f0839b96c4b1a88627e714b11d140ad545"
+    },
+    "VT": {
+      "path": "states/VT.json",
+      "recordCount": 14,
+      "sha256": "e8d22d7fc00fb8c31e91ac1a758b8c1b4297f407e0befe0ba2bdfdcd92ad7507"
+    },
+    "WA": {
+      "path": "states/WA.json",
+      "recordCount": 39,
+      "sha256": "8db567ee1cc6fb5a1325e645506968074c0e5ef3d30c86ade07ea94014cc674d"
+    },
+    "WI": {
+      "path": "states/WI.json",
+      "recordCount": 72,
+      "sha256": "e1471787bf620d01d93f4b0eb7a529d057c3ab153baf8c3fd079f132f66163c5"
+    },
+    "WV": {
+      "path": "states/WV.json",
+      "recordCount": 55,
+      "sha256": "dffada28d2483614f1d05c72ce8a3ab0dabef4538cbb44b61fddbd63109eac24"
+    },
+    "WY": {
+      "path": "states/WY.json",
+      "recordCount": 23,
+      "sha256": "1ec9c0f1cf788fc0f736d82ec88da514ae9d78ca556759bb75fc13ed1113d952"
     }
   },
   "completeness": {
     "total_population": {
-      "available": 3,
+      "available": 3222,
+      "missing": 0,
+      "suppressed": 0,
+      "invalid": 0,
+      "zeroReported": 0,
+      "denominatorZero": 0
+    },
+    "population_under_18": {
+      "available": 3220,
+      "missing": 0,
+      "suppressed": 0,
+      "invalid": 0,
+      "zeroReported": 2,
+      "denominatorZero": 0
+    },
+    "population_65_and_older": {
+      "available": 3222,
+      "missing": 0,
+      "suppressed": 0,
+      "invalid": 0,
+      "zeroReported": 0,
+      "denominatorZero": 0
+    },
+    "poverty_population": {
+      "available": 3222,
+      "missing": 0,
+      "suppressed": 0,
+      "invalid": 0,
+      "zeroReported": 0,
+      "denominatorZero": 0
+    },
+    "uninsured_population": {
+      "available": 3221,
       "missing": 0,
       "suppressed": 0,
       "invalid": 0,
       "zeroReported": 1,
       "denominatorZero": 0
     },
-    "population_under_18": {
-      "available": 2,
-      "missing": 0,
-      "suppressed": 1,
-      "invalid": 0,
-      "zeroReported": 0,
-      "denominatorZero": 1
-    },
-    "population_65_and_older": {
-      "available": 3,
-      "missing": 0,
-      "suppressed": 0,
-      "invalid": 0,
-      "zeroReported": 0,
-      "denominatorZero": 1
-    },
-    "poverty_population": {
-      "available": 2,
-      "missing": 0,
-      "suppressed": 1,
-      "invalid": 0,
-      "zeroReported": 0,
-      "denominatorZero": 1
-    },
-    "uninsured_population": {
-      "available": 3,
-      "missing": 0,
-      "suppressed": 0,
-      "invalid": 0,
-      "zeroReported": 0,
-      "denominatorZero": 1
-    },
     "households_no_vehicle": {
-      "available": 3,
+      "available": 3212,
       "missing": 0,
       "suppressed": 0,
       "invalid": 0,
-      "zeroReported": 0,
-      "denominatorZero": 1
+      "zeroReported": 10,
+      "denominatorZero": 0
     },
     "disability_population": {
-      "available": 3,
+      "available": 3222,
       "missing": 0,
       "suppressed": 0,
       "invalid": 0,
       "zeroReported": 0,
-      "denominatorZero": 1
+      "denominatorZero": 0
     },
     "limited_english_households": {
-      "available": 3,
+      "available": 2885,
       "missing": 0,
       "suppressed": 0,
       "invalid": 0,
-      "zeroReported": 0,
-      "denominatorZero": 1
+      "zeroReported": 337,
+      "denominatorZero": 0
     }
   },
   "missingValuesByMetric": {
@@ -253,9 +621,9 @@
   },
   "suppressedValuesByMetric": {
     "total_population": 0,
-    "population_under_18": 1,
+    "population_under_18": 0,
     "population_65_and_older": 0,
-    "poverty_population": 1,
+    "poverty_population": 0,
     "uninsured_population": 0,
     "households_no_vehicle": 0,
     "disability_population": 0,
@@ -288,23 +656,906 @@
   "nextActivationPatch": "v0.3.7",
   "runSummary": {
     "statesRequested": [
+      "AK",
+      "AL",
+      "AR",
+      "AZ",
+      "CA",
+      "CO",
+      "CT",
+      "DC",
+      "DE",
+      "FL",
+      "GA",
+      "HI",
+      "IA",
+      "ID",
+      "IL",
+      "IN",
+      "KS",
+      "KY",
+      "LA",
+      "MA",
+      "MD",
+      "ME",
       "MI",
+      "MN",
+      "MO",
+      "MS",
+      "MT",
+      "NC",
+      "ND",
+      "NE",
+      "NH",
+      "NJ",
+      "NM",
+      "NV",
+      "NY",
       "OH",
-      "PR"
+      "OK",
+      "OR",
+      "PA",
+      "PR",
+      "RI",
+      "SC",
+      "SD",
+      "TN",
+      "TX",
+      "UT",
+      "VA",
+      "VT",
+      "WA",
+      "WI",
+      "WV",
+      "WY"
     ],
     "statesCompleted": [
+      "AK",
+      "AL",
+      "AR",
+      "AZ",
+      "CA",
+      "CO",
+      "CT",
+      "DC",
+      "DE",
+      "FL",
+      "GA",
+      "HI",
+      "IA",
+      "ID",
+      "IL",
+      "IN",
+      "KS",
+      "KY",
+      "LA",
+      "MA",
+      "MD",
+      "ME",
       "MI",
+      "MN",
+      "MO",
+      "MS",
+      "MT",
+      "NC",
+      "ND",
+      "NE",
+      "NH",
+      "NJ",
+      "NM",
+      "NV",
+      "NY",
       "OH",
-      "PR"
+      "OK",
+      "OR",
+      "PA",
+      "PR",
+      "RI",
+      "SC",
+      "SD",
+      "TN",
+      "TX",
+      "UT",
+      "VA",
+      "VT",
+      "WA",
+      "WI",
+      "WV",
+      "WY"
     ],
     "statesFailed": [],
-    "countyRowsReturned": 4,
-    "uniqueGeoids": 4,
+    "countyRowsReturned": 3222,
+    "uniqueGeoids": 3222,
     "duplicateGeoids": 0,
-    "apiRequestCount": 3,
+    "apiRequestCount": 156,
     "retryCount": 0,
     "failedRequestCount": 0,
     "variableCount": 98,
-    "credentialConfigured": false
+    "credentialConfigured": true,
+    "expectedGeographyContractStatus": "PASS",
+    "chunkMergeReconciliation": {
+      "AK": {
+        "chunksPlanned": 3,
+        "chunksCompleted": 3,
+        "chunkFailures": 0,
+        "countyRowsPerChunk": {
+          "acs-vars-001": 30,
+          "acs-vars-002": 30,
+          "acs-vars-003": 30
+        },
+        "countySetMismatches": [],
+        "missingVariables": [],
+        "duplicateFields": [],
+        "mergedCountyRecords": 30,
+        "mergeStatus": "PASS"
+      },
+      "AL": {
+        "chunksPlanned": 3,
+        "chunksCompleted": 3,
+        "chunkFailures": 0,
+        "countyRowsPerChunk": {
+          "acs-vars-001": 67,
+          "acs-vars-002": 67,
+          "acs-vars-003": 67
+        },
+        "countySetMismatches": [],
+        "missingVariables": [],
+        "duplicateFields": [],
+        "mergedCountyRecords": 67,
+        "mergeStatus": "PASS"
+      },
+      "AR": {
+        "chunksPlanned": 3,
+        "chunksCompleted": 3,
+        "chunkFailures": 0,
+        "countyRowsPerChunk": {
+          "acs-vars-001": 75,
+          "acs-vars-002": 75,
+          "acs-vars-003": 75
+        },
+        "countySetMismatches": [],
+        "missingVariables": [],
+        "duplicateFields": [],
+        "mergedCountyRecords": 75,
+        "mergeStatus": "PASS"
+      },
+      "AZ": {
+        "chunksPlanned": 3,
+        "chunksCompleted": 3,
+        "chunkFailures": 0,
+        "countyRowsPerChunk": {
+          "acs-vars-001": 15,
+          "acs-vars-002": 15,
+          "acs-vars-003": 15
+        },
+        "countySetMismatches": [],
+        "missingVariables": [],
+        "duplicateFields": [],
+        "mergedCountyRecords": 15,
+        "mergeStatus": "PASS"
+      },
+      "CA": {
+        "chunksPlanned": 3,
+        "chunksCompleted": 3,
+        "chunkFailures": 0,
+        "countyRowsPerChunk": {
+          "acs-vars-001": 58,
+          "acs-vars-002": 58,
+          "acs-vars-003": 58
+        },
+        "countySetMismatches": [],
+        "missingVariables": [],
+        "duplicateFields": [],
+        "mergedCountyRecords": 58,
+        "mergeStatus": "PASS"
+      },
+      "CO": {
+        "chunksPlanned": 3,
+        "chunksCompleted": 3,
+        "chunkFailures": 0,
+        "countyRowsPerChunk": {
+          "acs-vars-001": 64,
+          "acs-vars-002": 64,
+          "acs-vars-003": 64
+        },
+        "countySetMismatches": [],
+        "missingVariables": [],
+        "duplicateFields": [],
+        "mergedCountyRecords": 64,
+        "mergeStatus": "PASS"
+      },
+      "CT": {
+        "chunksPlanned": 3,
+        "chunksCompleted": 3,
+        "chunkFailures": 0,
+        "countyRowsPerChunk": {
+          "acs-vars-001": 9,
+          "acs-vars-002": 9,
+          "acs-vars-003": 9
+        },
+        "countySetMismatches": [],
+        "missingVariables": [],
+        "duplicateFields": [],
+        "mergedCountyRecords": 9,
+        "mergeStatus": "PASS"
+      },
+      "DC": {
+        "chunksPlanned": 3,
+        "chunksCompleted": 3,
+        "chunkFailures": 0,
+        "countyRowsPerChunk": {
+          "acs-vars-001": 1,
+          "acs-vars-002": 1,
+          "acs-vars-003": 1
+        },
+        "countySetMismatches": [],
+        "missingVariables": [],
+        "duplicateFields": [],
+        "mergedCountyRecords": 1,
+        "mergeStatus": "PASS"
+      },
+      "DE": {
+        "chunksPlanned": 3,
+        "chunksCompleted": 3,
+        "chunkFailures": 0,
+        "countyRowsPerChunk": {
+          "acs-vars-001": 3,
+          "acs-vars-002": 3,
+          "acs-vars-003": 3
+        },
+        "countySetMismatches": [],
+        "missingVariables": [],
+        "duplicateFields": [],
+        "mergedCountyRecords": 3,
+        "mergeStatus": "PASS"
+      },
+      "FL": {
+        "chunksPlanned": 3,
+        "chunksCompleted": 3,
+        "chunkFailures": 0,
+        "countyRowsPerChunk": {
+          "acs-vars-001": 67,
+          "acs-vars-002": 67,
+          "acs-vars-003": 67
+        },
+        "countySetMismatches": [],
+        "missingVariables": [],
+        "duplicateFields": [],
+        "mergedCountyRecords": 67,
+        "mergeStatus": "PASS"
+      },
+      "GA": {
+        "chunksPlanned": 3,
+        "chunksCompleted": 3,
+        "chunkFailures": 0,
+        "countyRowsPerChunk": {
+          "acs-vars-001": 159,
+          "acs-vars-002": 159,
+          "acs-vars-003": 159
+        },
+        "countySetMismatches": [],
+        "missingVariables": [],
+        "duplicateFields": [],
+        "mergedCountyRecords": 159,
+        "mergeStatus": "PASS"
+      },
+      "HI": {
+        "chunksPlanned": 3,
+        "chunksCompleted": 3,
+        "chunkFailures": 0,
+        "countyRowsPerChunk": {
+          "acs-vars-001": 5,
+          "acs-vars-002": 5,
+          "acs-vars-003": 5
+        },
+        "countySetMismatches": [],
+        "missingVariables": [],
+        "duplicateFields": [],
+        "mergedCountyRecords": 5,
+        "mergeStatus": "PASS"
+      },
+      "IA": {
+        "chunksPlanned": 3,
+        "chunksCompleted": 3,
+        "chunkFailures": 0,
+        "countyRowsPerChunk": {
+          "acs-vars-001": 99,
+          "acs-vars-002": 99,
+          "acs-vars-003": 99
+        },
+        "countySetMismatches": [],
+        "missingVariables": [],
+        "duplicateFields": [],
+        "mergedCountyRecords": 99,
+        "mergeStatus": "PASS"
+      },
+      "ID": {
+        "chunksPlanned": 3,
+        "chunksCompleted": 3,
+        "chunkFailures": 0,
+        "countyRowsPerChunk": {
+          "acs-vars-001": 44,
+          "acs-vars-002": 44,
+          "acs-vars-003": 44
+        },
+        "countySetMismatches": [],
+        "missingVariables": [],
+        "duplicateFields": [],
+        "mergedCountyRecords": 44,
+        "mergeStatus": "PASS"
+      },
+      "IL": {
+        "chunksPlanned": 3,
+        "chunksCompleted": 3,
+        "chunkFailures": 0,
+        "countyRowsPerChunk": {
+          "acs-vars-001": 102,
+          "acs-vars-002": 102,
+          "acs-vars-003": 102
+        },
+        "countySetMismatches": [],
+        "missingVariables": [],
+        "duplicateFields": [],
+        "mergedCountyRecords": 102,
+        "mergeStatus": "PASS"
+      },
+      "IN": {
+        "chunksPlanned": 3,
+        "chunksCompleted": 3,
+        "chunkFailures": 0,
+        "countyRowsPerChunk": {
+          "acs-vars-001": 92,
+          "acs-vars-002": 92,
+          "acs-vars-003": 92
+        },
+        "countySetMismatches": [],
+        "missingVariables": [],
+        "duplicateFields": [],
+        "mergedCountyRecords": 92,
+        "mergeStatus": "PASS"
+      },
+      "KS": {
+        "chunksPlanned": 3,
+        "chunksCompleted": 3,
+        "chunkFailures": 0,
+        "countyRowsPerChunk": {
+          "acs-vars-001": 105,
+          "acs-vars-002": 105,
+          "acs-vars-003": 105
+        },
+        "countySetMismatches": [],
+        "missingVariables": [],
+        "duplicateFields": [],
+        "mergedCountyRecords": 105,
+        "mergeStatus": "PASS"
+      },
+      "KY": {
+        "chunksPlanned": 3,
+        "chunksCompleted": 3,
+        "chunkFailures": 0,
+        "countyRowsPerChunk": {
+          "acs-vars-001": 120,
+          "acs-vars-002": 120,
+          "acs-vars-003": 120
+        },
+        "countySetMismatches": [],
+        "missingVariables": [],
+        "duplicateFields": [],
+        "mergedCountyRecords": 120,
+        "mergeStatus": "PASS"
+      },
+      "LA": {
+        "chunksPlanned": 3,
+        "chunksCompleted": 3,
+        "chunkFailures": 0,
+        "countyRowsPerChunk": {
+          "acs-vars-001": 64,
+          "acs-vars-002": 64,
+          "acs-vars-003": 64
+        },
+        "countySetMismatches": [],
+        "missingVariables": [],
+        "duplicateFields": [],
+        "mergedCountyRecords": 64,
+        "mergeStatus": "PASS"
+      },
+      "MA": {
+        "chunksPlanned": 3,
+        "chunksCompleted": 3,
+        "chunkFailures": 0,
+        "countyRowsPerChunk": {
+          "acs-vars-001": 14,
+          "acs-vars-002": 14,
+          "acs-vars-003": 14
+        },
+        "countySetMismatches": [],
+        "missingVariables": [],
+        "duplicateFields": [],
+        "mergedCountyRecords": 14,
+        "mergeStatus": "PASS"
+      },
+      "MD": {
+        "chunksPlanned": 3,
+        "chunksCompleted": 3,
+        "chunkFailures": 0,
+        "countyRowsPerChunk": {
+          "acs-vars-001": 24,
+          "acs-vars-002": 24,
+          "acs-vars-003": 24
+        },
+        "countySetMismatches": [],
+        "missingVariables": [],
+        "duplicateFields": [],
+        "mergedCountyRecords": 24,
+        "mergeStatus": "PASS"
+      },
+      "ME": {
+        "chunksPlanned": 3,
+        "chunksCompleted": 3,
+        "chunkFailures": 0,
+        "countyRowsPerChunk": {
+          "acs-vars-001": 16,
+          "acs-vars-002": 16,
+          "acs-vars-003": 16
+        },
+        "countySetMismatches": [],
+        "missingVariables": [],
+        "duplicateFields": [],
+        "mergedCountyRecords": 16,
+        "mergeStatus": "PASS"
+      },
+      "MI": {
+        "chunksPlanned": 3,
+        "chunksCompleted": 3,
+        "chunkFailures": 0,
+        "countyRowsPerChunk": {
+          "acs-vars-001": 83,
+          "acs-vars-002": 83,
+          "acs-vars-003": 83
+        },
+        "countySetMismatches": [],
+        "missingVariables": [],
+        "duplicateFields": [],
+        "mergedCountyRecords": 83,
+        "mergeStatus": "PASS"
+      },
+      "MN": {
+        "chunksPlanned": 3,
+        "chunksCompleted": 3,
+        "chunkFailures": 0,
+        "countyRowsPerChunk": {
+          "acs-vars-001": 87,
+          "acs-vars-002": 87,
+          "acs-vars-003": 87
+        },
+        "countySetMismatches": [],
+        "missingVariables": [],
+        "duplicateFields": [],
+        "mergedCountyRecords": 87,
+        "mergeStatus": "PASS"
+      },
+      "MO": {
+        "chunksPlanned": 3,
+        "chunksCompleted": 3,
+        "chunkFailures": 0,
+        "countyRowsPerChunk": {
+          "acs-vars-001": 115,
+          "acs-vars-002": 115,
+          "acs-vars-003": 115
+        },
+        "countySetMismatches": [],
+        "missingVariables": [],
+        "duplicateFields": [],
+        "mergedCountyRecords": 115,
+        "mergeStatus": "PASS"
+      },
+      "MS": {
+        "chunksPlanned": 3,
+        "chunksCompleted": 3,
+        "chunkFailures": 0,
+        "countyRowsPerChunk": {
+          "acs-vars-001": 82,
+          "acs-vars-002": 82,
+          "acs-vars-003": 82
+        },
+        "countySetMismatches": [],
+        "missingVariables": [],
+        "duplicateFields": [],
+        "mergedCountyRecords": 82,
+        "mergeStatus": "PASS"
+      },
+      "MT": {
+        "chunksPlanned": 3,
+        "chunksCompleted": 3,
+        "chunkFailures": 0,
+        "countyRowsPerChunk": {
+          "acs-vars-001": 56,
+          "acs-vars-002": 56,
+          "acs-vars-003": 56
+        },
+        "countySetMismatches": [],
+        "missingVariables": [],
+        "duplicateFields": [],
+        "mergedCountyRecords": 56,
+        "mergeStatus": "PASS"
+      },
+      "NC": {
+        "chunksPlanned": 3,
+        "chunksCompleted": 3,
+        "chunkFailures": 0,
+        "countyRowsPerChunk": {
+          "acs-vars-001": 100,
+          "acs-vars-002": 100,
+          "acs-vars-003": 100
+        },
+        "countySetMismatches": [],
+        "missingVariables": [],
+        "duplicateFields": [],
+        "mergedCountyRecords": 100,
+        "mergeStatus": "PASS"
+      },
+      "ND": {
+        "chunksPlanned": 3,
+        "chunksCompleted": 3,
+        "chunkFailures": 0,
+        "countyRowsPerChunk": {
+          "acs-vars-001": 53,
+          "acs-vars-002": 53,
+          "acs-vars-003": 53
+        },
+        "countySetMismatches": [],
+        "missingVariables": [],
+        "duplicateFields": [],
+        "mergedCountyRecords": 53,
+        "mergeStatus": "PASS"
+      },
+      "NE": {
+        "chunksPlanned": 3,
+        "chunksCompleted": 3,
+        "chunkFailures": 0,
+        "countyRowsPerChunk": {
+          "acs-vars-001": 93,
+          "acs-vars-002": 93,
+          "acs-vars-003": 93
+        },
+        "countySetMismatches": [],
+        "missingVariables": [],
+        "duplicateFields": [],
+        "mergedCountyRecords": 93,
+        "mergeStatus": "PASS"
+      },
+      "NH": {
+        "chunksPlanned": 3,
+        "chunksCompleted": 3,
+        "chunkFailures": 0,
+        "countyRowsPerChunk": {
+          "acs-vars-001": 10,
+          "acs-vars-002": 10,
+          "acs-vars-003": 10
+        },
+        "countySetMismatches": [],
+        "missingVariables": [],
+        "duplicateFields": [],
+        "mergedCountyRecords": 10,
+        "mergeStatus": "PASS"
+      },
+      "NJ": {
+        "chunksPlanned": 3,
+        "chunksCompleted": 3,
+        "chunkFailures": 0,
+        "countyRowsPerChunk": {
+          "acs-vars-001": 21,
+          "acs-vars-002": 21,
+          "acs-vars-003": 21
+        },
+        "countySetMismatches": [],
+        "missingVariables": [],
+        "duplicateFields": [],
+        "mergedCountyRecords": 21,
+        "mergeStatus": "PASS"
+      },
+      "NM": {
+        "chunksPlanned": 3,
+        "chunksCompleted": 3,
+        "chunkFailures": 0,
+        "countyRowsPerChunk": {
+          "acs-vars-001": 33,
+          "acs-vars-002": 33,
+          "acs-vars-003": 33
+        },
+        "countySetMismatches": [],
+        "missingVariables": [],
+        "duplicateFields": [],
+        "mergedCountyRecords": 33,
+        "mergeStatus": "PASS"
+      },
+      "NV": {
+        "chunksPlanned": 3,
+        "chunksCompleted": 3,
+        "chunkFailures": 0,
+        "countyRowsPerChunk": {
+          "acs-vars-001": 17,
+          "acs-vars-002": 17,
+          "acs-vars-003": 17
+        },
+        "countySetMismatches": [],
+        "missingVariables": [],
+        "duplicateFields": [],
+        "mergedCountyRecords": 17,
+        "mergeStatus": "PASS"
+      },
+      "NY": {
+        "chunksPlanned": 3,
+        "chunksCompleted": 3,
+        "chunkFailures": 0,
+        "countyRowsPerChunk": {
+          "acs-vars-001": 62,
+          "acs-vars-002": 62,
+          "acs-vars-003": 62
+        },
+        "countySetMismatches": [],
+        "missingVariables": [],
+        "duplicateFields": [],
+        "mergedCountyRecords": 62,
+        "mergeStatus": "PASS"
+      },
+      "OH": {
+        "chunksPlanned": 3,
+        "chunksCompleted": 3,
+        "chunkFailures": 0,
+        "countyRowsPerChunk": {
+          "acs-vars-001": 88,
+          "acs-vars-002": 88,
+          "acs-vars-003": 88
+        },
+        "countySetMismatches": [],
+        "missingVariables": [],
+        "duplicateFields": [],
+        "mergedCountyRecords": 88,
+        "mergeStatus": "PASS"
+      },
+      "OK": {
+        "chunksPlanned": 3,
+        "chunksCompleted": 3,
+        "chunkFailures": 0,
+        "countyRowsPerChunk": {
+          "acs-vars-001": 77,
+          "acs-vars-002": 77,
+          "acs-vars-003": 77
+        },
+        "countySetMismatches": [],
+        "missingVariables": [],
+        "duplicateFields": [],
+        "mergedCountyRecords": 77,
+        "mergeStatus": "PASS"
+      },
+      "OR": {
+        "chunksPlanned": 3,
+        "chunksCompleted": 3,
+        "chunkFailures": 0,
+        "countyRowsPerChunk": {
+          "acs-vars-001": 36,
+          "acs-vars-002": 36,
+          "acs-vars-003": 36
+        },
+        "countySetMismatches": [],
+        "missingVariables": [],
+        "duplicateFields": [],
+        "mergedCountyRecords": 36,
+        "mergeStatus": "PASS"
+      },
+      "PA": {
+        "chunksPlanned": 3,
+        "chunksCompleted": 3,
+        "chunkFailures": 0,
+        "countyRowsPerChunk": {
+          "acs-vars-001": 67,
+          "acs-vars-002": 67,
+          "acs-vars-003": 67
+        },
+        "countySetMismatches": [],
+        "missingVariables": [],
+        "duplicateFields": [],
+        "mergedCountyRecords": 67,
+        "mergeStatus": "PASS"
+      },
+      "PR": {
+        "chunksPlanned": 3,
+        "chunksCompleted": 3,
+        "chunkFailures": 0,
+        "countyRowsPerChunk": {
+          "acs-vars-001": 78,
+          "acs-vars-002": 78,
+          "acs-vars-003": 78
+        },
+        "countySetMismatches": [],
+        "missingVariables": [],
+        "duplicateFields": [],
+        "mergedCountyRecords": 78,
+        "mergeStatus": "PASS"
+      },
+      "RI": {
+        "chunksPlanned": 3,
+        "chunksCompleted": 3,
+        "chunkFailures": 0,
+        "countyRowsPerChunk": {
+          "acs-vars-001": 5,
+          "acs-vars-002": 5,
+          "acs-vars-003": 5
+        },
+        "countySetMismatches": [],
+        "missingVariables": [],
+        "duplicateFields": [],
+        "mergedCountyRecords": 5,
+        "mergeStatus": "PASS"
+      },
+      "SC": {
+        "chunksPlanned": 3,
+        "chunksCompleted": 3,
+        "chunkFailures": 0,
+        "countyRowsPerChunk": {
+          "acs-vars-001": 46,
+          "acs-vars-002": 46,
+          "acs-vars-003": 46
+        },
+        "countySetMismatches": [],
+        "missingVariables": [],
+        "duplicateFields": [],
+        "mergedCountyRecords": 46,
+        "mergeStatus": "PASS"
+      },
+      "SD": {
+        "chunksPlanned": 3,
+        "chunksCompleted": 3,
+        "chunkFailures": 0,
+        "countyRowsPerChunk": {
+          "acs-vars-001": 66,
+          "acs-vars-002": 66,
+          "acs-vars-003": 66
+        },
+        "countySetMismatches": [],
+        "missingVariables": [],
+        "duplicateFields": [],
+        "mergedCountyRecords": 66,
+        "mergeStatus": "PASS"
+      },
+      "TN": {
+        "chunksPlanned": 3,
+        "chunksCompleted": 3,
+        "chunkFailures": 0,
+        "countyRowsPerChunk": {
+          "acs-vars-001": 95,
+          "acs-vars-002": 95,
+          "acs-vars-003": 95
+        },
+        "countySetMismatches": [],
+        "missingVariables": [],
+        "duplicateFields": [],
+        "mergedCountyRecords": 95,
+        "mergeStatus": "PASS"
+      },
+      "TX": {
+        "chunksPlanned": 3,
+        "chunksCompleted": 3,
+        "chunkFailures": 0,
+        "countyRowsPerChunk": {
+          "acs-vars-001": 254,
+          "acs-vars-002": 254,
+          "acs-vars-003": 254
+        },
+        "countySetMismatches": [],
+        "missingVariables": [],
+        "duplicateFields": [],
+        "mergedCountyRecords": 254,
+        "mergeStatus": "PASS"
+      },
+      "UT": {
+        "chunksPlanned": 3,
+        "chunksCompleted": 3,
+        "chunkFailures": 0,
+        "countyRowsPerChunk": {
+          "acs-vars-001": 29,
+          "acs-vars-002": 29,
+          "acs-vars-003": 29
+        },
+        "countySetMismatches": [],
+        "missingVariables": [],
+        "duplicateFields": [],
+        "mergedCountyRecords": 29,
+        "mergeStatus": "PASS"
+      },
+      "VA": {
+        "chunksPlanned": 3,
+        "chunksCompleted": 3,
+        "chunkFailures": 0,
+        "countyRowsPerChunk": {
+          "acs-vars-001": 133,
+          "acs-vars-002": 133,
+          "acs-vars-003": 133
+        },
+        "countySetMismatches": [],
+        "missingVariables": [],
+        "duplicateFields": [],
+        "mergedCountyRecords": 133,
+        "mergeStatus": "PASS"
+      },
+      "VT": {
+        "chunksPlanned": 3,
+        "chunksCompleted": 3,
+        "chunkFailures": 0,
+        "countyRowsPerChunk": {
+          "acs-vars-001": 14,
+          "acs-vars-002": 14,
+          "acs-vars-003": 14
+        },
+        "countySetMismatches": [],
+        "missingVariables": [],
+        "duplicateFields": [],
+        "mergedCountyRecords": 14,
+        "mergeStatus": "PASS"
+      },
+      "WA": {
+        "chunksPlanned": 3,
+        "chunksCompleted": 3,
+        "chunkFailures": 0,
+        "countyRowsPerChunk": {
+          "acs-vars-001": 39,
+          "acs-vars-002": 39,
+          "acs-vars-003": 39
+        },
+        "countySetMismatches": [],
+        "missingVariables": [],
+        "duplicateFields": [],
+        "mergedCountyRecords": 39,
+        "mergeStatus": "PASS"
+      },
+      "WI": {
+        "chunksPlanned": 3,
+        "chunksCompleted": 3,
+        "chunkFailures": 0,
+        "countyRowsPerChunk": {
+          "acs-vars-001": 72,
+          "acs-vars-002": 72,
+          "acs-vars-003": 72
+        },
+        "countySetMismatches": [],
+        "missingVariables": [],
+        "duplicateFields": [],
+        "mergedCountyRecords": 72,
+        "mergeStatus": "PASS"
+      },
+      "WV": {
+        "chunksPlanned": 3,
+        "chunksCompleted": 3,
+        "chunkFailures": 0,
+        "countyRowsPerChunk": {
+          "acs-vars-001": 55,
+          "acs-vars-002": 55,
+          "acs-vars-003": 55
+        },
+        "countySetMismatches": [],
+        "missingVariables": [],
+        "duplicateFields": [],
+        "mergedCountyRecords": 55,
+        "mergeStatus": "PASS"
+      },
+      "WY": {
+        "chunksPlanned": 3,
+        "chunksCompleted": 3,
+        "chunkFailures": 0,
+        "countyRowsPerChunk": {
+          "acs-vars-001": 23,
+          "acs-vars-002": 23,
+          "acs-vars-003": 23
+        },
+        "countySetMismatches": [],
+        "missingVariables": [],
+        "duplicateFields": [],
+        "mergedCountyRecords": 23,
+        "mergeStatus": "PASS"
+      }
+    },
+    "variableChunkCount": 3,
+    "chunkMergeStatus": "PASS"
   }
 }
