@@ -7,9 +7,9 @@ import { spawnSync } from 'node:child_process';
 
 const root = process.cwd();
 
-test('version is v0.3.6.3 prototype and rejects old patch versions', () => {
+test('version is v0.3.6.4 prototype and rejects old patch versions', () => {
   const product = readFileSync(join(root, 'src/config/product.ts'), 'utf8');
-  assert.match(product, /prototypeVersion: "v0\.3\.6\.3 prototype"/);
+  assert.match(product, /prototypeVersion: "v0\.3\.6\.4 prototype"/);
   for (const old of ['v0.3.4 prototype','v0.3.3.3 prototype','v0.3.3.2 prototype','v0.3.3.1 prototype','v0.3.3 prototype','v0.3.2.4 prototype']) assert.ok(!product.includes(`prototypeVersion: "${old}"`));
 });
 

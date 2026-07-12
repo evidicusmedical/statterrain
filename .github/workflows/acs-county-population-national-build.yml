@@ -76,6 +76,39 @@ jobs:
       - name: Evaluate commit gate
         working-directory: statterrain
         run: node scripts/public-data/acs-workflow-status.mjs gate --commit "${{ inputs.commit_generated_artifacts }}" --manifest "data/generated/acs-county-population-national/manifest.json"
+      - name: Commit generated artifacts
+        if: ${{ inputs.commit_generated_artifacts == 'true' }}
+        working-directory: statterrain
+        run: |
+          node scripts/public-data/acs-workflow-status.mjs gate --commit true --manifest "data/generated/acs-county-population-national/manifest.json"
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data/generated/acs-county-population-national data/reports/acs-*.json
+          if git diff --cached --quiet; then
+            echo "No generated changes to commit."
+            node scripts/public-data/acs-workflow-status.mjs update --field commitStatus --value "NO CHANGES"
+          else
+            git commit -m "data: build national ACS county population baseline"
+            COMMITTED_SHA="$(git rev-parse HEAD)"
+            node scripts/public-data/acs-workflow-status.mjs update --field commitStatus --value PASS
+            node scripts/public-data/acs-workflow-status.mjs update --field committedSha --value "$COMMITTED_SHA"
+            git add data/reports/acs-county-current-run-status.json
+            git commit --amend --no-edit
+          fi
+      - name: Push target branch
+        if: ${{ inputs.commit_generated_artifacts == 'true' }}
+        working-directory: statterrain
+        run: |
+          git push origin "${{ inputs.target_branch }}"
+          PUSHED_SHA="$(git rev-parse HEAD)"
+          node scripts/public-data/acs-workflow-status.mjs update --field pushStatus --value PASS
+          node scripts/public-data/acs-workflow-status.mjs update --field pushedBranch --value "${{ inputs.target_branch }}"
+          node scripts/public-data/acs-workflow-status.mjs update --field committedSha --value "$PUSHED_SHA"
+          node scripts/public-data/acs-workflow-status.mjs update --field finalWorkflowStatus --value "PROMOTED AND COMMITTED"
+          node scripts/public-data/acs-workflow-status.mjs gate --commit true --manifest "data/generated/acs-county-population-national/manifest.json"
+          git add data/reports/acs-county-current-run-status.json
+          git commit --amend --no-edit
+          git push --force-with-lease origin "${{ inputs.target_branch }}"
       - name: Upload outputs
         if: always()
         uses: actions/upload-artifact@v4
@@ -89,19 +122,13 @@ jobs:
             statterrain/data/reports/acs-variable-metadata-regression-v0.3.6.3.json
             statterrain/data/reports/acs-county-current-run-status.json
             statterrain/data/reports/acs-*.json
-      - name: Write truthful job summary
+      - name: Write final ACS workflow summary
         if: always()
+        continue-on-error: true
         working-directory: statterrain
         run: |
-          node scripts/public-data/acs-workflow-status.mjs summary --manifest "data/work/acs-county-population/$ACS_RUN_ID/manifest.json"
-          node -e "const fs=require('fs');const m=JSON.parse(fs.readFileSync('data/work/acs-county-population/'+process.env.ACS_RUN_ID+'/manifest.json','utf8'));const q=fs.existsSync('data/reports/acs-estimate-moe-queryability-v0.3.6.3.json')?JSON.parse(fs.readFileSync('data/reports/acs-estimate-moe-queryability-v0.3.6.3.json','utf8')):{};fs.appendFileSync(process.env.GITHUB_STEP_SUMMARY,`\n## ACS v0.3.6.3 gates\n- metadata estimates validated: see metadata report\n- metadata M entries listed/not listed: see metadataMoeListed fields\n- live E variables verified: ${q.estimateVariablesVerified??'unknown'}\n- live M variables verified: ${q.moeVariablesVerified??'unknown'}\n- failed E/M pairs: ${(q.failedPairs||[]).length}\n- variable chunks: ${(m.variableChunks||[]).length}\n- chunk requests: ${m.runSummary?.apiRequestCount??'unknown'}\n- merge status: ${m.runSummary?.chunkMergeStatus??'unknown'}\n`);"
-      - name: Commit generated artifacts
-        if: ${{ inputs.commit_generated_artifacts == 'true' }}
-        working-directory: statterrain
-        run: |
-          node scripts/public-data/acs-workflow-status.mjs gate --commit true --manifest "data/generated/acs-county-population-national/manifest.json"
-          git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add data/generated/acs-county-population-national data/reports/acs-*.json
-          git commit -m "data: build national ACS county population baseline" || { echo "No generated changes to commit."; exit 0; }
-          git push origin "${{ inputs.target_branch }}"
+          node scripts/public-data/write-acs-workflow-summary.mjs \
+            --manifest "data/work/acs-county-population/$ACS_RUN_ID/manifest.json" \
+            --queryability-report "data/reports/acs-estimate-moe-queryability-v0.3.6.3.json" \
+            --metadata-report "data/reports/acs-county-variable-validation-v0.3.6.3.json" \
+            --status-report "data/reports/acs-county-current-run-status.json"
