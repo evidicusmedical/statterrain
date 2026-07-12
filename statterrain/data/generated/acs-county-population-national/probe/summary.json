@@ -1,0 +1,37 @@
+{
+  "statesRequested": [
+    "MI"
+  ],
+  "statesCompleted": [
+    "MI"
+  ],
+  "statesFailed": [],
+  "countyRowsReturned": 83,
+  "uniqueGeoids": 83,
+  "duplicateGeoids": 0,
+  "apiRequestCount": 3,
+  "retryCount": 0,
+  "failedRequestCount": 0,
+  "variableCount": 98,
+  "credentialConfigured": true,
+  "expectedGeographyContractStatus": "PASS",
+  "chunkMergeReconciliation": {
+    "MI": {
+      "chunksPlanned": 3,
+      "chunksCompleted": 3,
+      "chunkFailures": 0,
+      "countyRowsPerChunk": {
+        "acs-vars-001": 83,
+        "acs-vars-002": 83,
+        "acs-vars-003": 83
+      },
+      "countySetMismatches": [],
+      "missingVariables": [],
+      "duplicateFields": [],
+      "mergedCountyRecords": 83,
+      "mergeStatus": "PASS"
+    }
+  },
+  "variableChunkCount": 3,
+  "chunkMergeStatus": "PASS"
+}

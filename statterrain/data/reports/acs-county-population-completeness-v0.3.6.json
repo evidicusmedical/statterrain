@@ -30,109 +30,158 @@
       "Estimates from different vintages require careful comparison."
     ]
   },
-  "totalRecords": 4,
+  "totalRecords": 3222,
   "states": [
+    "AK",
+    "AL",
+    "AR",
+    "AZ",
+    "CA",
+    "CO",
+    "CT",
+    "DC",
+    "DE",
+    "FL",
+    "GA",
+    "HI",
+    "IA",
+    "ID",
+    "IL",
+    "IN",
+    "KS",
+    "KY",
+    "LA",
+    "MA",
+    "MD",
+    "ME",
     "MI",
+    "MN",
+    "MO",
+    "MS",
+    "MT",
+    "NC",
+    "ND",
+    "NE",
+    "NH",
+    "NJ",
+    "NM",
+    "NV",
+    "NY",
     "OH",
-    "PR"
+    "OK",
+    "OR",
+    "PA",
+    "PR",
+    "RI",
+    "SC",
+    "SD",
+    "TN",
+    "TX",
+    "UT",
+    "VA",
+    "VT",
+    "WA",
+    "WI",
+    "WV",
+    "WY"
   ],
   "completeness": {
     "total_population": {
-      "available": 3,
+      "available": 3222,
+      "missing": 0,
+      "suppressed": 0,
+      "invalid": 0,
+      "zeroReported": 0,
+      "denominatorZero": 0
+    },
+    "population_under_18": {
+      "available": 3220,
+      "missing": 0,
+      "suppressed": 0,
+      "invalid": 0,
+      "zeroReported": 2,
+      "denominatorZero": 0
+    },
+    "population_65_and_older": {
+      "available": 3222,
+      "missing": 0,
+      "suppressed": 0,
+      "invalid": 0,
+      "zeroReported": 0,
+      "denominatorZero": 0
+    },
+    "poverty_population": {
+      "available": 3222,
+      "missing": 0,
+      "suppressed": 0,
+      "invalid": 0,
+      "zeroReported": 0,
+      "denominatorZero": 0
+    },
+    "uninsured_population": {
+      "available": 3221,
       "missing": 0,
       "suppressed": 0,
       "invalid": 0,
       "zeroReported": 1,
       "denominatorZero": 0
     },
-    "population_under_18": {
-      "available": 2,
-      "missing": 0,
-      "suppressed": 1,
-      "invalid": 0,
-      "zeroReported": 0,
-      "denominatorZero": 1
-    },
-    "population_65_and_older": {
-      "available": 3,
-      "missing": 0,
-      "suppressed": 0,
-      "invalid": 0,
-      "zeroReported": 0,
-      "denominatorZero": 1
-    },
-    "poverty_population": {
-      "available": 2,
-      "missing": 0,
-      "suppressed": 1,
-      "invalid": 0,
-      "zeroReported": 0,
-      "denominatorZero": 1
-    },
-    "uninsured_population": {
-      "available": 3,
-      "missing": 0,
-      "suppressed": 0,
-      "invalid": 0,
-      "zeroReported": 0,
-      "denominatorZero": 1
-    },
     "households_no_vehicle": {
-      "available": 3,
+      "available": 3212,
       "missing": 0,
       "suppressed": 0,
       "invalid": 0,
-      "zeroReported": 0,
-      "denominatorZero": 1
+      "zeroReported": 10,
+      "denominatorZero": 0
     },
     "disability_population": {
-      "available": 3,
+      "available": 3222,
       "missing": 0,
       "suppressed": 0,
       "invalid": 0,
       "zeroReported": 0,
-      "denominatorZero": 1
+      "denominatorZero": 0
     },
     "limited_english_households": {
-      "available": 3,
+      "available": 2885,
       "missing": 0,
       "suppressed": 0,
       "invalid": 0,
-      "zeroReported": 0,
-      "denominatorZero": 1
+      "zeroReported": 337,
+      "denominatorZero": 0
     }
   },
   "lowestCompletenessMetrics": [
     [
-      "population_under_18",
+      "limited_english_households",
       {
-        "available": 2,
-        "missing": 0,
-        "suppressed": 1,
-        "invalid": 0,
-        "zeroReported": 0,
-        "denominatorZero": 1
-      }
-    ],
-    [
-      "poverty_population",
-      {
-        "available": 2,
-        "missing": 0,
-        "suppressed": 1,
-        "invalid": 0,
-        "zeroReported": 0,
-        "denominatorZero": 1
-      }
-    ],
-    [
-      "total_population",
-      {
-        "available": 3,
+        "available": 2885,
         "missing": 0,
         "suppressed": 0,
         "invalid": 0,
-        "zeroReported": 1,
+        "zeroReported": 337,
+        "denominatorZero": 0
+      }
+    ],
+    [
+      "households_no_vehicle",
+      {
+        "available": 3212,
+        "missing": 0,
+        "suppressed": 0,
+        "invalid": 0,
+        "zeroReported": 10,
+        "denominatorZero": 0
+      }
+    ],
+    [
+      "population_under_18",
+      {
+        "available": 3220,
+        "missing": 0,
+        "suppressed": 0,
+        "invalid": 0,
+        "zeroReported": 2,
         "denominatorZero": 0
       }
     ]
