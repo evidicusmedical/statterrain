@@ -2,7 +2,7 @@
   "name": "statterrain",
   "version": "0.1.0",
   "private": true,
-  "description": "StatTerrain \u2014 Emergency-care resources and population-health intelligence (frontend prototype).",
+  "description": "StatTerrain — Emergency-care resources and population-health intelligence (frontend prototype).",
   "scripts": {
     "dev": "next dev -p 3000 -H 0.0.0.0",
     "build": "next build",
@@ -67,7 +67,10 @@
     "test:acs-variable-metadata": "node --test tests/acs-variable-metadata.test.mjs",
     "test:acs-value-parsing": "node --test tests/acs-value-parsing.test.mjs",
     "test:acs-county-normalization": "node --test tests/acs-county-normalization.test.mjs",
-    "test:acs-county-validation": "node --test tests/acs-county-validation.test.mjs"
+    "test:acs-county-validation": "node --test tests/acs-county-validation.test.mjs",
+    "test:acs-workflow-gates": "node --test tests/acs-workflow-gates.test.mjs",
+    "test:acs-summary-truthfulness": "node --test tests/acs-summary-truthfulness.test.mjs",
+    "test:acs-artifact-promotion": "node --test tests/acs-artifact-promotion.test.mjs"
   },
   "dependencies": {
     "leaflet": "^1.9.4",

@@ -14,6 +14,8 @@ jobs:
     permissions: { contents: write, pull-requests: write }
     env:
       CENSUS_API_KEY: ${{ secrets.CENSUS_API_KEY }}
+      ACS_RUN_ID: ${{ github.run_id }}-${{ github.run_attempt }}
+      ACS_STAGING_ROOT: statterrain/data/work/acs-county-population/${{ github.run_id }}-${{ github.run_attempt }}
     steps:
       - name: Refuse protected target branches
         run: |
@@ -23,48 +25,69 @@ jobs:
         with: { ref: "${{ inputs.target_branch }}" }
       - uses: actions/setup-node@v4
         with: { node-version: "24", cache: npm, cache-dependency-path: statterrain/package-lock.json }
-      - name: Check Census API credential
-        run: |
-          if [ -z "$CENSUS_API_KEY" ]; then echo "::error::CENSUS_API_KEY is not configured."; exit 1; fi
-          echo "Census API credential is configured."
       - name: Install dependencies
         working-directory: statterrain
         run: npm ci
-      - name: Validate metadata
+      - name: Initialize current-run status
         working-directory: statterrain
-        run: npm run data:validate-acs-variable-metadata -- --release "${{ inputs.acs_release }}"
+        run: node scripts/public-data/acs-workflow-status.mjs init --run-id "$ACS_RUN_ID" --workflow-run-id "${{ github.run_id }}" --workflow-run-attempt "${{ github.run_attempt }}" --target-branch "${{ inputs.target_branch }}" --build-mode "${{ inputs.build_mode }}" --release "${{ inputs.acs_release }}"
+      - name: Check Census API credential
+        working-directory: statterrain
+        run: |
+          if [ -z "$CENSUS_API_KEY" ]; then node scripts/public-data/acs-workflow-status.mjs update --field metadataValidationStatus --value "NOT RUN" --failure-stage credential --failure-message "CENSUS_API_KEY is not configured"; echo "::error::CENSUS_API_KEY is not configured."; exit 1; fi
+          test -f package.json || { node scripts/public-data/acs-workflow-status.mjs update --field buildStatus --value "FAIL" --failure-stage app-directory --failure-message "statterrain directory missing"; exit 1; }
+      - name: Validate live ACS metadata
+        working-directory: statterrain
+        run: |
+          if npm run data:validate-acs-variable-metadata -- --release "${{ inputs.acs_release }}" --run-id "$ACS_RUN_ID"; then
+            node scripts/public-data/acs-workflow-status.mjs update --field metadataValidationStatus --value PASS
+          else
+            node scripts/public-data/acs-workflow-status.mjs update --field metadataValidationStatus --value FAIL --failure-stage metadata --failure-message "ACS variable metadata validation failed"
+            node scripts/public-data/acs-workflow-status.mjs update --field completionDeclaration --value "BLOCKED — ACS VARIABLE METADATA VALIDATION FAILED"
+            exit 1
+          fi
       - name: Probe API
         working-directory: statterrain
-        run: npm run data:pull-acs-county-population -- --probe --release "${{ inputs.acs_release }}" --force
-      - name: Build requested ACS county artifacts
+        run: |
+          if npm run data:pull-acs-county-population -- --probe --release "${{ inputs.acs_release }}" --run-id "$ACS_RUN_ID" --output-root "data/work/acs-county-population/$ACS_RUN_ID/probe" --force; then node scripts/public-data/acs-workflow-status.mjs update --field probeStatus --value PASS; else node scripts/public-data/acs-workflow-status.mjs update --field probeStatus --value FAIL --failure-stage probe --failure-message "ACS API probe failed"; exit 1; fi
+      - name: Build requested ACS county artifacts in staging
         working-directory: statterrain
         run: |
           MODE="--national"
           if [ "${{ inputs.build_mode }}" = "probe" ]; then MODE="--probe"; fi
           if [ "${{ inputs.build_mode }}" = "selected-states" ]; then MODE="--selected-states --states ${{ inputs.selected_states }}"; fi
-          npm run data:pull-acs-county-population -- $MODE --release "${{ inputs.acs_release }}" --resume
-      - name: Validate generated ACS artifacts
+          if npm run data:pull-acs-county-population -- $MODE --release "${{ inputs.acs_release }}" --run-id "$ACS_RUN_ID" --output-root "data/work/acs-county-population/$ACS_RUN_ID" --resume; then node scripts/public-data/acs-workflow-status.mjs update --field buildStatus --value PASS; else node scripts/public-data/acs-workflow-status.mjs update --field buildStatus --value FAIL --failure-stage build --failure-message "ACS county build failed"; exit 1; fi
+      - name: Validate staging ACS artifacts
         working-directory: statterrain
-        run: npm run data:validate-acs-county-population
+        run: |
+          if npm run data:validate-acs-county-population -- --output-root "data/work/acs-county-population/$ACS_RUN_ID"; then node scripts/public-data/acs-workflow-status.mjs update --field artifactValidationStatus --value PASS; else node scripts/public-data/acs-workflow-status.mjs update --field artifactValidationStatus --value FAIL --failure-stage artifact-validation --failure-message "ACS artifact validation failed"; exit 1; fi
+      - name: Promote validated ACS artifacts
+        working-directory: statterrain
+        run: node scripts/public-data/acs-workflow-status.mjs promote
+      - name: Evaluate commit gate
+        working-directory: statterrain
+        run: node scripts/public-data/acs-workflow-status.mjs gate --commit "${{ inputs.commit_generated_artifacts }}" --manifest "data/generated/acs-county-population-national/manifest.json"
       - name: Upload outputs
         if: always()
         uses: actions/upload-artifact@v4
         with:
           name: acs-county-population-build
           path: |
+            statterrain/data/work/acs-county-population/${{ github.run_id }}-${{ github.run_attempt }}
             statterrain/data/generated/acs-county-population-national
-            statterrain/data/reports/acs-county-*.json
-      - name: Write job summary
+            statterrain/data/generated/acs-county-population-fixture
+            statterrain/data/reports/acs-*.json
+      - name: Write truthful job summary
         if: always()
         working-directory: statterrain
-        run: |
-          node -e 'const fs=require("fs"); const m=JSON.parse(fs.readFileSync("data/generated/acs-county-population-national/manifest.json","utf8")); const s=m.runSummary||{}; const decl=m.validationStatus==="PASS"&&s.statesFailed?.length===0?"COMPLETE — NATIONAL ACS COUNTY POPULATION BASELINE BUILT":"PARTIAL — ACS PIPELINE COMPLETE, NATIONAL GENERATED DATA PENDING"; fs.appendFileSync(process.env.GITHUB_STEP_SUMMARY,`# ACS County Population Build\n- ACS release: ${m.release}\n- Estimate period: ${m.estimatePeriod}\n- Build mode: ${{ inputs.build_mode }}\n- Target branch: ${{ inputs.target_branch }}\n- Credential configured: true\n- Variable metadata validation: PASS\n- States requested: ${(s.statesRequested||[]).join(",")}\n- States completed: ${(s.statesCompleted||[]).join(",")}\n- States failed: ${(s.statesFailed||[]).join(",")||"none"}\n- County records: ${m.countyRecordCount}\n- Unique GEOIDs: ${s.uniqueGeoids}\n- Duplicate GEOIDs: ${s.duplicateGeoids}\n- Requests: ${s.apiRequestCount}\n- Retries: ${s.retryCount}\n- Failed requests: ${s.failedRequestCount}\n- Metrics: ${m.metricList.length}\n- Missing values by metric: ${JSON.stringify(m.missingValuesByMetric)}\n- Suppressed values by metric: ${JSON.stringify(m.suppressedValuesByMetric)}\n- Invalid values by metric: ${JSON.stringify(m.invalidValuesByMetric)}\n- Partition count: ${Object.keys(m.partitions||{}).length}\n- Generated artifact size: ${fs.statSync("data/generated/acs-county-population-national/manifest.json").size} manifest bytes\n- Validation status: ${m.validationStatus}\n- Application activation status: inactive until v0.3.7\n- Completion declaration: ${decl}\n`);'
+        run: node scripts/public-data/acs-workflow-status.mjs summary --manifest "data/work/acs-county-population/$ACS_RUN_ID/manifest.json"
       - name: Commit generated artifacts
         if: ${{ inputs.commit_generated_artifacts == 'true' }}
         working-directory: statterrain
         run: |
+          node scripts/public-data/acs-workflow-status.mjs gate --commit true --manifest "data/generated/acs-county-population-national/manifest.json"
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add data/generated/acs-county-population-national data/reports/acs-county-*.json
-          git commit -m "data: build national ACS county population baseline" || echo "No generated changes to commit."
+          git add data/generated/acs-county-population-national data/reports/acs-*.json
+          git commit -m "data: build national ACS county population baseline" || { echo "No generated changes to commit."; exit 0; }
           git push origin "${{ inputs.target_branch }}"
