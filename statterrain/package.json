@@ -58,7 +58,16 @@
     "test:search-strategy": "node --experimental-transform-types --test tests/search-strategy.test.mjs",
     "test:city-state-search": "node --experimental-transform-types --test tests/city-state-search.test.mjs",
     "test:zip-search": "node --experimental-transform-types --test tests/zip-search.test.mjs",
-    "test:census-secret-safety": "node --test tests/census-secret-safety.test.mjs"
+    "test:census-secret-safety": "node --test tests/census-secret-safety.test.mjs",
+    "data:pull-acs-county-population": "node scripts/public-data/pull-acs-county-population.mjs",
+    "data:validate-acs-county-population": "node scripts/public-data/validate-acs-county-population.mjs",
+    "data:validate-acs-variable-metadata": "node scripts/public-data/validate-acs-variable-metadata.mjs",
+    "test:acs-county-source": "node --test tests/acs-county-source.test.mjs",
+    "test:acs-county-metrics": "node --test tests/acs-county-metrics.test.mjs",
+    "test:acs-variable-metadata": "node --test tests/acs-variable-metadata.test.mjs",
+    "test:acs-value-parsing": "node --test tests/acs-value-parsing.test.mjs",
+    "test:acs-county-normalization": "node --test tests/acs-county-normalization.test.mjs",
+    "test:acs-county-validation": "node --test tests/acs-county-validation.test.mjs"
   },
   "dependencies": {
     "leaflet": "^1.9.4",

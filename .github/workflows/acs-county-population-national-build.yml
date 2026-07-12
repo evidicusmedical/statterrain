@@ -1,0 +1,70 @@
+name: ACS County Population National Build
+on:
+  workflow_dispatch:
+    inputs:
+      target_branch: { description: Target branch, required: true }
+      acs_release: { description: ACS release, required: true, default: "2024" }
+      build_mode: { description: probe, selected-states, national, required: true, default: national }
+      selected_states: { description: Comma-separated state codes for selected-states, required: false, default: "" }
+      commit_generated_artifacts: { description: Commit generated artifacts, required: true, default: "true" }
+      auto_merge: { description: Must remain false, required: true, default: "false" }
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    permissions: { contents: write, pull-requests: write }
+    env:
+      CENSUS_API_KEY: ${{ secrets.CENSUS_API_KEY }}
+    steps:
+      - name: Refuse protected target branches
+        run: |
+          if [ "${{ inputs.target_branch }}" = "main" ] || [ "${{ inputs.target_branch }}" = "master" ]; then echo "::error::Refusing to commit generated ACS artifacts to main/master."; exit 1; fi
+          if [ "${{ inputs.auto_merge }}" != "false" ]; then echo "::error::auto_merge is not supported."; exit 1; fi
+      - uses: actions/checkout@v4
+        with: { ref: "${{ inputs.target_branch }}" }
+      - uses: actions/setup-node@v4
+        with: { node-version: "24", cache: npm, cache-dependency-path: statterrain/package-lock.json }
+      - name: Check Census API credential
+        run: |
+          if [ -z "$CENSUS_API_KEY" ]; then echo "::error::CENSUS_API_KEY is not configured."; exit 1; fi
+          echo "Census API credential is configured."
+      - name: Install dependencies
+        working-directory: statterrain
+        run: npm ci
+      - name: Validate metadata
+        working-directory: statterrain
+        run: npm run data:validate-acs-variable-metadata -- --release "${{ inputs.acs_release }}"
+      - name: Probe API
+        working-directory: statterrain
+        run: npm run data:pull-acs-county-population -- --probe --release "${{ inputs.acs_release }}" --force
+      - name: Build requested ACS county artifacts
+        working-directory: statterrain
+        run: |
+          MODE="--national"
+          if [ "${{ inputs.build_mode }}" = "probe" ]; then MODE="--probe"; fi
+          if [ "${{ inputs.build_mode }}" = "selected-states" ]; then MODE="--selected-states --states ${{ inputs.selected_states }}"; fi
+          npm run data:pull-acs-county-population -- $MODE --release "${{ inputs.acs_release }}" --resume
+      - name: Validate generated ACS artifacts
+        working-directory: statterrain
+        run: npm run data:validate-acs-county-population
+      - name: Upload outputs
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: acs-county-population-build
+          path: |
+            statterrain/data/generated/acs-county-population-national
+            statterrain/data/reports/acs-county-*.json
+      - name: Write job summary
+        if: always()
+        working-directory: statterrain
+        run: |
+          node -e 'const fs=require("fs"); const m=JSON.parse(fs.readFileSync("data/generated/acs-county-population-national/manifest.json","utf8")); const s=m.runSummary||{}; const decl=m.validationStatus==="PASS"&&s.statesFailed?.length===0?"COMPLETE — NATIONAL ACS COUNTY POPULATION BASELINE BUILT":"PARTIAL — ACS PIPELINE COMPLETE, NATIONAL GENERATED DATA PENDING"; fs.appendFileSync(process.env.GITHUB_STEP_SUMMARY,`# ACS County Population Build\n- ACS release: ${m.release}\n- Estimate period: ${m.estimatePeriod}\n- Build mode: ${{ inputs.build_mode }}\n- Target branch: ${{ inputs.target_branch }}\n- Credential configured: true\n- Variable metadata validation: PASS\n- States requested: ${(s.statesRequested||[]).join(",")}\n- States completed: ${(s.statesCompleted||[]).join(",")}\n- States failed: ${(s.statesFailed||[]).join(",")||"none"}\n- County records: ${m.countyRecordCount}\n- Unique GEOIDs: ${s.uniqueGeoids}\n- Duplicate GEOIDs: ${s.duplicateGeoids}\n- Requests: ${s.apiRequestCount}\n- Retries: ${s.retryCount}\n- Failed requests: ${s.failedRequestCount}\n- Metrics: ${m.metricList.length}\n- Missing values by metric: ${JSON.stringify(m.missingValuesByMetric)}\n- Suppressed values by metric: ${JSON.stringify(m.suppressedValuesByMetric)}\n- Invalid values by metric: ${JSON.stringify(m.invalidValuesByMetric)}\n- Partition count: ${Object.keys(m.partitions||{}).length}\n- Generated artifact size: ${fs.statSync("data/generated/acs-county-population-national/manifest.json").size} manifest bytes\n- Validation status: ${m.validationStatus}\n- Application activation status: inactive until v0.3.7\n- Completion declaration: ${decl}\n`);'
+      - name: Commit generated artifacts
+        if: ${{ inputs.commit_generated_artifacts == 'true' }}
+        working-directory: statterrain
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data/generated/acs-county-population-national data/reports/acs-county-*.json
+          git commit -m "data: build national ACS county population baseline" || echo "No generated changes to commit."
+          git push origin "${{ inputs.target_branch }}"

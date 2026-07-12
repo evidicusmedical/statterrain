@@ -67,3 +67,9 @@ The active research-layer registry contains only CMS hospitals for this patch. F
 ## v0.3.5.2 search tests
 
 The v0.3.5.2 gate requires `product.prototypeVersion` to be `v0.3.5.2 prototype`. Focused tests cover deterministic search classification, city/state PlanningLocation metadata, ZIP/ZCTA PlanningLocation metadata, secret safety for `CENSUS_API_KEY`, the same-origin geocode route, and browser search flows. Run `npm run test:search-strategy`, `npm run test:city-state-search`, `npm run test:zip-search`, `npm run test:census-secret-safety`, and `npm run test:e2e -- tests/search-functional.spec.ts`.
+
+## v0.3.6 national ACS county population baseline
+
+StatTerrain v0.3.6 adds an inactive, validation-gated ACS 2024 5-Year county population baseline pipeline for the National Emergency-Care Capability, Access, and Resilience Research Platform. The source is the United States Census Bureau American Community Survey 5-Year Estimates, 2024 release, 2020-2024 estimate period. The eight registered county metrics are total population, under-18 population, age-65-and-older population, poverty population, uninsured population, no-vehicle households, civilian noninstitutionalized population with a disability, and limited-English-speaking households. Estimates and margins of error are retained; missing, suppressed, invalid, denominator-zero, and ACS sentinel values are not treated as zero.
+
+The GitHub Actions workflow uses `CENSUS_API_KEY` only as a server-side repository secret. Browser code does not call the Census Data API, and ACS metrics remain `safeToDisplay: false`, unavailable to normal research-layer controls, and absent from Evidence Brief demographic values until v0.3.7. AHA capability work remains a separate future track; no AHA, OSM, RUCA, SVI, PLACES, patient-level, claims, PHI, live operational, routing, or clinical decision-support data is introduced.

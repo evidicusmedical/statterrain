@@ -1,0 +1,9 @@
+#!/usr/bin/env node
+import { mkdirSync, writeFileSync } from 'node:fs';
+import { ACS_COUNTY_METRICS, ACS_VARIABLE_IDS, ACS_RELEASE } from './acs-county-metric-registry.mjs';
+import { safeJson } from './acs-county-utils.mjs';
+const fixture=process.argv.includes('--fixture')||process.env.ACS_METADATA_FIXTURE==='1';
+async function main(){ const checkedAt=new Date().toISOString(); const rows=[]; let ok=true; let variables={}; if(!fixture){ const res=await fetch(`https://api.census.gov/data/${ACS_RELEASE}/acs/acs5/variables.json`); if(!res.ok) throw new Error(`metadata HTTP ${res.status}`); variables=(await res.json()).variables; }
+ for(const m of ACS_COUNTY_METRICS){ for(const variableId of [...new Set([...m.estimateVariables,...m.moeVariables,...m.numeratorEstimateVariables,...m.numeratorMoeVariables,...m.denominatorEstimateVariables,...m.denominatorMoeVariables])]){ const meta=fixture?{label:`Fixture ${variableId}`,concept:m.acsGroup,predicateType:'int'}:variables[variableId]; const exists=!!meta; const status=exists && String(meta.concept||'').includes(m.acsGroup) ? 'PASS':'FAIL'; if(status==='FAIL') ok=false; rows.push({release:ACS_RELEASE,checkedAt,metricId:m.metricId,variableId,expectedLabel:m.definition,actualLabel:meta?.label??null,expectedConcept:m.acsGroup,actualConcept:meta?.concept??null,datasetFamily:m.datasetFamily,variableExists:exists,validationStatus:status,validationNotes:status==='PASS'?'Variable exists and concept includes expected table/group.':'Missing or concept mismatch.'}); }}
+ mkdirSync('data/reports',{recursive:true}); writeFileSync('data/reports/acs-county-variable-validation-v0.3.6.json',safeJson({release:ACS_RELEASE,checkedAt,status:ok?'PASS':'FAIL',results:rows})); if(!ok) process.exit(1); console.log('ACS variable metadata validation: PASS'); }
+main().catch(e=>{console.error(`FAIL: ${e.message}`);process.exit(1)});

@@ -256,6 +256,52 @@
         "No records ingested in v0.2.0.",
         "Future ingestion must validate source fields, dates, and limitations before display."
       ]
+    },
+    {
+      "id": "census-acs5-county-population-2024",
+      "sourceId": "census-acs5-county-population-2024",
+      "name": "American Community Survey 5-Year Estimates county population baseline",
+      "agency": "United States Census Bureau",
+      "sourceType": "official-public-data",
+      "status": "planned",
+      "usedInCurrentApp": false,
+      "safeToDisplay": false,
+      "browserUse": "No direct browser use in v0.3.6; static generated artifacts only after validation.",
+      "evidenceBriefEligible": false,
+      "nextActivationPatch": "v0.3.7",
+      "dataMode": "real-public-data",
+      "datasetName": "American Community Survey 5-Year Estimates",
+      "releaseYear": "2024",
+      "estimatePeriod": "2020-2024",
+      "apiFamily": "https://api.census.gov/data/2024/acs/acs5",
+      "geography": "county and county equivalent",
+      "retrievalMethod": "GitHub Actions server-side Census Data API workflow",
+      "releaseCadence": "annual",
+      "attribution": "United States Census Bureau, American Community Survey 5-Year Estimates, 2024 release (2020-2024).",
+      "expectedUse": "Validated county-level population and demographic baseline for future availability, accessibility, and resilience research.",
+      "allowedUse": "Aggregate county planning, orientation, quality improvement, public-data situational awareness, and research context after activation.",
+      "notAllowedUse": "Clinical decision support, patient-level inference, routing, dispatch, transfer guidance, live operations, or individual diagnosis.",
+      "sourceAccessPattern": "GitHub Actions server-side Census Data API with CENSUS_API_KEY secret; no browser API calls.",
+      "refreshMethod": "manual-planned",
+      "refreshCadence": "manual annual ACS refresh; no scheduled auto-merge",
+      "automationStatus": "not-started",
+      "plannedRefreshCadence": "Manual validation-gated annual refresh after ACS 5-year release.",
+      "lastRefreshAttempt": null,
+      "lastSuccessfulRefresh": null,
+      "lastValidationStatus": "not-run",
+      "lastKnownGoodAvailable": false,
+      "sourceUrl": "https://api.census.gov/data/2024/acs/acs5",
+      "limitations": [
+        "Estimates are survey estimates, not exact counts.",
+        "Estimates represent a five-year period.",
+        "Margins of error must be retained.",
+        "Smaller populations may have greater uncertainty.",
+        "Missing values are not zero.",
+        "Suppressed or invalid values are not zero.",
+        "County-level values do not describe individuals.",
+        "Geographic boundary and vintage changes may affect comparisons.",
+        "Estimates from different vintages require careful comparison."
+      ]
     }
   ]
 }

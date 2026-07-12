@@ -1,0 +1,151 @@
+{
+  "source": {
+    "sourceId": "census-acs5-county-population-2024",
+    "agency": "United States Census Bureau",
+    "dataset": "American Community Survey 5-Year Estimates",
+    "release": "2024",
+    "estimatePeriod": "2020-2024",
+    "apiFamily": "acs/acs5",
+    "geography": "county and county equivalent",
+    "sourceType": "official-public aggregate survey estimates",
+    "retrievalMethod": "server-side GitHub Actions Census Data API ingestion",
+    "releaseCadence": "annual",
+    "attribution": "U.S. Census Bureau, 2024 ACS 5-Year Estimates (2020-2024)",
+    "sourceUrl": "https://api.census.gov/data/2024/acs/acs5",
+    "dataMode": "real-public-data",
+    "usedInCurrentApp": false,
+    "safeToDisplay": false,
+    "browserUse": "inactive static artifact only; browser must not call Census API in v0.3.6",
+    "evidenceBriefEligible": false,
+    "nextActivationPatch": "v0.3.7",
+    "limitations": [
+      "Estimates are survey estimates, not exact counts.",
+      "Estimates represent a five-year period.",
+      "Margins of error must be retained.",
+      "Smaller populations may have greater uncertainty.",
+      "Missing values are not zero.",
+      "Suppressed or invalid values are not zero.",
+      "County-level values do not describe individuals.",
+      "Geographic boundary and vintage changes may affect comparisons.",
+      "Estimates from different vintages require careful comparison."
+    ]
+  },
+  "totalRecords": 4,
+  "states": [
+    "MI",
+    "OH",
+    "PR"
+  ],
+  "completeness": {
+    "total_population": {
+      "available": 3,
+      "missing": 0,
+      "suppressed": 0,
+      "invalid": 0,
+      "zeroReported": 1,
+      "denominatorZero": 0
+    },
+    "population_under_18": {
+      "available": 2,
+      "missing": 0,
+      "suppressed": 1,
+      "invalid": 0,
+      "zeroReported": 0,
+      "denominatorZero": 1
+    },
+    "population_65_and_older": {
+      "available": 3,
+      "missing": 0,
+      "suppressed": 0,
+      "invalid": 0,
+      "zeroReported": 0,
+      "denominatorZero": 1
+    },
+    "poverty_population": {
+      "available": 2,
+      "missing": 0,
+      "suppressed": 1,
+      "invalid": 0,
+      "zeroReported": 0,
+      "denominatorZero": 1
+    },
+    "uninsured_population": {
+      "available": 3,
+      "missing": 0,
+      "suppressed": 0,
+      "invalid": 0,
+      "zeroReported": 0,
+      "denominatorZero": 1
+    },
+    "households_no_vehicle": {
+      "available": 3,
+      "missing": 0,
+      "suppressed": 0,
+      "invalid": 0,
+      "zeroReported": 0,
+      "denominatorZero": 1
+    },
+    "disability_population": {
+      "available": 3,
+      "missing": 0,
+      "suppressed": 0,
+      "invalid": 0,
+      "zeroReported": 0,
+      "denominatorZero": 1
+    },
+    "limited_english_households": {
+      "available": 3,
+      "missing": 0,
+      "suppressed": 0,
+      "invalid": 0,
+      "zeroReported": 0,
+      "denominatorZero": 1
+    }
+  },
+  "lowestCompletenessMetrics": [
+    [
+      "population_under_18",
+      {
+        "available": 2,
+        "missing": 0,
+        "suppressed": 1,
+        "invalid": 0,
+        "zeroReported": 0,
+        "denominatorZero": 1
+      }
+    ],
+    [
+      "poverty_population",
+      {
+        "available": 2,
+        "missing": 0,
+        "suppressed": 1,
+        "invalid": 0,
+        "zeroReported": 0,
+        "denominatorZero": 1
+      }
+    ],
+    [
+      "total_population",
+      {
+        "available": 3,
+        "missing": 0,
+        "suppressed": 0,
+        "invalid": 0,
+        "zeroReported": 1,
+        "denominatorZero": 0
+      }
+    ]
+  ],
+  "knownLimitations": [
+    "Estimates are survey estimates, not exact counts.",
+    "Estimates represent a five-year period.",
+    "Margins of error must be retained.",
+    "Smaller populations may have greater uncertainty.",
+    "Missing values are not zero.",
+    "Suppressed or invalid values are not zero.",
+    "County-level values do not describe individuals.",
+    "Geographic boundary and vintage changes may affect comparisons.",
+    "Estimates from different vintages require careful comparison."
+  ]
+}

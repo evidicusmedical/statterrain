@@ -362,7 +362,7 @@ export function buildEvidenceSchema(ctx: BriefContext) {
     limitations: [
       "CMS hospital data are not live operating status, bed availability, diversion status, routing, transfer guidance, or clinical decision support.",
       "Missing fields indicate unavailable or unmapped source data, not absence of a service.",
-      "Population, accessibility, redundancy, and resilience data are unavailable in v0.3.5.2.",
+      "Population data are unavailable in v0.3.6; ACS county baseline activation is pending v0.3.7. Accessibility, redundancy, and resilience data remain unavailable.",
     ],
     freshness: sourcesForBrief.map((source: any) => ({ sourceId: source.id, dataset: source.dataset, releaseDate: source.releaseDate, retrievalDate: source.retrievalDate, freshness: source.freshness })),
     completeness: {
