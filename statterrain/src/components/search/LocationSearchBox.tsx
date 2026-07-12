@@ -44,7 +44,7 @@ export function LocationSearchBox({
       onSubmit={submit}
       className="flex w-full flex-col gap-1"
       aria-label="Primary planning location search"
-      data-testid="primary-location-search"
+      data-testid="location-search-form"
     >
       <label htmlFor="global-search" className="sr-only">
         Search address, ZIP, city/state, state, or lat/lon
@@ -57,10 +57,12 @@ export function LocationSearchBox({
           type="search"
           autoComplete="off"
           placeholder="Search address, ZIP, city/state, or lat/lon"
+          data-testid="location-search-input"
           className="min-h-10 w-full rounded-md border border-slate-300 px-3 py-2 text-sm text-slate-800 placeholder:text-slate-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-terrain-600"
         />
         <button
           type="submit"
+          data-testid="location-search-submit"
           disabled={loading}
           className="min-h-10 rounded-md bg-terrain-700 px-3 py-2 text-sm font-semibold text-white disabled:opacity-60"
         >
@@ -77,7 +79,7 @@ export function LocationSearchBox({
           Clear
         </button>
       </div>
-      <p className="sr-only" role="status">
+      <p className="text-xs font-medium text-slate-700" role="status" data-testid="location-search-status">
         {statusMessage} Selected planning radius remains {radiusMiles} miles. Search is session-only and not stored.
       </p>
     </form>

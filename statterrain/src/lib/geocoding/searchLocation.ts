@@ -2,6 +2,7 @@ import { demoRegion, type SearchLocation } from "@/data/demo-region";
 import { resolveStateFromCoordinates } from "@/lib/geography/resolveStateFromCoordinates";
 import { parseStateFromText, normalizeStateCode } from "@/lib/geography/stateCodes";
 import type { PlanningLocation } from "@/types/planningLocation";
+import { parseCoordinateSearch } from "@/lib/geocoding/coordinates";
 
 export type LocationSearchStatus =
   | "idle"
@@ -58,34 +59,6 @@ export function isInDemoRegion(lat: number, lng: number): boolean {
   );
 }
 
-function applyHemisphere(value: number, hemi?: string): number {
-  if (!hemi) return value;
-  return /[SW]/i.test(hemi) ? -Math.abs(value) : Math.abs(value);
-}
-
-export function parseCoordinateSearch(query: string): { lat: number; lng: number } | null | "invalid" {
-  const normalized = query.trim().replace(/[()]/g, " ").replace(/°/g, " ");
-  const explicit = normalized.match(/lat(?:itude)?\s*[:=]?\s*([+-]?\d+(?:\.\d+)?)\s*([NS])?\s*(?:[,;\s]+)?lon(?:gitude)?\s*[:=]?\s*([+-]?\d+(?:\.\d+)?)\s*([EW])?/i);
-  const hemiPair = normalized.match(/([+-]?\d+(?:\.\d+)?)\s*([NS])\s*[,;\s]+([+-]?\d+(?:\.\d+)?)\s*([EW])/i);
-  const plainPair = normalized.match(/^\s*([+-]?\d+(?:\.\d+)?)\s*(?:,|\s)\s*([+-]?\d+(?:\.\d+)?)\s*$/);
-  let lat: number | null = null;
-  let lng: number | null = null;
-  if (explicit) {
-    lat = applyHemisphere(Number(explicit[1]), explicit[2]);
-    lng = applyHemisphere(Number(explicit[3]), explicit[4]);
-  } else if (hemiPair) {
-    lat = applyHemisphere(Number(hemiPair[1]), hemiPair[2]);
-    lng = applyHemisphere(Number(hemiPair[3]), hemiPair[4]);
-  } else if (plainPair) {
-    lat = Number(plainPair[1]);
-    lng = Number(plainPair[2]);
-  } else {
-    return null;
-  }
-  if (!Number.isFinite(lat) || !Number.isFinite(lng) || lat < -90 || lat > 90 || lng < -180 || lng > 180) return "invalid";
-  return { lat, lng };
-}
-
 export function buildManualCoordinateLocation(lat: number, lng: number, query: string, source: "Manual coordinates" | "Map click" = "Manual coordinates"): SelectedLocation {
   const resolvedState = resolveStateFromCoordinates(lat, lng) ?? parseStateFromText(query);
   const label = source === "Map click" ? `Map point: ${lat.toFixed(4)}, ${lng.toFixed(4)}` : `${lat.toFixed(4)}, ${lng.toFixed(4)}`;
@@ -126,54 +99,36 @@ export async function searchLocation(
     return {
       status: "invalid-input",
       location: null,
-      message: "Enter a U.S. street address, ZIP code, city/state, or lat/lon.",
+      message: "Unable to complete search",
       matchCount: 0,
     };
   const parsedCoordinates = parseCoordinateSearch(clean);
   if (parsedCoordinates === "invalid") {
-    return { status: "invalid-input", location: null, message: "Invalid latitude/longitude. Latitude must be -90 to 90 and longitude -180 to 180.", matchCount: 0 };
+    return { status: "invalid-input", location: null, message: "Invalid coordinates", matchCount: 0 };
   }
   if (parsedCoordinates) {
     const location = buildManualCoordinateLocation(parsedCoordinates.lat, parsedCoordinates.lng, clean);
     return { status: "found", location, message: `Planning center set to ${location.label}. Session-only; not stored.`, matchCount: 1 };
   }
-  const params = new URLSearchParams({
-    address: clean,
-    benchmark: "Public_AR_Current",
-    format: "json",
-  });
+  const params = new URLSearchParams({ q: clean });
   let response: Response;
   try {
-    response = await fetcher(
-      `https://geocoding.geo.census.gov/geocoder/locations/onelineaddress?${params.toString()}`,
-    );
+    response = await fetcher(`/api/geocode?${params.toString()}`, { cache: "no-store" } as RequestInit);
   } catch {
-    return {
-      status: "network-error",
-      location: null,
-      message: "Network unavailable. Current map view unchanged.",
-      matchCount: 0,
-    };
+    return { status: "network-error", location: null, message: "Search service unavailable", matchCount: 0 };
   }
-  if (!response.ok)
-    return {
-      status: "geocoder-unavailable",
-      location: null,
-      message: "Geocoder unavailable. Try again later.",
-      matchCount: 0,
-    };
   let json: any;
   try {
     json = await response.json();
   } catch {
-    return {
-      status: "geocoder-unavailable",
-      location: null,
-      message: "Geocoder unavailable. Try again later.",
-      matchCount: 0,
-    };
+    return { status: "geocoder-unavailable", location: null, message: "Unable to complete search", matchCount: 0 };
   }
-  const matches = json?.result?.addressMatches ?? [];
+  if (!response.ok || json?.status !== "found") {
+    const status = json?.status === "no-match" ? "no-match" : json?.status === "invalid-input" ? "invalid-input" : "geocoder-unavailable";
+    const message = status === "no-match" ? "No matching location found" : status === "invalid-input" ? "Unable to complete search" : "Search service unavailable";
+    return { status, location: null, message, matchCount: 0 };
+  }
+  const matches = json?.matches ?? [];
   if (!Array.isArray(matches) || matches.length === 0)
     return {
       status: "no-match",
@@ -182,8 +137,8 @@ export async function searchLocation(
       matchCount: 0,
     };
   const top = matches[0];
-  const lat = Number(top?.coordinates?.y);
-  const lng = Number(top?.coordinates?.x);
+  const lat = Number(top?.latitude);
+  const lng = Number(top?.longitude);
   if (!Number.isFinite(lat) || !Number.isFinite(lng))
     return {
       status: "geocoder-unavailable",
@@ -193,10 +148,9 @@ export async function searchLocation(
     };
   const status: LocationSearchStatus =
     matches.length > 1 ? "multiple-matches-top-used" : "found";
-  const label = String(top.matchedAddress ?? clean);
+  const label = String(top.label ?? clean);
   const matchType = inferMatchType(clean);
-  const addressComponents = top?.addressComponents ?? top?.address ?? {};
-  const structuredState = normalizeStateCode(addressComponents.stateCode ?? addressComponents.state ?? addressComponents.State);
+  const structuredState = normalizeStateCode(top?.state);
   const resolvedState = structuredState ?? resolveStateFromCoordinates(lat, lng) ?? parseStateFromText(`${label} ${clean}`);
   const inputMethod = matchType === "address" ? "address-search" : matchType === "coordinates" ? "coordinate-search" : "place-search";
   const location: SelectedLocation = {
@@ -228,10 +182,7 @@ export async function searchLocation(
   return {
     status,
     location,
-    message:
-      status === "found"
-        ? `Location found: ${label}`
-        : `Top geocoder match used: ${label}`,
+    message: "Location found",
     matchCount: matches.length,
   };
 }

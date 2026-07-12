@@ -9,14 +9,14 @@ const state = readFileSync(join(root,'src/hooks/useAppState.ts'),'utf8');
 const page = readFileSync(join(root,'src/app/page.tsx'),'utf8');
 const map = readFileSync(join(root,'src/components/map/MapView.tsx'),'utf8');
 
-test('version is v0.3.5 prototype',()=>assert.match(product,/prototypeVersion: "v0\.3\.5 prototype"/));
+test('version is v0.3.5.1 prototype',()=>assert.match(product,/prototypeVersion: "v0\.3\.5\.1 prototype"/));
 test('search modes create canonical PlanningLocation',()=>{
   assert.match(search,/planningLocation: PlanningLocation/);
   assert.match(search,/"address-search"/);
   assert.match(search,/"place-search"/);
   assert.match(search,/"coordinate-search"/);
   assert.match(search,/parseCoordinateSearch/);
-  assert.match(search,/Latitude must be -90 to 90/);
+  assert.match(search,/Invalid coordinates/);
 });
 test('single planning setter feeds search and map click',()=>{
   assert.match(state,/function setPlanningLocation\(/);
