@@ -7,7 +7,7 @@ const required = ['facilityName','cmsFacilityId','hospitalType','criticalAccessI
 
 test('version is v0.3.4.2 and stale active versions are rejected',()=>{
  const product=readFileSync('src/config/product.ts','utf8');
- assert.match(product,/prototypeVersion: "v0\.3\.5 prototype"/);
+ assert.match(product,/prototypeVersion: "v0\.3\.5\.2 prototype"/);
  for (const stale of ['v0.3.4 prototype','v0.3.3.3 prototype','v0.3.3.2 prototype','v0.3.3.1 prototype','v0.3.3 prototype']) assert.doesNotMatch(product,new RegExp(stale.replaceAll('.','\\.')));
 });
 

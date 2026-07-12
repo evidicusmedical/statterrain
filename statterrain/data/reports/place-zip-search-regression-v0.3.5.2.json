@@ -1,0 +1,34 @@
+{
+  "version": "v0.3.5.2 prototype",
+  "verificationEnvironment": {
+    "local": "source, unit, route, build, and mocked browser tests",
+    "previewUrl": null,
+    "browser": "local Playwright Chromium where available",
+    "timestampUtc": "2026-07-12T00:00:00Z"
+  },
+  "rootCauses": {
+    "cityState": "The v0.3.5.1 same-origin route sent non-coordinate queries to the Census street-address onelineaddress endpoint and normalized only result.addressMatches; place geography results were never requested.",
+    "zip": "ZIP-only input was routed to the street-address endpoint and the route assumed addressMatches, so ZIP/ZCTA geography was not requested or normalized."
+  },
+  "officialSources": [
+    "U.S. Census Bureau Geocoder locations/onelineaddress for full street addresses",
+    "U.S. Census Bureau TIGERweb Places_CouSub_ConCity_SubMCD query for city/state place representative points",
+    "U.S. Census Bureau TIGERweb ZIP_ZCTA query for ZIP/ZCTA area-derived representative points"
+  ],
+  "testedInputs": [
+    {"input":"1600 Pennsylvania Avenue NW, Washington, DC","strategy":"street-address","expectedOutcome":"PASS","actualOutcome":"implemented; local route/unit coverage","routeStatus":"found","markerStatus":"expected","facilityAnalysisStatus":"expected","evidenceStatus":"expected"},
+    {"input":"Washington, DC","strategy":"city-state","expectedOutcome":"PASS","actualOutcome":"implemented; local route/unit coverage","routeStatus":"found","markerStatus":"expected","facilityAnalysisStatus":"expected","evidenceStatus":"expected"},
+    {"input":"Richmond, VA","strategy":"city-state","expectedOutcome":"PASS","actualOutcome":"implemented","routeStatus":"found","markerStatus":"expected","facilityAnalysisStatus":"expected","evidenceStatus":"expected"},
+    {"input":"Toledo, Ohio","strategy":"city-state","expectedOutcome":"PASS","actualOutcome":"implemented","routeStatus":"found","markerStatus":"expected","facilityAnalysisStatus":"expected","evidenceStatus":"expected"},
+    {"input":"Ann Arbor, Michigan","strategy":"city-state","expectedOutcome":"PASS","actualOutcome":"implemented","routeStatus":"found","markerStatus":"expected","facilityAnalysisStatus":"expected","evidenceStatus":"expected"},
+    {"input":"20500","strategy":"zip","expectedOutcome":"PASS","actualOutcome":"implemented; local route/unit coverage","routeStatus":"found","markerStatus":"expected","facilityAnalysisStatus":"expected","evidenceStatus":"expected"},
+    {"input":"23219","strategy":"zip","expectedOutcome":"PASS","actualOutcome":"implemented","routeStatus":"found","markerStatus":"expected","facilityAnalysisStatus":"expected","evidenceStatus":"expected"},
+    {"input":"43604","strategy":"zip","expectedOutcome":"PASS","actualOutcome":"implemented","routeStatus":"found","markerStatus":"expected","facilityAnalysisStatus":"expected","evidenceStatus":"expected"},
+    {"input":"48104","strategy":"zip","expectedOutcome":"PASS","actualOutcome":"implemented","routeStatus":"found","markerStatus":"expected","facilityAnalysisStatus":"expected","evidenceStatus":"expected"},
+    {"input":"38.8977, -77.0365","strategy":"coordinates","expectedOutcome":"PASS","actualOutcome":"local coordinate resolution preserved","routeStatus":"not-called","markerStatus":"expected","facilityAnalysisStatus":"expected","evidenceStatus":"expected"},
+    {"input":"38.8977 -77.0365","strategy":"coordinates","expectedOutcome":"PASS","actualOutcome":"local coordinate resolution preserved","routeStatus":"not-called","markerStatus":"expected","facilityAnalysisStatus":"expected","evidenceStatus":"expected"},
+    {"input":"999, 999","strategy":"invalid-coordinates","expectedOutcome":"EXPECTED INVALID","actualOutcome":"local invalid-coordinate rejection preserved","routeStatus":"not-called","markerStatus":"prior-location-preserved","facilityAnalysisStatus":"not-refreshed","evidenceStatus":"prior-location-preserved"},
+    {"input":"Springfield","strategy":"unsupported","expectedOutcome":"EXPECTED STATE-REQUIRED MESSAGE","actualOutcome":"Include a state with the city name.","routeStatus":"unsupported-query","markerStatus":"unchanged","facilityAnalysisStatus":"unchanged","evidenceStatus":"unchanged"}
+  ],
+  "completionDeclaration": "PARTIAL — SEARCH MODES IMPLEMENTED, DEPLOYED VERIFICATION PENDING"
+}

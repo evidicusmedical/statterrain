@@ -32,3 +32,5 @@ next-env.d.ts
 
 # generated deployable public-data copy
 /public/generated/cms-hospitals-national/
+
+.tmp-tests/

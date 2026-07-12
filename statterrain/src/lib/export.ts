@@ -85,6 +85,17 @@ export function buildMarkdownBrief(ctx: BriefContext): string {
   lines.push(`**${product.tagline}**`);
   lines.push("");
   lines.push(`- Search location: ${locationLabel}`);
+  if (ctx.planningLocation) {
+    lines.push(`- Entered query: ${ctx.planningLocation.searchQuery ?? "not reported"}`);
+    lines.push(`- Search strategy: ${ctx.planningLocation.searchStrategy ?? "not reported"}`);
+    lines.push(`- Resolved geography type: ${ctx.planningLocation.resolvedGeographyType ?? "not reported"}`);
+    if (ctx.planningLocation.resolvedGeographyId) lines.push(`- Geography identifier: ${ctx.planningLocation.resolvedGeographyId}`);
+    if (ctx.planningLocation.state) lines.push(`- State: ${ctx.planningLocation.state}`);
+    if (ctx.planningLocation.zip) lines.push(`- ZIP: ${ctx.planningLocation.zip}`);
+    lines.push(`- Coordinates: ${ctx.planningLocation.latitude}, ${ctx.planningLocation.longitude}`);
+    if (ctx.planningLocation.source) lines.push(`- Location source: ${ctx.planningLocation.source}`);
+    (ctx.planningLocation.limitations ?? []).forEach((limitation) => lines.push(`- Location limitation: ${limitation}`));
+  }
   lines.push(
     `- Search location source: ${ctx.selectedLocationSource ?? "StatTerrain demo"}`,
   );
@@ -351,7 +362,7 @@ export function buildEvidenceSchema(ctx: BriefContext) {
     limitations: [
       "CMS hospital data are not live operating status, bed availability, diversion status, routing, transfer guidance, or clinical decision support.",
       "Missing fields indicate unavailable or unmapped source data, not absence of a service.",
-      "Population, accessibility, redundancy, and resilience data are unavailable in v0.3.5.",
+      "Population, accessibility, redundancy, and resilience data are unavailable in v0.3.5.2.",
     ],
     freshness: sourcesForBrief.map((source: any) => ({ sourceId: source.id, dataset: source.dataset, releaseDate: source.releaseDate, retrievalDate: source.retrievalDate, freshness: source.freshness })),
     completeness: {

@@ -2,7 +2,7 @@
   "name": "statterrain",
   "version": "0.1.0",
   "private": true,
-  "description": "StatTerrain — Emergency-care resources and population-health intelligence (frontend prototype).",
+  "description": "StatTerrain \u2014 Emergency-care resources and population-health intelligence (frontend prototype).",
   "scripts": {
     "dev": "next dev -p 3000 -H 0.0.0.0",
     "build": "next build",
@@ -54,7 +54,11 @@
     "test:evidence-contract": "node --test tests/evidence-contract.test.mjs",
     "test:geocode-route": "node --test tests/geocode-route.test.mjs",
     "test:search-transaction": "node --test tests/search-transaction.test.mjs",
-    "test:search-regression": "node --experimental-transform-types --test tests/search-regression.test.mjs"
+    "test:search-regression": "node --experimental-transform-types --test tests/search-regression.test.mjs",
+    "test:search-strategy": "node --experimental-transform-types --test tests/search-strategy.test.mjs",
+    "test:city-state-search": "node --experimental-transform-types --test tests/city-state-search.test.mjs",
+    "test:zip-search": "node --experimental-transform-types --test tests/zip-search.test.mjs",
+    "test:census-secret-safety": "node --test tests/census-secret-safety.test.mjs"
   },
   "dependencies": {
     "leaflet": "^1.9.4",
