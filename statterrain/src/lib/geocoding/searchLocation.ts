@@ -3,6 +3,7 @@ import { resolveStateFromCoordinates } from "@/lib/geography/resolveStateFromCoo
 import { parseStateFromText, normalizeStateCode } from "@/lib/geography/stateCodes";
 import type { PlanningLocation } from "@/types/planningLocation";
 import { parseCoordinateSearch } from "@/lib/geocoding/coordinates";
+import { classifyGeocodeSearchQuery } from "@/lib/geocoding/searchStrategy";
 
 export type LocationSearchStatus =
   | "idle"
@@ -26,7 +27,7 @@ export interface SelectedLocation extends SearchLocation {
   planningLocation: PlanningLocation;
   query: string;
   matchType: LocationMatchType;
-  source: "U.S. Census Geocoder" | "StatTerrain demo" | "Manual coordinates" | "Map click";
+  source: "U.S. Census Bureau" | "U.S. Census Geocoder" | "StatTerrain demo" | "Manual coordinates" | "Map click";
   confidence: "exact" | "top-match" | "unavailable";
   isDemoRegion: boolean;
   searchedAt: string;
@@ -86,6 +87,9 @@ export function buildManualCoordinateLocation(lat: number, lng: number, query: s
       resolvedAt: new Date().toISOString(),
       searchQuery: query,
       state: resolvedState ?? undefined,
+      searchStrategy: source === "Map click" ? "map-click" : "coordinates",
+      resolvedGeographyType: source === "Map click" ? "map-point" : "coordinate",
+      source,
     },
   };
 }
@@ -123,9 +127,9 @@ export async function searchLocation(
   } catch {
     return { status: "geocoder-unavailable", location: null, message: "Unable to complete search", matchCount: 0 };
   }
-  if (!response.ok || json?.status !== "found") {
-    const status = json?.status === "no-match" ? "no-match" : json?.status === "invalid-input" ? "invalid-input" : "geocoder-unavailable";
-    const message = status === "no-match" ? "No matching location found" : status === "invalid-input" ? "Unable to complete search" : "Search service unavailable";
+  if (!response.ok || (json?.status !== "found" && json?.status !== "multiple-matches")) {
+    const status = json?.status === "no-match" ? "no-match" : json?.status === "invalid-input" || json?.status === "unsupported-query" ? "invalid-input" : "geocoder-unavailable";
+    const message = json?.message ?? (status === "no-match" ? "No matching location found" : status === "invalid-input" ? "Unable to complete search" : "Search service unavailable");
     return { status, location: null, message, matchCount: 0 };
   }
   const matches = json?.matches ?? [];
@@ -149,7 +153,8 @@ export async function searchLocation(
   const status: LocationSearchStatus =
     matches.length > 1 ? "multiple-matches-top-used" : "found";
   const label = String(top.label ?? clean);
-  const matchType = inferMatchType(clean);
+  const routeStrategy = json?.strategy ?? classifyGeocodeSearchQuery(clean).strategy;
+  const matchType = top?.geographyType === "place" ? "city" : top?.geographyType === "zip" ? "zip" : inferMatchType(clean);
   const structuredState = normalizeStateCode(top?.state);
   const resolvedState = structuredState ?? resolveStateFromCoordinates(lat, lng) ?? parseStateFromText(`${label} ${clean}`);
   const inputMethod = matchType === "address" ? "address-search" : matchType === "coordinates" ? "coordinate-search" : "place-search";
@@ -162,7 +167,7 @@ export async function searchLocation(
     regionId: isInDemoRegion(lat, lng) ? demoRegion.id : "searched-us-location",
     query: clean,
     matchType,
-    source: "U.S. Census Geocoder",
+    source: top?.source === "U.S. Census Bureau" ? "U.S. Census Bureau" : "U.S. Census Geocoder",
     confidence: matches.length > 1 ? "top-match" : "exact",
     isDemoRegion: isInDemoRegion(lat, lng),
     searchedAt: new Date().toISOString(),
@@ -177,12 +182,18 @@ export async function searchLocation(
       resolvedAt: new Date().toISOString(),
       searchQuery: clean,
       state: resolvedState ?? undefined,
+      searchStrategy: routeStrategy === "city-state" || routeStrategy === "zip" || routeStrategy === "street-address" ? routeStrategy : matchType === "address" ? "street-address" : matchType === "zip" ? "zip" : "city-state",
+      resolvedGeographyType: top?.geographyType ?? (matchType === "address" ? "address" : matchType === "zip" ? "zip" : "place"),
+      resolvedGeographyId: top?.geographyId ?? undefined,
+      zip: top?.zip ?? undefined,
+      source: top?.source ?? "U.S. Census Bureau",
+      limitations: Array.isArray(top?.limitations) ? top.limitations : [],
     },
   };
   return {
     status,
     location,
-    message: "Location found",
+    message: matchType === "address" ? "Address found" : matchType === "zip" ? "ZIP area found" : matchType === "city" || matchType === "place" ? "City found" : "Location found",
     matchCount: matches.length,
   };
 }

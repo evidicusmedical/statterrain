@@ -5,3 +5,7 @@ StatTerrain evidence exports use schema version `statterrain-evidence-v1`. The s
 Required modular sections are document metadata, research-area definition, planning location, analysis radius, active layers, executive summary, facility results, population context, accessibility, redundancy/resilience, methods, data sources, freshness, missing-data/completeness notes, limitations, raw-record appendix, and export manifest.
 
 Population, accessibility, and resilience remain `null`/unavailable in v0.3.5. The normal human-readable brief omits fabricated demographic values. CMS hospital records retain facility IDs, name, address, city, state, ZIP, county when available, coordinates, distance, type, ownership, emergency-services and critical-access fields when present, phone when present, source metadata, field provenance, and missing-field status. No AI APIs, automated conclusions, routing, dispatch, live status, clinical guidance, or patient-level data are included.
+
+## v0.3.5.2 search evidence metadata
+
+Evidence JSON preserves the canonical PlanningLocation, including entered query, normalized label, input method, search strategy, resolved geography type, official geography identifier when available, coordinates, state, ZIP, source, and limitations. City/state evidence identifies the planning center as a representative point for the selected Census place. ZIP evidence identifies the planning center as an area-derived ZIP/ZCTA reference point and not a precise address. Population remains unavailable in this release.

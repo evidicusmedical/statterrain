@@ -7,3 +7,7 @@ Supported typed search forms are U.S. street address, city/state, ZIP code, and 
 Radius policy: one value in miles, minimum 1, maximum 250, one decimal place. Slider, text input, and 10/25/50/100-mile buttons update the same value. Text entry may be blank or partial while editing; on Enter or blur, invalid or out-of-range text restores the previous valid value and shows an inline error. Radius is straight-line Haversine planning distance, not routing or drive time.
 
 Missing data must be described as unavailable or unmapped, never as absence of a service. Search failure must not set a default coordinate or use synthetic fallback.
+
+## v0.3.5.2 metadata additions
+
+PlanningLocation may include `searchStrategy`, `resolvedGeographyType`, `resolvedGeographyId`, `zip`, `source`, and `limitations`. Address results use `street-address`/`address`; city/state results use `city-state`/`place`; ZIP and ZIP+4 results use `zip`/`zip`; local coordinates use `coordinates`/`coordinate`; map clicks use `map-click`/`map-point`. All valid modes use the same downstream radius-analysis path.

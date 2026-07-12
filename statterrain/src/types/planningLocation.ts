@@ -5,6 +5,20 @@ export type PlanningLocationInputMethod =
   | "facility-selection"
   | "map-click";
 
+export type PlanningLocationSearchStrategy =
+  | "street-address"
+  | "city-state"
+  | "zip"
+  | "coordinates"
+  | "map-click";
+
+export type PlanningLocationGeographyType =
+  | "address"
+  | "place"
+  | "zip"
+  | "coordinate"
+  | "map-point";
+
 export type PlanningLocation = {
   latitude: number;
   longitude: number;
@@ -13,6 +27,12 @@ export type PlanningLocation = {
   resolvedAt: string;
   searchQuery?: string;
   state?: string;
+  searchStrategy?: PlanningLocationSearchStrategy;
+  resolvedGeographyType?: PlanningLocationGeographyType;
+  resolvedGeographyId?: string;
+  zip?: string;
+  source?: string;
+  limitations?: string[];
 };
 
 export function validatePlanningCoordinates(latitude: number, longitude: number): boolean {

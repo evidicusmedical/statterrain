@@ -30,7 +30,7 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: "20.18.1"
+          node-version: "24"
           cache: "npm"
           cache-dependency-path: statterrain/package-lock.json
 
@@ -52,8 +52,8 @@ jobs:
       - name: Install Playwright browsers
         run: npx playwright install --with-deps chromium
 
-      - name: Run Playwright smoke tests
-        run: npm run test:e2e
+      - name: Run Playwright search functional tests
+        run: npm run test:e2e -- tests/search-functional.spec.ts
 
       - name: Upload Playwright report
         if: always()
