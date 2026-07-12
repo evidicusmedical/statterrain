@@ -73,7 +73,12 @@
     "test:acs-artifact-promotion": "node --test tests/acs-artifact-promotion.test.mjs",
     "test:acs-metadata-semantics": "node --test tests/acs-metadata-semantics.test.mjs",
     "test:acs-metadata-dataset-family": "node --test tests/acs-metadata-dataset-family.test.mjs",
-    "test:acs-metadata-diagnostics": "node --test tests/acs-metadata-diagnostics.test.mjs"
+    "test:acs-metadata-diagnostics": "node --test tests/acs-metadata-diagnostics.test.mjs",
+    "data:verify-acs-estimate-moe-queryability": "node scripts/public-data/verify-acs-estimate-moe-queryability.mjs",
+    "test:acs-moe-queryability": "node --test tests/acs-moe-queryability.test.mjs",
+    "test:acs-table-universe-contract": "node --test tests/acs-table-universe-contract.test.mjs",
+    "test:acs-variable-chunking": "node --test tests/acs-variable-chunking.test.mjs",
+    "test:acs-county-chunk-merge": "node --test tests/acs-county-chunk-merge.test.mjs"
   },
   "dependencies": {
     "leaflet": "^1.9.4",
