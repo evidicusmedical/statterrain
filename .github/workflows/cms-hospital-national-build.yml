@@ -8,7 +8,7 @@ on:
         required: true
         default: v0.3.2.4-national-cms-hospital-generated-data
       build_mode:
-        description: CMS hospital build mode. identity-refresh updates identity/contact fields while reusing the current geocoding cache.
+        description: CMS hospital build mode. identity-refresh forces cache-first reuse; complete geocoding cannot override it.
         type: choice
         required: true
         default: identity-refresh
@@ -21,6 +21,11 @@ on:
         type: boolean
         required: true
         default: true
+      allow_full_fallback:
+        description: Allow identity-refresh to fall back to a full national geocoding run if the prior cache is missing. Default false.
+        type: boolean
+        required: true
+        default: false
       auto_merge:
         description: Reserved safety switch; auto-merge is not supported by this workflow.
         type: boolean
@@ -76,6 +81,17 @@ jobs:
       - name: Install dependencies
         run: npm ci
         working-directory: ${{ env.APP_DIR }}
+
+      - name: Diagnose existing geocoding cache
+        shell: bash
+        run: |
+          set -euo pipefail
+          if [ ! -f statterrain/data/generated/geocoding-cache/cms-hospitals-geocoding-cache.json ]; then
+            echo 'Existing geocoding cache is missing' >&2
+            test "${{ github.event.inputs.build_mode }}" != 'identity-refresh' || test "${{ github.event.inputs.allow_full_fallback }}" = 'true'
+            exit 0
+          fi
+          node -e "const fs=require('fs'); const c=JSON.parse(fs.readFileSync('statterrain/data/generated/geocoding-cache/cms-hospitals-geocoding-cache.json','utf8')); console.log(JSON.stringify({schemaVersion:c.schemaVersion, cacheEntriesLoaded:(c.entries||[]).length, usableCacheEntries:(c.entries||[]).filter(e=>['matched','no-match','multiple-match'].includes(e.status)).length}, null, 2));"
 
       - name: Probe CMS Hospital API
         id: cms_probe
@@ -199,8 +215,9 @@ jobs:
           const pull = JSON.parse(fs.readFileSync('statterrain/data/reports/cms-hospitals-national-pull-v0.3.2.json','utf8'));
           const run = JSON.parse(fs.readFileSync('statterrain/data/reports/cms-hospitals-geocoding-run-v0.3.2.json','utf8'));
           const qa = JSON.parse(fs.readFileSync('statterrain/data/reports/cms-hospitals-national-quality-v0.3.2.json','utf8'));
+          const validation = JSON.parse(fs.readFileSync('statterrain/data/reports/cms-hospital-metric-validation-v0.3.4.2.json','utf8'));
           const audit = JSON.parse(fs.readFileSync('statterrain/data/reports/cms-hospital-field-completeness-v0.3.4.json','utf8'));
-          for (const [k,v] of Object.entries({buildMode: '${{ github.event.inputs.build_mode }}', pages: pull.pagesCompleted, raw: pull.rawRowsRetrieved ?? pull.rawRowCount, unique: pull.uniqueSourceIds ?? pull.uniqueSourceIdCount, normalized: pull.normalizedRows ?? pull.normalizedRecordCount, duplicates: pull.duplicateSourceIds ?? pull.duplicateSourceIdCount, complete: pull.paginationComplete, eligible: run.totalGeocodingEligible, cacheHits: run.cacheHits, chunks: `${run.chunksCompleted}/${run.chunksPlanned}`, matched: run.matchedRecords, unmatched: run.noMatchRecords, failed: run.failedRecords, joined: qa.geographyJoinedCount, mapReady: manifest.mapReadyRecords, excluded: manifest.excludedRecords, states: manifest.statesPresent.length, partitions: manifest.partitions.length, retrievedAt: manifest.retrievedAt, phone: audit.findings.phone.partitionCount, website: audit.findings.website.partitionCount, hospitalType: audit.findings.hospitalType.partitionCount, ownership: audit.findings.ownershipType.partitionCount, emergencyServices: audit.findings.emergencyServices.partitionCount, criticalAccess: audit.findings.criticalAccess.partitionCount, externalRequests: run.repeatedExternalRequestCount ?? run.recordsAttempted ?? 0, fieldsAdded: 'phone, countyName, FIPS/provenance when regenerated'})) console.log(`${k}=${v}`);
+          for (const [k,v] of Object.entries({buildMode: '${{ github.event.inputs.build_mode }}', pages: pull.pagesCompleted, raw: pull.rawRowsRetrieved ?? pull.rawRowCount, unique: pull.uniqueSourceIds ?? pull.uniqueSourceIdCount, normalized: pull.normalizedRows ?? pull.normalizedRecordCount, duplicates: pull.duplicateSourceIds ?? pull.duplicateSourceIdCount, complete: pull.paginationComplete, eligible: run.totalGeocodingEligible, cacheEntriesLoaded: run.cacheEntriesLoaded, cacheHits: run.validCacheHits ?? run.cacheHits, cacheMisses: run.cacheMisses, newRecords: run.newAddresses, changedAddresses: run.changedAddresses, retryableUnresolved: run.retryableUnresolved, chunks: `${run.chunksCompleted}/${run.chunksPlanned}`, finalMatched: run.finalMatched ?? run.matchedRecords, finalNoMatch: run.finalNoMatch ?? run.noMatchRecords, finalMultipleMatch: run.finalMultipleMatch, finalFailed: run.finalFailed ?? run.failedRecords, invariantStatus: validation.status, joined: qa.geographyJoinedCount, mapReady: manifest.mapReadyRecords, excluded: manifest.excludedRecords, states: manifest.statesPresent.length, partitions: manifest.partitions.length, retrievedAt: manifest.retrievedAt, phone: audit.findings.phone.partitionCount, website: audit.findings.website.partitionCount, hospitalType: audit.findings.hospitalType.partitionCount, ownership: audit.findings.ownershipType.partitionCount, emergencyServices: audit.findings.emergencyServices.partitionCount, criticalAccess: audit.findings.criticalAccess.partitionCount, externalRequests: run.repeatedExternalRequestCount ?? run.recordsAttempted ?? 0, fieldsAdded: 'phone, countyName, FIPS/provenance when regenerated'})) console.log(`${k}=${v}`);
           NODE
 
       - name: Write GitHub Actions job summary
@@ -221,9 +238,19 @@ jobs:
           | Normalized records | ${{ steps.summary.outputs.normalized }} |
           | Duplicate source IDs | ${{ steps.summary.outputs.duplicates }} |
           | Geocoding eligible | ${{ steps.summary.outputs.eligible }} |
-          | Cache hits | ${{ steps.summary.outputs.cacheHits }} |
-          | Chunks completed/planned | ${{ steps.summary.outputs.chunks }} |
-          | Matched / unmatched / failed | ${{ steps.summary.outputs.matched }} / ${{ steps.summary.outputs.unmatched }} / ${{ steps.summary.outputs.failed }} |
+          | Cache entries loaded | ${{ steps.summary.outputs.cacheEntriesLoaded }} |
+          | Valid cache hits | ${{ steps.summary.outputs.cacheHits }} |
+          | Cache misses | ${{ steps.summary.outputs.cacheMisses }} |
+          | New records | ${{ steps.summary.outputs.newRecords }} |
+          | Changed addresses | ${{ steps.summary.outputs.changedAddresses }} |
+          | Retryable unresolved | ${{ steps.summary.outputs.retryableUnresolved }} |
+          | External geocoding requests this run | ${{ steps.summary.outputs.externalRequests }} |
+          | Chunks this run completed/planned | ${{ steps.summary.outputs.chunks }} |
+          | Final matched | ${{ steps.summary.outputs.finalMatched }} |
+          | Final no-match | ${{ steps.summary.outputs.finalNoMatch }} |
+          | Final multiple-match | ${{ steps.summary.outputs.finalMultipleMatch }} |
+          | Final failed | ${{ steps.summary.outputs.finalFailed }} |
+          | Metric invariant status | ${{ steps.summary.outputs.invariantStatus }} |
           | Geography joined | ${{ steps.summary.outputs.joined }} |
           | Map-ready records | ${{ steps.summary.outputs.mapReady }} |
           | Excluded records | ${{ steps.summary.outputs.excluded }} |
@@ -237,7 +264,6 @@ jobs:
           | Emergency-services present | ${{ steps.summary.outputs.emergencyServices }} |
           | Critical-access count | ${{ steps.summary.outputs.criticalAccess }} |
           | Fields added to partitions | ${{ steps.summary.outputs.fieldsAdded }} |
-          | External geocoding requests | ${{ steps.summary.outputs.externalRequests }} |
           | Pagination complete | ${{ steps.summary.outputs.complete }} |
           | Completion declaration | COMPLETE — NATIONAL CMS HOSPITAL NETWORK BUILT (only after successful job completion) |
           MD

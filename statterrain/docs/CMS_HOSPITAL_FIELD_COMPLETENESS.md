@@ -1,6 +1,6 @@
 # CMS Hospital Field Completeness (v0.3.4)
 
-Generated: 2026-07-11T23:22:57.121Z
+Generated: 2026-07-11T23:59:31.210Z
 
 Totals: normalized 5432; map-ready 4669; deployed partitions 4669.
 
@@ -37,3 +37,13 @@ Website URL is not provided by the current CMS Hospital General Information sour
 | Geography-join status | pipeline metadata / unavailable | 5432 (100%) | 4669 (100%) | 4669 (100%) | 0 | complete |
 | Limitations | pipeline metadata / unavailable | 5432 (100%) | 4669 (100%) | 4669 (100%) | 0 | complete |
 | Prohibited uses | pipeline metadata / unavailable | 5432 (100%) | 4669 (100%) | 4669 (100%) | 0 | complete |
+
+## v0.3.4.2 CMS identity-refresh cache and metric contract
+
+Identity refresh is cache-first maintenance. It loads `data/generated/geocoding-cache/cms-hospitals-geocoding-cache.json`, keys reusable entries by `sourceFacilityId::addressHash`, and treats the normalized address hash as authoritative for legacy cache rows whose input checksum included a run timestamp. `build_mode=identity-refresh` takes precedence over geocoding mode and does not silently fall back to a full national geocode unless an explicit workflow fallback is enabled.
+
+Metrics are split into source, eligibility, cache, current-run request, final record-state, and final artifact groups. Current-run request metrics count only records submitted in the current run. Final geocoding metrics are derived by one reducer that assigns each CMS `sourceFacilityId` exactly one state: matched, no-match, multiple-match, failed, or invalid-input. Historical chunk files and duplicate cache entries are not summed into final matched/unmatched totals.
+
+Validation writes `data/reports/cms-hospital-metric-validation-v0.3.4.2.json` and enforces reconciliation rules for final-state totals, matched-vs-eligible, cache hits/misses, request workset bounds, identity-refresh full-regeocode refusal, chunks, and map-ready/excluded totals. The dry-run audit command is `npm run data:audit-cms-identity-refresh`; it does not call CMS or Census, does not rewrite partitions, and writes `data/reports/cms-identity-refresh-audit-v0.3.4.2.json`.
+
+The previous workflow figures of 9,161 matched and 1,687 unmatched were invalid because they mixed cache-history/chunk-history entries with current final record state. The current deployed baseline remains 5,432 normalized records, 4,669 map-ready records, 763 excluded records, 52 partitions, and phone values in all 4,669 partition records; websites remain absent unless source-backed.

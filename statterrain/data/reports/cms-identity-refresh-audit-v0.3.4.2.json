@@ -1,0 +1,21 @@
+{
+  "generatedAt": "2026-07-11T23:59:00.725Z",
+  "mode": "identity-refresh-dry-run",
+  "normalizedRecords": 5432,
+  "geocodingEligible": 5432,
+  "cacheEntriesLoaded": 10848,
+  "validCacheHits": 5424,
+  "staleEntries": 0,
+  "newRecords": 0,
+  "changedAddresses": 0,
+  "retryableUnresolved": 0,
+  "projectedExternalRequests": 0,
+  "projectedChunks": 0,
+  "projectedMapReady": 4669,
+  "invariants": {
+    "status": "PASS",
+    "failures": []
+  },
+  "safeToRunIdentityRefresh": true,
+  "explanation": "All eligible unchanged records can reuse existing cache; no external geocoding is projected."
+}
