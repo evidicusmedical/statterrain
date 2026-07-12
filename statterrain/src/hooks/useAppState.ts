@@ -12,6 +12,9 @@ import type {
 } from "@/lib/geocoding/searchLocation";
 import type { Facility, FacilityType, CapabilityName } from "@/types/facility";
 import type { OverlayMetricId } from "@/types/metric";
+import type { PlanningLocation } from "@/types/planningLocation";
+import { validatePlanningCoordinates } from "@/types/planningLocation";
+import { demoRegion } from "@/data/demo-region";
 export interface AppFilters {
   facilityTypes: Set<FacilityType>;
   capabilities: Set<CapabilityName>;
@@ -51,7 +54,8 @@ function haversineMiles(
 
 export function useAppState() {
   const [location, setLocation] = useState<SearchLocation>(searchLocations[0]);
-  const [selectedLocation, setSelectedLocation] =
+  const [planningLocation, setPlanningLocationState] = useState<PlanningLocation | null>(null);
+  const [selectedLocation, setSelectedLocationState] =
     useState<SelectedLocation | null>(null);
   const [searchStatus, setSearchStatus] =
     useState<LocationSearchStatus>("idle");
@@ -69,7 +73,7 @@ export function useAppState() {
   const publicDataSummary = useMemo(() => getPublicDataArtifactSummary(), []);
   const [cmsLoad, setCmsLoad] = useState<{status: string; facilities: Facility[]; manifest: any; requestedPartitions: string[]; loadedPartitions: string[]; errors: string[]; primaryState?: string; selectionStrategy?: string; partialCoverage?: boolean}>({ status: "loading", facilities: [], manifest: null, requestedPartitions: [], loadedPartitions: [], errors: [] });
 
-  const partitionSelection = useMemo(() => selectCmsHospitalPartitionResult({ lat: location.lat, lng: location.lng, radiusMiles, state: selectedLocation?.state, label: selectedLocation?.label ?? location.label, query: selectedLocation?.query }), [location, radiusMiles, selectedLocation]);
+  const partitionSelection = useMemo(() => selectCmsHospitalPartitionResult({ lat: location.lat, lng: location.lng, radiusMiles, state: planningLocation?.state ?? selectedLocation?.state, label: planningLocation?.displayLabel ?? selectedLocation?.label ?? location.label, query: planningLocation?.searchQuery ?? selectedLocation?.query }), [location, radiusMiles, selectedLocation, planningLocation]);
   const partitionCodes = partitionSelection.partitions;
 
   const partitionKey = partitionCodes.join(",");
@@ -122,6 +126,27 @@ export function useAppState() {
     [visibleFacilities, selectedFacilityId],
   );
 
+  function setPlanningLocation(next: PlanningLocation, sourceLocation?: SelectedLocation) {
+    if (!validatePlanningCoordinates(next.latitude, next.longitude)) return;
+    const appLocation: SearchLocation = sourceLocation ?? {
+      id: `${next.inputMethod}-${next.resolvedAt}`,
+      label: next.displayLabel,
+      kind: "city",
+      lat: next.latitude,
+      lng: next.longitude,
+      regionId: Math.abs(next.latitude - demoRegion.centerLat) <= 0.35 && Math.abs(next.longitude - demoRegion.centerLng) <= 0.45 ? demoRegion.id : "searched-us-location",
+    };
+    setPlanningLocationState(next);
+    setSelectedLocationState(sourceLocation ?? null);
+    setLocation(appLocation);
+    setSelectedFacilityId(null);
+  }
+
+  function setSelectedLocation(next: SelectedLocation | null) {
+    setSelectedLocationState(next);
+    setPlanningLocationState(next?.planningLocation ?? null);
+  }
+
   function resetFilters() {
     setFilters(defaultFilters());
   }
@@ -152,6 +177,8 @@ export function useAppState() {
   return {
     location,
     setLocation,
+    planningLocation,
+    setPlanningLocation,
     selectedLocation,
     setSelectedLocation,
     searchStatus,

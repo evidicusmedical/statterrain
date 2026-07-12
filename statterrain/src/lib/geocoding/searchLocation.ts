@@ -1,6 +1,7 @@
 import { demoRegion, type SearchLocation } from "@/data/demo-region";
 import { resolveStateFromCoordinates } from "@/lib/geography/resolveStateFromCoordinates";
 import { parseStateFromText, normalizeStateCode } from "@/lib/geography/stateCodes";
+import type { PlanningLocation } from "@/types/planningLocation";
 
 export type LocationSearchStatus =
   | "idle"
@@ -21,6 +22,7 @@ export type LocationMatchType =
   | "coordinates"
   | "map-click";
 export interface SelectedLocation extends SearchLocation {
+  planningLocation: PlanningLocation;
   query: string;
   matchType: LocationMatchType;
   source: "U.S. Census Geocoder" | "StatTerrain demo" | "Manual coordinates" | "Map click";
@@ -103,6 +105,15 @@ export function buildManualCoordinateLocation(lat: number, lng: number, query: s
     status: "found",
     sessionOnly: true,
     state: resolvedState ?? undefined,
+    planningLocation: {
+      latitude: lat,
+      longitude: lng,
+      displayLabel: label,
+      inputMethod: source === "Map click" ? "map-click" : "coordinate-search",
+      resolvedAt: new Date().toISOString(),
+      searchQuery: query,
+      state: resolvedState ?? undefined,
+    },
   };
 }
 
@@ -115,7 +126,7 @@ export async function searchLocation(
     return {
       status: "invalid-input",
       location: null,
-      message: "Enter a U.S. address, ZIP code, city/state, state, or lat/lon.",
+      message: "Enter a U.S. street address, ZIP code, city/state, or lat/lon.",
       matchCount: 0,
     };
   const parsedCoordinates = parseCoordinateSearch(clean);
@@ -187,6 +198,7 @@ export async function searchLocation(
   const addressComponents = top?.addressComponents ?? top?.address ?? {};
   const structuredState = normalizeStateCode(addressComponents.stateCode ?? addressComponents.state ?? addressComponents.State);
   const resolvedState = structuredState ?? resolveStateFromCoordinates(lat, lng) ?? parseStateFromText(`${label} ${clean}`);
+  const inputMethod = matchType === "address" ? "address-search" : matchType === "coordinates" ? "coordinate-search" : "place-search";
   const location: SelectedLocation = {
     id: `census-${Date.now()}`,
     label,
@@ -203,6 +215,15 @@ export async function searchLocation(
     status,
     sessionOnly: true,
     state: resolvedState ?? undefined,
+    planningLocation: {
+      latitude: lat,
+      longitude: lng,
+      displayLabel: label,
+      inputMethod,
+      resolvedAt: new Date().toISOString(),
+      searchQuery: clean,
+      state: resolvedState ?? undefined,
+    },
   };
   return {
     status,
