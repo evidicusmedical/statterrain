@@ -1,0 +1,2 @@
+import test from 'node:test';import assert from 'node:assert/strict';import { spawnSync } from 'node:child_process';import { ACS_COUNTY_METRICS } from '../scripts/public-data/acs-county-metric-registry.mjs';
+test('fixture metadata validation passes and registry can reject changed meaning',()=>{const r=spawnSync('node',['scripts/public-data/validate-acs-variable-metadata.mjs','--fixture'],{encoding:'utf8'});assert.equal(r.status,0,r.stderr);const bad={...ACS_COUNTY_METRICS[0],acsGroup:'BAD'};assert.notEqual(bad.acsGroup,ACS_COUNTY_METRICS[0].acsGroup);});

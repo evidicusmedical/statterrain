@@ -1,0 +1,3 @@
+import test from 'node:test';import assert from 'node:assert/strict';import { parseAcsValue, combineMoe } from '../scripts/public-data/acs-county-utils.mjs';
+test('ACS value parser distinguishes zero missing suppressed sentinels invalid and percent bounds',()=>{assert.deepEqual(parseAcsValue('0'),{value:0,status:'zero-reported'});assert.equal(parseAcsValue('').status,'missing');assert.equal(parseAcsValue('**').status,'suppressed');assert.equal(parseAcsValue('-666666666').status,'suppressed');assert.equal(parseAcsValue('abc').status,'invalid-source-value');assert.equal(parseAcsValue('101',{kind:'percent'}).status,'invalid-source-value');});
+test('summed-variable MOE uses square root of summed squares',()=>assert.equal(combineMoe([3,4]),5));

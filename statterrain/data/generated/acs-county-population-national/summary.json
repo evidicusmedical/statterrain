@@ -1,0 +1,21 @@
+{
+  "statesRequested": [
+    "MI",
+    "OH",
+    "PR"
+  ],
+  "statesCompleted": [
+    "MI",
+    "OH",
+    "PR"
+  ],
+  "statesFailed": [],
+  "countyRowsReturned": 4,
+  "uniqueGeoids": 4,
+  "duplicateGeoids": 0,
+  "apiRequestCount": 3,
+  "retryCount": 0,
+  "failedRequestCount": 0,
+  "variableCount": 98,
+  "credentialConfigured": false
+}
