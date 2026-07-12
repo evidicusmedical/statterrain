@@ -46,6 +46,15 @@ jobs:
             node scripts/public-data/acs-workflow-status.mjs update --field completionDeclaration --value "BLOCKED — ACS VARIABLE METADATA VALIDATION FAILED"
             exit 1
           fi
+      - name: Validate live ACS E/M queryability
+        working-directory: statterrain
+        run: |
+          if npm run data:verify-acs-estimate-moe-queryability -- --release "${{ inputs.acs_release }}" --run-id "$ACS_RUN_ID"; then
+            node scripts/public-data/acs-workflow-status.mjs update --field liveEstimateMoeQueryabilityStatus --value PASS
+          else
+            node scripts/public-data/acs-workflow-status.mjs update --field liveEstimateMoeQueryabilityStatus --value FAIL --failure-stage em-queryability --failure-message "ACS E/M queryability validation failed"
+            exit 1
+          fi
       - name: Probe API
         working-directory: statterrain
         run: |
@@ -76,14 +85,16 @@ jobs:
             statterrain/data/work/acs-county-population/${{ github.run_id }}-${{ github.run_attempt }}
             statterrain/data/generated/acs-county-population-national
             statterrain/data/generated/acs-county-population-fixture
-            statterrain/data/reports/acs-county-variable-validation-v0.3.6.2.json
-            statterrain/data/reports/acs-variable-metadata-regression-v0.3.6.2.json
+            statterrain/data/reports/acs-county-variable-validation-v0.3.6.3.json
+            statterrain/data/reports/acs-variable-metadata-regression-v0.3.6.3.json
             statterrain/data/reports/acs-county-current-run-status.json
             statterrain/data/reports/acs-*.json
       - name: Write truthful job summary
         if: always()
         working-directory: statterrain
-        run: node scripts/public-data/acs-workflow-status.mjs summary --manifest "data/work/acs-county-population/$ACS_RUN_ID/manifest.json"
+        run: |
+          node scripts/public-data/acs-workflow-status.mjs summary --manifest "data/work/acs-county-population/$ACS_RUN_ID/manifest.json"
+          node -e "const fs=require('fs');const m=JSON.parse(fs.readFileSync('data/work/acs-county-population/'+process.env.ACS_RUN_ID+'/manifest.json','utf8'));const q=fs.existsSync('data/reports/acs-estimate-moe-queryability-v0.3.6.3.json')?JSON.parse(fs.readFileSync('data/reports/acs-estimate-moe-queryability-v0.3.6.3.json','utf8')):{};fs.appendFileSync(process.env.GITHUB_STEP_SUMMARY,`\n## ACS v0.3.6.3 gates\n- metadata estimates validated: see metadata report\n- metadata M entries listed/not listed: see metadataMoeListed fields\n- live E variables verified: ${q.estimateVariablesVerified??'unknown'}\n- live M variables verified: ${q.moeVariablesVerified??'unknown'}\n- failed E/M pairs: ${(q.failedPairs||[]).length}\n- variable chunks: ${(m.variableChunks||[]).length}\n- chunk requests: ${m.runSummary?.apiRequestCount??'unknown'}\n- merge status: ${m.runSummary?.chunkMergeStatus??'unknown'}\n`);"
       - name: Commit generated artifacts
         if: ${{ inputs.commit_generated_artifacts == 'true' }}
         working-directory: statterrain

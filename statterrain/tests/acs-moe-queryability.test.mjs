@@ -1,0 +1,3 @@
+import test from 'node:test';import assert from 'node:assert/strict';
+import {validateHeaders,pairs} from '../scripts/public-data/verify-acs-estimate-moe-queryability.mjs';
+test('E/M pair fails only on live header validation and correct M header passes',()=>{const all=pairs();const headers=['NAME','state','county',...all.flatMap(p=>[p.estimate,p.moe])];let r=validateHeaders([],[{headers}]);assert.equal(r.failed.length,0);const p=all[0];r=validateHeaders([],[{headers:headers.filter(h=>h!==p.moe)}]);assert.equal(r.failed.length,1);assert.equal(r.failed[0].rule,'ACS-META-004');assert.equal(r.failed[0].liveProbeResponseHeaderStatus,'M_ABSENT');});

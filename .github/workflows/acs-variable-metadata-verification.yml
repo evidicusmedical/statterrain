@@ -9,6 +9,7 @@ jobs:
     runs-on: ubuntu-latest
     permissions: { contents: read }
     env:
+      CENSUS_API_KEY: ${{ secrets.CENSUS_API_KEY }}
       ACS_RUN_ID: ${{ github.run_id }}-${{ github.run_attempt }}
     steps:
       - uses: actions/checkout@v4
@@ -18,15 +19,19 @@ jobs:
       - name: Install dependencies
         working-directory: statterrain
         run: npm ci
-      - name: Run live ACS variable metadata validation
+      - name: Run ACS estimate metadata validation
         working-directory: statterrain
         run: npm run data:validate-acs-variable-metadata -- --release "${{ inputs.release }}" --run-id "$ACS_RUN_ID"
+      - name: Run live ACS E/M queryability validation
+        working-directory: statterrain
+        run: npm run data:verify-acs-estimate-moe-queryability -- --release "${{ inputs.release }}" --run-id "$ACS_RUN_ID"
       - name: Upload ACS metadata diagnostics
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: acs-variable-metadata-diagnostics-v0.3.6.2
+          name: acs-variable-metadata-diagnostics-v0.3.6.3
           path: |
-            statterrain/data/reports/acs-county-variable-validation-v0.3.6.2.json
-            statterrain/data/reports/acs-variable-metadata-regression-v0.3.6.2.json
+            statterrain/data/reports/acs-county-variable-validation-v0.3.6.3.json
+            statterrain/data/reports/acs-variable-metadata-regression-v0.3.6.3.json
+            statterrain/data/reports/acs-estimate-moe-queryability-v0.3.6.3.json
             statterrain/data/reports/acs-county-current-run-status.json
