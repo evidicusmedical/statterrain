@@ -2,7 +2,7 @@
   "name": "statterrain",
   "version": "0.1.0",
   "private": true,
-  "description": "StatTerrain \u2014 Emergency-care resources and population-health intelligence (frontend prototype).",
+  "description": "StatTerrain — Emergency-care resources and population-health intelligence (frontend prototype).",
   "scripts": {
     "dev": "next dev -p 3000 -H 0.0.0.0",
     "build": "next build",
@@ -91,7 +91,13 @@
     "test:county-boundary-validation": "node --test tests/county-boundary-validation.test.mjs",
     "test:workspace-simplification": "node --test tests/workspace-simplification.test.mjs",
     "test:search-layout": "node --test tests/search-layout.test.mjs",
-    "test:footer-simplification": "node --test tests/footer-simplification.test.mjs"
+    "test:footer-simplification": "node --test tests/footer-simplification.test.mjs",
+    "test:county-boundary-download": "node --test tests/county-boundary-download.test.mjs",
+    "test:county-boundary-shapefile-conversion": "node --test tests/county-boundary-shapefile-conversion.test.mjs",
+    "test:county-boundary-partitioning": "node --test tests/county-boundary-partitioning.test.mjs",
+    "test:county-boundary-simplification": "node --test tests/county-boundary-simplification.test.mjs",
+    "test:county-boundary-acs-reconciliation": "node --test tests/county-boundary-acs-reconciliation.test.mjs",
+    "test:county-boundary-workflow": "node --test tests/county-boundary-workflow.test.mjs"
   },
   "dependencies": {
     "leaflet": "^1.9.4",

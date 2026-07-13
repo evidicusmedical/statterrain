@@ -109,7 +109,7 @@ test.describe("CMS hospital fixture safety", () => {
 test.describe("product version guardrail", () => {
   test("visible product version is centralized and current", async () => {
     const productConfig = await readFile(join(process.cwd(), "src/config/product.ts"), "utf8");
-    expect(productConfig).toContain('prototypeVersion: "v0.3.7.1 prototype"');
+    expect(productConfig).toContain('prototypeVersion: "v0.3.7.2 prototype"');
     expect(productConfig).not.toContain('prototypeVersion: "v0.3.2.3 prototype"');
     expect(productConfig).not.toContain('prototypeVersion: "v0.3.2.2 prototype"');
     expect(productConfig).not.toContain('prototypeVersion: "v0.3.2.1 prototype"');
@@ -227,9 +227,9 @@ test.describe("v0.2.9 national location search and coverage status", () => {
 });
 
 test.describe("v0.3.0 national coverage manifest and scaling foundation", () => {
-  test("visible product version is v0.3.7.1 prototype", async () => {
+  test("visible product version is v0.3.7.2 prototype", async () => {
     const productConfig = await readFile(join(process.cwd(), "src/config/product.ts"), "utf8");
-    expect(productConfig).toContain('prototypeVersion: "v0.3.7.1 prototype"');
+    expect(productConfig).toContain('prototypeVersion: "v0.3.7.2 prototype"');
     expect(productConfig).not.toContain('prototypeVersion: "v0.3.2.3 prototype"');
     expect(productConfig).not.toContain('prototypeVersion: "v0.3.2.2 prototype"');
     expect(productConfig).not.toContain('prototypeVersion: "v0.3.2.1 prototype"');

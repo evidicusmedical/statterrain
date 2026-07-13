@@ -1,0 +1,3 @@
+import test from 'node:test';import assert from 'node:assert/strict';
+import {simplifyGeometry,coordinateCount} from '../scripts/public-data/build-county-boundaries.mjs';
+test('Polygon and MultiPolygon preservation with non-empty simplified output',()=>{const poly={type:'Polygon',coordinates:[[[0,0],[0.1,0.01],[1,0],[1,1],[0,1],[0,0]]]};const s=simplifyGeometry(poly,0.001);assert.equal(s.type,'Polygon');assert.ok(coordinateCount(s)>0);const mp=simplifyGeometry({type:'MultiPolygon',coordinates:[poly.coordinates,poly.coordinates]},0.001);assert.equal(mp.type,'MultiPolygon');assert.equal(mp.coordinates.length,2);});
