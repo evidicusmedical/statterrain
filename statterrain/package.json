@@ -2,7 +2,7 @@
   "name": "statterrain",
   "version": "0.1.0",
   "private": true,
-  "description": "StatTerrain — Emergency-care resources and population-health intelligence (frontend prototype).",
+  "description": "StatTerrain \u2014 Emergency-care resources and population-health intelligence (frontend prototype).",
   "scripts": {
     "dev": "next dev -p 3000 -H 0.0.0.0",
     "build": "next build",
@@ -106,7 +106,8 @@
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "react-leaflet": "^4.2.1",
-    "shapefile": "^0.6.6"
+    "shapefile": "^0.6.6",
+    "file-source": "^0.6.1"
   },
   "devDependencies": {
     "@playwright/test": "^1.61.1",

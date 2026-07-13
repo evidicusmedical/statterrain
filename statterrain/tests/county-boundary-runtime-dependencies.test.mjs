@@ -14,13 +14,15 @@ const externalRuntimeImports = [...buildScript.matchAll(/import\(['"]([^'"]+)['"
   .map(([, specifier]) => specifier)
   .filter((specifier) => !nodeBuiltinPrefixes.some((prefix) => specifier.startsWith(prefix)) && !specifier.startsWith('.') && !specifier.startsWith('/'));
 
-test('package manifest declares shapefile as a runtime dependency', () => {
+test('package manifest declares shapefile and file-source runtime dependencies', () => {
   assert.equal(packageJson.dependencies.shapefile, '^0.6.6');
+  assert.equal(packageJson.dependencies['file-source'], '^0.6.1');
 });
 
-test('package lock contains shapefile and transitive runtime dependencies', () => {
+test('package lock contains shapefile and complete runtime chain', () => {
   assert.equal(packageLock.packages[''].dependencies.shapefile, '^0.6.6');
-  for (const packageName of ['shapefile', 'array-source', 'commander', 'path-source', 'slice-source', 'stream-source', 'text-encoding']) {
+  assert.equal(packageLock.packages[''].dependencies['file-source'], '^0.6.1');
+  for (const packageName of ['shapefile', 'array-source', 'commander', 'path-source', 'file-source', 'slice-source', 'stream-source', 'text-encoding']) {
     assert.ok(packageLock.packages[`node_modules/${packageName}`], `expected package-lock entry for ${packageName}`);
   }
 });
@@ -30,17 +32,23 @@ test('county boundary build script runtime imports are declared dependencies', (
   for (const specifier of externalRuntimeImports) assert.ok(declaredRuntimeDependencies.has(specifier), `${specifier} must be in dependencies`);
 });
 
-test('workflow uses npm ci before build and never dynamically installs packages', () => {
-  assert.ok(workflow.indexOf('run: npm ci') < workflow.indexOf('run: node scripts/public-data/build-county-boundaries.mjs --national --reject-incomplete'));
+test('shapefile runtime chain declares the proven file-source package', () => {
+  assert.equal(packageLock.packages['node_modules/path-source'].version, '0.1.3');
+  assert.equal(packageLock.packages['node_modules/file-source'].version, '0.6.1');
+  assert.equal(packageLock.packages['node_modules/file-source'].dependencies['stream-source'], '0.3');
+  assert.ok(declaredRuntimeDependencies.has('file-source'));
+});
+
+test('workflow uses npm ci before dependency preflight and never dynamically installs packages', () => {
+  assert.ok(workflow.indexOf('run: npm ci') < workflow.indexOf('- name: Verify county boundary runtime dependencies'));
+  assert.ok(workflow.indexOf('- name: Verify county boundary runtime dependencies') < workflow.indexOf('- name: Generate boundaries'));
   assert.doesNotMatch(workflow, /npm\s+(install|i|add)\b/);
 });
 
-test('workflow includes shapefile import preflight after npm ci', () => {
-  const npmCiIndex = workflow.indexOf('- name: npm ci');
-  const preflightIndex = workflow.indexOf('- name: Verify county boundary runtime dependencies');
-  const buildIndex = workflow.indexOf('- name: Generate boundaries');
-  assert.ok(npmCiIndex >= 0 && preflightIndex > npmCiIndex && buildIndex > preflightIndex);
-  assert.match(workflow, /node -e "import\('shapefile'\)\.then\(\(\)=>console\.log\('shapefile dependency available'\)\)"/);
+test('workflow includes npm ls runtime-chain command and verifies shapefile.open', () => {
+  assert.match(workflow, /npm ls shapefile path-source file-source/);
+  assert.match(workflow, /typeof m\.open !== 'function'/);
+  assert.match(workflow, /shapefile runtime chain available/);
 });
 
 test('node_modules is not tracked by git', () => {

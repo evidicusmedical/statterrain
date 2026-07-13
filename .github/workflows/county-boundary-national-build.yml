@@ -37,6 +37,7 @@ jobs:
       AUTO_MERGE: ${{ inputs.auto_merge }}
       COMMIT_STATUS: not-requested
       PUSH_STATUS: not-requested
+      FAILURE_STAGE: none
     steps:
       - name: Guard inputs
         run: |
@@ -69,15 +70,27 @@ jobs:
       - name: Verify county boundary runtime dependencies
         working-directory: statterrain
         run: |
-          node -e "import('shapefile').then(()=>console.log('shapefile dependency available'))"
+          echo "FAILURE_STAGE=runtime-dependency-preflight" >> "$GITHUB_ENV"
+          npm ls shapefile path-source file-source
+          node -e "import('shapefile').then(m => {
+            if (!m || typeof m.open !== 'function') {
+              throw new Error('shapefile.open unavailable');
+            }
+            console.log('shapefile runtime chain available');
+          })"
+          echo "FAILURE_STAGE=none" >> "$GITHUB_ENV"
 
       - name: Generate boundaries
         working-directory: statterrain
-        run: node scripts/public-data/build-county-boundaries.mjs --national --reject-incomplete
+        run: |
+          echo "FAILURE_STAGE=boundary-generation" >> "$GITHUB_ENV"
+          node scripts/public-data/build-county-boundaries.mjs --national --reject-incomplete
+          echo "FAILURE_STAGE=none" >> "$GITHUB_ENV"
 
       - name: Validate manifest and report
         working-directory: statterrain
         run: |
+          echo "FAILURE_STAGE=validation" >> "$GITHUB_ENV"
           node - <<'NODE'
           const manifest = require('./data/generated/county-boundaries/manifest.json');
           const report = require('./data/reports/county-boundary-completeness-v0.3.7.json');
@@ -94,6 +107,7 @@ jobs:
             process.exit(1);
           }
           NODE
+          echo "FAILURE_STAGE=none" >> "$GITHUB_ENV"
 
       - name: Upload artifacts
         if: always()
@@ -103,6 +117,7 @@ jobs:
           path: |
             statterrain/data/generated/county-boundaries/**
             statterrain/data/reports/county-boundary-completeness-v0.3.7.json
+          if-no-files-found: warn
 
       - name: Commit and push when requested
         working-directory: statterrain
@@ -115,10 +130,10 @@ jobs:
               data/generated/county-boundaries/states/*.json \
               data/reports/county-boundary-completeness-v0.3.7.json
 
-            git commit -m "data: build national county boundary partitions" || true
+            git commit -m "data: build national county boundary partitions"
+            echo "COMMIT_STATUS=PASS" >> "$GITHUB_ENV"
             git push origin "$TARGET_BRANCH"
-            echo "COMMIT_STATUS=attempted" >> "$GITHUB_ENV"
-            echo "PUSH_STATUS=attempted" >> "$GITHUB_ENV"
+            echo "PUSH_STATUS=PASS" >> "$GITHUB_ENV"
           fi
 
       - name: Write final summary

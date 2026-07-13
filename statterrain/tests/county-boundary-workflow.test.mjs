@@ -1,44 +1,23 @@
-import test from 'node:test';import assert from 'node:assert/strict';import {readFileSync} from 'node:fs';
+import test from 'node:test';import assert from 'node:assert/strict';import {mkdtempSync,readFileSync,writeFileSync,mkdirSync,rmSync} from 'node:fs';import {tmpdir} from 'node:os';import {join} from 'node:path';import {execFileSync} from 'node:child_process';
 const y=readFileSync('../.github/workflows/county-boundary-national-build.yml','utf8');
 const summary=readFileSync('scripts/public-data/write-county-boundary-workflow-summary.mjs','utf8');
 
-test('workflow has exact manual trigger schema and no automatic triggers',()=>{
-  assert.equal((y.match(/^name: County Boundary National Build$/gm)||[]).length,1);
-  assert.match(y,/^on:\n  workflow_dispatch:/m);
-  assert.doesNotMatch(y,/^  push:/m);
-  assert.doesNotMatch(y,/^  pull_request:/m);
-  assert.match(y,/contents: write/);
-});
+function runSummary(env={}, files={}){const d=mkdtempSync(join(tmpdir(),'county-summary-'));try{mkdirSync(join(d,'data/generated/county-boundaries'),{recursive:true});mkdirSync(join(d,'data/reports'),{recursive:true});for(const [p,v] of Object.entries(files)){const full=join(d,p);mkdirSync(full.slice(0,full.lastIndexOf('/')),{recursive:true});writeFileSync(full,JSON.stringify(v));}return execFileSync(process.execPath,[join(process.cwd(),'scripts/public-data/write-county-boundary-workflow-summary.mjs')],{cwd:d,env:{...process.env,...env},encoding:'utf8'});}finally{rmSync(d,{recursive:true,force:true});}}
 
-test('workflow avoids risky expressions and undefined outputs',()=>{
-  assert.doesNotMatch(y,/!inputs/);
-  assert.doesNotMatch(y,/inputs\.commit_generated_artifacts\s*&&/);
-  assert.doesNotMatch(y,/steps\.[^.]+\.outputs\./);
-  assert.doesNotMatch(y,/\$\{\{[^}]+\}\}[^\n]*`|`[^\n]*\$\{\{[^}]+\}\}/);
-  assert.doesNotMatch(y,/node - <<'NODE' >> "\$GITHUB_STEP_SUMMARY"/);
-});
+test('workflow has exact manual trigger schema and no automatic triggers',()=>{assert.equal((y.match(/^name: County Boundary National Build$/gm)||[]).length,1);assert.match(y,/^on:\n  workflow_dispatch:/m);assert.doesNotMatch(y,/^  push:/m);assert.doesNotMatch(y,/^  pull_request:/m);assert.match(y,/contents: write/);});
 
-test('workflow guards inputs with shell environment variables',()=>{
-  assert.match(y,/TARGET_BRANCH: \$\{\{ inputs\.target_branch \}\}/);
-  assert.match(y,/BOUNDARY_VINTAGE: \$\{\{ inputs\.boundary_vintage \}\}/);
-  assert.match(y,/COMMIT_GENERATED_ARTIFACTS: \$\{\{ inputs\.commit_generated_artifacts \}\}/);
-  assert.match(y,/AUTO_MERGE: \$\{\{ inputs\.auto_merge \}\}/);
-  assert.match(y,/if \[ "\$AUTO_MERGE" != "false" \]; then/);
-  assert.match(y,/if \[ "\$TARGET_BRANCH" = "main" \] \|\| \[ "\$TARGET_BRANCH" = "master" \]; then/);
-});
+test('workflow avoids risky expressions and undefined outputs',()=>{assert.doesNotMatch(y,/!inputs/);assert.doesNotMatch(y,/inputs\.commit_generated_artifacts\s*&&/);assert.doesNotMatch(y,/steps\.[^.]+\.outputs\./);assert.doesNotMatch(y,/\$\{\{[^}]+\}\}[^\n]*`|`[^\n]*\$\{\{[^}]+\}\}/);assert.doesNotMatch(y,/node - <<'NODE' >> "\$GITHUB_STEP_SUMMARY"/);});
 
-test('application run steps use explicit statterrain working directory',()=>{
-  assert.doesNotMatch(y,/defaults:\n\s+run:\n\s+working-directory:/);
-  for (const name of ['npm ci','Verify county boundary runtime dependencies','Generate boundaries','Validate manifest and report','Commit and push when requested','Write final summary']) {
-    const step = y.slice(y.indexOf(`- name: ${name}`), y.indexOf('\n\n', y.indexOf(`- name: ${name}`)));
-    assert.match(step,/working-directory: statterrain/);
-  }
-});
+test('workflow guards inputs with shell environment variables',()=>{assert.match(y,/TARGET_BRANCH: \$\{\{ inputs\.target_branch \}\}/);assert.match(y,/BOUNDARY_VINTAGE: \$\{\{ inputs\.boundary_vintage \}\}/);assert.match(y,/COMMIT_GENERATED_ARTIFACTS: \$\{\{ inputs\.commit_generated_artifacts \}\}/);assert.match(y,/AUTO_MERGE: \$\{\{ inputs\.auto_merge \}\}/);assert.match(y,/if \[ "\$AUTO_MERGE" != "false" \]; then/);assert.match(y,/if \[ "\$TARGET_BRANCH" = "main" \] \|\| \[ "\$TARGET_BRANCH" = "master" \]; then/);});
 
-test('summary script uses environment values and completion declaration',()=>{
-  assert.match(y,/node scripts\/public-data\/write-county-boundary-workflow-summary\.mjs/);
-  assert.match(summary,/process\.env\.BOUNDARY_VINTAGE/);
-  assert.match(summary,/process\.env\.COMMIT_STATUS/);
-  assert.match(summary,/process\.env\.PUSH_STATUS/);
-  assert.match(summary,/COMPLETE — COUNTY BOUNDARY WORKFLOW VALID AND MANUALLY RUNNABLE/);
-});
+test('application run steps use explicit statterrain working directory',()=>{assert.doesNotMatch(y,/defaults:\n\s+run:\n\s+working-directory:/);for(const name of ['npm ci','Verify county boundary runtime dependencies','Generate boundaries','Validate manifest and report','Commit and push when requested','Write final summary']){const step=y.slice(y.indexOf(`- name: ${name}`),y.indexOf('\n\n',y.indexOf(`- name: ${name}`)));assert.match(step,/working-directory: statterrain/);}});
+
+test('workflow summary declarations are live run states, not handoff text',()=>{assert.match(y,/node scripts\/public-data\/write-county-boundary-workflow-summary\.mjs/);assert.match(summary,/process\.env\.BOUNDARY_VINTAGE/);assert.match(summary,/process\.env\.COMMIT_STATUS/);assert.match(summary,/process\.env\.PUSH_STATUS/);assert.doesNotMatch(summary,/COMPLETE — COUNTY BOUNDARY WORKFLOW VALID AND MANUALLY RUNNABLE/);});
+
+test('missing dependency preflight produces blocked status and blocked commit',()=>{const out=runSummary({FAILURE_STAGE:'runtime-dependency-preflight',COMMIT_GENERATED_ARTIFACTS:'true'});assert.match(out,/Failure stage: runtime-dependency-preflight/);assert.match(out,/Commit status: BLOCKED/);assert.match(out,/Push status: NOT RUN/);assert.match(out,/BLOCKED — COUNTY BOUNDARY RUNTIME DEPENDENCY CHECK FAILED/);assert.doesNotMatch(out,/COMPLETE/);});
+
+test('zero partitions cannot produce complete declaration',()=>{const out=runSummary({COMMIT_STATUS:'PASS',PUSH_STATUS:'PASS'}, {'data/reports/county-boundary-completeness-v0.3.7.json':{validationStatus:'PASS',coverageStatus:'national',partitionCount:0}});assert.match(out,/BLOCKED — NATIONAL COUNTY BOUNDARY BUILD FAILED/);assert.doesNotMatch(out,/COMPLETE/);});
+
+test('incomplete coverage cannot produce complete declaration',()=>{const out=runSummary({COMMIT_STATUS:'PASS',PUSH_STATUS:'PASS'}, {'data/reports/county-boundary-completeness-v0.3.7.json':{validationStatus:'PASS',coverageStatus:'incomplete',partitionCount:52}});assert.match(out,/BLOCKED — NATIONAL COUNTY BOUNDARY BUILD FAILED/);assert.doesNotMatch(out,/COMPLETE/);});
+
+test('complete declaration requires validation pass, national coverage, commit pass, and push pass',()=>{const report={validationStatus:'PASS',coverageStatus:'national',partitionCount:52};assert.match(runSummary({COMMIT_STATUS:'PASS',PUSH_STATUS:'PASS'},{'data/reports/county-boundary-completeness-v0.3.7.json':report}),/COMPLETE — NATIONAL COUNTY BOUNDARY PARTITIONS BUILT/);assert.match(runSummary({COMMIT_STATUS:'PASS',PUSH_STATUS:'not-requested'},{'data/reports/county-boundary-completeness-v0.3.7.json':report}),/VALIDATED — NATIONAL COUNTY BOUNDARIES BUILT, COMMIT PENDING/);});
