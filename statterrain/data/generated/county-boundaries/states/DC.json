@@ -1,0 +1,81 @@
+{
+  "schemaVersion": "county-boundaries-v0.3.7",
+  "stateCode": "DC",
+  "vintage": "2024",
+  "source": {
+    "agency": "U.S. Census Bureau",
+    "product": "TIGER/Line county and county-equivalent boundaries",
+    "vintage": "2024",
+    "url": "https://www2.census.gov/geo/tiger/TIGER2024/COUNTY/tl_2024_us_county.zip",
+    "retrieval": "server-side only",
+    "geoidProperty": "GEOID",
+    "simplification": "Douglas-Peucker ring simplification with deterministic 0.005 degree tolerance; rings are kept closed with minimum polygon vertices and empty outputs rejected"
+  },
+  "features": [
+    {
+      "type": "Feature",
+      "properties": {
+        "GEOID": "11001",
+        "NAME": "District of Columbia",
+        "NAMELSAD": "District of Columbia",
+        "STATEFP": "11",
+        "COUNTYFP": "001"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -77.119751,
+              38.93435
+            ],
+            [
+              -77.040882,
+              38.995845
+            ],
+            [
+              -76.909393,
+              38.892852
+            ],
+            [
+              -77.039006,
+              38.791645
+            ],
+            [
+              -77.037755,
+              38.830138
+            ],
+            [
+              -77.04802,
+              38.841261
+            ],
+            [
+              -77.033066,
+              38.844549
+            ],
+            [
+              -77.039464,
+              38.869732
+            ],
+            [
+              -77.059141,
+              38.880914
+            ],
+            [
+              -77.068641,
+              38.900288
+            ],
+            [
+              -77.102032,
+              38.911916
+            ],
+            [
+              -77.119751,
+              38.93435
+            ]
+          ]
+        ]
+      }
+    }
+  ]
+}
