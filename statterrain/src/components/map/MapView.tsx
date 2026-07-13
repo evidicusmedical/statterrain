@@ -16,6 +16,7 @@ import type { Facility } from "@/types/facility";
 import type { SearchLocation } from "@/data/demo-region";
 import { mapRegions } from "@/data/map-regions";
 import type { OverlayMetricId } from "@/types/metric";
+import type { CountyContextState } from "@/lib/acs/countyContext";
 import { FACILITY_MARKER_COLORS, overlayColorForValue } from "./mapStyles";
 import { FACILITY_TYPE_LABELS } from "@/types/facility";
 import { MapLegend } from "./MapLegend";
@@ -35,6 +36,7 @@ interface MapViewProps {
   onSelectFacility: (id: string) => void;
   onOpenFacilityDetails?: (id: string) => void;
   onMapClick?: (lat: number, lng: number) => void;
+  countyContext?: CountyContextState;
 }
 
 function ResizeOnLayoutChange({ layoutKey }: { layoutKey?: string }) {
@@ -78,6 +80,7 @@ export function MapView({
   onSelectFacility,
   onOpenFacilityDetails,
   onMapClick,
+  countyContext,
 }: MapViewProps) {
   const radiusMeters = radiusMiles * 1609.34;
   const [legendOpen, setLegendOpen] = useState(false);
@@ -87,12 +90,18 @@ export function MapView({
   }, []);
 
   const polygons = useMemo(() => {
-    if (!overlay) return [];
-    return mapRegions.map((region) => ({
-      ...region,
-      color: overlayColorForValue(region.values[overlay]),
-    }));
-  }, [overlay]);
+    if (!overlay || !countyContext?.boundaryFeatures.length) return [];
+    const metricMap: Record<string, string> = { pop_65_plus: "population_65_and_older", pediatric_population: "population_under_18", poverty: "poverty_population", limited_english: "limited_english_households", no_vehicle: "households_no_vehicle" };
+    const metricId = metricMap[overlay];
+    const values = countyContext.intersectingCounties.map((c) => metricId ? c.metrics[metricId as keyof typeof c.metrics]?.estimate : null).filter((v): v is number => typeof v === "number");
+    const max = Math.max(1, ...values);
+    return countyContext.boundaryFeatures.map((feature) => {
+      const county = countyContext.intersectingCounties.find((c) => c.geoid === feature.properties.GEOID);
+      const value = metricId && county ? county.metrics[metricId as keyof typeof county.metrics]?.estimate : null;
+      const color = typeof value === "number" ? overlayColorForValue(Math.max(0, Math.min(100, (value / max) * 100))) : "#cbd5e1";
+      return { id: feature.properties.GEOID, name: county?.fullName ?? feature.properties.NAME, color, geometry: feature.geometry };
+    });
+  }, [overlay, countyContext]);
 
   return (
     <div
@@ -118,7 +127,7 @@ export function MapView({
           polygons.map((region) => (
             <Polygon
               key={region.id}
-              positions={region.ring}
+              positions={region.geometry.type === "Polygon" ? (region.geometry.coordinates as any).map((ring: number[][])=>ring.map(([lng,lat])=>[lat,lng])) : (region.geometry.coordinates as any).map((poly: number[][][])=>poly.map((ring)=>ring.map(([lng,lat])=>[lat,lng])))}
               pathOptions={{
                 color: region.color,
                 fillColor: region.color,

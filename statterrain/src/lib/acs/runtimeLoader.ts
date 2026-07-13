@@ -1,6 +1,6 @@
 import type { AcsCountyManifest, AcsCountyRecord } from "./types";
 
-const BASE = "/data/generated/acs-county-population-national";
+const BASE = "/api/generated-data/acs-county-population-national";
 let manifestPromise: Promise<AcsCountyManifest | null> | null = null;
 const partitionCache = new Map<string, Promise<AcsCountyRecord[]>>();
 let requestSeq = 0;

@@ -51,6 +51,9 @@ function activeFilterSummary(filters: AppFilters) {
 function buildFilename(ext: string): string {
   return `statterrain-demo-regional-brief-${todayIso()}.${ext}`;
 }
+function buildCountyFilename(ext: string): string {
+  return `statterrain-county-acs-${todayIso()}.${ext}`;
+}
 
 function download(filename: string, content: string, mimeType: string) {
   const blob = new Blob([content], { type: mimeType });
@@ -362,12 +365,12 @@ export function buildEvidenceSchema(ctx: BriefContext) {
       intersectingCounties: ctx.intersectingCounties ?? [],
       metrics: ACS_METRIC_ORDER,
       limitation: "Whole-county ACS totals are not estimates of population located inside the selected radius.",
-      geometrySource: "County boundary partitions pending generated-data PR",
+      geometrySource: "National county boundary partitions from generated static artifacts",
       representativePointLimitation: "Point-in-county and radius intersection may use representative or simplified geometry until validated national boundaries are available.",
     },
     accessibility: null,
     resilience: null,
-    unavailableSections: ["populationContext", "accessibility", "redundancyAndResilience"],
+    unavailableSections: ["accessibility", "redundancyAndResilience"],
     sources: sourcesForBrief,
     methods: [
       "Planning location is set through one canonical PlanningLocation state from search or map click.",
@@ -378,7 +381,7 @@ export function buildEvidenceSchema(ctx: BriefContext) {
       "CMS hospital data are not live operating status, bed availability, diversion status, routing, transfer guidance, or clinical decision support.",
       "Missing fields indicate unavailable or unmapped source data, not absence of a service.",
       "Whole-county ACS totals are not estimates of population located inside the selected radius.",
-      "National county boundaries remain pending until the generated-data PR validates complete coverage.",
+      "County boundary activation requires PASS validation, national coverage, and at least 52 partitions.",
     ],
     freshness: sourcesForBrief.map((source: any) => ({ sourceId: source.id, dataset: source.dataset, releaseDate: source.releaseDate, retrievalDate: source.retrievalDate, freshness: source.freshness })),
     completeness: {
@@ -461,15 +464,22 @@ export function downloadJsonBrief(ctx: BriefContext) {
 export function downloadCsvBrief(ctx: BriefContext) {
   download(buildFilename("csv"), buildCsvBrief(ctx), "text/csv");
 }
+export function downloadCountyAcsJson(ctx: BriefContext) {
+  download(buildCountyFilename("json"), JSON.stringify({ containingCounty: ctx.containingCounty ?? null, intersectingCounties: ctx.intersectingCounties ?? [], limitation: "The selected radius intersects whole counties. County ACS estimates are included for geographic context and are not estimates of the population located inside the selected radius." }, null, 2), "application/json");
+}
+export function downloadCountyAcsCsv(ctx: BriefContext) {
+  download(buildCountyFilename("csv"), buildCountyAcsCsv(ctx), "text/csv");
+}
 
 export { sources };
 
 export function buildCountyAcsCsv(ctx: BriefContext): string {
-  const header = ["geoid","county_name","metric_id","metric_label","estimate","moe","numerator","numerator_moe","denominator","denominator_moe","percentage","status","universe","variables","calculation_method","release","estimate_period"];
+  const header = ["geoid","county_name","state","role","metric_id","metric_label","estimate","moe","numerator","numerator_moe","denominator","denominator_moe","percentage","status","universe","variables","calculation_method","release","estimate_period"];
   const rows = (ctx.intersectingCounties ?? []).flatMap((county) =>
     ACS_METRIC_ORDER.map((metricId) => {
       const m = county.metrics[metricId];
-      return [county.geoid, county.fullName, metricId, ACS_METRIC_LABELS[metricId], m?.estimate ?? "", m?.marginOfError ?? "", m?.numerator ?? "", m?.numeratorMarginOfError ?? "", m?.denominator ?? "", m?.denominatorMarginOfError ?? "", m?.percentage ?? "", m?.status ?? "unavailable", m?.universe ?? "", (m?.sourceVariables ?? []).join(";"), m?.calculationMethod ?? "", county.acsRelease, county.estimatePeriod].map(csvEscape).join(",");
+      const role = county.geoid === ctx.containingCounty?.geoid ? "containing" : "intersecting";
+      return [county.geoid, county.fullName, county.stateCode, role, metricId, ACS_METRIC_LABELS[metricId], m?.estimate ?? "", m?.marginOfError ?? "", m?.numerator ?? "", m?.numeratorMarginOfError ?? "", m?.denominator ?? "", m?.denominatorMarginOfError ?? "", m?.percentage ?? "", m?.status ?? "unavailable", m?.universe ?? "", (m?.sourceVariables ?? []).join(";"), m?.calculationMethod ?? "", county.acsRelease, county.estimatePeriod].map(csvEscape).join(",");
     })
   );
   return [header.join(","), ...rows].join("\n");

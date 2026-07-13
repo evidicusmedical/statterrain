@@ -15,6 +15,7 @@ import type { OverlayMetricId } from "@/types/metric";
 import type { PlanningLocation } from "@/types/planningLocation";
 import { validatePlanningCoordinates } from "@/types/planningLocation";
 import { demoRegion } from "@/data/demo-region";
+import { resolveCountyContext, type CountyContextState } from "@/lib/acs/countyContext";
 export interface AppFilters {
   facilityTypes: Set<FacilityType>;
   capabilities: Set<CapabilityName>;
@@ -71,6 +72,7 @@ export function useAppState() {
   const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false);
   const [mobileDetailOpen, setMobileDetailOpen] = useState(false);
   const publicDataSummary = useMemo(() => getPublicDataArtifactSummary(), []);
+  const [countyContext, setCountyContext] = useState<CountyContextState>({ status: "idle", message: "County population context has not been requested.", containingCounty: null, intersectingCounties: [], boundaryFeatures: [] });
   const [cmsLoad, setCmsLoad] = useState<{status: string; facilities: Facility[]; manifest: any; requestedPartitions: string[]; loadedPartitions: string[]; errors: string[]; primaryState?: string; selectionStrategy?: string; partialCoverage?: boolean}>({ status: "loading", facilities: [], manifest: null, requestedPartitions: [], loadedPartitions: [], errors: [] });
 
   const partitionSelection = useMemo(() => selectCmsHospitalPartitionResult({ lat: location.lat, lng: location.lng, radiusMiles, state: planningLocation?.state ?? selectedLocation?.state, label: planningLocation?.displayLabel ?? selectedLocation?.label ?? location.label, query: planningLocation?.searchQuery ?? selectedLocation?.query }), [location, radiusMiles, selectedLocation, planningLocation]);
@@ -91,6 +93,17 @@ export function useAppState() {
     });
     return () => { cancelled = true; };
   }, [partitionKey, partitionSelection]);
+
+
+
+  useEffect(() => {
+    let cancelled = false;
+    setCountyContext({ status: "loading", message: "Loading county population context…", containingCounty: null, intersectingCounties: [], boundaryFeatures: [] });
+    resolveCountyContext(location.lat, location.lng, radiusMiles)
+      .then((result) => { if (!cancelled) setCountyContext(result); })
+      .catch((error) => { if (!cancelled) setCountyContext({ status: "error", message: error?.message ?? "County population context failed to load.", containingCounty: null, intersectingCounties: [], boundaryFeatures: [] }); });
+    return () => { cancelled = true; };
+  }, [location.lat, location.lng, radiusMiles]);
 
   const facilitiesInRadius = useMemo(() => filterFacilitiesByRadius(cmsLoad.facilities, location.lat, location.lng, radiusMiles), [cmsLoad.facilities, location, radiusMiles]);
 
@@ -209,6 +222,7 @@ export function useAppState() {
     publicDataPreviewEnabled: true,
     setPublicDataPreviewEnabled: () => {},
     cmsLoad,
+    countyContext,
   };
 }
 
