@@ -97,14 +97,16 @@
     "test:county-boundary-partitioning": "node --test tests/county-boundary-partitioning.test.mjs",
     "test:county-boundary-simplification": "node --test tests/county-boundary-simplification.test.mjs",
     "test:county-boundary-acs-reconciliation": "node --test tests/county-boundary-acs-reconciliation.test.mjs",
-    "test:county-boundary-workflow": "node --test tests/county-boundary-workflow.test.mjs"
+    "test:county-boundary-workflow": "node --test tests/county-boundary-workflow.test.mjs",
+    "test:county-boundary-runtime-dependencies": "node --test tests/county-boundary-runtime-dependencies.test.mjs"
   },
   "dependencies": {
     "leaflet": "^1.9.4",
     "next": "^14.2.18",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
-    "react-leaflet": "^4.2.1"
+    "react-leaflet": "^4.2.1",
+    "shapefile": "^0.6.6"
   },
   "devDependencies": {
     "@playwright/test": "^1.61.1",

@@ -66,6 +66,11 @@ jobs:
         working-directory: statterrain
         run: npm ci
 
+      - name: Verify county boundary runtime dependencies
+        working-directory: statterrain
+        run: |
+          node -e "import('shapefile').then(()=>console.log('shapefile dependency available'))"
+
       - name: Generate boundaries
         working-directory: statterrain
         run: node scripts/public-data/build-county-boundaries.mjs --national --reject-incomplete
