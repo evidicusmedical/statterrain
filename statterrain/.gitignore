@@ -34,3 +34,13 @@ next-env.d.ts
 /public/generated/cms-hospitals-national/
 
 .tmp-tests/
+
+# county boundary build temporary work
+/data/work/county-boundaries/
+/data/work/
+*.shp
+*.shx
+*.dbf
+*.prj
+*.cpg
+*.zip
