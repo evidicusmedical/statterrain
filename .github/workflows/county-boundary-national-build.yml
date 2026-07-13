@@ -1,88 +1,96 @@
 name: County Boundary National Build
+
 on:
   workflow_dispatch:
     inputs:
       target_branch:
         description: Target generated-data branch
         required: true
-        default: v0.3.7-county-boundaries-generated-data
+        type: string
+        default: v0.3.7-county-boundaries-national-data
       boundary_vintage:
         description: Census TIGER vintage
         required: true
-        default: '2024'
+        type: string
+        default: "2024"
       commit_generated_artifacts:
         description: Commit generated artifacts
+        required: true
         type: boolean
         default: true
       auto_merge:
-        description: Never auto-merge; must remain false
+        description: Must remain false
+        required: true
         type: boolean
         default: false
+
 permissions:
   contents: write
+
 jobs:
   build:
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: statterrain
+    env:
+      TARGET_BRANCH: ${{ inputs.target_branch }}
+      BOUNDARY_VINTAGE: ${{ inputs.boundary_vintage }}
+      COMMIT_GENERATED_ARTIFACTS: ${{ inputs.commit_generated_artifacts }}
+      AUTO_MERGE: ${{ inputs.auto_merge }}
+      COMMIT_STATUS: not-requested
+      PUSH_STATUS: not-requested
     steps:
-      - name: Reject protected targets and auto-merge
+      - name: Guard inputs
         run: |
-          if [[ "${{ inputs.target_branch }}" =~ ^(main|master)$ ]]; then
-            echo "::error::Refusing to write generated county boundary artifacts to main/master."
+          if [ "$AUTO_MERGE" != "false" ]; then
+            echo "::error::auto_merge must remain false"
             exit 1
           fi
-          if [[ "${{ inputs.auto_merge }}" != "false" ]]; then
-            echo "::error::auto_merge must remain false for this workflow."
+
+          if [ "$TARGET_BRANCH" = "main" ] || [ "$TARGET_BRANCH" = "master" ]; then
+            echo "::error::Refusing protected branch"
             exit 1
           fi
-        working-directory: .
-      - uses: actions/checkout@v4
+
+      - name: Checkout target branch
+        uses: actions/checkout@v4
         with:
           ref: ${{ inputs.target_branch }}
-      - uses: actions/setup-node@v4
+
+      - name: Setup Node 24
+        uses: actions/setup-node@v4
         with:
-          node-version: '24'
+          node-version: "24"
           cache: npm
           cache-dependency-path: statterrain/package-lock.json
-      - run: npm ci
-      - name: Set explicit boundary run ID
-        run: echo "BOUNDARY_RUN_ID=county-boundaries-${{ github.run_id }}-${{ github.run_attempt }}" >> "$GITHUB_ENV"
-      - name: Download, normalize, partition, validate, and report official county boundaries
-        run: BOUNDARY_VINTAGE='${{ inputs.boundary_vintage }}' node scripts/public-data/build-county-boundaries.mjs --national --reject-incomplete
-      - name: Validate national coverage gate
+
+      - name: npm ci
+        working-directory: statterrain
+        run: npm ci
+
+      - name: Generate boundaries
+        working-directory: statterrain
+        run: node scripts/public-data/build-county-boundaries.mjs --national --reject-incomplete
+
+      - name: Validate manifest and report
+        working-directory: statterrain
         run: |
           node - <<'NODE'
-          const m=require('./data/generated/county-boundaries/manifest.json');
-          const r=require('./data/reports/county-boundary-completeness-v0.3.7.json');
-          const ok=m.validationStatus==='PASS'&&m.coverageStatus==='national'&&m.partitionCount>=52&&r.duplicateBoundaryGeoids.length===0&&r.invalidGeometryCount===0&&r.missingGeoidCount===0&&r.acsGeoidsMissingBoundary.length===0;
-          if(!ok){ console.error('National county boundary validation failed:', {manifest:m, report:r}); process.exit(1); }
+          const manifest = require('./data/generated/county-boundaries/manifest.json');
+          const report = require('./data/reports/county-boundary-completeness-v0.3.7.json');
+          const ok =
+            manifest.validationStatus === 'PASS' &&
+            manifest.coverageStatus === 'national' &&
+            manifest.partitionCount >= 52 &&
+            report.duplicateBoundaryGeoids.length === 0 &&
+            report.invalidGeometryCount === 0 &&
+            report.missingGeoidCount === 0 &&
+            report.acsGeoidsMissingBoundary.length === 0;
+          if (!ok) {
+            console.error('National county boundary validation failed:', { manifest, report });
+            process.exit(1);
+          }
           NODE
-      - name: Build validation summary
-        if: always()
-        run: |
-          node - <<'NODE' >> "$GITHUB_STEP_SUMMARY"
-          const fs=require('fs');
-          const r=fs.existsSync('data/reports/county-boundary-completeness-v0.3.7.json')?require('./data/reports/county-boundary-completeness-v0.3.7.json'):{};
-          const m=fs.existsSync('data/generated/county-boundaries/manifest.json')?require('./data/generated/county-boundaries/manifest.json'):{};
-          console.log(`# County Boundary National Build
-`);
-          console.log(`- Boundary source: U.S. Census Bureau TIGER/Line`);
-          console.log(`- Boundary vintage: ${m.vintage || '${{ inputs.boundary_vintage }}'}`);
-          console.log(`- Validation status: ${r.validationStatus || 'FAIL'}`);
-          console.log(`- Coverage status: ${r.coverageStatus || 'incomplete'}`);
-          console.log(`- Partition count: ${r.partitionCount ?? 0}`);
-          console.log(`- Boundary features: ${r.boundaryFeatureCount ?? 0}`);
-          console.log(`- Unique GEOIDs: ${r.uniqueBoundaryGeoids ?? 0}`);
-          console.log(`- Duplicate GEOIDs: ${(r.duplicateBoundaryGeoids||[]).length}`);
-          console.log(`- Invalid geometries: ${r.invalidGeometryCount ?? 0}`);
-          console.log(`- ACS records: ${r.acsCountyRecordCount ?? 0}`);
-          console.log(`- ACS GEOIDs missing boundary: ${(r.acsGeoidsMissingBoundary||[]).length}`);
-          console.log(`- Boundary GEOIDs missing ACS: ${(r.boundaryGeoidsMissingAcs||[]).length}`);
-          console.log(`- Commit eligible: ${r.validationStatus==='PASS' && r.coverageStatus==='national'}`);
-          NODE
-      - name: Upload boundary build artifacts
+
+      - name: Upload artifacts
         if: always()
         uses: actions/upload-artifact@v4
         with:
@@ -90,28 +98,26 @@ jobs:
           path: |
             statterrain/data/generated/county-boundaries/**
             statterrain/data/reports/county-boundary-completeness-v0.3.7.json
-      - name: Commit and push generated boundary artifacts and reports only
-        id: commit_push
-        if: ${{ inputs.commit_generated_artifacts && !inputs.auto_merge }}
+
+      - name: Commit and push when requested
+        working-directory: statterrain
         run: |
-          git config user.name github-actions
-          git config user.email github-actions@github.com
-          git add data/generated/county-boundaries/manifest.json data/generated/county-boundaries/states/*.json data/reports/county-boundary-completeness-v0.3.7.json
-          if git diff --cached --quiet; then
-            echo "committed=PASS" >> "$GITHUB_OUTPUT"
-            echo "pushed=PASS" >> "$GITHUB_OUTPUT"
-            echo "No generated artifact changes to commit."
-          else
-            git commit -m "data: build national county boundary partitions"
-            git push origin '${{ inputs.target_branch }}'
-            echo "committed=PASS" >> "$GITHUB_OUTPUT"
-            echo "pushed=PASS" >> "$GITHUB_OUTPUT"
+          if [ "$COMMIT_GENERATED_ARTIFACTS" = "true" ]; then
+            git config user.name "github-actions[bot]"
+            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+            git add \
+              data/generated/county-boundaries/manifest.json \
+              data/generated/county-boundaries/states/*.json \
+              data/reports/county-boundary-completeness-v0.3.7.json
+
+            git commit -m "data: build national county boundary partitions" || true
+            git push origin "$TARGET_BRANCH"
+            echo "COMMIT_STATUS=attempted" >> "$GITHUB_ENV"
+            echo "PUSH_STATUS=attempted" >> "$GITHUB_ENV"
           fi
-      - name: Final completion declaration after push
-        if: ${{ success() && inputs.commit_generated_artifacts && steps.commit_push.outputs.pushed == 'PASS' }}
-        run: |
-          {
-            echo "- Committed: PASS"
-            echo "- Pushed: PASS"
-            echo "- Completion: COMPLETE — NATIONAL COUNTY BOUNDARY PARTITIONS BUILT"
-          } >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Write final summary
+        if: always()
+        continue-on-error: true
+        working-directory: statterrain
+        run: node scripts/public-data/write-county-boundary-workflow-summary.mjs
