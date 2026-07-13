@@ -49,7 +49,7 @@ export function LocationSearchBox({
       <label htmlFor="global-search" className="sr-only">
         Search by full address, city and state, ZIP code, or coordinates
       </label>
-      <div className="flex min-w-0 flex-1 gap-2">
+      <div className="flex min-w-0 flex-1 flex-wrap gap-2">
         <input
           id="global-search"
           value={query}
@@ -58,7 +58,7 @@ export function LocationSearchBox({
           autoComplete="off"
           placeholder="Search by full address, city and state, ZIP code, or coordinates."
           data-testid="location-search-input"
-          className="min-h-10 min-w-[26rem] w-full rounded-md border border-slate-300 px-3 py-2 text-sm text-slate-800 placeholder:text-slate-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-terrain-600"
+          className="min-h-10 min-w-0 flex-[1_1_18rem] rounded-md border border-slate-300 px-3 py-2 text-sm text-slate-800 placeholder:text-slate-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-terrain-600"
         />
         <button
           type="submit"

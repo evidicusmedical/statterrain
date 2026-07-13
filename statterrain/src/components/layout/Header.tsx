@@ -112,7 +112,7 @@ export function Header({
           </div>
         </div>
 
-        <div className="relative ml-0 min-w-[260px] flex-1 sm:ml-4">
+        <div className="relative ml-0 min-w-0 flex-[1_1_22rem] sm:ml-4">
           <LocationSearchBox
             radiusMiles={radiusMiles}
             statusMessage={searchStatusMessage}
@@ -123,7 +123,7 @@ export function Header({
         </div>
 
         <FeedbackButton
-          className="inline-flex text-xs md:text-sm"
+          className="inline-flex flex-none text-xs md:text-sm"
           context={{
             locationLabel: location.label,
             radiusMiles,
@@ -137,7 +137,7 @@ export function Header({
         <button
           type="button"
           onClick={onGenerateBrief}
-          className="whitespace-nowrap rounded-md bg-terrain-600 px-3.5 py-2 text-sm font-semibold text-white shadow-sm hover:bg-terrain-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-terrain-600"
+          className="flex-none whitespace-nowrap rounded-md bg-terrain-600 px-3.5 py-2 text-sm font-semibold text-white shadow-sm hover:bg-terrain-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-terrain-600"
         >
           Generate Evidence Brief
         </button>

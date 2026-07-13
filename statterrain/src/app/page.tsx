@@ -140,6 +140,7 @@ export default function HomePage() {
               selectedLocationLabel={state.selectedLocation?.label ?? null}
               coverageHeadline={state.coverageStatus.headline}
               coverageMessages={state.coverageStatus.messages}
+              countyContext={state.countyContext}
               selectedFacilityId={state.selectedFacility?.id ?? null}
               onSelectFacility={handleSelectFacility}
               onOpenFacilityDetails={(facilityId) => {
@@ -181,6 +182,7 @@ export default function HomePage() {
                 selectedLocationLabel={
                   state.selectedLocation?.label ?? state.location.label
                 }
+                countyContext={state.countyContext}
               />
             </section>
           )}
@@ -265,6 +267,8 @@ export default function HomePage() {
           planningLocation: state.planningLocation,
           selectedLocationSource:
             state.selectedLocation?.source ?? "StatTerrain demo",
+          containingCounty: state.countyContext.containingCounty,
+          intersectingCounties: state.countyContext.intersectingCounties,
         }}
       />
     </div>

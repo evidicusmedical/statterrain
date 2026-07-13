@@ -1,5 +1,5 @@
 import type { CountyBoundaryFeature, CountyBoundaryManifest } from "./types";
-const BASE = "/data/generated/county-boundaries";
+const BASE = "/api/generated-data/county-boundaries";
 let manifest: Promise<CountyBoundaryManifest | null> | null = null;
 const cache = new Map<string, Promise<CountyBoundaryFeature[]>>();
 async function json<T>(url:string){ const r=await fetch(url,{cache:"force-cache"}); if(!r.ok) throw new Error(`Unable to load ${url}`); return r.json() as Promise<T>; }

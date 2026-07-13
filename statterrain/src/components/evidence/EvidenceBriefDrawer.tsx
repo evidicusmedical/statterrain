@@ -9,6 +9,8 @@ import {
   downloadCsvBrief,
   downloadJsonBrief,
   downloadMarkdownBrief,
+  downloadCountyAcsCsv,
+  downloadCountyAcsJson,
 } from "@/lib/export";
 import { useMemo, useState } from "react";
 
@@ -18,7 +20,7 @@ interface EvidenceBriefDrawerProps {
   context: BriefContext;
 }
 
-type BriefAction = "markdown" | "json" | "csv" | "copy";
+type BriefAction = "markdown" | "json" | "csv" | "countyCsv" | "countyJson" | "copy";
 
 export function EvidenceBriefDrawer({
   open,
@@ -101,6 +103,29 @@ export function EvidenceBriefDrawer({
             className={actionClass("csv")}
           >
             Download CSV
+          </button>
+
+          <button
+            type="button"
+            onClick={() => {
+              setActiveAction("countyCsv");
+              downloadCountyAcsCsv(context);
+            }}
+            aria-pressed={activeAction === "countyCsv"}
+            className={actionClass("countyCsv")}
+          >
+            Download County ACS CSV
+          </button>
+          <button
+            type="button"
+            onClick={() => {
+              setActiveAction("countyJson");
+              downloadCountyAcsJson(context);
+            }}
+            aria-pressed={activeAction === "countyJson"}
+            className={actionClass("countyJson")}
+          >
+            Download County ACS JSON
           </button>
           <button
             type="button"
