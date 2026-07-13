@@ -29,7 +29,7 @@ test('workflow guards inputs with shell environment variables',()=>{
 
 test('application run steps use explicit statterrain working directory',()=>{
   assert.doesNotMatch(y,/defaults:\n\s+run:\n\s+working-directory:/);
-  for (const name of ['npm ci','Generate boundaries','Validate manifest and report','Commit and push when requested','Write final summary']) {
+  for (const name of ['npm ci','Verify county boundary runtime dependencies','Generate boundaries','Validate manifest and report','Commit and push when requested','Write final summary']) {
     const step = y.slice(y.indexOf(`- name: ${name}`), y.indexOf('\n\n', y.indexOf(`- name: ${name}`)));
     assert.match(step,/working-directory: statterrain/);
   }
