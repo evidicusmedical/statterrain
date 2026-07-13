@@ -2,18 +2,32 @@ name: County Boundary National Build
 on:
   workflow_dispatch:
     inputs:
-      target_branch: { description: Target generated-data branch, required: true, default: v0.3.7-county-boundaries-generated-data }
-      boundary_vintage: { description: Census TIGER vintage, required: true, default: '2024' }
-      commit_generated_artifacts: { description: Commit generated artifacts, type: boolean, default: true }
-      auto_merge: { description: Never auto-merge; must remain false, type: boolean, default: false }
+      target_branch:
+        description: Target generated-data branch
+        required: true
+        default: v0.3.7-county-boundaries-generated-data
+      boundary_vintage:
+        description: Census TIGER vintage
+        required: true
+        default: '2024'
+      commit_generated_artifacts:
+        description: Commit generated artifacts
+        type: boolean
+        default: true
+      auto_merge:
+        description: Never auto-merge; must remain false
+        type: boolean
+        default: false
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-        with: { ref: ${{ inputs.target_branch }} }
+        with:
+          ref: ${{ inputs.target_branch }}
       - uses: actions/setup-node@v4
-        with: { node-version: '24' }
+        with:
+          node-version: '24'
       - run: npm ci
         working-directory: statterrain
       - name: Download, normalize, partition, validate, and report official county boundaries

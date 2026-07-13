@@ -16,7 +16,7 @@ export const product = {
     "StatTerrain is a public-data mapping and evidence-brief platform for emergency and EMS clinicians, medical directors, quality-improvement teams, and regional planners to understand nearby facilities, publicly documented capabilities, and population-health context.",
   status:
     "Working product name -- final trademark and domain clearance pending.",
-  prototypeVersion: "v0.3.7 prototype",
+  prototypeVersion: "v0.3.7.1 prototype",
   repositoryNamePlaceholder: "statterrain",
   repositoryUrlPlaceholder: "https://github.com/<your-org>/statterrain",
   supportContactPlaceholder:
