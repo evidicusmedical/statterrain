@@ -92,5 +92,5 @@ test('no additional national partitions load for display-only purposes',()=>{
 });
 
 test('active version guard text updated',()=>{
-  assert.match(product,/v0\.3\.7\.7 prototype/);
+  assert.match(product,/v0\.3\.7\.8 prototype/);
 });

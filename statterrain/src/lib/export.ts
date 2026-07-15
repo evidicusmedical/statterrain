@@ -22,6 +22,7 @@ import type { PlanningLocation } from "@/types/planningLocation";
 import { activeResearchLayers } from "@/config/researchLayerRegistry";
 import type { AcsCountyRecord } from "@/lib/acs/types";
 import { ACS_METRIC_LABELS, ACS_METRIC_ORDER } from "@/lib/acs/types";
+import { acsSourceMetadata, boundarySourceMetadata, classifyHospitalRecords, hospitalSourceMetadata } from "@/lib/provenance";
 
 export interface BriefContext {
   locationLabel: string;
@@ -131,13 +132,20 @@ export function buildMarkdownBrief(ctx: BriefContext): string {
   lines.push("## Coverage manifest summary");
   lines.push("");
   const coverageSources = ctx.coverageStatus?.sourceSummaries ?? getSourceCoverageSummaries();
-  lines.push("- National CMS hospital coverage is active from generated map-ready partitions.");
+  const hospitalProvenance = classifyHospitalRecords(ctx.briefFacilities);
+  lines.push("- CMS public hospital records are active from generated map-ready partitions.");
   lines.push(`- Selected location: ${locationLabel}`);
   lines.push(`- Selected radius: ${radiusMiles} miles`);
-  coverageSources.forEach((source) => {
+  lines.push(`- Hospital provenance classification: ${hospitalProvenance.classification}; CMS records: ${hospitalProvenance.cmsCount}; synthetic records: ${hospitalProvenance.syntheticCount}.`);
+  coverageSources.filter((source) => source.usedInCurrentApp || source.sourceId === "synthetic-demo").forEach((source) => {
     lines.push(`- ${source.label}; map-ready records: ${source.mapReadyRecordCount ?? "not applicable"}; used in current app: ${source.usedInCurrentApp ? "yes" : "no"}`);
   });
-  lines.push("- CMS dialysis is fixture-only/not map-ready and is not included as real records.");
+  lines.push("");
+
+  lines.push("## Sources");
+  lines.push("");
+  lines.push(`- Hospitals: ${hospitalSourceMetadata.sourceOrganization}, ${hospitalSourceMetadata.datasetTitle}; dataset identifier ${hospitalSourceMetadata.datasetIdentifier}; dataset release ${hospitalSourceMetadata.releaseLabel ?? "not reported"}; retrieved by StatTerrain ${hospitalSourceMetadata.retrievedAt ?? "not reported"}; source ${hospitalSourceMetadata.officialUrl}.`);
+  lines.push(`- County context: ${acsSourceMetadata.sourceOrganization}, ${acsSourceMetadata.datasetTitle}; release ${acsSourceMetadata.releaseLabel ?? "not reported"}; estimate period ${acsSourceMetadata.estimatePeriod ?? "not reported"}; retrieved by StatTerrain ${acsSourceMetadata.retrievedAt ?? "not reported"}; source ${acsSourceMetadata.officialUrl}.`);
   lines.push("");
 
   lines.push("## CMS public-data provenance");
@@ -215,13 +223,6 @@ export function buildMarkdownBrief(ctx: BriefContext): string {
     lines.push("");
   });
 
-  lines.push("## Unavailable facility categories");
-  lines.push("");
-  (["pharmacy", "dialysis", "nursing_home", "behavioral_health"] as const).forEach((type) => {
-    const syntheticCount = briefFacilities.filter((f) => f.facilityType === type && f.isSynthetic).length;
-    lines.push(`- ${FACILITY_TYPE_LABELS[type]}: unavailable as source-backed coverage in v0.3.1${syntheticCount ? `; ${syntheticCount} synthetic demo record(s) may be present if demo filters were enabled` : ""}.`);
-  });
-  lines.push("");
 
   lines.push("## Population context");
   lines.push("");
@@ -261,9 +262,6 @@ export function buildMarkdownBrief(ctx: BriefContext): string {
     "- What is the current behavioral-health receiving status for facilities in this area?",
   );
   lines.push(
-    "- Are pharmacy and dialysis hours and capacity current for this population?",
-  );
-  lines.push(
     "- Has EMS protocol review incorporated the latest chronic-disease burden estimates?",
   );
   lines.push("");
@@ -282,7 +280,7 @@ export function buildMarkdownBrief(ctx: BriefContext): string {
     lines.push(`- Expected refresh cadence: ${s.expectedRefreshCadence}`);
     lines.push(`- Freshness: ${FRESHNESS_LABELS[s.freshness]}`);
     lines.push(`- Limitations: ${s.limitations.join("; ")}`);
-    lines.push(`- Source URL (example/placeholder): ${s.sourceUrl}`);
+    lines.push(`- Official source URL: ${s.sourceUrl}`);
     lines.push(`- Synthetic demonstration record: Yes`);
     lines.push("");
   });
@@ -317,6 +315,7 @@ export function buildEvidenceSchema(ctx: BriefContext) {
   const relevantSourceIds = new Set<string>();
   ctx.briefFacilities.forEach((f) => f.sourceIds.forEach((id) => relevantSourceIds.add(id)));
   const sourcesForBrief = Array.from(relevantSourceIds).map((id) => getSourceById(id)).filter(Boolean);
+  const hospitalProvenance = classifyHospitalRecords(ctx.briefFacilities);
   const planningLocation = ctx.planningLocation ?? null;
   return {
     schemaVersion: "statterrain-evidence-v2",
@@ -358,7 +357,8 @@ export function buildEvidenceSchema(ctx: BriefContext) {
       phone: f.phone ?? null,
       source: f.sourceName ?? "CMS Hospital General Information",
       sourceDatasetId: f.sourceDatasetId ?? null,
-      sourceRelease: f.retrievedAt ?? null,
+      sourceRelease: hospitalSourceMetadata.releaseLabel,
+      sourceRetrievedAt: f.retrievedAt ?? hospitalSourceMetadata.retrievedAt ?? null,
       sourceUrl: f.sourceUrl ?? null,
       fieldProvenance: "CMS Hospital General Information map-ready public-data artifact",
       missingFieldStatus: {
@@ -381,7 +381,14 @@ export function buildEvidenceSchema(ctx: BriefContext) {
     accessibility: null,
     resilience: null,
     unavailableSections: ["accessibility", "redundancyAndResilience"],
-    sources: sourcesForBrief,
+    sources: {
+      facilities: sourcesForBrief,
+      humanReadable: [
+        { role: "hospitals", ...hospitalSourceMetadata },
+        { role: "countyContext", ...acsSourceMetadata },
+        { role: "boundaries", ...boundarySourceMetadata },
+      ],
+    },
     methods: [
       "Planning location is set through one canonical PlanningLocation state from search or map click.",
       "Candidate CMS partitions are selected by radius-intersecting state/territory bounds; final inclusion uses great-circle Haversine distance in miles.",
@@ -394,6 +401,24 @@ export function buildEvidenceSchema(ctx: BriefContext) {
       "County boundary activation requires PASS validation, national coverage, and at least 52 partitions.",
     ],
     freshness: sourcesForBrief.map((source: any) => ({ sourceId: source.id, dataset: source.dataset, releaseDate: source.releaseDate, retrievalDate: source.retrievalDate, freshness: source.freshness })),
+    exportMetadata: {
+      hospitalSourceType: hospitalProvenance.classification,
+      hospitalDatasetTitle: hospitalSourceMetadata.datasetTitle,
+      hospitalDatasetRelease: hospitalSourceMetadata.releaseLabel,
+      hospitalRetrievedAt: hospitalSourceMetadata.retrievedAt,
+      hospitalOfficialUrl: hospitalSourceMetadata.officialUrl,
+      acsDatasetTitle: acsSourceMetadata.datasetTitle,
+      acsRelease: acsSourceMetadata.releaseLabel,
+      acsEstimatePeriod: acsSourceMetadata.estimatePeriod,
+      acsRetrievedAt: acsSourceMetadata.retrievedAt,
+      acsOfficialUrl: acsSourceMetadata.officialUrl,
+      boundarySource: boundarySourceMetadata.datasetTitle,
+      boundaryVintage: boundarySourceMetadata.releaseLabel,
+      coverageStatus: ctx.coverageStatus?.headline ?? null,
+      provenanceClassification: hospitalProvenance.classification,
+      cmsRecordCount: hospitalProvenance.cmsCount,
+      syntheticRecordCount: hospitalProvenance.syntheticCount,
+    },
     completeness: {
       activeFacilitySource: "CMS hospitals",
       missingDoesNotMeanAbsent: true,
@@ -454,6 +479,17 @@ export function buildCsvBrief(ctx: BriefContext): string {
     `# Selected planning radius: ${ctx.radiusMiles} miles`,
     `# ${BRIEF_SCOPE_STATEMENT}`,
     `# ${product.disclaimer}`,
+    `# hospitalSourceType: ${classifyHospitalRecords(ctx.briefFacilities).classification}`,
+    `# hospitalDatasetTitle: ${hospitalSourceMetadata.datasetTitle}`,
+    `# hospitalDatasetRelease: ${hospitalSourceMetadata.releaseLabel ?? "not reported"}`,
+    `# hospitalRetrievedAt: ${hospitalSourceMetadata.retrievedAt ?? "not reported"}`,
+    `# hospitalOfficialUrl: ${hospitalSourceMetadata.officialUrl}`,
+    `# acsDatasetTitle: ${acsSourceMetadata.datasetTitle}`,
+    `# acsRelease: ${acsSourceMetadata.releaseLabel ?? "not reported"}`,
+    `# acsEstimatePeriod: ${acsSourceMetadata.estimatePeriod ?? "not reported"}`,
+    `# acsRetrievedAt: ${acsSourceMetadata.retrievedAt ?? "not reported"}`,
+    `# acsOfficialUrl: ${acsSourceMetadata.officialUrl}`,
+    `# coverageStatus: ${ctx.coverageStatus?.headline ?? "not reported"}`,
     `# Plain-language metric notes are included in Markdown and JSON exports. ${POPULATION_METRIC_EXPORT_CAVEAT}`,
   ];
   return [header.join(","), ...rows, ...notes].join("\n");

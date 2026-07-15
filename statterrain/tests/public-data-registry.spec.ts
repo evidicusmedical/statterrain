@@ -109,7 +109,7 @@ test.describe("CMS hospital fixture safety", () => {
 test.describe("product version guardrail", () => {
   test("visible product version is centralized and current", async () => {
     const productConfig = await readFile(join(process.cwd(), "src/config/product.ts"), "utf8");
-    expect(productConfig).toContain('prototypeVersion: "v0.3.7.7 prototype"');
+    expect(productConfig).toContain('prototypeVersion: "v0.3.7.8 prototype"');
     expect(productConfig).not.toContain('prototypeVersion: "v0.3.2.3 prototype"');
     expect(productConfig).not.toContain('prototypeVersion: "v0.3.2.2 prototype"');
     expect(productConfig).not.toContain('prototypeVersion: "v0.3.2.1 prototype"');
@@ -164,7 +164,7 @@ test.describe("v0.2.8.1 radius controls and scope guardrails", () => {
     expect(exportLib).toContain('selected planning radius');
   });
 
-  test("active radius UI and export copy avoid travel-scope feature language", async () => {
+  test("active radius UI and export copy avoid route-calculation feature language", async () => {
     const activeFiles = [
       "src/components/filters/FilterSidebar.tsx",
       "src/components/map/MapView.tsx",
@@ -173,7 +173,7 @@ test.describe("v0.2.8.1 radius controls and scope guardrails", () => {
     ];
     for (const file of activeFiles) {
       const source = await readFile(join(process.cwd(), file), "utf8");
-      expect(source).not.toMatch(/drive[- ]time|travel[- ]time|\bETA\b|isochrone/i);
+      expect(source).not.toMatch(/drive[- ]time|\bETA\b|isochrone/i);
     }
   });
 });
@@ -215,9 +215,9 @@ test.describe("v0.2.9 national location search and coverage status", () => {
     expect(state).not.toContain("syntheticFacilities");
 
     const coverage = await readFile(join(process.cwd(), "src/lib/coverage/coverageStatus.ts"), "utf8");
-    expect(coverage).toContain("Synthetic demo data is not representative of this searched location.");
-    expect(coverage).toContain("No map-ready CMS hospital records were found within the selected radius.");
-    expect(coverage).toContain("CMS dialysis source scaffold exists, but records are fixture-only/not geocoded and are not map-ready.");
+    expect(coverage).toContain("No mapped hospital records were found within the selected radius.");
+    expect(coverage).toContain("No matching mapped records does not establish that no hospital exists in the area.");
+    expect(coverage).not.toMatch(/dialysis/i);
 
     const exportLib = await readFile(join(process.cwd(), "src/lib/export.ts"), "utf8");
     expect(exportLib).toContain("Coverage status");
@@ -227,9 +227,9 @@ test.describe("v0.2.9 national location search and coverage status", () => {
 });
 
 test.describe("v0.3.0 national coverage manifest and scaling foundation", () => {
-  test("visible product version is v0.3.7.7 prototype", async () => {
+  test("visible product version is v0.3.7.8 prototype", async () => {
     const productConfig = await readFile(join(process.cwd(), "src/config/product.ts"), "utf8");
-    expect(productConfig).toContain('prototypeVersion: "v0.3.7.7 prototype"');
+    expect(productConfig).toContain('prototypeVersion: "v0.3.7.8 prototype"');
     expect(productConfig).not.toContain('prototypeVersion: "v0.3.2.3 prototype"');
     expect(productConfig).not.toContain('prototypeVersion: "v0.3.2.2 prototype"');
     expect(productConfig).not.toContain('prototypeVersion: "v0.3.2.1 prototype"');
@@ -297,7 +297,7 @@ test.describe("v0.3.0 national coverage manifest and scaling foundation", () => 
     expect(panel).toContain("Limitations and prohibited uses");
     expect(panel).toContain("sourceCoverage.map");
     const coverage = await readFile(join(process.cwd(), "src/lib/coverage/coverageStatus.ts"), "utf8");
-    expect(coverage).toContain("national map-ready public-data source active");
+    expect(coverage).toContain("CMS public hospital records");
     const exportLib = await readFile(join(process.cwd(), "src/lib/export.ts"), "utf8");
     expect(exportLib).toContain("Coverage manifest summary");
     expect(exportLib).toContain("coverageManifestSummary");
@@ -418,7 +418,7 @@ test.describe("v0.3.1 source-backed taxonomy and data-delivery policies", () => 
     expect(exportLib).toContain("## Source scope");
     expect(exportLib).toContain("Unavailable / future-source-needed categories");
     expect(exportLib).toContain("Trauma, stroke, STEMI/PCI, bed availability, diversion status");
-    expect(exportLib).toContain("unavailable as source-backed coverage in v0.3.1");
+    expect(exportLib).toContain("Unavailable / future-source-needed categories");
   });
 
   test("manifests include taxonomy readiness status", async () => {

@@ -28,12 +28,8 @@ export interface CoverageStatus {
 type ManifestSource = (typeof sourceCoverageManifest.sources)[number];
 
 function sourceLabel(source: ManifestSource): string {
-  if (source.sourceId === "cms-hospital-general-information")
-    return `${source.sourceName}: national map-ready CMS hospital source active`;
-  if (source.sourceId === "cms-dialysis-facilities")
-    return `${source.sourceName}: fixture-only, not map-ready`;
-  if (source.sourceId === "synthetic-demo")
-    return `${source.sourceName}: local demo only, not real public data`;
+  if (source.sourceId === "cms-hospital-general-information") return "CMS public hospital records";
+  if (source.sourceId === "synthetic-demo") return "Synthetic demonstration records";
   return `${source.sourceName}: ${source.nationalCoverageStatus}`;
 }
 
@@ -63,36 +59,12 @@ export function buildCoverageStatus(args: {
   );
   const sourceSummaries = getSourceCoverageSummaries();
   const messages: string[] = [];
-  if (args.searchStatus === "geocoder-unavailable")
-    messages.push(
-      "Geocoder unavailable. Coverage status could not be refreshed.",
-    );
-  if (!args.selectedLocation) messages.push("CMS national hospital public-data mode active.");
-  if (outsideDemo)
-    messages.push(
-      "Synthetic demo data is not representative of this searched location.",
-    );
-  if (args.previewFacilitiesInRadius.length > 0 && args.publicPreviewEnabled)
-    messages.push(
-      "Showing CMS hospital public-data records within the selected radius.",
-    );
-  else messages.push("No map-ready CMS hospital records were found within the selected radius.", "This reflects the current CMS map-ready dataset and selected planning radius.");
-  messages.push("CMS hospitals: national map-ready public-data source active; unsupported clinical capabilities are not inferred.");
-  messages.push(
-    "CMS dialysis source scaffold exists, but records are fixture-only/not geocoded and are not map-ready.",
-  );
-  messages.push(
-    "Synthetic demo data are local demonstration data only, not real public data.",
-  );
-  messages.push(
-    "National facility coverage is not complete yet; source coverage for many areas is not yet loaded.",
-  );
-  messages.push(
-    `Selected location coverage depends on map-ready records within the selected ${args.radiusMiles}-mile straight-line planning radius.`,
-  );
+  if (args.searchStatus === "geocoder-unavailable") messages.push("Geocoder unavailable. Coverage status could not be refreshed.");
+  if (args.previewFacilitiesInRadius.length > 0 && args.publicPreviewEnabled) messages.push("Results include available mapped CMS hospital records within the selected straight-line radius.");
+  else messages.push("No mapped hospital records were found within the selected radius.", "No matching mapped records does not establish that no hospital exists in the area.");
   return {
     syntheticSuppressed: outsideDemo,
-    headline: args.previewFacilitiesInRadius.length ? "CMS hospitals loaded for selected radius" : "No CMS hospitals in selected radius",
+    headline: args.previewFacilitiesInRadius.length ? "CMS public hospital records" : "No mapped hospital records",
     messages,
     sourceSummaries,
     nationalCoverageComplete: sourceCoverageManifest.nationalCoverageComplete,
