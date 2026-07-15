@@ -10,6 +10,7 @@ import type { Facility } from "@/types/facility";
 import { CAPABILITY_LABELS, FACILITY_TYPE_LABELS } from "@/types/facility";
 import { FRESHNESS_LABELS } from "@/types/source";
 import { OVERLAY_LABELS } from "@/types/metric";
+import { buildCountyComparisonState } from "@/lib/acs/countyComparison";
 import { formatDate, todayIso } from "./format";
 import type { AppFilters } from "@/hooks/useAppState";
 import { PLANNING_CONSIDERATIONS } from "./planning-considerations";
@@ -224,7 +225,15 @@ export function buildMarkdownBrief(ctx: BriefContext): string {
 
   lines.push("## Population context");
   lines.push("");
+  const countyViz = buildCountyComparisonState({ overlay: filters.overlay, layerEnabled: Boolean(filters.overlay), containingCounty: ctx.containingCounty ?? null, counties: ctx.intersectingCounties ?? [] });
   lines.push("Whole-county ACS totals are shown as county context only. Whole-county ACS totals are not estimates of population located inside the selected radius.");
+  lines.push("County-level data do not show variation within a county. County shading, when shown, compares whole-county ACS estimates only.");
+  lines.push(`- Visualization mode: ${countyViz.mode}`);
+  lines.push(`- Selected metric: ${countyViz.selectedMetricLabel}`);
+  lines.push(`- Loaded counties: ${countyViz.loadedCountyCount}; valid comparable counties: ${countyViz.validComparableCount}`);
+  if (countyViz.containingCountyRank) lines.push(`- Visible comparison rank: ${countyViz.containingCountyRank} of ${countyViz.validComparableCount}`);
+  if (countyViz.visibleMin !== null && countyViz.visibleMax !== null) lines.push(`- Visible range: ${countyViz.visibleMin}–${countyViz.visibleMax}`);
+  if (countyViz.missingCountyGeoids.length) lines.push(`- Missing county GEOIDs: ${countyViz.missingCountyGeoids.join(", ")}`);
   (ctx.intersectingCounties ?? []).forEach((county) => {
     lines.push(`- ${county.fullName} (${county.geoid})`);
     ACS_METRIC_ORDER.forEach((metricId) => { const metric = county.metrics[metricId]; lines.push(`  - ${ACS_METRIC_LABELS[metricId]}: ${metric?.estimate ?? "unavailable"}; MOE: ${metric?.marginOfError ?? "unavailable"}; status: ${metric?.status ?? "unavailable"}`); });
@@ -364,7 +373,8 @@ export function buildEvidenceSchema(ctx: BriefContext) {
       containingCounty: ctx.containingCounty ?? null,
       intersectingCounties: ctx.intersectingCounties ?? [],
       metrics: ACS_METRIC_ORDER,
-      limitation: "Whole-county ACS totals are not estimates of population located inside the selected radius.",
+      visualization: buildCountyComparisonState({ overlay: ctx.filters.overlay, layerEnabled: Boolean(ctx.filters.overlay), containingCounty: ctx.containingCounty ?? null, counties: ctx.intersectingCounties ?? [] }),
+      limitation: "Whole-county ACS totals are not estimates of population located inside the selected radius. County-level data do not show variation within a county.",
       geometrySource: "National county boundary partitions from generated static artifacts",
       representativePointLimitation: "Point-in-county and radius intersection may use representative or simplified geometry until validated national boundaries are available.",
     },
@@ -465,7 +475,8 @@ export function downloadCsvBrief(ctx: BriefContext) {
   download(buildFilename("csv"), buildCsvBrief(ctx), "text/csv");
 }
 export function downloadCountyAcsJson(ctx: BriefContext) {
-  download(buildCountyFilename("json"), JSON.stringify({ containingCounty: ctx.containingCounty ?? null, intersectingCounties: ctx.intersectingCounties ?? [], limitation: "The selected radius intersects whole counties. County ACS estimates are included for geographic context and are not estimates of the population located inside the selected radius." }, null, 2), "application/json");
+  const visualization = buildCountyComparisonState({ overlay: ctx.filters.overlay, layerEnabled: Boolean(ctx.filters.overlay), containingCounty: ctx.containingCounty ?? null, counties: ctx.intersectingCounties ?? [] });
+  download(buildCountyFilename("json"), JSON.stringify({ containingCounty: ctx.containingCounty ?? null, intersectingCounties: ctx.intersectingCounties ?? [], visualization, limitation: "The selected radius intersects whole counties. County ACS estimates are included for geographic context and are not estimates of the population located inside the selected radius. County-level data do not show variation within a county." }, null, 2), "application/json");
 }
 export function downloadCountyAcsCsv(ctx: BriefContext) {
   download(buildCountyFilename("csv"), buildCountyAcsCsv(ctx), "text/csv");
@@ -474,12 +485,15 @@ export function downloadCountyAcsCsv(ctx: BriefContext) {
 export { sources };
 
 export function buildCountyAcsCsv(ctx: BriefContext): string {
-  const header = ["geoid","county_name","state","role","metric_id","metric_label","estimate","moe","numerator","numerator_moe","denominator","denominator_moe","percentage","status","universe","variables","calculation_method","release","estimate_period"];
+  const visualization = buildCountyComparisonState({ overlay: ctx.filters.overlay, layerEnabled: Boolean(ctx.filters.overlay), containingCounty: ctx.containingCounty ?? null, counties: ctx.intersectingCounties ?? [] });
+  const displayByGeoid = new Map(visualization.counties.map((county) => [county.geoid, county]));
+  const header = ["geoid","county_name","state","role","metric_id","metric_label","estimate","moe","numerator","numerator_moe","denominator","denominator_moe","percentage","status","universe","variables","calculation_method","release","estimate_period","visualizationRole","visibleComparisonRank","visibleComparisonCount","selectedMetric","displayClass","displayStatus"];
   const rows = (ctx.intersectingCounties ?? []).flatMap((county) =>
     ACS_METRIC_ORDER.map((metricId) => {
       const m = county.metrics[metricId];
       const role = county.geoid === ctx.containingCounty?.geoid ? "containing" : "intersecting";
-      return [county.geoid, county.fullName, county.stateCode, role, metricId, ACS_METRIC_LABELS[metricId], m?.estimate ?? "", m?.marginOfError ?? "", m?.numerator ?? "", m?.numeratorMarginOfError ?? "", m?.denominator ?? "", m?.denominatorMarginOfError ?? "", m?.percentage ?? "", m?.status ?? "unavailable", m?.universe ?? "", (m?.sourceVariables ?? []).join(";"), m?.calculationMethod ?? "", county.acsRelease, county.estimatePeriod].map(csvEscape).join(",");
+      const display = displayByGeoid.get(county.geoid);
+      return [county.geoid, county.fullName, county.stateCode, role, metricId, ACS_METRIC_LABELS[metricId], m?.estimate ?? "", m?.marginOfError ?? "", m?.numerator ?? "", m?.numeratorMarginOfError ?? "", m?.denominator ?? "", m?.denominatorMarginOfError ?? "", m?.percentage ?? "", m?.status ?? "unavailable", m?.universe ?? "", (m?.sourceVariables ?? []).join(";"), m?.calculationMethod ?? "", county.acsRelease, county.estimatePeriod, display?.role ?? role, display?.rank ?? "", visualization.validComparableCount, visualization.selectedMetric ?? "", display?.displayClass ?? "", display?.displayStatus ?? ""].map(csvEscape).join(",");
     })
   );
   return [header.join(","), ...rows].join("\n");

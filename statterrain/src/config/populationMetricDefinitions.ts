@@ -41,6 +41,10 @@ export const populationMetricDefinitions: Record<
   OverlayMetricId,
   PopulationMetricDefinition
 > = {
+  total_population: {
+    metricId: "total_population", label: OVERLAY_LABELS.total_population, shortLabel: "Total population",
+    simpleWhatItIs: "Whole-county ACS total population estimate.", higherMeans: "A larger whole-county population estimate.", lowerMeans: "A smaller whole-county population estimate.", whyItMatters: "Provides county context for planning.", planningUse: "Use only as whole-county context.", doNotAssume: "Do not treat this as population inside the radius or within-county variation.", currentDataNote: "County ACS estimate where available.", whatThisMeasures: "Whole-county total population.", currentPrototypeDefinition: "ACS county-level estimate joined by county GEOID.", futureSourceDefinitionRequirement: "Retain source table, geography, release, and margin of error.", denominatorOrBasis: "Whole county resident population estimate.", planningRelevance: "Context for county-scale planning discussions.", knownLimitations: "Does not describe where people live within the county or inside the radius.", syntheticDataCaveat: "Not synthetic when ACS county activation guards pass.", doNotInfer: "Do not infer individual risk, operational demand, or population inside the radius.",
+  },
   pop_65_plus: {
     metricId: "pop_65_plus",
     simpleWhatItIs: "The share of people in the area who are older adults.",
@@ -139,6 +143,14 @@ export const populationMetricDefinitions: Record<
     syntheticDataCaveat: syntheticCaveat,
     doNotInfer:
       "Do not infer household-level financial status or eligibility for assistance for any person or address.",
+  },
+  uninsured_population: {
+    metricId: "uninsured_population", label: OVERLAY_LABELS.uninsured_population, shortLabel: "Uninsured",
+    simpleWhatItIs: "Whole-county ACS estimate of people without health insurance.", higherMeans: "More county residents are estimated to lack health insurance.", lowerMeans: "Fewer county residents are estimated to lack health insurance.", whyItMatters: "Insurance access can affect care access and follow-up planning.", planningUse: "Use only as county-level context.", doNotAssume: "Do not infer insurance status for any person or population inside the radius.", currentDataNote: "County ACS estimate where available.", whatThisMeasures: "Whole-county uninsured population estimate.", currentPrototypeDefinition: "ACS county-level estimate joined by county GEOID.", futureSourceDefinitionRequirement: "Retain source table, geography, release, and margin of error.", denominatorOrBasis: "County ACS source universe.", planningRelevance: "Context for access-to-care planning.", knownLimitations: "Does not show within-county variation.", syntheticDataCaveat: "Not synthetic when ACS county activation guards pass.", doNotInfer: "Do not infer individual insurance status or radius population.",
+  },
+  disability_population: {
+    metricId: "disability_population", label: OVERLAY_LABELS.disability_population, shortLabel: "Disability",
+    simpleWhatItIs: "Whole-county ACS estimate of population with a disability.", higherMeans: "More county residents are estimated to have a disability.", lowerMeans: "Fewer county residents are estimated to have a disability.", whyItMatters: "Disability context can inform accessible planning.", planningUse: "Use only as county-level context.", doNotAssume: "Do not infer disability status for any person or population inside the radius.", currentDataNote: "County ACS estimate where available.", whatThisMeasures: "Whole-county disability population estimate.", currentPrototypeDefinition: "ACS county-level estimate joined by county GEOID.", futureSourceDefinitionRequirement: "Retain source table, geography, release, and margin of error.", denominatorOrBasis: "County ACS source universe.", planningRelevance: "Context for accessibility and continuity planning.", knownLimitations: "Does not show within-county variation.", syntheticDataCaveat: "Not synthetic when ACS county activation guards pass.", doNotInfer: "Do not infer individual disability status or radius population.",
   },
   limited_english: {
     metricId: "limited_english",

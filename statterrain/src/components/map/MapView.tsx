@@ -17,9 +17,10 @@ import type { SearchLocation } from "@/data/demo-region";
 import { mapRegions } from "@/data/map-regions";
 import type { OverlayMetricId } from "@/types/metric";
 import type { CountyContextState } from "@/lib/acs/countyContext";
-import { FACILITY_MARKER_COLORS, overlayColorForValue } from "./mapStyles";
+import { FACILITY_MARKER_COLORS } from "./mapStyles";
 import { FACILITY_TYPE_LABELS } from "@/types/facility";
 import { MapLegend } from "./MapLegend";
+import { buildCountyComparisonState, COUNTY_VALUE_LIMITATION } from "@/lib/acs/countyComparison";
 
 interface MapViewProps {
   layoutKey?: string;
@@ -89,20 +90,30 @@ export function MapView({
     setLegendOpen(window.matchMedia("(min-width: 640px)").matches);
   }, []);
 
+  const countyComparison = useMemo(() => buildCountyComparisonState({
+    overlay,
+    layerEnabled: Boolean(overlay),
+    containingCounty: countyContext?.containingCounty ?? null,
+    counties: countyContext?.intersectingCounties ?? [],
+    intersectingGeoids: countyContext?.intersectingCounties.map((county) => county.geoid) ?? [],
+  }), [overlay, countyContext]);
+
   const polygons = useMemo(() => {
-    if (!overlay || !countyContext?.boundaryFeatures.length) return [];
-    const metricMap: Record<string, string> = { pop_65_plus: "population_65_and_older", pediatric_population: "population_under_18", poverty: "poverty_population", limited_english: "limited_english_households", no_vehicle: "households_no_vehicle" };
-    const metricId = metricMap[overlay];
-    const values = countyContext.intersectingCounties.map((c) => metricId ? c.metrics[metricId as keyof typeof c.metrics]?.estimate : null).filter((v): v is number => typeof v === "number");
-    const max = Math.max(1, ...values);
+    if (!countyContext?.boundaryFeatures.length) return [];
     return countyContext.boundaryFeatures.map((feature) => {
       const county = countyContext.intersectingCounties.find((c) => c.geoid === feature.properties.GEOID);
-      const value = metricId && county ? county.metrics[metricId as keyof typeof county.metrics]?.estimate : null;
-      const color = typeof value === "number" ? overlayColorForValue(Math.max(0, Math.min(100, (value / max) * 100))) : "#cbd5e1";
-      return { id: feature.properties.GEOID, name: county?.fullName ?? feature.properties.NAME, color, geometry: feature.geometry };
+      const display = countyComparison.counties.find((entry) => entry.geoid === feature.properties.GEOID);
+      return {
+        id: feature.properties.GEOID,
+        name: county?.fullName ?? feature.properties.NAME,
+        geometry: feature.geometry,
+        display,
+      };
     });
-  }, [overlay, countyContext]);
+  }, [countyContext, countyComparison]);
 
+  const containingMetric = countyComparison.selectedMetric && countyContext?.containingCounty ? countyContext.containingCounty.metrics[countyComparison.selectedMetric] : null;
+  const formatNumber = (value: number | null | undefined) => typeof value === "number" ? value.toLocaleString() : "Unavailable";
   return (
     <div
       className="statterrain-map-shell relative isolate z-0 h-full w-full overflow-hidden"
@@ -123,17 +134,18 @@ export function MapView({
         <Recenter lat={location.lat} lng={location.lng} />
         <MapClickPlanningCenter onMapClick={onMapClick} />
 
-        {overlay &&
-          polygons.map((region) => (
+        {polygons.map((region) => (
             <Polygon
               key={region.id}
               positions={region.geometry.type === "Polygon" ? (region.geometry.coordinates as any).map((ring: number[][])=>ring.map(([lng,lat])=>[lat,lng])) : (region.geometry.coordinates as any).map((poly: number[][][])=>poly.map((ring)=>ring.map(([lng,lat])=>[lat,lng])))}
               pathOptions={{
-                color: region.color,
-                fillColor: region.color,
-                fillOpacity: 0.55,
-                weight: 1,
+                color: region.display?.outlineColor ?? "#94a3b8",
+                fillColor: region.display?.fillColor ?? "#f8fafc",
+                fillOpacity: region.display?.fillOpacity ?? 0.08,
+                weight: region.display?.outlineWeight ?? 1,
+                className: `county-polygon county-role-${region.display?.role ?? "loaded"} county-display-${region.display?.displayClass ?? "outline-only"}`,
               }}
+              interactive={false}
             >
               <Tooltip sticky>{region.name}</Tooltip>
             </Polygon>
@@ -224,23 +236,36 @@ export function MapView({
         Click the map to set planning center.
       </div>
 
-      {showLegend && (
-        <div className="pointer-events-none absolute bottom-3 left-3 z-[350] max-w-[calc(100%-1.5rem)]">
+      {overlay && countyContext?.containingCounty && (
+        <section className="absolute bottom-3 left-3 z-[350] max-w-[min(25rem,calc(100%-1.5rem))] rounded-xl border border-slate-200 bg-white/95 p-3 text-xs text-slate-700 shadow-panel" aria-label="County metric comparison" data-testid="county-comparison-card">
+          <h2 className="text-sm font-semibold text-slate-900">{countyComparison.selectedMetricLabel}</h2>
+          <p className="mt-1 text-[11px] font-semibold uppercase tracking-wide text-slate-500">County-level estimate</p>
+          <p className="mt-1 font-medium text-slate-900">{countyContext.containingCounty.fullName}</p>
+          <p className="text-sm font-semibold text-slate-900">{formatNumber(containingMetric?.estimate)}{typeof containingMetric?.marginOfError === "number" ? ` ± ${formatNumber(containingMetric.marginOfError)}` : ""}</p>
+          <p className="text-[11px] text-slate-500">ACS {countyContext.containingCounty.acsRelease} {countyContext.containingCounty.estimatePeriod}</p>
+          {countyComparison.mode === "multi-county-comparison" ? (
+            <div className="mt-2 grid gap-1 sm:grid-cols-2">
+              <p>{countyComparison.validComparableCount} of {countyComparison.loadedCountyCount} counties have reported values</p>
+              <p>Rank: {countyComparison.containingCountyRank ?? "Unavailable"} of {countyComparison.validComparableCount}</p>
+              <p className="sm:col-span-2">Range: {formatNumber(countyComparison.visibleMin)}–{formatNumber(countyComparison.visibleMax)}{countyComparison.equalValues ? " (all reported values are equal)" : ""}</p>
+              <p className="sm:col-span-2 text-[11px] text-slate-600">County colors compare whole-county ACS estimates. They do not represent within-county variation or population inside the radius.</p>
+            </div>
+          ) : (
+            <p className="mt-2 text-[11px] text-slate-600">Only one county is currently available or only one county has a reported value. The map outline identifies the county; a comparative color scale is not shown. {COUNTY_VALUE_LIMITATION}</p>
+          )}
+        </section>
+      )}
+
+      {showLegend && countyComparison.legend && (
+        <div className="pointer-events-none absolute bottom-3 right-3 z-[350] max-w-[calc(100%-1.5rem)]">
           {legendOpen ? (
             <MapLegend
               overlay={overlay}
               onCollapse={() => setLegendOpen(false)}
+              countyComparison={countyComparison}
             />
           ) : (
-            <button
-              type="button"
-              onClick={() => setLegendOpen(true)}
-              className="pointer-events-auto min-h-10 rounded-full border border-slate-200 bg-white/95 px-3 py-2 text-xs font-semibold text-slate-700 shadow-panel hover:bg-slate-50 focus:outline-none focus:ring-2 focus:ring-terrain-500 focus:ring-offset-2"
-              aria-expanded="false"
-              aria-label="Show map legend"
-            >
-              Legend
-            </button>
+            <button type="button" onClick={() => setLegendOpen(true)} className="pointer-events-auto min-h-10 rounded-full border border-slate-200 bg-white/95 px-3 py-2 text-xs font-semibold text-slate-700 shadow-panel hover:bg-slate-50 focus:outline-none focus:ring-2 focus:ring-terrain-500 focus:ring-offset-2" aria-expanded="false" aria-label="Show map legend">Legend</button>
           )}
         </div>
       )}

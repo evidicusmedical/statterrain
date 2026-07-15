@@ -1,9 +1,12 @@
 import type { ConfidenceLevel, FreshnessStatus } from "./source";
 
 export type OverlayMetricId =
+  | "total_population"
   | "pop_65_plus"
   | "pediatric_population"
   | "poverty"
+  | "uninsured_population"
+  | "disability_population"
   | "limited_english"
   | "no_vehicle"
   | "copd"
@@ -38,11 +41,14 @@ export interface PopulationMetric {
 }
 
 export const OVERLAY_LABELS: Record<OverlayMetricId, string> = {
-  pop_65_plus: "Population age 65 and older",
-  pediatric_population: "Pediatric population",
-  poverty: "Poverty",
-  limited_english: "Limited English proficiency",
-  no_vehicle: "No vehicle access",
+  total_population: "County total population",
+  pop_65_plus: "County population age 65 and older",
+  pediatric_population: "County population under age 18",
+  poverty: "County population below poverty level",
+  uninsured_population: "County population without health insurance",
+  disability_population: "County population with a disability",
+  limited_english: "County limited-English-speaking households",
+  no_vehicle: "County households with no vehicle available",
   copd: "COPD prevalence",
   coronary_heart_disease: "Coronary heart disease prevalence",
   stroke_prevalence: "Stroke prevalence",

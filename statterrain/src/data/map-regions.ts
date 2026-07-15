@@ -12,9 +12,12 @@ export interface MapRegionPolygon {
 const overlayBase = (
   base: Partial<Record<OverlayMetricId, number>>,
 ): Record<OverlayMetricId, number> => ({
+  total_population: 0.4,
   pop_65_plus: 0.4,
   pediatric_population: 0.4,
   poverty: 0.4,
+  uninsured_population: 0.4,
+  disability_population: 0.4,
   limited_english: 0.3,
   no_vehicle: 0.3,
   copd: 0.4,
