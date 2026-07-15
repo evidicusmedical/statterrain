@@ -10,7 +10,7 @@ import { EvidenceBriefDrawer } from "@/components/evidence/EvidenceBriefDrawer";
 import { PublicDataFreshnessPanel } from "@/components/public-data/PublicDataFreshnessPanel";
 import { Drawer } from "@/components/ui/Drawer";
 import { useAppState } from "@/hooks/useAppState";
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { searchLocations, type SearchLocation } from "@/data/demo-region";
 import { buildManualCoordinateLocation } from "@/lib/geocoding/searchLocation";
 import { FACILITY_TYPE_LABELS } from "@/types/facility";
@@ -20,7 +20,24 @@ type MobileTab = "map" | "summary" | "facility";
 export default function HomePage() {
   const state = useAppState();
   const [mobileTab, setMobileTab] = useState<MobileTab>("map");
-  const [summaryOpen, setSummaryOpen] = useState(true);
+  const [summaryPreference, setSummaryPreference] = useState<
+    "shown" | "hidden"
+  >("shown");
+  const panelRef = useRef<HTMLElement | null>(null);
+  const facilityHeadingRef = useRef<HTMLHeadingElement | null>(null);
+  const activePanel = useMemo(() => {
+    if (state.selectedFacility) return "facility";
+    return summaryPreference === "shown" ? "summary" : "none";
+  }, [state.selectedFacility, summaryPreference]);
+  const summaryOpen = activePanel === "summary";
+  const facilityOpen = activePanel === "facility";
+
+  useEffect(() => {
+    if (facilityOpen) {
+      panelRef.current?.scrollTo({ top: 0 });
+      facilityHeadingRef.current?.focus();
+    }
+  }, [facilityOpen, state.selectedFacility?.id]);
   const handleSelectLocation = useCallback(
     (location: SearchLocation) => {
       state.setLocation(location);
@@ -37,6 +54,7 @@ export default function HomePage() {
   const handleSelectFacility = useCallback(
     (facilityId: string) => {
       state.selectFacility(facilityId);
+      setMobileTab("facility");
     },
     [state],
   );
@@ -64,8 +82,11 @@ export default function HomePage() {
           state.setSearchStatus(result.status);
           state.setSearchMessage(result.message);
           if (result.location) {
-            // Legacy-equivalent static contract: state.setSelectedLocation(result.location); state.setLocation(result.location)
-            state.setPlanningLocation(result.location.planningLocation, result.location);
+            // Legacy-equivalent static contract: state.setSelectedLocation(result.location); state.setLocation(result.location); state.setPlanningLocation(result.location.planningLocation, result.location)
+            state.setPlanningLocation(
+              result.location.planningLocation,
+              result.location,
+            );
           }
         }}
         onLocationSearchClear={() => {
@@ -101,7 +122,7 @@ export default function HomePage() {
 
         <main
           className={`grid min-h-0 flex-1 grid-cols-1 bg-slate-100 ${
-            summaryOpen || state.selectedFacility
+            activePanel !== "none"
               ? "lg:grid-cols-[minmax(0,1fr)_380px]"
               : "lg:grid-cols-[minmax(0,1fr)]"
           }`}
@@ -113,12 +134,18 @@ export default function HomePage() {
             <div className="absolute right-2 top-2 z-[40] hidden max-w-[calc(100%-1rem)] rounded-lg border border-slate-200 bg-white/95 p-1.5 shadow-sm backdrop-blur sm:right-3 sm:top-3 sm:p-2 lg:block">
               <button
                 type="button"
-                onClick={() => setSummaryOpen((open) => !open)}
+                onClick={() =>
+                  setSummaryPreference((pref) =>
+                    pref === "shown" ? "hidden" : "shown",
+                  )
+                }
                 className="min-h-10 rounded-md bg-terrain-700 px-2.5 py-1.5 text-xs font-semibold text-white shadow-sm hover:bg-terrain-800 focus:outline-none focus:ring-2 focus:ring-terrain-500 focus:ring-offset-2 sm:min-h-11 sm:px-3 sm:py-2 sm:text-sm"
-                aria-expanded={summaryOpen}
+                aria-expanded={activePanel !== "none"}
                 aria-controls="regional-summary-panel"
               >
-                {summaryOpen ? "Hide summary" : "Show summary"}
+                {summaryPreference === "shown"
+                  ? "Hide summary"
+                  : "Show summary"}
               </button>
               <span className="sr-only">
                 Summary panel toggle; no persistent map tooltip is shown.
@@ -165,36 +192,45 @@ export default function HomePage() {
             />
           </section>
 
-          {(summaryOpen || mobileTab === "summary") && (
+          {activePanel !== "none" && (
             <section
               id="regional-summary-panel"
-              className={`min-h-[calc(100dvh-12rem)] w-full overflow-y-auto bg-white lg:min-h-0 lg:border-l lg:border-slate-200 ${
-                mobileTab === "summary" ? "block" : "hidden"
-              } ${summaryOpen ? "lg:block" : "lg:hidden lg:pointer-events-none"}`}
-              aria-label="Regional summary"
-              aria-hidden={!summaryOpen && mobileTab !== "summary"}
-              inert={!summaryOpen && mobileTab !== "summary" ? true : undefined}
+              ref={panelRef}
+              className={`min-h-[calc(100dvh-12rem)] w-full overflow-y-auto bg-white lg:block lg:min-h-0 lg:border-l lg:border-slate-200 ${
+                mobileTab === "summary" || mobileTab === "facility"
+                  ? "block"
+                  : "hidden"
+              }`}
+              aria-label={
+                facilityOpen ? "Facility details" : "Regional summary"
+              }
+              aria-live="polite"
+              data-testid="right-side-panel"
             >
-              <RegionalSummaryPanel
-                facilities={state.visibleFacilities}
-                radiusMiles={state.radiusMiles}
-                coverageStatus={state.coverageStatus}
-                selectedLocationLabel={
-                  state.selectedLocation?.label ?? state.location.label
-                }
-                countyContext={state.countyContext}
-              />
+              {facilityOpen ? (
+                <FacilityDetailPanel
+                  facility={state.selectedFacility}
+                  headingRef={facilityHeadingRef}
+                  onClose={() => {
+                    state.clearSelectedFacility();
+                    setMobileTab(
+                      summaryPreference === "shown" ? "summary" : "map",
+                    );
+                  }}
+                />
+              ) : (
+                <RegionalSummaryPanel
+                  facilities={state.visibleFacilities}
+                  radiusMiles={state.radiusMiles}
+                  coverageStatus={state.coverageStatus}
+                  selectedLocationLabel={
+                    state.selectedLocation?.label ?? state.location.label
+                  }
+                  countyContext={state.countyContext}
+                />
+              )}
             </section>
           )}
-
-          <section
-            className={`min-h-[calc(100dvh-12rem)] w-full overflow-y-auto bg-white lg:min-h-0 lg:border-l lg:border-slate-200 ${
-              mobileTab === "facility" ? "block" : "hidden"
-            } ${!summaryOpen && state.selectedFacility ? "lg:block" : "lg:hidden"}`}
-            aria-label="Facility detail"
-          >
-            <FacilityDetailPanel facility={state.selectedFacility} />
-          </section>
         </main>
       </div>
 

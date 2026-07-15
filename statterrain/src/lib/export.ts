@@ -1,5 +1,9 @@
 import { product } from "@/config/product";
-import { facilityTaxonomy, syntheticDemoFacilityTypes, futureFacilityTypes } from "@/config/facilityTaxonomy";
+import {
+  facilityTaxonomy,
+  syntheticDemoFacilityTypes,
+  futureFacilityTypes,
+} from "@/config/facilityTaxonomy";
 import { populationMetrics } from "@/data/population-metrics";
 import {
   POPULATION_METRIC_EXPORT_CAVEAT,
@@ -9,20 +13,27 @@ import { getSourceById, sources } from "@/data/sources";
 import type { Facility } from "@/types/facility";
 import { CAPABILITY_LABELS, FACILITY_TYPE_LABELS } from "@/types/facility";
 import { FRESHNESS_LABELS } from "@/types/source";
-import { OVERLAY_LABELS } from "@/types/metric";
-import { buildCountyComparisonState } from "@/lib/acs/countyComparison";
+
 import { formatDate, todayIso } from "./format";
 import type { AppFilters } from "@/hooks/useAppState";
 import { PLANNING_CONSIDERATIONS } from "./planning-considerations";
 import type { PublicDataArtifactSummary } from "@/lib/public-data/readPublicDataArtifacts";
 import type { CoverageStatus } from "@/lib/coverage/coverageStatus";
 import { getSourceCoverageSummaries } from "@/lib/coverage/coverageStatus";
-import { normalizeCmsPhoneDisplay, normalizeFacilityWebsite } from "@/lib/facilityIdentity";
+import {
+  normalizeCmsPhoneDisplay,
+  normalizeFacilityWebsite,
+} from "@/lib/facilityIdentity";
 import type { PlanningLocation } from "@/types/planningLocation";
 import { activeResearchLayers } from "@/config/researchLayerRegistry";
 import type { AcsCountyRecord } from "@/lib/acs/types";
 import { ACS_METRIC_LABELS, ACS_METRIC_ORDER } from "@/lib/acs/types";
-import { acsSourceMetadata, boundarySourceMetadata, classifyHospitalRecords, hospitalSourceMetadata } from "@/lib/provenance";
+import {
+  acsSourceMetadata,
+  boundarySourceMetadata,
+  classifyHospitalRecords,
+  hospitalSourceMetadata,
+} from "@/lib/provenance";
 
 export interface BriefContext {
   locationLabel: string;
@@ -46,7 +57,7 @@ function activeFilterSummary(filters: AppFilters) {
     capabilities: Array.from(filters.capabilities).map(
       (c) => CAPABILITY_LABELS[c],
     ),
-    overlay: filters.overlay ? OVERLAY_LABELS[filters.overlay] : "None active",
+    overlay: "County boundaries",
   };
 }
 
@@ -87,7 +98,6 @@ export function buildMarkdownBrief(ctx: BriefContext): string {
     f.sourceIds.forEach((id) => relevantSourceIds.add(id)),
   );
 
-
   const lines: string[] = [];
   lines.push(`# ${product.name} Regional Emergency Care Evidence Brief`);
   lines.push("");
@@ -95,15 +105,31 @@ export function buildMarkdownBrief(ctx: BriefContext): string {
   lines.push("");
   lines.push(`- Search location: ${locationLabel}`);
   if (ctx.planningLocation) {
-    lines.push(`- Entered query: ${ctx.planningLocation.searchQuery ?? "not reported"}`);
-    lines.push(`- Search strategy: ${ctx.planningLocation.searchStrategy ?? "not reported"}`);
-    lines.push(`- Resolved geography type: ${ctx.planningLocation.resolvedGeographyType ?? "not reported"}`);
-    if (ctx.planningLocation.resolvedGeographyId) lines.push(`- Geography identifier: ${ctx.planningLocation.resolvedGeographyId}`);
-    if (ctx.planningLocation.state) lines.push(`- State: ${ctx.planningLocation.state}`);
-    if (ctx.planningLocation.zip) lines.push(`- ZIP: ${ctx.planningLocation.zip}`);
-    lines.push(`- Coordinates: ${ctx.planningLocation.latitude}, ${ctx.planningLocation.longitude}`);
-    if (ctx.planningLocation.source) lines.push(`- Location source: ${ctx.planningLocation.source}`);
-    (ctx.planningLocation.limitations ?? []).forEach((limitation) => lines.push(`- Location limitation: ${limitation}`));
+    lines.push(
+      `- Entered query: ${ctx.planningLocation.searchQuery ?? "not reported"}`,
+    );
+    lines.push(
+      `- Search strategy: ${ctx.planningLocation.searchStrategy ?? "not reported"}`,
+    );
+    lines.push(
+      `- Resolved geography type: ${ctx.planningLocation.resolvedGeographyType ?? "not reported"}`,
+    );
+    if (ctx.planningLocation.resolvedGeographyId)
+      lines.push(
+        `- Geography identifier: ${ctx.planningLocation.resolvedGeographyId}`,
+      );
+    if (ctx.planningLocation.state)
+      lines.push(`- State: ${ctx.planningLocation.state}`);
+    if (ctx.planningLocation.zip)
+      lines.push(`- ZIP: ${ctx.planningLocation.zip}`);
+    lines.push(
+      `- Coordinates: ${ctx.planningLocation.latitude}, ${ctx.planningLocation.longitude}`,
+    );
+    if (ctx.planningLocation.source)
+      lines.push(`- Location source: ${ctx.planningLocation.source}`);
+    (ctx.planningLocation.limitations ?? []).forEach((limitation) =>
+      lines.push(`- Location limitation: ${limitation}`),
+    );
   }
   lines.push(
     `- Search location source: ${ctx.selectedLocationSource ?? "StatTerrain demo"}`,
@@ -131,21 +157,37 @@ export function buildMarkdownBrief(ctx: BriefContext): string {
 
   lines.push("## Coverage manifest summary");
   lines.push("");
-  const coverageSources = ctx.coverageStatus?.sourceSummaries ?? getSourceCoverageSummaries();
+  const coverageSources =
+    ctx.coverageStatus?.sourceSummaries ?? getSourceCoverageSummaries();
   const hospitalProvenance = classifyHospitalRecords(ctx.briefFacilities);
-  lines.push("- CMS public hospital records are active from generated map-ready partitions.");
+  lines.push(
+    "- CMS public hospital records are active from generated map-ready partitions.",
+  );
   lines.push(`- Selected location: ${locationLabel}`);
   lines.push(`- Selected radius: ${radiusMiles} miles`);
-  lines.push(`- Hospital provenance classification: ${hospitalProvenance.classification}; CMS records: ${hospitalProvenance.cmsCount}; synthetic records: ${hospitalProvenance.syntheticCount}.`);
-  coverageSources.filter((source) => source.usedInCurrentApp || source.sourceId === "synthetic-demo").forEach((source) => {
-    lines.push(`- ${source.label}; map-ready records: ${source.mapReadyRecordCount ?? "not applicable"}; used in current app: ${source.usedInCurrentApp ? "yes" : "no"}`);
-  });
+  lines.push(
+    `- Hospital provenance classification: ${hospitalProvenance.classification}; CMS records: ${hospitalProvenance.cmsCount}; synthetic records: ${hospitalProvenance.syntheticCount}.`,
+  );
+  coverageSources
+    .filter(
+      (source) =>
+        source.usedInCurrentApp || source.sourceId === "synthetic-demo",
+    )
+    .forEach((source) => {
+      lines.push(
+        `- ${source.label}; map-ready records: ${source.mapReadyRecordCount ?? "not applicable"}; used in current app: ${source.usedInCurrentApp ? "yes" : "no"}`,
+      );
+    });
   lines.push("");
 
   lines.push("## Sources");
   lines.push("");
-  lines.push(`- Hospitals: ${hospitalSourceMetadata.sourceOrganization}, ${hospitalSourceMetadata.datasetTitle}; dataset identifier ${hospitalSourceMetadata.datasetIdentifier}; dataset release ${hospitalSourceMetadata.releaseLabel ?? "not reported"}; retrieved by StatTerrain ${hospitalSourceMetadata.retrievedAt ?? "not reported"}; source ${hospitalSourceMetadata.officialUrl}.`);
-  lines.push(`- County context: ${acsSourceMetadata.sourceOrganization}, ${acsSourceMetadata.datasetTitle}; release ${acsSourceMetadata.releaseLabel ?? "not reported"}; estimate period ${acsSourceMetadata.estimatePeriod ?? "not reported"}; retrieved by StatTerrain ${acsSourceMetadata.retrievedAt ?? "not reported"}; source ${acsSourceMetadata.officialUrl}.`);
+  lines.push(
+    `- Hospitals: ${hospitalSourceMetadata.sourceOrganization}, ${hospitalSourceMetadata.datasetTitle}; dataset identifier ${hospitalSourceMetadata.datasetIdentifier}; dataset release ${hospitalSourceMetadata.releaseLabel ?? "not reported"}; retrieved by StatTerrain ${hospitalSourceMetadata.retrievedAt ?? "not reported"}; source ${hospitalSourceMetadata.officialUrl}.`,
+  );
+  lines.push(
+    `- County context: ${acsSourceMetadata.sourceOrganization}, ${acsSourceMetadata.datasetTitle}; release ${acsSourceMetadata.releaseLabel ?? "not reported"}; estimate period ${acsSourceMetadata.estimatePeriod ?? "not reported"}; retrieved by StatTerrain ${acsSourceMetadata.retrievedAt ?? "not reported"}; source ${acsSourceMetadata.officialUrl}.`,
+  );
   lines.push("");
 
   lines.push("## CMS public-data provenance");
@@ -177,18 +219,27 @@ export function buildMarkdownBrief(ctx: BriefContext): string {
   Array.from(relevantSourceIds).forEach((id) => {
     const s = getSourceById(id);
     if (!s) return;
-    lines.push(
-      `| ${s.dataset} | ${FRESHNESS_LABELS[s.freshness]} |`,
-    );
+    lines.push(`| ${s.dataset} | ${FRESHNESS_LABELS[s.freshness]} |`);
   });
   lines.push("");
 
   lines.push("## Source scope");
   lines.push("");
-  lines.push(`- Active source-backed categories: ${facilityTaxonomy.filter((e) => e.currentUiVisibility === "active").map((e) => e.label).join("; ")}`);
-  lines.push(`- Synthetic categories, if included: ${syntheticDemoFacilityTypes.map((type) => FACILITY_TYPE_LABELS[type]).join("; ") || "None"}`);
-  lines.push(`- Unavailable / future-source-needed categories: ${futureFacilityTypes.map((type) => FACILITY_TYPE_LABELS[type]).join("; ") || "None"}`);
-  lines.push("- Trauma, stroke, STEMI/PCI, bed availability, diversion status, and other clinical capability fields are not included unless backed by a validated public source mapping.");
+  lines.push(
+    `- Active source-backed categories: ${facilityTaxonomy
+      .filter((e) => e.currentUiVisibility === "active")
+      .map((e) => e.label)
+      .join("; ")}`,
+  );
+  lines.push(
+    `- Synthetic categories, if included: ${syntheticDemoFacilityTypes.map((type) => FACILITY_TYPE_LABELS[type]).join("; ") || "None"}`,
+  );
+  lines.push(
+    `- Unavailable / future-source-needed categories: ${futureFacilityTypes.map((type) => FACILITY_TYPE_LABELS[type]).join("; ") || "None"}`,
+  );
+  lines.push(
+    "- Trauma, stroke, STEMI/PCI, bed availability, diversion status, and other clinical capability fields are not included unless backed by a validated public source mapping.",
+  );
   lines.push("");
 
   lines.push("## Emergency-care facility overview");
@@ -202,7 +253,9 @@ export function buildMarkdownBrief(ctx: BriefContext): string {
   lines.push("");
   lines.push("## Hospital capability source limits");
   lines.push("");
-  lines.push("Hospital capability filters and findings are hidden unless source-backed. Synthetic demo records may contain capability-like fields for demonstration only, but they are not exported as public-data facts.");
+  lines.push(
+    "Hospital capability filters and findings are hidden unless source-backed. Synthetic demo records may contain capability-like fields for demonstration only, but they are not exported as public-data facts.",
+  );
   lines.push("");
   hospitals.forEach((f) => {
     lines.push(`### ${f.name}`);
@@ -215,35 +268,57 @@ export function buildMarkdownBrief(ctx: BriefContext): string {
     if (phone) lines.push(`- Phone: ${phone}`);
     const website = normalizeFacilityWebsite(f.website);
     if (website) lines.push(`- Website: [Visit facility website](${website})`);
-    if (f.emergencyServicesIndicator) lines.push(`- Emergency services: ${f.emergencyServicesIndicator === "Yes" || f.emergencyServicesIndicator === "No" ? f.emergencyServicesIndicator : "Not reported in this source"} (CMS designation; not live operational status.)`);
-    lines.push(`- Source: ${f.sourceName ?? "CMS Hospital General Information"}${f.retrievedAt ? `; retrieved ${formatDate(f.retrievedAt)}` : ""}`);
+    if (f.emergencyServicesIndicator)
+      lines.push(
+        `- Emergency services: ${f.emergencyServicesIndicator === "Yes" || f.emergencyServicesIndicator === "No" ? f.emergencyServicesIndicator : "Not reported in this source"} (CMS designation; not live operational status.)`,
+      );
+    lines.push(
+      `- Source: ${f.sourceName ?? "CMS Hospital General Information"}${f.retrievedAt ? `; retrieved ${formatDate(f.retrievedAt)}` : ""}`,
+    );
     lines.push(`- Straight-line planning distance: ${f.distanceMiles} mi`);
-    if (f.criticalAccess) lines.push("- Critical access: Yes, mapped from CMS hospital_type = Critical Access Hospitals.");
-    lines.push("- Specialty capabilities: unavailable/not included unless source-mapped; do not infer capability from name, type, or geography.");
+    if (f.criticalAccess)
+      lines.push(
+        "- Critical access: Yes, mapped from CMS hospital_type = Critical Access Hospitals.",
+      );
+    lines.push(
+      "- Specialty capabilities: unavailable/not included unless source-mapped; do not infer capability from name, type, or geography.",
+    );
     lines.push("");
   });
 
-
   lines.push("## Population context");
   lines.push("");
-  const countyViz = buildCountyComparisonState({ overlay: filters.overlay, layerEnabled: Boolean(filters.overlay), containingCounty: ctx.containingCounty ?? null, counties: ctx.intersectingCounties ?? [] });
-  lines.push("Whole-county ACS totals are shown as county context only. Whole-county ACS totals are not estimates of population located inside the selected radius.");
-  lines.push("County-level data do not show variation within a county. County shading, when shown, compares whole-county ACS estimates only.");
-  lines.push(`- Visualization mode: ${countyViz.mode}`);
-  lines.push(`- Selected metric: ${countyViz.selectedMetricLabel}`);
-  lines.push(`- Loaded counties: ${countyViz.loadedCountyCount}; valid comparable counties: ${countyViz.validComparableCount}`);
-  if (countyViz.containingCountyRank) lines.push(`- Visible comparison rank: ${countyViz.containingCountyRank} of ${countyViz.validComparableCount}`);
-  if (countyViz.visibleMin !== null && countyViz.visibleMax !== null) lines.push(`- Visible range: ${countyViz.visibleMin}–${countyViz.visibleMax}`);
-  if (countyViz.missingCountyGeoids.length) lines.push(`- Missing county GEOIDs: ${countyViz.missingCountyGeoids.join(", ")}`);
+  lines.push(
+    "Whole-county ACS totals are shown as county context only. Whole-county ACS totals are not estimates of population located inside the selected radius.",
+  );
+  lines.push(
+    "County boundaries identify whole-county geography. They do not show population distribution within a county.",
+  );
+  lines.push(
+    `- Containing county: ${ctx.containingCounty?.fullName ?? "not resolved"}`,
+  );
+  lines.push(
+    `- Counties intersecting radius: ${(ctx.intersectingCounties ?? []).length}`,
+  );
+  lines.push(
+    `- Loaded county GEOIDs: ${(ctx.intersectingCounties ?? []).map((county) => county.geoid).join(", ") || "none"}`,
+  );
   (ctx.intersectingCounties ?? []).forEach((county) => {
     lines.push(`- ${county.fullName} (${county.geoid})`);
-    ACS_METRIC_ORDER.forEach((metricId) => { const metric = county.metrics[metricId]; lines.push(`  - ${ACS_METRIC_LABELS[metricId]}: ${metric?.estimate ?? "unavailable"}; MOE: ${metric?.marginOfError ?? "unavailable"}; status: ${metric?.status ?? "unavailable"}`); });
+    ACS_METRIC_ORDER.forEach((metricId) => {
+      const metric = county.metrics[metricId];
+      lines.push(
+        `  - ${ACS_METRIC_LABELS[metricId]}: ${metric?.estimate ?? "unavailable"}; MOE: ${metric?.marginOfError ?? "unavailable"}; status: ${metric?.status ?? "unavailable"}`,
+      );
+    });
   });
   lines.push("");
 
   lines.push("## Accessibility, redundancy, and resilience");
   lines.push("");
-  lines.push("Accessibility, redundancy, and resilience sections are unavailable until source-backed datasets are activated. No routing, road-time, live status, or clinical conclusions are included.");
+  lines.push(
+    "Accessibility, redundancy, and resilience sections are unavailable until source-backed datasets are activated. No routing, road-time, live status, or clinical conclusions are included.",
+  );
   lines.push("");
 
   lines.push("## Planning considerations");
@@ -293,7 +368,7 @@ export function buildMarkdownBrief(ctx: BriefContext): string {
   lines.push(
     `- Capability filters: ${filterSummary.capabilities.join(", ") || "None"}`,
   );
-  lines.push(`- Population overlay: ${filterSummary.overlay}`);
+  lines.push(`- County overlay: ${filterSummary.overlay}`);
   lines.push("");
 
   lines.push("## Limitations");
@@ -313,8 +388,12 @@ export function buildMarkdownBrief(ctx: BriefContext): string {
 
 export function buildEvidenceSchema(ctx: BriefContext) {
   const relevantSourceIds = new Set<string>();
-  ctx.briefFacilities.forEach((f) => f.sourceIds.forEach((id) => relevantSourceIds.add(id)));
-  const sourcesForBrief = Array.from(relevantSourceIds).map((id) => getSourceById(id)).filter(Boolean);
+  ctx.briefFacilities.forEach((f) =>
+    f.sourceIds.forEach((id) => relevantSourceIds.add(id)),
+  );
+  const sourcesForBrief = Array.from(relevantSourceIds)
+    .map((id) => getSourceById(id))
+    .filter(Boolean);
   const hospitalProvenance = classifyHospitalRecords(ctx.briefFacilities);
   const planningLocation = ctx.planningLocation ?? null;
   return {
@@ -336,8 +415,12 @@ export function buildEvidenceSchema(ctx: BriefContext) {
       coverageManifestSummary: {
         selectedLocation: ctx.locationLabel,
         selectedRadiusMiles: ctx.radiusMiles,
-        mapReadySources: (ctx.coverageStatus?.sourceSummaries ?? getSourceCoverageSummaries()).filter((source) => (source.mapReadyRecordCount ?? 0) > 0),
-        notYetMapReadySources: (ctx.coverageStatus?.sourceSummaries ?? getSourceCoverageSummaries()).filter((source) => (source.mapReadyRecordCount ?? 0) === 0),
+        mapReadySources: (
+          ctx.coverageStatus?.sourceSummaries ?? getSourceCoverageSummaries()
+        ).filter((source) => (source.mapReadyRecordCount ?? 0) > 0),
+        notYetMapReadySources: (
+          ctx.coverageStatus?.sourceSummaries ?? getSourceCoverageSummaries()
+        ).filter((source) => (source.mapReadyRecordCount ?? 0) === 0),
       },
     },
     facilities: ctx.briefFacilities.map((f) => ({
@@ -353,18 +436,26 @@ export function buildEvidenceSchema(ctx: BriefContext) {
       hospitalType: f.hospitalType ?? null,
       ownership: f.ownershipType ?? null,
       emergencyServices: f.emergencyServicesIndicator ?? null,
-      criticalAccess: f.criticalAccessIndicator ?? (f.criticalAccess ? "Yes" : null),
+      criticalAccess:
+        f.criticalAccessIndicator ?? (f.criticalAccess ? "Yes" : null),
       phone: f.phone ?? null,
       source: f.sourceName ?? "CMS Hospital General Information",
       sourceDatasetId: f.sourceDatasetId ?? null,
       sourceRelease: hospitalSourceMetadata.releaseLabel,
-      sourceRetrievedAt: f.retrievedAt ?? hospitalSourceMetadata.retrievedAt ?? null,
+      sourceRetrievedAt:
+        f.retrievedAt ?? hospitalSourceMetadata.retrievedAt ?? null,
       sourceUrl: f.sourceUrl ?? null,
-      fieldProvenance: "CMS Hospital General Information map-ready public-data artifact",
+      fieldProvenance:
+        "CMS Hospital General Information map-ready public-data artifact",
       missingFieldStatus: {
         county: f.countyName ? "present" : "missing-or-unavailable",
-        emergencyServices: f.emergencyServicesIndicator ? "present" : "missing-or-unavailable",
-        criticalAccess: f.criticalAccessIndicator || f.criticalAccess ? "present" : "missing-or-unavailable",
+        emergencyServices: f.emergencyServicesIndicator
+          ? "present"
+          : "missing-or-unavailable",
+        criticalAccess:
+          f.criticalAccessIndicator || f.criticalAccess
+            ? "present"
+            : "missing-or-unavailable",
         phone: f.phone ? "present" : "missing-or-unavailable",
         website: "unavailable-in-current-CMS-source-mapping",
       },
@@ -373,10 +464,21 @@ export function buildEvidenceSchema(ctx: BriefContext) {
       containingCounty: ctx.containingCounty ?? null,
       intersectingCounties: ctx.intersectingCounties ?? [],
       metrics: ACS_METRIC_ORDER,
-      visualization: buildCountyComparisonState({ overlay: ctx.filters.overlay, layerEnabled: Boolean(ctx.filters.overlay), containingCounty: ctx.containingCounty ?? null, counties: ctx.intersectingCounties ?? [] }),
-      limitation: "Whole-county ACS totals are not estimates of population located inside the selected radius. County-level data do not show variation within a county.",
-      geometrySource: "National county boundary partitions from generated static artifacts",
-      representativePointLimitation: "Point-in-county and radius intersection may use representative or simplified geometry until validated national boundaries are available.",
+      geography: {
+        containingCountyGeoid: ctx.containingCounty?.geoid ?? null,
+        intersectingCountyGeoids: (ctx.intersectingCounties ?? []).map(
+          (county) => county.geoid,
+        ),
+        loadedCountyGeoids: (ctx.intersectingCounties ?? []).map(
+          (county) => county.geoid,
+        ),
+      },
+      limitation:
+        "Whole-county ACS totals are not estimates of population located inside the selected radius. County-level data do not show variation within a county.",
+      geometrySource:
+        "National county boundary partitions from generated static artifacts",
+      representativePointLimitation:
+        "Point-in-county and radius intersection may use representative or simplified geometry until validated national boundaries are available.",
     },
     accessibility: null,
     resilience: null,
@@ -400,7 +502,13 @@ export function buildEvidenceSchema(ctx: BriefContext) {
       "Whole-county ACS totals are not estimates of population located inside the selected radius.",
       "County boundary activation requires PASS validation, national coverage, and at least 52 partitions.",
     ],
-    freshness: sourcesForBrief.map((source: any) => ({ sourceId: source.id, dataset: source.dataset, releaseDate: source.releaseDate, retrievalDate: source.retrievalDate, freshness: source.freshness })),
+    freshness: sourcesForBrief.map((source: any) => ({
+      sourceId: source.id,
+      dataset: source.dataset,
+      releaseDate: source.releaseDate,
+      retrievalDate: source.retrievalDate,
+      freshness: source.freshness,
+    })),
     exportMetadata: {
       hospitalSourceType: hospitalProvenance.classification,
       hospitalDatasetTitle: hospitalSourceMetadata.datasetTitle,
@@ -412,6 +520,8 @@ export function buildEvidenceSchema(ctx: BriefContext) {
       acsEstimatePeriod: acsSourceMetadata.estimatePeriod,
       acsRetrievedAt: acsSourceMetadata.retrievedAt,
       acsOfficialUrl: acsSourceMetadata.officialUrl,
+      acsTechnicalUrl: acsSourceMetadata.technicalUrl ?? null,
+      acsDatasetIdentifier: acsSourceMetadata.datasetIdentifier,
       boundarySource: boundarySourceMetadata.datasetTitle,
       boundaryVintage: boundarySourceMetadata.releaseLabel,
       coverageStatus: ctx.coverageStatus?.headline ?? null,
@@ -511,8 +621,29 @@ export function downloadCsvBrief(ctx: BriefContext) {
   download(buildFilename("csv"), buildCsvBrief(ctx), "text/csv");
 }
 export function downloadCountyAcsJson(ctx: BriefContext) {
-  const visualization = buildCountyComparisonState({ overlay: ctx.filters.overlay, layerEnabled: Boolean(ctx.filters.overlay), containingCounty: ctx.containingCounty ?? null, counties: ctx.intersectingCounties ?? [] });
-  download(buildCountyFilename("json"), JSON.stringify({ containingCounty: ctx.containingCounty ?? null, intersectingCounties: ctx.intersectingCounties ?? [], visualization, limitation: "The selected radius intersects whole counties. County ACS estimates are included for geographic context and are not estimates of the population located inside the selected radius. County-level data do not show variation within a county." }, null, 2), "application/json");
+  download(
+    buildCountyFilename("json"),
+    JSON.stringify(
+      {
+        containingCounty: ctx.containingCounty ?? null,
+        intersectingCounties: ctx.intersectingCounties ?? [],
+        geography: {
+          containingCountyGeoid: ctx.containingCounty?.geoid ?? null,
+          intersectingCountyGeoids: (ctx.intersectingCounties ?? []).map(
+            (county) => county.geoid,
+          ),
+          loadedCountyGeoids: (ctx.intersectingCounties ?? []).map(
+            (county) => county.geoid,
+          ),
+        },
+        limitation:
+          "The selected radius intersects whole counties. County ACS estimates are included for geographic context and are not estimates of the population located inside the selected radius. County boundaries identify whole-county geography and do not show population distribution within a county.",
+      },
+      null,
+      2,
+    ),
+    "application/json",
+  );
 }
 export function downloadCountyAcsCsv(ctx: BriefContext) {
   download(buildCountyFilename("csv"), buildCountyAcsCsv(ctx), "text/csv");
@@ -521,16 +652,60 @@ export function downloadCountyAcsCsv(ctx: BriefContext) {
 export { sources };
 
 export function buildCountyAcsCsv(ctx: BriefContext): string {
-  const visualization = buildCountyComparisonState({ overlay: ctx.filters.overlay, layerEnabled: Boolean(ctx.filters.overlay), containingCounty: ctx.containingCounty ?? null, counties: ctx.intersectingCounties ?? [] });
-  const displayByGeoid = new Map(visualization.counties.map((county) => [county.geoid, county]));
-  const header = ["geoid","county_name","state","role","metric_id","metric_label","estimate","moe","numerator","numerator_moe","denominator","denominator_moe","percentage","status","universe","variables","calculation_method","release","estimate_period","visualizationRole","visibleComparisonRank","visibleComparisonCount","selectedMetric","displayClass","displayStatus"];
+  const header = [
+    "geoid",
+    "county_name",
+    "state",
+    "role",
+    "metric_id",
+    "metric_label",
+    "estimate",
+    "moe",
+    "numerator",
+    "numerator_moe",
+    "denominator",
+    "denominator_moe",
+    "percentage",
+    "status",
+    "universe",
+    "variables",
+    "calculation_method",
+    "release",
+    "estimate_period",
+    "county_boundary_role",
+  ];
   const rows = (ctx.intersectingCounties ?? []).flatMap((county) =>
     ACS_METRIC_ORDER.map((metricId) => {
       const m = county.metrics[metricId];
-      const role = county.geoid === ctx.containingCounty?.geoid ? "containing" : "intersecting";
-      const display = displayByGeoid.get(county.geoid);
-      return [county.geoid, county.fullName, county.stateCode, role, metricId, ACS_METRIC_LABELS[metricId], m?.estimate ?? "", m?.marginOfError ?? "", m?.numerator ?? "", m?.numeratorMarginOfError ?? "", m?.denominator ?? "", m?.denominatorMarginOfError ?? "", m?.percentage ?? "", m?.status ?? "unavailable", m?.universe ?? "", (m?.sourceVariables ?? []).join(";"), m?.calculationMethod ?? "", county.acsRelease, county.estimatePeriod, display?.role ?? role, display?.rank ?? "", visualization.validComparableCount, visualization.selectedMetric ?? "", display?.displayClass ?? "", display?.displayStatus ?? ""].map(csvEscape).join(",");
-    })
+      const role =
+        county.geoid === ctx.containingCounty?.geoid
+          ? "containing"
+          : "intersecting";
+      return [
+        county.geoid,
+        county.fullName,
+        county.stateCode,
+        role,
+        metricId,
+        ACS_METRIC_LABELS[metricId],
+        m?.estimate ?? "",
+        m?.marginOfError ?? "",
+        m?.numerator ?? "",
+        m?.numeratorMarginOfError ?? "",
+        m?.denominator ?? "",
+        m?.denominatorMarginOfError ?? "",
+        m?.percentage ?? "",
+        m?.status ?? "unavailable",
+        m?.universe ?? "",
+        (m?.sourceVariables ?? []).join(";"),
+        m?.calculationMethod ?? "",
+        county.acsRelease,
+        county.estimatePeriod,
+        role,
+      ]
+        .map(csvEscape)
+        .join(",");
+    }),
   );
   return [header.join(","), ...rows].join("\n");
 }

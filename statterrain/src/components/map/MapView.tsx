@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo } from "react";
 import {
   MapContainer,
   TileLayer,
@@ -14,13 +14,11 @@ import {
 } from "react-leaflet";
 import type { Facility } from "@/types/facility";
 import type { SearchLocation } from "@/data/demo-region";
-import { mapRegions } from "@/data/map-regions";
 import type { OverlayMetricId } from "@/types/metric";
 import type { CountyContextState } from "@/lib/acs/countyContext";
 import { FACILITY_MARKER_COLORS } from "./mapStyles";
 import { FACILITY_TYPE_LABELS } from "@/types/facility";
-import { MapLegend } from "./MapLegend";
-import { buildCountyComparisonState, COUNTY_VALUE_LIMITATION } from "@/lib/acs/countyComparison";
+import { buildCountyOverlayState } from "@/lib/acs/countyOverlay";
 
 interface MapViewProps {
   layoutKey?: string;
@@ -57,7 +55,11 @@ function Recenter({ lat, lng }: { lat: number; lng: number }) {
   return null;
 }
 
-function MapClickPlanningCenter({ onMapClick }: { onMapClick?: (lat: number, lng: number) => void }) {
+function MapClickPlanningCenter({
+  onMapClick,
+}: {
+  onMapClick?: (lat: number, lng: number) => void;
+}) {
   useMapEvents({
     click(event) {
       onMapClick?.(event.latlng.lat, event.latlng.lng);
@@ -76,7 +78,6 @@ export function MapView({
   showLegend,
   selectedLocationLabel,
   coverageHeadline,
-  coverageMessages,
   selectedFacilityId,
   onSelectFacility,
   onOpenFacilityDetails,
@@ -84,25 +85,30 @@ export function MapView({
   countyContext,
 }: MapViewProps) {
   const radiusMeters = radiusMiles * 1609.34;
-  const [legendOpen, setLegendOpen] = useState(false);
+  void overlay;
+  void showLegend;
 
-  useEffect(() => {
-    setLegendOpen(window.matchMedia("(min-width: 640px)").matches);
-  }, []);
-
-  const countyComparison = useMemo(() => buildCountyComparisonState({
-    overlay,
-    layerEnabled: Boolean(overlay),
-    containingCounty: countyContext?.containingCounty ?? null,
-    counties: countyContext?.intersectingCounties ?? [],
-    intersectingGeoids: countyContext?.intersectingCounties.map((county) => county.geoid) ?? [],
-  }), [overlay, countyContext]);
+  const countyOverlay = useMemo(
+    () =>
+      buildCountyOverlayState({
+        containingCounty: countyContext?.containingCounty ?? null,
+        counties: countyContext?.intersectingCounties ?? [],
+        intersectingGeoids:
+          countyContext?.intersectingCounties.map((county) => county.geoid) ??
+          [],
+      }),
+    [countyContext],
+  );
 
   const polygons = useMemo(() => {
     if (!countyContext?.boundaryFeatures.length) return [];
     return countyContext.boundaryFeatures.map((feature) => {
-      const county = countyContext.intersectingCounties.find((c) => c.geoid === feature.properties.GEOID);
-      const display = countyComparison.counties.find((entry) => entry.geoid === feature.properties.GEOID);
+      const county = countyContext.intersectingCounties.find(
+        (c) => c.geoid === feature.properties.GEOID,
+      );
+      const display = countyOverlay.counties.find(
+        (entry) => entry.geoid === feature.properties.GEOID,
+      );
       return {
         id: feature.properties.GEOID,
         name: county?.fullName ?? feature.properties.NAME,
@@ -110,10 +116,7 @@ export function MapView({
         display,
       };
     });
-  }, [countyContext, countyComparison]);
-
-  const containingMetric = countyComparison.selectedMetric && countyContext?.containingCounty ? countyContext.containingCounty.metrics[countyComparison.selectedMetric] : null;
-  const formatNumber = (value: number | null | undefined) => typeof value === "number" ? value.toLocaleString() : "Unavailable";
+  }, [countyContext, countyOverlay]);
   return (
     <div
       className="statterrain-map-shell relative isolate z-0 h-full w-full overflow-hidden"
@@ -135,21 +138,30 @@ export function MapView({
         <MapClickPlanningCenter onMapClick={onMapClick} />
 
         {polygons.map((region) => (
-            <Polygon
-              key={region.id}
-              positions={region.geometry.type === "Polygon" ? (region.geometry.coordinates as any).map((ring: number[][])=>ring.map(([lng,lat])=>[lat,lng])) : (region.geometry.coordinates as any).map((poly: number[][][])=>poly.map((ring)=>ring.map(([lng,lat])=>[lat,lng])))}
-              pathOptions={{
-                color: region.display?.outlineColor ?? "#94a3b8",
-                fillColor: region.display?.fillColor ?? "#f8fafc",
-                fillOpacity: region.display?.fillOpacity ?? 0.08,
-                weight: region.display?.outlineWeight ?? 1,
-                className: `county-polygon county-role-${region.display?.role ?? "loaded"} county-display-${region.display?.displayClass ?? "outline-only"}`,
-              }}
-              interactive={false}
-            >
-              <Tooltip sticky>{region.name}</Tooltip>
-            </Polygon>
-          ))}
+          <Polygon
+            key={region.id}
+            positions={
+              region.geometry.type === "Polygon"
+                ? (region.geometry.coordinates as any).map((ring: number[][]) =>
+                    ring.map(([lng, lat]) => [lat, lng]),
+                  )
+                : (region.geometry.coordinates as any).map(
+                    (poly: number[][][]) =>
+                      poly.map((ring) => ring.map(([lng, lat]) => [lat, lng])),
+                  )
+            }
+            pathOptions={{
+              color: region.display?.outlineColor ?? "#94a3b8",
+              fillColor: region.display?.fillColor ?? "#f8fafc",
+              fillOpacity: region.display?.fillOpacity ?? 0.08,
+              weight: region.display?.outlineWeight ?? 1,
+              className: `county-polygon county-role-${region.display?.role ?? "loaded"} ${region.display?.className ?? "county-boundary-outline"}`,
+            }}
+            interactive={false}
+          >
+            <Tooltip sticky>{region.name}</Tooltip>
+          </Polygon>
+        ))}
 
         {showRadius && (
           <Circle
@@ -195,7 +207,12 @@ export function MapView({
               fillOpacity: 0.9,
               className: `facility-marker facility-marker-${f.id}`,
             }}
-            eventHandlers={{ click: (event) => { event.originalEvent.stopPropagation(); onSelectFacility(f.id); } }}
+            eventHandlers={{
+              click: (event) => {
+                event.originalEvent.stopPropagation();
+                onSelectFacility(f.id);
+              },
+            }}
           >
             <Tooltip direction="top" offset={[0, -6]}>
               {f.name}
@@ -226,49 +243,19 @@ export function MapView({
         className="pointer-events-none absolute left-3 top-3 z-[350] max-w-[min(30rem,calc(100%-6rem))] rounded-full bg-white/95 px-3 py-2 text-xs font-semibold text-slate-700 shadow-panel"
         data-testid="selected-planning-location"
       >
-        <span className="whitespace-nowrap">{selectedLocationLabel ?? location.label}</span>
+        <span className="whitespace-nowrap">
+          {selectedLocationLabel ?? location.label}
+        </span>
         <span> · Radius {radiusMiles} mi</span>
-        <span className="sr-only">Selected planning radius: {radiusMiles} miles</span>
+        <span className="sr-only">
+          Selected planning radius: {radiusMiles} miles
+        </span>
         <span className="text-amber-800"> · {coverageHeadline}</span>
       </div>
 
       <div className="pointer-events-none absolute left-3 top-14 z-[350] rounded-full bg-white/90 px-3 py-1.5 text-xs font-medium text-slate-600 shadow-sm">
         Click the map to set planning center.
       </div>
-
-      {overlay && countyContext?.containingCounty && (
-        <section className="absolute bottom-3 left-3 z-[350] max-w-[min(25rem,calc(100%-1.5rem))] rounded-xl border border-slate-200 bg-white/95 p-3 text-xs text-slate-700 shadow-panel" aria-label="County metric comparison" data-testid="county-comparison-card">
-          <h2 className="text-sm font-semibold text-slate-900">{countyComparison.selectedMetricLabel}</h2>
-          <p className="mt-1 text-[11px] font-semibold uppercase tracking-wide text-slate-500">County-level estimate</p>
-          <p className="mt-1 font-medium text-slate-900">{countyContext.containingCounty.fullName}</p>
-          <p className="text-sm font-semibold text-slate-900">{formatNumber(containingMetric?.estimate)}{typeof containingMetric?.marginOfError === "number" ? ` ± ${formatNumber(containingMetric.marginOfError)}` : ""}</p>
-          <p className="text-[11px] text-slate-500">ACS {countyContext.containingCounty.acsRelease} {countyContext.containingCounty.estimatePeriod}</p>
-          {countyComparison.mode === "multi-county-comparison" ? (
-            <div className="mt-2 grid gap-1 sm:grid-cols-2">
-              <p>{countyComparison.validComparableCount} of {countyComparison.loadedCountyCount} counties have reported values</p>
-              <p>Rank: {countyComparison.containingCountyRank ?? "Unavailable"} of {countyComparison.validComparableCount}</p>
-              <p className="sm:col-span-2">Range: {formatNumber(countyComparison.visibleMin)}–{formatNumber(countyComparison.visibleMax)}{countyComparison.equalValues ? " (all reported values are equal)" : ""}</p>
-              <p className="sm:col-span-2 text-[11px] text-slate-600">County colors compare whole-county ACS estimates. They do not represent within-county variation or population inside the radius.</p>
-            </div>
-          ) : (
-            <p className="mt-2 text-[11px] text-slate-600">Only one county is currently available or only one county has a reported value. The map outline identifies the county; a comparative color scale is not shown. {COUNTY_VALUE_LIMITATION}</p>
-          )}
-        </section>
-      )}
-
-      {showLegend && countyComparison.legend && (
-        <div className="pointer-events-none absolute bottom-3 right-3 z-[350] max-w-[calc(100%-1.5rem)]">
-          {legendOpen ? (
-            <MapLegend
-              overlay={overlay}
-              onCollapse={() => setLegendOpen(false)}
-              countyComparison={countyComparison}
-            />
-          ) : (
-            <button type="button" onClick={() => setLegendOpen(true)} className="pointer-events-auto min-h-10 rounded-full border border-slate-200 bg-white/95 px-3 py-2 text-xs font-semibold text-slate-700 shadow-panel hover:bg-slate-50 focus:outline-none focus:ring-2 focus:ring-terrain-500 focus:ring-offset-2" aria-expanded="false" aria-label="Show map legend">Legend</button>
-          )}
-        </div>
-      )}
     </div>
   );
 }

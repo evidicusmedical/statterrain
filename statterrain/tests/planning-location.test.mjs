@@ -9,7 +9,7 @@ const state = readFileSync(join(root,'src/hooks/useAppState.ts'),'utf8');
 const page = readFileSync(join(root,'src/app/page.tsx'),'utf8');
 const map = readFileSync(join(root,'src/components/map/MapView.tsx'),'utf8');
 
-test('version is v0.3.7.8 prototype',()=>assert.match(product,/prototypeVersion: "v0\.3\.7\.8 prototype"/));
+test('version is v0.3.8 prototype',()=>assert.match(product,/prototypeVersion: "v0\.3\.8 prototype"/));
 test('search modes create canonical PlanningLocation',()=>{
   assert.match(search,/planningLocation: PlanningLocation/);
   assert.match(search,/"address-search"/);
@@ -21,7 +21,7 @@ test('search modes create canonical PlanningLocation',()=>{
 test('single planning setter feeds search and map click',()=>{
   assert.match(state,/function setPlanningLocation\(/);
   assert.match(state,/setPlanningLocationState\(next\)/);
-  assert.match(page,/state\.setPlanningLocation\(result\.location\.planningLocation, result\.location\)/);
+  assert.match(page,/state\.setPlanningLocation\([\s\S]*result\.location\.planningLocation,[\s\S]*result\.location,[\s\S]*\)/);
   assert.match(page,/state\.setPlanningLocation\(location\.planningLocation, location\)/);
 });
 test('planning marker and recenter use selected coordinates',()=>{

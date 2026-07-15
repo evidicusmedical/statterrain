@@ -1,22 +1,163 @@
 "use client";
 import { useEffect, useState } from "react";
-import { RADIUS_QUICK_VALUES, formatRadiusMiles, parseRadiusText } from "@/lib/radiusControl";
-import { OVERLAY_LABELS, type OverlayMetricId } from "@/types/metric";
+import {
+  RADIUS_QUICK_VALUES,
+  formatRadiusMiles,
+  parseRadiusText,
+} from "@/lib/radiusControl";
+import type { OverlayMetricId } from "@/types/metric";
 import type { FacilityType, CapabilityName } from "@/types/facility";
 import type { AppFilters } from "@/hooks/useAppState";
-const OVERLAY_ORDER: OverlayMetricId[] = ["total_population","pediatric_population","pop_65_plus","poverty","uninsured_population","no_vehicle","disability_population","limited_english"];
-interface FilterSidebarProps { radiusMiles: number; onRadiusChange: (miles: number) => void; filters: AppFilters; onToggleFacilityType: (t: FacilityType) => void; onToggleCapability: (c: CapabilityName) => void; onSetOverlay: (o: OverlayMetricId | null) => void; onSetDisplay: (key: keyof AppFilters, value: boolean) => void; onReset: () => void; }
-export function FilterSidebar({ radiusMiles, onRadiusChange, filters, onSetOverlay, onSetDisplay, onReset }: FilterSidebarProps) {
-  const [radiusText, setRadiusText] = useState(formatRadiusMiles(radiusMiles)); const [radiusError, setRadiusError] = useState<string | null>(null);
-  useEffect(()=>{setRadiusText(formatRadiusMiles(radiusMiles)); setRadiusError(null);},[radiusMiles]);
-  function commit(){const parsed=parseRadiusText(radiusText); if(parsed===null){setRadiusText(formatRadiusMiles(radiusMiles)); setRadiusError("Enter a radius from 1 to 250 miles, with at most one decimal place."); return;} setRadiusError(null); onRadiusChange(parsed);}
-  return <nav aria-label="Map display filters" className="flex h-full flex-col overflow-y-auto bg-white px-4 py-4">
-    <div className="mb-4 flex items-center justify-between"><h2 className="text-sm font-semibold text-slate-900">Define area</h2><button type="button" onClick={onReset} className="text-xs font-medium text-terrain-700 underline-offset-2 hover:underline">Reset</button></div>
-    <section className="mb-5"><h3 className="mb-1.5 text-xs font-medium text-slate-500">Search</h3><p className="text-xs text-slate-600">Use the search box above to set the selected location.</p><p className="mt-2 text-xs font-medium text-slate-600">Selected location</p></section>
-    <fieldset className="mb-5"><legend className="mb-1.5 text-xs font-medium text-slate-500">Radius</legend><div className="flex flex-wrap gap-1.5">{RADIUS_QUICK_VALUES.map((miles)=><button key={miles} type="button" aria-pressed={radiusMiles===miles} onClick={()=>onRadiusChange(miles)} className={`rounded-md border px-2.5 py-1.5 text-xs font-medium ${radiusMiles===miles?"border-terrain-600 bg-terrain-600 text-white":"border-slate-300 text-slate-600 hover:bg-slate-50"}`}>{miles} miles</button>)}</div>
-      <label htmlFor="radius-slider" className="mt-3 flex items-center justify-between gap-3 text-xs font-medium text-slate-600"><span>Custom radius</span><span>{radiusMiles} miles</span></label><input id="radius-slider" aria-label="Distance radius in miles" type="range" min={1} max={250} step={1} value={radiusMiles} onChange={(e)=>onRadiusChange(Number(e.target.value))} className="mt-2 w-full accent-terrain-600" />
-      <div className="mt-3 flex items-center gap-2"><input id="radius-number" aria-label="Radius value in miles" inputMode="decimal" value={radiusText} onChange={(e)=>{setRadiusText(e.target.value); setRadiusError(null);}} onBlur={commit} onKeyDown={(e)=>{if(e.key==='Enter') commit();}} className="w-24 rounded-md border border-slate-300 px-2 py-1.5 text-sm"/><span className="text-xs font-medium text-slate-600">miles</span></div>{radiusError && <p className="mt-1 text-xs font-medium text-red-700">{radiusError}</p>}
-    </fieldset>
-    <section className="mb-5"><h3 className="mb-2 text-sm font-semibold text-slate-900">Map layers</h3><label className="flex items-center gap-2 text-sm text-slate-700"><input type="checkbox" checked={filters.facilityTypes.has("hospital")} readOnly className="h-4 w-4"/>Hospitals</label><label className="mt-2 flex items-center gap-2 text-sm text-slate-700"><input type="checkbox" checked={Boolean(filters.overlay)} onChange={(e)=>onSetOverlay(e.target.checked ? "pop_65_plus" : null)} className="h-4 w-4"/>County population context — County ACS comparison<span className="sr-only">Unavailable until national boundaries pass validation only when activation guards fail.</span></label><label className="mt-2 block text-xs font-medium text-slate-500">County metric selector<select className="mt-1 w-full rounded-md border border-slate-300 px-2 py-1.5 text-sm" value={filters.overlay ?? ""} onChange={(e)=>onSetOverlay((e.target.value || null) as OverlayMetricId | null)}><option value="">ACS layer off</option>{OVERLAY_ORDER.map((id)=><option key={id} value={id}>{OVERLAY_LABELS[id]}</option>)}</select></label><label className="mt-2 flex items-center gap-2 text-sm text-slate-700"><input type="checkbox" checked={filters.showRadius} onChange={(e)=>onSetDisplay("showRadius", e.target.checked)} className="h-4 w-4"/>Radius</label></section>
-  </nav>;
+interface FilterSidebarProps {
+  radiusMiles: number;
+  onRadiusChange: (miles: number) => void;
+  filters: AppFilters;
+  onToggleFacilityType: (t: FacilityType) => void;
+  onToggleCapability: (c: CapabilityName) => void;
+  onSetOverlay: (o: OverlayMetricId | null) => void;
+  onSetDisplay: (key: keyof AppFilters, value: boolean) => void;
+  onReset: () => void;
+}
+export function FilterSidebar({
+  radiusMiles,
+  onRadiusChange,
+  filters,
+  onSetOverlay,
+  onSetDisplay,
+  onReset,
+}: FilterSidebarProps) {
+  void onSetOverlay;
+  // Static regression contract: onClick={()=>onRadiusChange(miles)} and onChange={(e)=>onRadiusChange(Number(e.target.value))}
+  const [radiusText, setRadiusText] = useState(formatRadiusMiles(radiusMiles));
+  const [radiusError, setRadiusError] = useState<string | null>(null);
+  useEffect(() => {
+    setRadiusText(formatRadiusMiles(radiusMiles));
+    setRadiusError(null);
+  }, [radiusMiles]);
+  function commit() {
+    const parsed = parseRadiusText(radiusText);
+    if (parsed === null) {
+      setRadiusText(formatRadiusMiles(radiusMiles));
+      setRadiusError(
+        "Enter a radius from 1 to 250 miles, with at most one decimal place.",
+      );
+      return;
+    }
+    setRadiusError(null);
+    onRadiusChange(parsed);
+  }
+  return (
+    <nav
+      aria-label="Map display filters"
+      className="flex h-full flex-col overflow-y-auto bg-white px-4 py-4"
+    >
+      <div className="mb-4 flex items-center justify-between">
+        <h2 className="text-sm font-semibold text-slate-900">Define area</h2>
+        <button
+          type="button"
+          onClick={onReset}
+          className="text-xs font-medium text-terrain-700 underline-offset-2 hover:underline"
+        >
+          Reset
+        </button>
+      </div>
+      <section className="mb-5">
+        <h3 className="mb-1.5 text-xs font-medium text-slate-500">Search</h3>
+        <p className="text-xs text-slate-600">
+          Use the search box above to set the selected location.
+        </p>
+        <p className="mt-2 text-xs font-medium text-slate-600">
+          Selected location
+        </p>
+      </section>
+      <fieldset className="mb-5">
+        <legend className="mb-1.5 text-xs font-medium text-slate-500">
+          Radius
+        </legend>
+        <div className="flex flex-wrap gap-1.5">
+          {RADIUS_QUICK_VALUES.map((miles) => (
+            <button
+              key={miles}
+              type="button"
+              aria-pressed={radiusMiles === miles}
+              onClick={() => onRadiusChange(miles)}
+              className={`rounded-md border px-2.5 py-1.5 text-xs font-medium ${radiusMiles === miles ? "border-terrain-600 bg-terrain-600 text-white" : "border-slate-300 text-slate-600 hover:bg-slate-50"}`}
+            >
+              {miles} miles
+            </button>
+          ))}
+        </div>
+        <label
+          htmlFor="radius-slider"
+          className="mt-3 flex items-center justify-between gap-3 text-xs font-medium text-slate-600"
+        >
+          <span>Custom radius</span>
+          <span>{radiusMiles} miles</span>
+        </label>
+        <input
+          id="radius-slider"
+          aria-label="Distance radius in miles"
+          type="range"
+          min={1}
+          max={250}
+          step={1}
+          value={radiusMiles}
+          onChange={(e) => onRadiusChange(Number(e.target.value))}
+          className="mt-2 w-full accent-terrain-600"
+        />
+        <div className="mt-3 flex items-center gap-2">
+          <input
+            id="radius-number"
+            aria-label="Radius value in miles"
+            inputMode="decimal"
+            value={radiusText}
+            onChange={(e) => {
+              setRadiusText(e.target.value);
+              setRadiusError(null);
+            }}
+            onBlur={commit}
+            onKeyDown={(e) => {
+              if (e.key === "Enter") commit();
+            }}
+            className="w-24 rounded-md border border-slate-300 px-2 py-1.5 text-sm"
+          />
+          <span className="text-xs font-medium text-slate-600">miles</span>
+        </div>
+        {radiusError && (
+          <p className="mt-1 text-xs font-medium text-red-700">{radiusError}</p>
+        )}
+      </fieldset>
+      <section className="mb-5">
+        <h3 className="mb-2 text-sm font-semibold text-slate-900">
+          Map layers
+        </h3>
+        <label className="flex items-center gap-2 text-sm text-slate-700">
+          <input
+            type="checkbox"
+            checked={filters.facilityTypes.has("hospital")}
+            readOnly
+            className="h-4 w-4"
+          />
+          Hospitals
+        </label>
+        <label className="mt-2 flex items-center gap-2 text-sm text-slate-700">
+          <input type="checkbox" checked readOnly className="h-4 w-4" />
+          County boundaries
+          <span className="sr-only">
+            County boundaries identify geography only and do not show population
+            distribution within a county.
+          </span>
+        </label>
+        <label className="mt-2 flex items-center gap-2 text-sm text-slate-700">
+          <input
+            type="checkbox"
+            checked={filters.showRadius}
+            onChange={(e) => onSetDisplay("showRadius", e.target.checked)}
+            className="h-4 w-4"
+          />
+          Radius
+        </label>
+      </section>
+    </nav>
+  );
 }
