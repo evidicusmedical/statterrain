@@ -5,7 +5,7 @@ export interface MapRegionPolygon {
   name: string;
   /** [lat, lng][] ring describing a simple demonstration polygon. */
   ring: [number, number][];
-  /** Per-overlay demonstration intensity, 0-1, used to drive choropleth color. */
+  /** Per-overlay demonstration intensity, 0-1, legacy metric intensity metadata. */
   values: Record<OverlayMetricId, number>;
 }
 

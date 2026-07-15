@@ -99,7 +99,9 @@
     "test:county-boundary-acs-reconciliation": "node --test tests/county-boundary-acs-reconciliation.test.mjs",
     "test:county-boundary-workflow": "node --test tests/county-boundary-workflow.test.mjs",
     "test:county-boundary-runtime-dependencies": "node --test tests/county-boundary-runtime-dependencies.test.mjs",
-    "test:acs-county-comparison-visualization": "node --test tests/acs-county-comparison-visualization.test.mjs"
+    "test:acs-county-comparison-visualization": "node --test tests/acs-county-comparison-visualization.test.mjs",
+    "test:county-overlay-removal": "node --test tests/county-overlay-removal.test.mjs",
+    "test:facility-panel-replacement": "node --test tests/facility-panel-replacement.test.mjs"
   },
   "dependencies": {
     "leaflet": "^1.9.4",

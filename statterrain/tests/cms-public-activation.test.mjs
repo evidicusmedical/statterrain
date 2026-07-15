@@ -7,44 +7,38 @@ import { spawnSync } from 'node:child_process';
 
 const root = process.cwd();
 
-test('version is v0.3.7.8 prototype and rejects old patch versions', () => {
+test('version is v0.3.8 prototype and rejects old patch versions', () => {
   const product = readFileSync(join(root, 'src/config/product.ts'), 'utf8');
-  assert.match(product, /prototypeVersion: "v0\.3\.7\.8 prototype"/);
+  assert.match(product, /prototypeVersion: "v0\.3\.8 prototype"/);
   for (const old of ['v0.3.4 prototype','v0.3.3.3 prototype','v0.3.3.2 prototype','v0.3.3.1 prototype','v0.3.3 prototype','v0.3.2.4 prototype']) assert.ok(!product.includes(`prototypeVersion: "${old}"`));
 });
 
 
-test('normal controls and legend are source-aligned and synthetic controls are developer-only', () => {
+test('normal controls and county boundaries are source-aligned and synthetic controls are developer-only', () => {
   const filters = readFileSync(join(root, 'src/components/filters/FilterSidebar.tsx'), 'utf8');
-  const legend = readFileSync(join(root, 'src/components/map/MapLegend.tsx'), 'utf8');
+  const map = readFileSync(join(root, 'src/components/map/MapView.tsx'), 'utf8');
   const appState = readFileSync(join(root, 'src/hooks/useAppState.ts'), 'utf8');
   const header = readFileSync(join(root, 'src/components/layout/Header.tsx'), 'utf8');
   assert.ok(!filters.includes('Synthetic demo categories'));
   assert.ok(!filters.includes('Include all demonstration records'));
-  assert.ok(!filters.includes('Source confidence display'));
-  assert.ok(!filters.includes('Show facility labels'));
-  assert.ok(!filters.includes('Show freshness badges'));
-  assert.ok(legend.includes('Hospital'));
-  assert.ok(legend.includes('Selected planning location'));
-  assert.ok(legend.includes('Planning-radius boundary'));
-  assert.ok(!legend.includes('Critical Access Hospital'));
-  assert.ok(legend.includes('CMS hospital markers are source-backed public records.'));
-  assert.ok(!legend.includes('"pharmacy"'));
-  assert.ok(!legend.includes('"dialysis"'));
+  assert.ok(filters.includes('County boundaries'));
+  assert.ok(map.includes('facility-marker'));
+  assert.ok(map.includes('planning-location-marker'));
+  assert.ok(map.includes('county-boundary-outline'));
+  assert.ok(!map.includes('MapLegend'));
+  assert.ok(!filters.includes('County metric selector'));
   assert.ok(appState.includes('const ALL_FACILITY_TYPES: FacilityType[] = ["hospital"];'));
   assert.ok(!header.includes('SyntheticBadge'));
 });
 
-test('summary-hidden workspace removes interactive summary and invalidates map size', () => {
+test('summary preference and facility replacement use one right-side panel', () => {
   const page = readFileSync(join(root, 'src/app/page.tsx'), 'utf8');
   const map = readFileSync(join(root, 'src/components/map/MapView.tsx'), 'utf8');
-  assert.ok(page.includes('{(summaryOpen || mobileTab === "summary") && ('));
-  assert.ok(page.includes('lg:pointer-events-none'));
-  assert.ok(page.includes('aria-hidden={!summaryOpen && mobileTab !== "summary"}'));
-  assert.ok(page.includes('inert={!summaryOpen && mobileTab !== "summary" ? true : undefined}'));
+  assert.ok(page.includes('summaryPreference'));
+  assert.ok(page.includes('activePanel'));
+  assert.ok(page.includes('data-testid="right-side-panel"'));
   assert.ok(page.includes('lg:grid-cols-[minmax(0,1fr)]'));
-  assert.ok(map.includes('map.invalidateSize()'));
-  assert.ok(map.includes('layoutKey?: string'));
+  assert.ok(map.includes('map.invalidateSize'));
 });
 
 test('sync script copies manifest and fixture partitions without altering source', () => {
