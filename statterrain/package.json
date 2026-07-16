@@ -2,7 +2,7 @@
   "name": "statterrain",
   "version": "0.1.0",
   "private": true,
-  "description": "StatTerrain — Emergency-care resources and population-health intelligence (frontend prototype).",
+  "description": "StatTerrain \u2014 Emergency-care resources and population-health intelligence (frontend prototype).",
   "scripts": {
     "dev": "next dev -p 3000 -H 0.0.0.0",
     "build": "next build",
@@ -105,7 +105,11 @@
     "test:acs-national-benchmarks": "node --test tests/acs-national-benchmarks.test.mjs",
     "test:acs-demographic-percentages": "node --test tests/acs-demographic-percentages.test.mjs",
     "test:estimate-presentation": "node --test tests/estimate-presentation.test.mjs",
-    "test:visual-hierarchy": "node --test tests/visual-hierarchy.test.mjs"
+    "test:visual-hierarchy": "node --test tests/visual-hierarchy.test.mjs",
+    "test:soo-registry": "node --experimental-transform-types --test tests/soo-requirements.test.mjs",
+    "test:requirements-export": "node --experimental-transform-types --test tests/soo-requirements.test.mjs",
+    "test:traceability-ui-contract": "node --test tests/evidence-contract.test.mjs",
+    "test:active-version-guard": "node --test tests/evidence-contract.test.mjs"
   },
   "dependencies": {
     "leaflet": "^1.9.4",

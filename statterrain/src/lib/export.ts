@@ -1,4 +1,5 @@
 import { product } from "@/config/product";
+import { SOO_REGISTRY_VERSION, getTraceabilitySummary, requirementStatusLabel, selectRelevantRequirements, sooRequirements } from "@/config/sooRequirements";
 import {
   facilityTaxonomy,
   syntheticDemoFacilityTypes,
@@ -409,6 +410,17 @@ export function buildMarkdownBrief(ctx: BriefContext): string {
   lines.push(`- County overlay: ${filterSummary.overlay}`);
   lines.push("");
 
+  const traceability = getTraceabilitySummary();
+  const relevantRequirements = selectRelevantRequirements({ hasHospitals: true, hasCountyContext: Boolean(ctx.containingCounty), hasNationalBenchmark: Boolean(ctx.containingCounty), hasEvidence: true });
+  lines.push("## Requirements traceability");
+  lines.push("");
+  lines.push(`Registry: ${SOO_REGISTRY_VERSION}. ${traceability.total} requirements. Supported: ${traceability.byStatus.supported}; Partially supported: ${traceability.byStatus["partially-supported"]}; Planned: ${traceability.byStatus.planned}; Data dependent: ${traceability.byStatus["data-dependent"]}; Out of scope: ${traceability.byStatus["out-of-scope"]}.`);
+  lines.push("Supported requirements have an active method and source. Planned and data-dependent requirements are known future work, not available capabilities.");
+  for (const id of relevantRequirements.relevantRequirementIds) { const requirement = sooRequirements.find((item) => item.id === id); if (requirement) lines.push(`- ${requirement.id} — ${requirement.title} (Status: ${requirementStatusLabel[requirement.status]}). Limitation: ${requirement.limitations[0]}`); }
+  const future = sooRequirements.filter((item) => item.status === "data-dependent");
+  lines.push("Known future dependencies: " + future.map((item) => `${item.id} (${item.sourceDependencies[0]?.displayName ?? "future source"})`).join("; ") + ".");
+  lines.push("");
+
   lines.push("## Limitations");
   lines.push("");
   lines.push(
@@ -438,6 +450,7 @@ export function buildEvidenceSchema(ctx: BriefContext) {
     schemaVersion: "statterrain-evidence-v2",
     generatedAt: new Date().toISOString(),
     productVersion: product.prototypeVersion,
+    requirementsTraceability: (() => { const summary = getTraceabilitySummary(); const relevant = selectRelevantRequirements({ hasHospitals: true, hasCountyContext: Boolean(ctx.containingCounty), hasNationalBenchmark: Boolean(ctx.containingCounty), hasEvidence: true }); return { registryVersion: SOO_REGISTRY_VERSION, generatedAt: new Date().toISOString(), summary: { total: summary.total, supported: summary.byStatus.supported, partiallySupported: summary.byStatus["partially-supported"], planned: summary.byStatus.planned, dataDependent: summary.byStatus["data-dependent"], unsupported: summary.byStatus.unsupported, outOfScope: summary.byStatus["out-of-scope"] }, relevantRequirementIds: relevant.relevantRequirementIds, requirements: sooRequirements.map(({ id, title, domain, status, evidenceFields, limitations }) => ({ id, title, domain, status, evidenceFields, limitations })) }; })(),
     researchArea: {
       planningLocation,
       radiusMiles: ctx.radiusMiles,
@@ -807,3 +820,6 @@ export function buildCountyAcsCsv(ctx: BriefContext): string {
   );
   return [header.join(","), ...rows].join("\n");
 }
+
+export function buildRequirementsTraceabilityJson() { return { registryVersion: SOO_REGISTRY_VERSION, generatedAt: new Date().toISOString(), summary: getTraceabilitySummary(), requirements: sooRequirements }; }
+export function downloadRequirementsTraceabilityJson() { download(`statterrain-requirements-traceability-${todayIso()}.json`, JSON.stringify(buildRequirementsTraceabilityJson(), null, 2), "application/json"); }
