@@ -16,6 +16,7 @@ import type { PlanningLocation } from "@/types/planningLocation";
 import { validatePlanningCoordinates } from "@/types/planningLocation";
 import { demoRegion } from "@/data/demo-region";
 import { resolveCountyContext, type CountyContextState } from "@/lib/acs/countyContext";
+import { createPlanningScenario, facilitySnapshot, PLANNING_SCENARIO_STORAGE_KEY, synchronizePlanningScenario, validatePlanningScenario, type PlanningScenario } from "@/lib/scenarios/planningScenario";
 export interface AppFilters {
   facilityTypes: Set<FacilityType>;
   capabilities: Set<CapabilityName>;
@@ -74,6 +75,10 @@ export function useAppState() {
   const publicDataSummary = useMemo(() => getPublicDataArtifactSummary(), []);
   const [countyContext, setCountyContext] = useState<CountyContextState>({ status: "idle", message: "County population context has not been requested.", containingCounty: null, intersectingCounties: [], boundaryFeatures: [] });
   const [cmsLoad, setCmsLoad] = useState<{status: string; facilities: Facility[]; manifest: any; requestedPartitions: string[]; loadedPartitions: string[]; errors: string[]; primaryState?: string; selectionStrategy?: string; partialCoverage?: boolean}>({ status: "loading", facilities: [], manifest: null, requestedPartitions: [], loadedPartitions: [], errors: [] });
+  const [planningScenario, setPlanningScenario] = useState<PlanningScenario | null>(null);
+  const [scenarioRestoreError, setScenarioRestoreError] = useState<string | null>(null);
+  useEffect(() => { try { const raw=window.localStorage.getItem(PLANNING_SCENARIO_STORAGE_KEY); if(raw){const parsed=validatePlanningScenario(JSON.parse(raw)); if(parsed.valid) setPlanningScenario(parsed.scenario!); else setScenarioRestoreError("The saved planning scenario could not be restored because its data were invalid. You can start a new scenario or import a valid scenario file.");} } catch { setScenarioRestoreError("The saved planning scenario could not be restored because its data were invalid. You can start a new scenario or import a valid scenario file."); } }, []);
+  useEffect(() => { if(!planningScenario) return; const timer=window.setTimeout(()=>{try{window.localStorage.setItem(PLANNING_SCENARIO_STORAGE_KEY,JSON.stringify(planningScenario));}catch{}},300); return()=>window.clearTimeout(timer); },[planningScenario]);
 
   const partitionSelection = useMemo(() => selectCmsHospitalPartitionResult({ lat: location.lat, lng: location.lng, radiusMiles, state: planningLocation?.state ?? selectedLocation?.state, label: planningLocation?.displayLabel ?? selectedLocation?.label ?? location.label, query: planningLocation?.searchQuery ?? selectedLocation?.query }), [location, radiusMiles, selectedLocation, planningLocation]);
   const partitionCodes = partitionSelection.partitions;
@@ -138,6 +143,7 @@ export function useAppState() {
     () => visibleFacilities.find((f) => f.id === selectedFacilityId) ?? null,
     [visibleFacilities, selectedFacilityId],
   );
+  useEffect(() => { if(!planningScenario) return; setPlanningScenario(prev=>prev? synchronizePlanningScenario(prev,{location:{label:planningLocation?.displayLabel ?? selectedLocation?.label ?? location.label,latitude:location.lat,longitude:location.lng,source:planningLocation?.inputMethod === "coordinate-search" ? "coordinates" : planningLocation ? "geocoded" : "unset"},radiusMiles,containingCounty:{geoid:countyContext.containingCounty?.geoid ?? null,name:countyContext.containingCounty?.fullName ?? null,state:null,status:countyContext.containingCounty?"available":countyContext.status==="error"?"unavailable":"not-loaded"},intersectingCounties:countyContext.intersectingCounties.map(c=>({geoid:c.geoid,name:c.fullName,state:null}))}):prev); },[location.lat,location.lng,location.label,radiusMiles,planningLocation,selectedLocation,countyContext]);
 
   function setPlanningLocation(next: PlanningLocation, sourceLocation?: SelectedLocation) {
     if (!validatePlanningCoordinates(next.latitude, next.longitude)) return;
@@ -223,6 +229,14 @@ export function useAppState() {
     setPublicDataPreviewEnabled: () => {},
     cmsLoad,
     countyContext,
+    planningScenario,
+    scenarioRestoreError,
+    createScenario: () => setPlanningScenario(createPlanningScenario()),
+    updateScenario: (update: Partial<PlanningScenario>) => setPlanningScenario(prev => prev ? {...prev,...update,updatedAt:new Date().toISOString()} : prev),
+    addFacilityToScenario: (facility: Facility) => setPlanningScenario(prev => { if(!prev || prev.selectedFacilities.some(x=>x.facilityId===facility.id)) return prev; return {...prev,selectedFacilities:[...prev.selectedFacilities,facilitySnapshot(facility)],updatedAt:new Date().toISOString()}; }),
+    removeFacilityFromScenario: (id: string) => setPlanningScenario(prev => prev ? {...prev,selectedFacilities:prev.selectedFacilities.filter(x=>x.facilityId!==id),updatedAt:new Date().toISOString()} : prev),
+    importScenario: (scenario: PlanningScenario) => setPlanningScenario(scenario),
+    clearScenario: () => { setPlanningScenario(null); try { window.localStorage.removeItem(PLANNING_SCENARIO_STORAGE_KEY); } catch {} },
   };
 }
 

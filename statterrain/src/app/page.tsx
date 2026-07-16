@@ -7,6 +7,7 @@ import { MapViewClient } from "@/components/map/MapViewClient";
 import { FacilityDetailPanel } from "@/components/facilities/FacilityDetailPanel";
 import { RegionalSummaryPanel } from "@/components/regional-summary/RegionalSummaryPanel";
 import { EvidenceBriefDrawer } from "@/components/evidence/EvidenceBriefDrawer";
+import { PlanningScenarioDrawer } from "@/components/scenarios/PlanningScenarioDrawer";
 import { PublicDataFreshnessPanel } from "@/components/public-data/PublicDataFreshnessPanel";
 import { Drawer } from "@/components/ui/Drawer";
 import { useAppState } from "@/hooks/useAppState";
@@ -24,6 +25,7 @@ export default function HomePage() {
     "shown" | "hidden"
   >("shown");
   const [showHowToUse, setShowHowToUse] = useState(false);
+  const [scenarioOpen, setScenarioOpen] = useState(false);
   const panelRef = useRef<HTMLElement | null>(null);
   const facilityHeadingRef = useRef<HTMLHeadingElement | null>(null);
   const activePanel = useMemo(() => {
@@ -234,6 +236,9 @@ export default function HomePage() {
                       summaryPreference === "shown" ? "summary" : "map",
                     );
                   }}
+                  scenarioIncluded={Boolean(state.planningScenario?.selectedFacilities.some((item) => item.facilityId === state.selectedFacility?.id))}
+                  onAddToScenario={(facility) => { if (!state.planningScenario) state.createScenario(); setTimeout(() => state.addFacilityToScenario(facility), 0); }}
+                  onRemoveFromScenario={(facility) => state.removeFacilityFromScenario(facility.id)}
                 />
               ) : (
                 <RegionalSummaryPanel
@@ -245,6 +250,8 @@ export default function HomePage() {
                   }
                   countyContext={state.countyContext}
                   cmsStatus={state.cmsLoad.status}
+                  scenario={state.planningScenario}
+                  onOpenScenario={() => setScenarioOpen(true)}
                 />
               )}
             </section>
@@ -323,8 +330,11 @@ export default function HomePage() {
             state.selectedLocation?.source ?? "StatTerrain demo",
           containingCounty: state.countyContext.containingCounty,
           intersectingCounties: state.countyContext.intersectingCounties,
+          planningScenario: state.planningScenario,
         }}
       />
+      <button type="button" onClick={() => setScenarioOpen(true)} className="fixed bottom-4 left-4 z-[950] rounded bg-white px-3 py-2 text-xs font-semibold text-terrain-800 shadow ring-1 ring-slate-200">Planning scenario</button>
+      <PlanningScenarioDrawer open={scenarioOpen} onClose={() => setScenarioOpen(false)} scenario={state.planningScenario} onCreate={state.createScenario} onUpdate={state.updateScenario} onImport={state.importScenario} onClear={state.clearScenario} />
     </div>
   );
 }
