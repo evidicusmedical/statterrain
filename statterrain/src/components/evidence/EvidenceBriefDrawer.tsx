@@ -58,15 +58,17 @@ export function EvidenceBriefDrawer({
       side="right"
     >
       <div className="flex flex-col gap-3 p-4">
-        <p className="text-xs font-medium text-slate-600">
-          {product.syntheticDataNotice}
-        </p>
-        <p className="rounded-md border border-amber-200 bg-amber-50 p-2 text-xs leading-relaxed text-amber-900">
-          {product.disclaimer}
-        </p>
-        <p className="rounded-md bg-terrain-50 p-2 text-xs leading-relaxed text-terrain-900">
-          {BRIEF_SCOPE_STATEMENT}
-        </p>
+        <section aria-labelledby="evidence-brief-introduction"><h2 id="evidence-brief-introduction" className="text-base font-semibold text-slate-900">Evidence Brief</h2><p className="mt-1 text-xs leading-relaxed text-slate-600">This Evidence Brief records the location, radius, facilities, county context, source data, and methods used in this StatTerrain analysis.</p></section>
+        <div className="space-y-3 text-xs text-slate-700">
+          <section><h3 className="font-semibold text-slate-900">Research area</h3><dl className="mt-1 grid grid-cols-[8rem_1fr] gap-y-1"><dt>Planning location</dt><dd>{context.locationLabel}</dd><dt>Coordinates</dt><dd>{context.planningLocation ? `${context.planningLocation.latitude}, ${context.planningLocation.longitude}` : "Not reported"}</dd><dt>Planning radius</dt><dd>{context.radiusMiles} miles</dd><dt>Containing county</dt><dd>{context.containingCounty?.fullName ?? "Not resolved"}</dd><dt>Intersecting counties</dt><dd>{context.intersectingCounties?.length ?? 0}</dd><dt>StatTerrain version</dt><dd>{product.prototypeVersion}</dd></dl></section>
+          <section><h3 className="font-semibold text-slate-900">Facility results</h3><p className="mt-1">{context.briefFacilities.length} mapped hospitals within radius. Facility records, identifiers, address, straight-line distance, source classification, release, and retrieval date are included below and in the Evidence JSON.</p></section>
+          <section><h3 className="font-semibold text-slate-900">Population context</h3><p className="mt-1">County values describe the whole containing county, not the population inside the selected radius.</p></section>
+          <section><h3 className="font-semibold text-slate-900">Demographic context</h3><p className="mt-1">County estimates, United States percentages, differences, margins of error, universes, and the Age 18 to 64 derivation method are included below.</p></section>
+          <section><h3 className="font-semibold text-slate-900">Data sources</h3><p className="mt-1">Centers for Medicare &amp; Medicaid Services; U.S. Census Bureau American Community Survey 2024 ACS 5-year (2020–2024); and U.S. Census Bureau TIGER/Line 2024 county boundaries.</p></section>
+          <section><h3 className="font-semibold text-slate-900">Methods</h3><p className="mt-1">Facilities use a straight-line planning radius. Age 18 to 64 is derived from total population minus under age 18 minus age 65 and older.</p></section>
+          <section><h3 className="font-semibold text-slate-900">Limitations</h3><p className="mt-1">Comparisons are descriptive and are not statistical significance tests. This is not clinical guidance or a real-time operational report.</p></section>
+        </div>
+        <section aria-labelledby="export-options-heading"><h3 id="export-options-heading" className="font-semibold text-slate-900">Export options</h3><p className="mt-1 text-xs text-slate-600">Exports preserve source, method, status, and margin-of-error metadata.</p></section>
         <div
           className="flex flex-wrap items-center gap-2"
           aria-label="Evidence brief actions"
@@ -80,7 +82,7 @@ export function EvidenceBriefDrawer({
             aria-pressed={activeAction === "markdown"}
             className={actionClass("markdown")}
           >
-            Download Markdown
+            Download Evidence Markdown
           </button>
           <button
             type="button"
@@ -91,7 +93,7 @@ export function EvidenceBriefDrawer({
             aria-pressed={activeAction === "json"}
             className={actionClass("json")}
           >
-            Download JSON
+            Download Evidence JSON
           </button>
           <button
             type="button"
@@ -102,7 +104,7 @@ export function EvidenceBriefDrawer({
             aria-pressed={activeAction === "csv"}
             className={actionClass("csv")}
           >
-            Download CSV
+            Download hospital CSV
           </button>
 
           <button
@@ -114,7 +116,7 @@ export function EvidenceBriefDrawer({
             aria-pressed={activeAction === "countyCsv"}
             className={actionClass("countyCsv")}
           >
-            Download County ACS CSV
+            Download county demographic CSV
           </button>
           <button
             type="button"
@@ -125,7 +127,7 @@ export function EvidenceBriefDrawer({
             aria-pressed={activeAction === "countyJson"}
             className={actionClass("countyJson")}
           >
-            Download County ACS JSON
+            Download county demographic JSON
           </button>
           <button
             type="button"

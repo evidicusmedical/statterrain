@@ -162,19 +162,27 @@ export function FacilityDetailPanel({
       <section aria-labelledby="facility-detail-heading">
         <dl className="mt-3 rounded-lg border border-slate-200 bg-white px-4">
           <DetailRow
-            label="Name"
-            value={facility.name}
-            status={isCmsRecord ? "CMS public-data record" : syntheticValue}
+            label="Facility type"
+            value={FACILITY_TYPE_LABELS[facility.facilityType]}
+          />
+          <DetailRow
+            label="Distance"
+            value={`${facility.distanceMiles} miles straight-line`}
+          />
+          <DetailRow
+            label="Address"
+            value={formattedAddress?.split("\n").map((line) => (
+              <span key={line} className="block">{line}</span>
+            ))}
+          />
+          <DetailRow
+            label="Phone"
+            value={phoneDisplay && phoneLink ? <a className="text-terrain-700 underline" href={phoneLink}>{phoneDisplay}</a> : phoneDisplay}
           />
           <DetailRow
             label="CMS facility ID"
             value={facility.sourceFacilityId ?? facility.sourceIds[0]}
-            status={isCmsRecord ? "CMS facility_id" : syntheticValue}
-          />
-          <DetailRow
-            label="Facility type"
-            value={FACILITY_TYPE_LABELS[facility.facilityType]}
-            status={isCmsRecord ? verifiedYes : syntheticValue}
+            status={isCmsRecord ? "CMS public-data record" : syntheticValue}
           />
           <DetailRow
             label="Hospital type"
