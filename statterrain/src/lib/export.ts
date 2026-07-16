@@ -33,6 +33,10 @@ import {
   selectDemographicPercentageMetrics,
 } from "@/lib/acs/demographicPercentages";
 import {
+  displayClassificationLabel,
+  selectNationalBenchmarkComparison,
+} from "@/lib/acs/nationalBenchmarks";
+import {
   acsSourceMetadata,
   boundarySourceMetadata,
   classifyHospitalRecords,
@@ -333,6 +337,15 @@ export function buildMarkdownBrief(ctx: BriefContext): string {
       lines.push(
         `      - Percentage MOE: ${metric.percentageMarginOfError == null ? "Not available" : `±${metric.percentageMarginOfError} percentage points`}`,
       );
+      const comparison = selectNationalBenchmarkComparison(metric, county.acsRelease, county.estimatePeriod);
+      lines.push(`      - United States percentage: ${formatDemographicPercentage(comparison.benchmark.percentage)}`);
+      lines.push(`      - Difference: ${comparison.differencePercentagePoints == null ? "Not available" : `${comparison.differencePercentagePoints} percentage points`}`);
+      lines.push(`      - Display comparison: ${displayClassificationLabel(comparison.displayClassification)}`);
+      lines.push(`      - Benchmark universe: ${comparison.benchmark.universe || "Not available"}`);
+      lines.push(`      - Benchmark release: ${comparison.benchmark.release}`);
+      lines.push(`      - Benchmark estimate period: ${comparison.benchmark.estimatePeriod}`);
+      lines.push(`      - Comparison status: ${comparison.comparisonStatus}`);
+      lines.push(`      - Comparison threshold: ${comparison.comparisonThreshold} percentage points; descriptive only, not a statistical significance test.`);
     });
   });
   lines.push("");
@@ -494,7 +507,10 @@ export function buildEvidenceSchema(ctx: BriefContext) {
           state: county.stateCode,
           acsRelease: county.acsRelease,
           estimatePeriod: county.estimatePeriod,
-          metrics: selectDemographicPercentageMetrics(county),
+          metrics: selectDemographicPercentageMetrics(county).map((metric) => ({
+            ...metric,
+            benchmarkComparison: selectNationalBenchmarkComparison(metric, county.acsRelease, county.estimatePeriod),
+          })),
         }),
       ),
       geography: {
@@ -533,6 +549,7 @@ export function buildEvidenceSchema(ctx: BriefContext) {
       "CMS hospital data are not live operating status, bed availability, diversion status, routing, transfer guidance, or clinical decision support.",
       "Missing fields indicate unavailable or unmapped source data, not absence of a service.",
       "Whole-county ACS totals are not estimates of population located inside the selected radius.",
+      "United States comparisons are descriptive percentage-point differences and do not by themselves establish statistical significance or causation.",
       "County boundary activation requires PASS validation, national coverage, and at least 52 partitions.",
     ],
     freshness: sourcesForBrief.map((source: any) => ({
@@ -710,6 +727,21 @@ export function buildCountyAcsCsv(ctx: BriefContext): string {
     "ACS release",
     "estimate period", // estimate_period legacy header preserved in exported metadata tests
     "source URL",
+    "benchmarkGeography",
+    "benchmarkPercentage",
+    "benchmarkPercentageMarginOfError",
+    "benchmarkStatus",
+    "benchmarkNumerator",
+    "benchmarkDenominator",
+    "benchmarkUniverse",
+    "benchmarkMethod",
+    "benchmarkVariables",
+    "benchmarkRelease",
+    "benchmarkEstimatePeriod",
+    "differencePercentagePoints",
+    "comparisonStatus",
+    "displayClassification",
+    "comparisonThreshold",
     "county_boundary_role",
   ];
   const rows = (ctx.intersectingCounties ?? []).flatMap((county) =>
@@ -718,6 +750,7 @@ export function buildCountyAcsCsv(ctx: BriefContext): string {
         (metric) => metric.metricKey === metricId,
       );
       const m = derived ?? county.metrics[metricId];
+      const comparison = derived ? selectNationalBenchmarkComparison(derived, county.acsRelease, county.estimatePeriod) : null;
       const role =
         county.geoid === ctx.containingCounty?.geoid
           ? "containing"
@@ -749,6 +782,21 @@ export function buildCountyAcsCsv(ctx: BriefContext): string {
         county.acsRelease,
         county.estimatePeriod,
         acsSourceMetadata.officialUrl,
+        comparison?.benchmark.geography ?? "",
+        comparison?.benchmark.percentage ?? "",
+        comparison?.benchmark.percentageMarginOfError ?? "",
+        comparison?.benchmark.status ?? "benchmark-unavailable",
+        comparison?.benchmark.numerator ?? "",
+        comparison?.benchmark.denominator ?? "",
+        comparison?.benchmark.universe ?? "",
+        comparison?.benchmark.method ?? "",
+        comparison?.benchmark.variables.join(";") ?? "",
+        comparison?.benchmark.release ?? "",
+        comparison?.benchmark.estimatePeriod ?? "",
+        comparison?.differencePercentagePoints ?? "",
+        comparison?.comparisonStatus ?? "not-comparable",
+        comparison?.displayClassification ?? "",
+        comparison?.comparisonThreshold ?? "",
         role,
       ]
         .map(csvEscape)

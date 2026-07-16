@@ -23,7 +23,7 @@ test("exports preserve ACS records and remove display-derived metadata", () => {
   assert.match(source, /containingCounty/);
   assert.match(source, /intersectingCounties/);
   assert.match(source, /ACS_METRIC_ORDER/);
-  for (const obsolete of ["visibleComparisonRank", "visibleComparisonCount", "displayClass", "choroplethMode", "colorClass", "legendRange", "visibleMin", "visibleMax", "Visualization mode"]) {
+  for (const obsolete of ["visibleComparisonRank", "visibleComparisonCount", "choroplethMode", "colorClass", "legendRange", "visibleMin", "visibleMax", "Visualization mode"]) {
     assert.doesNotMatch(source, new RegExp(obsolete));
   }
 });

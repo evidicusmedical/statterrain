@@ -1,0 +1,8 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import { readFileSync } from 'node:fs';
+const artifact=JSON.parse(readFileSync('data/generated/acs-national-benchmarks/us.json','utf8'));
+const ids=['population_under_18','population_65_and_older','poverty_population','uninsured_population','households_no_vehicle','disability_population','limited_english_households'];
+const universes={population_under_18:'Total population',population_65_and_older:'Total population',poverty_population:'Population for whom poverty status is determined',uninsured_population:'Civilian noninstitutionalized population',households_no_vehicle:'Occupied households',disability_population:'Civilian noninstitutionalized population',limited_english_households:'Households included in ACS C16002 limited-English-speaking household universe'};
+test('national benchmark artifact validates all seven metric contracts',()=>{assert.equal(artifact.validationStatus,'PASS');assert.equal(artifact.geography.geoid,'US');assert.equal(artifact.release,'2024 ACS 5-year');assert.equal(artifact.estimatePeriod,'2020-2024');for(const id of ids){const m=artifact.metrics[id];assert.ok(m,id);assert.equal(m.universe,universes[id]);assert.equal(m.status,'available');assert.ok(m.sourceVariables.length>0);assert.equal(m.percentage,(m.numerator/m.denominator)*100);assert.notEqual(m.percentage,0);}});
+test('benchmark source metadata is server-side ACS and not browser Census API',()=>{assert.equal(artifact.source.apiFamily,'acs/acs5');assert.match(artifact.source.retrievalMethod,/server-side/i);assert.match(JSON.stringify(artifact.source),/2024/);});

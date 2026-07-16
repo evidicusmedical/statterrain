@@ -1,0 +1,55 @@
+{
+  "schemaVersion": "acs-national-benchmarks-v0.3.8.2",
+  "release": "2024 ACS 5-year",
+  "estimatePeriod": "2020-2024",
+  "geography": {
+    "type": "nation",
+    "geoid": "US",
+    "name": "United States"
+  },
+  "metricList": [
+    "population_under_18",
+    "population_65_and_older",
+    "poverty_population",
+    "uninsured_population",
+    "households_no_vehicle",
+    "disability_population",
+    "limited_english_households"
+  ],
+  "retrievedAt": "2026-07-12T23:41:32.037Z",
+  "builtAt": "2026-07-16T15:08:02.709Z",
+  "validationStatus": "PASS",
+  "source": {
+    "sourceId": "census-acs5-county-population-2024",
+    "agency": "United States Census Bureau",
+    "dataset": "American Community Survey 5-Year Estimates",
+    "release": "2024",
+    "estimatePeriod": "2020-2024",
+    "apiFamily": "acs/acs5",
+    "geography": "county and county equivalent",
+    "sourceType": "official-public aggregate survey estimates",
+    "retrievalMethod": "server-side GitHub Actions Census Data API ingestion",
+    "releaseCadence": "annual",
+    "attribution": "U.S. Census Bureau, 2024 ACS 5-Year Estimates (2020-2024)",
+    "sourceUrl": "https://api.census.gov/data/2024/acs/acs5",
+    "dataMode": "real-public-data",
+    "usedInCurrentApp": false,
+    "safeToDisplay": false,
+    "browserUse": "inactive static artifact only; browser must not call Census API in v0.3.6",
+    "evidenceBriefEligible": false,
+    "nextActivationPatch": "v0.3.7",
+    "limitations": [
+      "Estimates are survey estimates, not exact counts.",
+      "Estimates represent a five-year period.",
+      "Margins of error must be retained.",
+      "Smaller populations may have greater uncertainty.",
+      "Missing values are not zero.",
+      "Suppressed or invalid values are not zero.",
+      "County-level values do not describe individuals.",
+      "Geographic boundary and vintage changes may affect comparisons.",
+      "Estimates from different vintages require careful comparison."
+    ],
+    "method": "server-side generated artifact; county-equivalent sums use same ACS variables and ratio method as county metrics"
+  },
+  "path": "data/generated/acs-national-benchmarks/us.json"
+}

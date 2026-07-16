@@ -7,6 +7,11 @@ import {
   selectDemographicPercentageMetrics,
 } from "@/lib/acs/demographicPercentages";
 import {
+  displayClassificationLabel,
+  nationalBenchmarkMetadata,
+  selectNationalBenchmarkComparison,
+} from "@/lib/acs/nationalBenchmarks";
+import {
   acsSourceMetadata,
   classifyHospitalRecords,
   formatSourceDate,
@@ -89,6 +94,13 @@ export function RegionalSummaryPanel({
   const provenance = classifyHospitalRecords(facilities);
   const hospitalCount = provenance.hospitalCount;
   const demographicMetrics = selectDemographicPercentageMetrics(county);
+  const demographicComparisons = demographicMetrics.map((metric) =>
+    selectNationalBenchmarkComparison(
+      metric,
+      county?.acsRelease ?? "",
+      county?.estimatePeriod ?? "",
+    ),
+  );
   const sourceSummary =
     provenance.classification === "cms-only"
       ? "CMS hospital records"
@@ -277,33 +289,39 @@ export function RegionalSummaryPanel({
           <p className="mb-1 text-[11px] text-slate-500">
             All values in this section describe the whole containing county.
           </p>
+          <p className="mb-2 text-[11px] text-slate-500">
+            United States comparisons use the same {nationalBenchmarkMetadata.release} release and metric definitions as the county values. Differences are descriptive percentage-point differences, not statistical significance tests.
+          </p>
           {/* Legacy terms covered by qualified ACS labels: Below poverty level; Without health insurance; Limited-English-speaking households. */}
-          {demographicMetrics.map((metric) => (
-            <Row
-              key={metric.metricKey}
-              label={
-                metric.metricLabel === "Below poverty"
-                  ? "Below poverty level"
-                  : metric.metricLabel === "Uninsured"
-                    ? "Without health insurance"
-                    : metric.metricLabel
-              }
-              value={
-                <span className="flex min-w-0 flex-col items-end leading-tight">
-                  <span>
-                    {fmt(metric)} {metric.unit} ·{" "}
-                    {formatDemographicPercentage(metric.percentage)}
+          {demographicMetrics.map((metric, index) => {
+            const comparison = demographicComparisons[index];
+            return (
+              <Row
+                key={metric.metricKey}
+                label={metric.metricLabel}
+                value={
+                  <span className="flex min-w-0 flex-col items-end gap-0.5 leading-tight">
+                    <span>County: {formatDemographicPercentage(metric.percentage)}</span>
+                    <span>United States: {formatDemographicPercentage(comparison.benchmark.percentage)}</span>
+                    <span aria-label={comparison.differencePercentagePoints == null ? `Difference unavailable: ${comparison.comparisonStatus}` : `Difference ${comparison.differencePercentagePoints.toFixed(1)} percentage points`}>
+                      Difference: {comparison.differencePercentagePoints == null ? "Unavailable" : `${comparison.differencePercentagePoints > 0 ? "+" : ""}${comparison.differencePercentagePoints.toLocaleString(undefined, { minimumFractionDigits: 1, maximumFractionDigits: 1 })} percentage points`}
+                    </span>
+                    <span className="text-[10px] font-normal text-slate-500">
+                      {displayClassificationLabel(comparison.displayClassification)}; {fmt(metric)} {metric.unit}
+                    </span>
+                    <details className="text-[10px] font-normal text-slate-500">
+                      <summary className="cursor-pointer">Universe and margins</summary>
+                      <span className="block">County universe: {metric.universe}</span>
+                      <span className="block">Benchmark universe: {comparison.benchmark.universe || "Unavailable"}</span>
+                      <span className="block">Count MOE: {moe(metric) ? moe(metric).replace(" MOE", "") : "Not available"}</span>
+                      <span className="block">Percentage MOE: {comparison.benchmark.percentageMarginOfError == null ? "Not available" : `±${comparison.benchmark.percentageMarginOfError} percentage points`}</span>
+                      <span className="block">Comparison status: {comparison.comparisonStatus}</span>
+                    </details>
                   </span>
-                  <span className="text-[10px] font-normal text-slate-500">
-                    Universe: {metric.universe}
-                    {moe(metric)
-                      ? `; Count MOE:${moe(metric).replace(" MOE", "")}`
-                      : "; Percentage MOE: Not available"}
-                  </span>
-                </span>
-              }
-            />
-          ))}
+                }
+              />
+            );
+          })}
           <details
             className="mt-3 rounded-md border border-slate-200 p-2 text-xs"
             data-testid="data-sources"
@@ -354,7 +372,7 @@ export function RegionalSummaryPanel({
                   County population and demographic estimates come from the U.S.
                   Census Bureau American Community Survey 5-year release. Values
                   describe the whole containing county and are not estimates of
-                  population inside the selected radius.
+                  population inside the selected radius. United States comparisons use the same 2024 ACS 5-year release and metric definitions as the county values.
                 </p>
                 <dl className="mt-1">
                   <SourceField
