@@ -330,7 +330,7 @@ export function buildMarkdownBrief(ctx: BriefContext): string {
       lines.push(
         `      - Percentage: ${formatDemographicPercentage(metric.percentage)}`,
       );
-      lines.push(`      - Universe: ${metric.universe}`);
+      lines.push(`      - Group measured: ${metric.universe}`);
       lines.push(`      - Percentage method: ${metric.percentageMethod}`);
       lines.push(`      - Percentage status: ${metric.percentageStatus}`);
       lines.push(
@@ -343,7 +343,7 @@ export function buildMarkdownBrief(ctx: BriefContext): string {
       lines.push(`      - United States percentage: ${formatDemographicPercentage(comparison.benchmark.percentage)}`);
       lines.push(`      - Difference: ${comparison.differencePercentagePoints == null ? "Not available" : `${comparison.differencePercentagePoints} percentage points`}`);
       lines.push(`      - Display comparison: ${displayClassificationLabel(comparison.displayClassification)}`);
-      lines.push(`      - Benchmark universe: ${comparison.benchmark.universe || "Not available"}`);
+      lines.push(`      - United States group measured: ${comparison.benchmark.universe || "Not available"}`);
       lines.push(`      - Benchmark release: ${comparison.benchmark.release}`);
       lines.push(`      - Benchmark estimate period: ${comparison.benchmark.estimatePeriod}`);
       lines.push(`      - Comparison status: ${comparison.comparisonStatus}`);
