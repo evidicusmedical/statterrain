@@ -11,8 +11,10 @@ import {
   downloadMarkdownBrief,
   downloadCountyAcsCsv,
   downloadCountyAcsJson,
+  downloadRequirementsTraceabilityJson,
 } from "@/lib/export";
 import { useMemo, useState } from "react";
+import { getTraceabilitySummary, requirementStatusLabel, type RequirementStatus, sooRequirements } from "@/config/sooRequirements";
 
 interface EvidenceBriefDrawerProps {
   open: boolean;
@@ -29,6 +31,10 @@ export function EvidenceBriefDrawer({
 }: EvidenceBriefDrawerProps) {
   const [copied, setCopied] = useState(false);
   const [activeAction, setActiveAction] = useState<BriefAction | null>(null);
+  const [showTraceability, setShowTraceability] = useState(false);
+  const [statusFilter, setStatusFilter] = useState<RequirementStatus | "all">("all");
+  const traceabilitySummary = useMemo(() => getTraceabilitySummary(), []);
+  const filteredRequirements = useMemo(() => sooRequirements.filter((requirement) => statusFilter === "all" || requirement.status === statusFilter), [statusFilter]);
   const markdown = useMemo(
     () => (open ? buildMarkdownBrief(context) : ""),
     [open, context],
@@ -66,6 +72,7 @@ export function EvidenceBriefDrawer({
           <section><h3 className="font-semibold text-slate-900">Demographic context</h3><p className="mt-1">County estimates, United States percentages, differences, margins of error, groups measured, and the Age 18 to 64 derivation method are included below.</p></section>
           <section><h3 className="font-semibold text-slate-900">Data sources</h3><p className="mt-1">Centers for Medicare &amp; Medicaid Services; U.S. Census Bureau American Community Survey 2024 ACS 5-year (2020–2024); and U.S. Census Bureau TIGER/Line 2024 county boundaries.</p></section>
           <section><h3 className="font-semibold text-slate-900">Methods</h3><p className="mt-1">Facilities use a straight-line planning radius. Age 18 to 64 is derived from total population minus under age 18 minus age 65 and older. “Group measured” is the plain-language label for the ACS universe, meaning the population or household group included in the estimate.</p></section>
+          <section aria-labelledby="requirements-traceability-heading"><h3 id="requirements-traceability-heading" className="font-semibold text-slate-900">Requirements traceability</h3><p className="mt-1">Registry v0.3.9 prototype: {traceabilitySummary.total} requirements. Supported: {traceabilitySummary.byStatus.supported}; Partially supported: {traceabilitySummary.byStatus["partially-supported"]}; Planned: {traceabilitySummary.byStatus.planned}; Data dependent: {traceabilitySummary.byStatus["data-dependent"]}; Out of scope: {traceabilitySummary.byStatus["out-of-scope"]}.</p><p className="mt-1">Supported requirements have an active method and source. Planned and data-dependent requirements are known future work, not available capabilities.</p><button type="button" aria-expanded={showTraceability} aria-controls="requirements-traceability-view" onClick={() => setShowTraceability((value) => !value)} className="mt-2 rounded border border-slate-300 bg-white px-2 py-1 font-semibold text-slate-700 hover:bg-slate-50">{showTraceability ? "Hide requirements traceability" : "View requirements traceability"}</button>{showTraceability && <div id="requirements-traceability-view" className="mt-2 space-y-2" aria-live="polite"><label className="block font-semibold" htmlFor="requirements-status-filter">Filter requirements by status</label><select id="requirements-status-filter" value={statusFilter} onChange={(event) => setStatusFilter(event.target.value as RequirementStatus | "all")} className="w-full rounded border border-slate-300 p-1"><option value="all">All</option>{Object.entries(requirementStatusLabel).map(([value,label]) => <option key={value} value={value}>{label}</option>)}</select><p>Some facility-characteristic requirements depend on future authorized licensed data and remain inactive in this prototype.</p>{filteredRequirements.map((requirement) => <details key={requirement.id} className="rounded border border-slate-200 p-2"><summary className="cursor-pointer font-semibold text-slate-900">{requirement.id} — {requirement.title} <span className="font-normal">(Status: {requirementStatusLabel[requirement.status]})</span></summary><div className="mt-1 space-y-1"><p><strong>Objective:</strong> {requirement.objective}</p><p><strong>Sources:</strong> {requirement.sourceDependencies.map((source) => `${source.displayName}${source.active ? "" : " (inactive future dependency)"}`).join("; ")}</p><p><strong>Evidence mapping:</strong> {requirement.evidenceFields.join(", ") || "Evidence Brief context"}</p><p><strong>Limitation:</strong> {requirement.limitations[0] || "None recorded."}</p>{requirement.futureWork.length > 0 && <p><strong>Future work:</strong> {requirement.futureWork.join(" ")}</p>}</div></details>)}</div>}</section>
           <section><h3 className="font-semibold text-slate-900">Limitations</h3><p className="mt-1">Comparisons are descriptive and are not statistical significance tests. This is not clinical guidance or a real-time operational report.</p></section>
         </div>
         <section aria-labelledby="export-options-heading"><h3 id="export-options-heading" className="font-semibold text-slate-900">Export options</h3><p className="mt-1 text-xs text-slate-600">Exports preserve source, method, status, and margin-of-error metadata.</p></section>
@@ -128,6 +135,9 @@ export function EvidenceBriefDrawer({
             className={actionClass("countyJson")}
           >
             Download county demographic JSON
+          </button>
+          <button type="button" onClick={() => downloadRequirementsTraceabilityJson()} className={actionClass("json")}>
+            Download requirements traceability JSON
           </button>
           <button
             type="button"
