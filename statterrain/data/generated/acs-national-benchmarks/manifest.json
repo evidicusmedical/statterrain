@@ -1,5 +1,5 @@
 {
-  "schemaVersion": "acs-national-benchmarks-v0.3.8.2",
+  "schemaVersion": "acs-national-benchmarks-v0.3.8.3",
   "release": "2024 ACS 5-year",
   "estimatePeriod": "2020-2024",
   "geography": {
@@ -9,6 +9,7 @@
   },
   "metricList": [
     "population_under_18",
+    "age18To64",
     "population_65_and_older",
     "poverty_population",
     "uninsured_population",

@@ -25,16 +25,14 @@ interface Props {
   selectedLocationLabel?: string;
   countyContext?: CountyContextState;
 }
-function fmt(m?: AcsMetricValue | null) {
-  if (!m || (m.status !== "available" && m.status !== "zero-reported"))
+function fmt(m?: Pick<AcsMetricValue, "estimate" | "status"> | { estimate: number | null; status: string } | null) {
+  if (!m || (m.status !== "available" && m.status !== "zero-reported" && m.status !== "calculated"))
     return "—";
   const n = m.estimate;
   return n === null ? "—" : n.toLocaleString();
 }
-function moe(m?: AcsMetricValue | null) {
-  return m?.marginOfError == null
-    ? ""
-    : ` ±${m.marginOfError.toLocaleString()} MOE`;
+function moe(m?: Pick<AcsMetricValue, "marginOfError"> | null) {
+  return m?.marginOfError == null ? "" : `±${m.marginOfError.toLocaleString()}`;
 }
 function Row({
   label,
@@ -177,6 +175,7 @@ export function RegionalSummaryPanel({
               synthetic records: {provenance.syntheticCount}.
             </p>
           )}
+          <p className="mt-2 text-[11px] text-slate-500">Age 18 to 64 provides broad working-age population context. It does not measure employment, labor-force participation, or economic activity.</p>
           <details
             className="mt-3 rounded-md border border-slate-200 p-2 text-xs"
             data-testid="hospital-data-source"
@@ -292,6 +291,10 @@ export function RegionalSummaryPanel({
           <p className="mb-2 text-[11px] text-slate-500">
             United States comparisons use the same {nationalBenchmarkMetadata.release} release and metric definitions as the county values. Differences are descriptive percentage-point differences, not statistical significance tests.
           </p>
+          <details className="mb-2 rounded-md border border-slate-200 p-2 text-[11px] text-slate-600">
+            <summary className="cursor-pointer font-semibold text-slate-800">About these estimates</summary>
+            <p className="mt-1">ACS values are estimates based on survey data. The margin of error shows the uncertainty around an estimate; a smaller margin generally means greater precision.</p>
+          </details>
           {/* Legacy terms covered by qualified ACS labels: Below poverty level; Without health insurance; Limited-English-speaking households. */}
           {demographicMetrics.map((metric, index) => {
             const comparison = demographicComparisons[index];
@@ -313,8 +316,8 @@ export function RegionalSummaryPanel({
                       <summary className="cursor-pointer">Universe and margins</summary>
                       <span className="block">County universe: {metric.universe}</span>
                       <span className="block">Benchmark universe: {comparison.benchmark.universe || "Unavailable"}</span>
-                      <span className="block">Count MOE: {moe(metric) ? moe(metric).replace(" MOE", "") : "Not available"}</span>
-                      <span className="block">Percentage MOE: {comparison.benchmark.percentageMarginOfError == null ? "Not available" : `±${comparison.benchmark.percentageMarginOfError} percentage points`}</span>
+                      <span className="block">Margin of error: {metric.marginOfErrorStatus === "not-available-for-derived-metric" ? "Not available for this derived age group" : moe(metric) ? `${moe(metric)} ${metric.unit}` : "Not available"}</span>
+                      <span className="block">Percentage margin of error: {metric.percentageMarginOfError == null ? "Not available" : `±${metric.percentageMarginOfError} percentage points`}</span>
                       <span className="block">Comparison status: {comparison.comparisonStatus}</span>
                     </details>
                   </span>
@@ -322,6 +325,7 @@ export function RegionalSummaryPanel({
               />
             );
           })}
+          <p className="mt-2 text-[11px] text-slate-500">Age 18 to 64 provides broad working-age population context. It does not measure employment, labor-force participation, or economic activity.</p>
           <details
             className="mt-3 rounded-md border border-slate-200 p-2 text-xs"
             data-testid="data-sources"

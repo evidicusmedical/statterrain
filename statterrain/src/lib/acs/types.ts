@@ -69,6 +69,7 @@ export interface AcsCountyManifest {
 export const ACS_METRIC_LABELS: Record<AcsMetricId, string> = {
   total_population: "Total population",
   population_under_18: "Under age 18",
+  // Age 18 to 64 is derived at runtime; it is not a raw ACS record metric.
   population_65_and_older: "Age 65 and older",
   poverty_population: "Below poverty level",
   uninsured_population: "Without health insurance",

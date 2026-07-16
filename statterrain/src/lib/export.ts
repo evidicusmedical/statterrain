@@ -296,6 +296,8 @@ export function buildMarkdownBrief(ctx: BriefContext): string {
 
   lines.push("## Population context");
   lines.push("");
+  lines.push("American Community Survey estimates are accompanied by margins of error at the 90% confidence level. Margins of error describe sampling uncertainty and do not indicate an error in the source data.");
+  lines.push("");
   lines.push(
     "Whole-county ACS totals are shown as county context only. Whole-county ACS totals are not estimates of population located inside the selected radius.",
   );
@@ -332,10 +334,10 @@ export function buildMarkdownBrief(ctx: BriefContext): string {
       lines.push(`      - Percentage method: ${metric.percentageMethod}`);
       lines.push(`      - Percentage status: ${metric.percentageStatus}`);
       lines.push(
-        `      - Count MOE: ${metric.marginOfError == null ? "Not available" : `±${metric.marginOfError}`}`,
+        `      - Margin of error: ${metric.marginOfErrorStatus === "not-available-for-derived-metric" ? "Not available for this derived age group" : metric.marginOfError == null ? "Not available" : `±${metric.marginOfError} ${metric.unit}`}`,
       );
       lines.push(
-        `      - Percentage MOE: ${metric.percentageMarginOfError == null ? "Not available" : `±${metric.percentageMarginOfError} percentage points`}`,
+        `      - Percentage margin of error: ${metric.percentageMarginOfError == null ? "Not available" : `±${metric.percentageMarginOfError} percentage points`}`,
       );
       const comparison = selectNationalBenchmarkComparison(metric, county.acsRelease, county.estimatePeriod);
       lines.push(`      - United States percentage: ${formatDemographicPercentage(comparison.benchmark.percentage)}`);
@@ -723,6 +725,7 @@ export function buildCountyAcsCsv(ctx: BriefContext): string {
     "status",
     "universe",
     "unit",
+    "sourceComponents",
     "variables",
     "ACS release",
     "estimate period", // estimate_period legacy header preserved in exported metadata tests
@@ -745,11 +748,9 @@ export function buildCountyAcsCsv(ctx: BriefContext): string {
     "county_boundary_role",
   ];
   const rows = (ctx.intersectingCounties ?? []).flatMap((county) =>
-    ACS_METRIC_ORDER.map((metricId) => {
-      const derived = selectDemographicPercentageMetrics(county).find(
-        (metric) => metric.metricKey === metricId,
-      );
-      const m = derived ?? county.metrics[metricId];
+    selectDemographicPercentageMetrics(county).map((derived) => {
+      const metricId = derived.metricKey;
+      const m = derived;
       const comparison = derived ? selectNationalBenchmarkComparison(derived, county.acsRelease, county.estimatePeriod) : null;
       const role =
         county.geoid === ctx.containingCounty?.geoid
@@ -761,7 +762,7 @@ export function buildCountyAcsCsv(ctx: BriefContext): string {
         county.stateCode,
         role,
         metricId,
-        ACS_METRIC_LABELS[metricId],
+        derived.metricLabel,
         m?.estimate ?? "",
         m?.marginOfError ?? "",
         m?.numerator ?? "",
@@ -778,6 +779,7 @@ export function buildCountyAcsCsv(ctx: BriefContext): string {
         m?.status ?? "unavailable",
         m?.universe ?? "",
         "unit" in m ? m.unit : "",
+        ("sourceComponents" in m ? (m.sourceComponents ?? []).join("|") : ""),
         (m?.sourceVariables ?? []).join(";"),
         county.acsRelease,
         county.estimatePeriod,

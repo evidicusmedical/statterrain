@@ -92,7 +92,10 @@ test("UI and exports include percentages, raw counts, units, MOE, and whole coun
   assert.match(summary, /metric\.unit/);
   assert.match(summary, /formatDemographicPercentage\(metric\.percentage\)/);
   assert.match(summary, /fmt\(metric\)/);
-  assert.match(summary, /Count MOE/);
+  assert.doesNotMatch(summary, /Count MOE/);
+  assert.match(summary, /Margin of error/);
+  assert.match(summary, /About these estimates/);
+  assert.match(summary, /working-age population context/);
   assert.match(source, /<0\.1%/);
   assert.match(source, /0\.0%/);
   assert.doesNotMatch(summary, /population inside the radius/);
@@ -118,4 +121,12 @@ test("Evidence and CSV expose demographic percentage fields with full precision"
   }
   assert.match(exportSource, /demographicPercentageMetrics/);
   assert.doesNotMatch(exportSource, /toFixed\(1\).*percentage/);
+});
+
+test("Age 18 to 64 is a residual Total population metric without an invented MOE", () => {
+  assert.match(source, /age18To64/);
+  assert.match(source, /derived-residual-age-group/);
+  assert.match(source, /totalEstimate - under18Estimate - age65PlusEstimate/);
+  assert.match(source, /not-available-for-derived-metric/);
+  assert.match(source, /sourceComponents/);
 });
