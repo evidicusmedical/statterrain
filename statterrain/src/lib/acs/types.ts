@@ -8,7 +8,13 @@ export type AcsMetricId =
   | "disability_population"
   | "limited_english_households";
 
-export type AcsValueStatus = "available" | "missing" | "suppressed" | "invalid" | "zero-reported" | "unavailable";
+export type AcsValueStatus =
+  | "available"
+  | "missing"
+  | "suppressed"
+  | "invalid"
+  | "zero-reported"
+  | "unavailable";
 
 export interface AcsMetricValue {
   estimate: number | null;
@@ -49,15 +55,23 @@ export interface AcsCountyManifest {
   countyRecordCount: number;
   metricList: AcsMetricId[];
   partitions?: Record<string, unknown>;
-  source: { sourceId: string; agency: string; dataset: string; release: string; attribution: string; sourceUrl: string; limitations: string[] };
+  source: {
+    sourceId: string;
+    agency: string;
+    dataset: string;
+    release: string;
+    attribution: string;
+    sourceUrl: string;
+    limitations: string[];
+  };
 }
 
 export const ACS_METRIC_LABELS: Record<AcsMetricId, string> = {
   total_population: "Total population",
   population_under_18: "Under age 18",
   population_65_and_older: "Age 65 and older",
-  poverty_population: "Below poverty",
-  uninsured_population: "Uninsured",
+  poverty_population: "Below poverty level",
+  uninsured_population: "Without health insurance",
   households_no_vehicle: "No vehicle available",
   disability_population: "Disability",
   limited_english_households: "Limited-English-speaking households",

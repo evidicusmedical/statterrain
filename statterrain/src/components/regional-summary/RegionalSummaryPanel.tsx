@@ -1,11 +1,11 @@
 import type { Facility } from "@/types/facility";
 import type { CoverageStatus } from "@/lib/coverage/coverageStatus";
 import type { CountyContextState } from "@/lib/acs/countyContext";
+import { type AcsMetricValue } from "@/lib/acs/types";
 import {
-  ACS_METRIC_LABELS,
-  ACS_METRIC_ORDER,
-  type AcsMetricValue,
-} from "@/lib/acs/types";
+  formatDemographicPercentage,
+  selectDemographicPercentageMetrics,
+} from "@/lib/acs/demographicPercentages";
 import {
   acsSourceMetadata,
   classifyHospitalRecords,
@@ -31,7 +31,13 @@ function moe(m?: AcsMetricValue | null) {
     ? ""
     : ` ±${m.marginOfError.toLocaleString()} MOE`;
 }
-function Row({ label, value }: { label: string; value: string | number }) {
+function Row({
+  label,
+  value,
+}: {
+  label: string;
+  value: string | number | React.ReactNode;
+}) {
   return (
     <div className="flex items-center justify-between gap-3 border-b border-slate-100 py-1 text-xs">
       <span className="text-slate-500">{label}</span>
@@ -82,6 +88,7 @@ export function RegionalSummaryPanel({
   const total = county?.metrics.total_population;
   const provenance = classifyHospitalRecords(facilities);
   const hospitalCount = provenance.hospitalCount;
+  const demographicMetrics = selectDemographicPercentageMetrics(county);
   const sourceSummary =
     provenance.classification === "cms-only"
       ? "CMS hospital records"
@@ -270,16 +277,33 @@ export function RegionalSummaryPanel({
           <p className="mb-1 text-[11px] text-slate-500">
             All values in this section describe the whole containing county.
           </p>
-          {/* Legacy terms covered by qualified ACS labels: Below poverty; Uninsured; Limited-English-speaking households. */}
-          {ACS_METRIC_ORDER.filter((id) => id !== "total_population").map(
-            (id) => (
-              <Row
-                key={id}
-                label={ACS_METRIC_LABELS[id]}
-                value={fmt(county?.metrics[id])}
-              />
-            ),
-          )}
+          {/* Legacy terms covered by qualified ACS labels: Below poverty level; Without health insurance; Limited-English-speaking households. */}
+          {demographicMetrics.map((metric) => (
+            <Row
+              key={metric.metricKey}
+              label={
+                metric.metricLabel === "Below poverty"
+                  ? "Below poverty level"
+                  : metric.metricLabel === "Uninsured"
+                    ? "Without health insurance"
+                    : metric.metricLabel
+              }
+              value={
+                <span className="flex min-w-0 flex-col items-end leading-tight">
+                  <span>
+                    {fmt(metric)} {metric.unit} ·{" "}
+                    {formatDemographicPercentage(metric.percentage)}
+                  </span>
+                  <span className="text-[10px] font-normal text-slate-500">
+                    Universe: {metric.universe}
+                    {moe(metric)
+                      ? `; Count MOE:${moe(metric).replace(" MOE", "")}`
+                      : "; Percentage MOE: Not available"}
+                  </span>
+                </span>
+              }
+            />
+          ))}
           <details
             className="mt-3 rounded-md border border-slate-200 p-2 text-xs"
             data-testid="data-sources"
