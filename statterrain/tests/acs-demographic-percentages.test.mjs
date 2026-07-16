@@ -95,7 +95,7 @@ test("UI and exports include percentages, raw counts, units, MOE, and whole coun
   assert.doesNotMatch(summary, /Count MOE/);
   assert.match(summary, /Margin of error/);
   assert.match(summary, /About these estimates/);
-  assert.match(summary, /working-age population context/);
+  assert.match(summary, /Working-age context/);
   assert.match(source, /<0\.1%/);
   assert.match(source, /0\.0%/);
   assert.doesNotMatch(summary, /population inside the radius/);

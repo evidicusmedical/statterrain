@@ -103,7 +103,9 @@
     "test:county-overlay-removal": "node --test tests/county-overlay-removal.test.mjs",
     "test:facility-panel-replacement": "node --test tests/facility-panel-replacement.test.mjs",
     "test:acs-national-benchmarks": "node --test tests/acs-national-benchmarks.test.mjs",
-    "test:acs-demographic-percentages": "node --test tests/acs-demographic-percentages.test.mjs"
+    "test:acs-demographic-percentages": "node --test tests/acs-demographic-percentages.test.mjs",
+    "test:estimate-presentation": "node --test tests/estimate-presentation.test.mjs",
+    "test:visual-hierarchy": "node --test tests/visual-hierarchy.test.mjs"
   },
   "dependencies": {
     "leaflet": "^1.9.4",
