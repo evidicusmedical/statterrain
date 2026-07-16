@@ -244,6 +244,7 @@ export default function HomePage() {
                     state.selectedLocation?.label ?? state.location.label
                   }
                   countyContext={state.countyContext}
+                  cmsStatus={state.cmsLoad.status}
                 />
               )}
             </section>

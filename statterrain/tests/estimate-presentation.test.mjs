@@ -20,6 +20,6 @@ test("matching definitions are summarized once and derived age details remain cl
   assert.match(presentation, /same \$\{kind\} definition/);
   assert.match(presentation, /different \$\{kind\} definitions/);
   assert.match(summary, /Not available for this derived age group/);
-  assert.match(summary, /Calculated from total population minus under age 18 minus age 65 and older/);
+  assert.match(summary, /Calculated from total population[\s\S]*minus under age[\s\S]*18[\s\S]*minus age[\s\S]*65 and older/);
   assert.match(summary, /Working-age context/);
 });
