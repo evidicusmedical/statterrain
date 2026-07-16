@@ -23,6 +23,7 @@ export default function HomePage() {
   const [summaryPreference, setSummaryPreference] = useState<
     "shown" | "hidden"
   >("shown");
+  const [showHowToUse, setShowHowToUse] = useState(false);
   const panelRef = useRef<HTMLElement | null>(null);
   const facilityHeadingRef = useRef<HTMLHeadingElement | null>(null);
   const activePanel = useMemo(() => {
@@ -31,6 +32,15 @@ export default function HomePage() {
   }, [state.selectedFacility, summaryPreference]);
   const summaryOpen = activePanel === "summary";
   const facilityOpen = activePanel === "facility";
+
+  useEffect(() => {
+    setSummaryPreference(
+      window.localStorage.getItem("statterrain-summary-preference") === "hidden"
+        ? "hidden"
+        : "shown",
+    );
+    setShowHowToUse(window.localStorage.getItem("statterrain-how-to-use-dismissed") !== "true");
+  }, []);
 
   useEffect(() => {
     if (facilityOpen) {
@@ -128,17 +138,19 @@ export default function HomePage() {
           }`}
         >
           <section
+            id="map"
+            tabIndex={-1}
             className={`relative isolate z-0 h-[62dvh] min-h-[28rem] w-full overflow-hidden border-b border-slate-200 bg-slate-100 ${mobileTab === "map" ? "block" : "hidden"} lg:block lg:h-auto lg:min-h-0 lg:border-b-0`}
             aria-label="Map"
           >
             <div className="absolute right-2 top-2 z-[40] hidden max-w-[calc(100%-1rem)] rounded-lg border border-slate-200 bg-white/95 p-1.5 shadow-sm backdrop-blur sm:right-3 sm:top-3 sm:p-2 lg:block">
               <button
                 type="button"
-                onClick={() =>
-                  setSummaryPreference((pref) =>
-                    pref === "shown" ? "hidden" : "shown",
-                  )
-                }
+                onClick={() => setSummaryPreference((pref) => {
+                  const next = pref === "shown" ? "hidden" : "shown";
+                  window.localStorage.setItem("statterrain-summary-preference", next);
+                  return next;
+                })}
                 className="min-h-10 rounded-md bg-terrain-700 px-2.5 py-1.5 text-xs font-semibold text-white shadow-sm hover:bg-terrain-800 focus:outline-none focus:ring-2 focus:ring-terrain-500 focus:ring-offset-2 sm:min-h-11 sm:px-3 sm:py-2 sm:text-sm"
                 aria-expanded={activePanel !== "none"}
                 aria-controls="regional-summary-panel"
@@ -190,6 +202,11 @@ export default function HomePage() {
                 state.clearSelectedFacility();
               }}
             />
+            {showHowToUse && (
+              <aside className="absolute bottom-16 left-3 z-[40] max-w-sm rounded-lg border border-slate-200 bg-white p-3 shadow-sm" aria-labelledby="how-to-use-heading">
+                <div className="flex items-start justify-between gap-3"><div><h2 id="how-to-use-heading" className="text-sm font-semibold text-slate-900">How to use StatTerrain</h2><ol className="mt-1 list-decimal space-y-0.5 pl-4 text-xs leading-relaxed text-slate-600"><li>Search for a location.</li><li>Select a planning radius.</li><li>Review hospitals, county context, and the Evidence Brief.</li></ol></div><button type="button" onClick={() => { window.localStorage.setItem("statterrain-how-to-use-dismissed", "true"); setShowHowToUse(false); }} className="shrink-0 text-xs font-semibold text-terrain-700 underline" aria-label="Dismiss How to use StatTerrain">Dismiss</button></div>
+              </aside>
+            )}
           </section>
 
           {activePanel !== "none" && (
