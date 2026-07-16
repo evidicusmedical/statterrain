@@ -19,9 +19,11 @@ export type AcsPercentageMethod =
   | "numerator-denominator-ratio"
   | "unavailable";
 export type AcsMetricUnit = "people" | "households";
+export type DemographicMetricKey = AcsMetricId | "age18To64";
+export type DemographicMetricStatus = AcsValueStatus | "calculated" | "not-calculable";
 
-export interface DemographicPercentageMetric extends AcsMetricValue {
-  metricKey: AcsMetricId;
+export interface DemographicPercentageMetric extends Omit<AcsMetricValue, "status"> {
+  metricKey: DemographicMetricKey;
   metricLabel: string;
   unit: AcsMetricUnit;
   universe: string;
@@ -31,6 +33,10 @@ export interface DemographicPercentageMetric extends AcsMetricValue {
   percentageMethod: AcsPercentageMethod;
   percentageSourceVariable: string | null;
   rawEstimateStatus: AcsValueStatus;
+  status: DemographicMetricStatus;
+  method?: string;
+  sourceComponents?: string[];
+  marginOfErrorStatus?: string;
 }
 
 const TOTAL_POPULATION = "Total population";
@@ -43,19 +49,25 @@ const LIMITED_ENGLISH_UNIVERSE =
 
 export const DEMOGRAPHIC_PERCENTAGE_METRIC_IDS = [
   "population_under_18",
+  "age18To64",
   "population_65_and_older",
   "poverty_population",
   "uninsured_population",
   "households_no_vehicle",
   "disability_population",
   "limited_english_households",
-] as const satisfies readonly AcsMetricId[];
+] as const;
 
 export const DEMOGRAPHIC_PERCENTAGE_CONTRACT: Record<
   (typeof DEMOGRAPHIC_PERCENTAGE_METRIC_IDS)[number],
   { unit: AcsMetricUnit; universe: string; denominatorMetric?: AcsMetricId }
 > = {
   population_under_18: {
+    unit: "people",
+    universe: TOTAL_POPULATION,
+    denominatorMetric: "total_population",
+  },
+  age18To64: {
     unit: "people",
     universe: TOTAL_POPULATION,
     denominatorMetric: "total_population",
@@ -94,7 +106,8 @@ export function deriveDemographicPercentageMetric(
   county: AcsCountyRecord,
   metricKey: (typeof DEMOGRAPHIC_PERCENTAGE_METRIC_IDS)[number],
 ): DemographicPercentageMetric {
-  const source = county.metrics[metricKey];
+  if (metricKey === "age18To64") return deriveAge18To64Metric(county);
+  const source = county.metrics[metricKey as AcsMetricId];
   const contract = DEMOGRAPHIC_PERCENTAGE_CONTRACT[metricKey];
   const limiting = statusFor(source);
   let percentage: number | null = null;
@@ -145,7 +158,28 @@ export function deriveDemographicPercentageMetric(
     percentageMethod,
     percentageSourceVariable: null,
     rawEstimateStatus: source?.status ?? "unavailable",
+    status: source?.status ?? "unavailable",
+    method: percentageMethod,
   };
+}
+
+export function deriveAge18To64Metric(county: AcsCountyRecord): DemographicPercentageMetric {
+  const total = county.metrics.total_population;
+  const under18 = county.metrics.population_under_18;
+  const age65Plus = county.metrics.population_65_and_older;
+  const components = ["totalPopulation", "under18", "age65Plus"];
+  const inputs = [total, under18, age65Plus];
+  const unavailable = inputs.find((value) => !value || value.status !== "available" && value.status !== "zero-reported");
+  const base = { metricKey: "age18To64" as const, metricLabel: "Age 18 to 64", unit: "people" as const, universe: TOTAL_POPULATION, sourceComponents: components, sourceVariables: [...(total?.sourceVariables ?? []), ...(under18?.sourceVariables ?? []), ...(age65Plus?.sourceVariables ?? [])], marginOfError: null, marginOfErrorStatus: "not-available-for-derived-metric", numeratorMarginOfError: null, denominatorMarginOfError: null, percentageMarginOfError: null, percentageSourceVariable: null, calculationMethod: "derived-residual-age-group", method: "derived-residual-age-group" };
+  if (unavailable) {
+    const inherited = unavailable.status === "suppressed" ? "suppressed" : unavailable.status === "missing" ? "missing" : unavailable.status === "unavailable" ? "unavailable" : "not-calculable";
+    return { ...base, estimate: null, numerator: null, denominator: total?.estimate ?? null, percentage: null, percentageStatus: inherited === "missing" || inherited === "suppressed" || inherited === "unavailable" ? inherited : "not-calculable", percentageMethod: "unavailable", rawEstimateStatus: unavailable.status, status: inherited };
+  }
+  const totalEstimate = total.estimate, under18Estimate = under18.estimate, age65PlusEstimate = age65Plus.estimate;
+  if (![totalEstimate, under18Estimate, age65PlusEstimate].every(Number.isFinite) || totalEstimate == null || under18Estimate == null || age65PlusEstimate == null) return { ...base, estimate: null, numerator: null, denominator: totalEstimate ?? null, percentage: null, percentageStatus: "not-calculable", percentageMethod: "unavailable", rawEstimateStatus: "unavailable", status: "not-calculable" };
+  const estimate = totalEstimate - under18Estimate - age65PlusEstimate;
+  if (estimate < 0 || estimate > totalEstimate || estimate + under18Estimate + age65PlusEstimate !== totalEstimate) return { ...base, estimate: null, numerator: null, denominator: totalEstimate, percentage: null, percentageStatus: "not-calculable", percentageMethod: "unavailable", rawEstimateStatus: "invalid", status: "invalid" };
+  return { ...base, estimate, numerator: estimate, denominator: totalEstimate, percentage: (estimate / totalEstimate) * 100, percentageStatus: "calculated", percentageMethod: "numerator-denominator-ratio", rawEstimateStatus: "available", status: "calculated" };
 }
 
 export function selectDemographicPercentageMetrics(
