@@ -7,7 +7,7 @@ import { estimatePresentation, isDerivedAgeMetric } from "@/lib/acs/estimatePres
 import { nationalBenchmarkMetadata, selectNationalBenchmarkComparison } from "@/lib/acs/nationalBenchmarks";
 import { acsSourceMetadata, classifyHospitalRecords, formatSourceDate, hospitalSourceMetadata } from "@/lib/provenance";
 
-interface Props { facilities: Facility[]; radiusMiles: number; coverageStatus?: CoverageStatus; selectedLocationLabel?: string; countyContext?: CountyContextState; }
+interface Props { facilities: Facility[]; radiusMiles: number; coverageStatus?: CoverageStatus; selectedLocationLabel?: string; countyContext?: CountyContextState; cmsStatus?: string; }
 const available = (metric?: { estimate: number | null; status: string } | null) => metric && ["available", "zero-reported", "calculated"].includes(metric.status);
 const count = (metric?: { estimate: number | null; status: string } | null) => available(metric) && metric?.estimate != null ? metric.estimate.toLocaleString() : "Not available";
 const fmt = count;
@@ -18,15 +18,19 @@ function Field({ label, children, className = "font-normal text-slate-700", labe
 }
 function Source({ label, value }: { label: string; value: string }) { return <div className="grid grid-cols-[7rem_1fr] gap-2 py-1 text-xs"><dt className="text-slate-500">{label}</dt><dd className="break-words text-slate-700">{value}</dd></div>; }
 
-export function RegionalSummaryPanel({ facilities, radiusMiles, coverageStatus, selectedLocationLabel, countyContext }: Props) {
+export function RegionalSummaryPanel({ facilities, radiusMiles, coverageStatus, selectedLocationLabel, countyContext, cmsStatus }: Props) {
   const county = countyContext?.containingCounty ?? null;
   const provenance = classifyHospitalRecords(facilities);
   const metrics = selectDemographicPercentageMetrics(county);
   const loading = countyContext?.status === "loading";
   const error = countyContext?.status === "error";
+  const hospitalsLoading = cmsStatus === "loading";
+  const hospitalsFailed = cmsStatus === "error" || cmsStatus === "unresolved" || cmsStatus === "partial-failure";
+  const countyUnavailable = error || countyContext?.status === "unavailable";
+  const dataStatus = loading || hospitalsLoading ? "Loading hospital and county data…" : hospitalsFailed && countyUnavailable ? "Some data could not be loaded. Available results are shown below." : hospitalsFailed ? "County context loaded. Hospital records could not be loaded." : countyUnavailable ? "Hospital results loaded. County context is unavailable." : provenance.hospitalCount === 0 ? "County context loaded. No matching mapped hospital records were found within this radius." : "Results loaded";
   return <div className="flex min-w-0 flex-col gap-5 p-4" data-testid="area-summary">
     <div className="lg:hidden rounded-md bg-slate-50 p-2 text-xs text-slate-600">Use tabs to switch between map, summary, and details.</div>
-    <section aria-labelledby="area-summary-heading"><h2 id="area-summary-heading" className="text-base font-semibold text-slate-900">Area Summary</h2><div className="mt-3 space-y-5">
+    <section aria-labelledby="area-summary-heading"><h2 id="area-summary-heading" className="text-base font-semibold text-slate-900">Area Summary</h2><p className="mt-1 text-xs text-slate-600" role="status" aria-live="polite" data-testid="data-status">{dataStatus}</p><div className="mt-3 space-y-5">
       <section aria-labelledby="planning-area-heading"><h3 id="planning-area-heading" className="text-xs font-semibold uppercase tracking-wide text-slate-500">Planning area</h3><dl className="mt-1"><Field label="Planning location">{selectedLocationLabel ?? "Choose a planning location"}</Field><Field label="Planning radius">{radiusMiles} miles</Field><Field label="Containing county">{loading ? "Loading…" : county?.fullName ?? "Not available"}</Field><Field label="Counties intersecting radius">{county?.fullName ? countyContext?.intersectingCounties.length ?? 0 : "Not available"}</Field></dl></section>
       <section aria-labelledby="hospitals-heading"><h3 id="hospitals-heading" className="text-xs font-semibold uppercase tracking-wide text-slate-500">Hospitals</h3><p className="mt-1 text-3xl font-semibold leading-none text-slate-900" data-testid="facility-results-count">{provenance.hospitalCount}</p><p className="mt-1 text-sm font-medium text-slate-800">Hospitals within radius</p><p className="mt-1 text-xs text-slate-500">Available mapped CMS hospital records</p>{provenance.hospitalCount > 0 ? <button type="button" onClick={() => document.getElementById("map")?.focus()} className="mt-2 text-xs font-semibold text-terrain-700 underline underline-offset-2">Review hospitals</button> : <p className="mt-2 rounded bg-slate-50 p-2 text-xs text-slate-700">No mapped hospital records were found within this radius. No matching mapped records does not establish that no hospital exists in the area.</p>}</section>
       <section aria-labelledby="population-context-heading"><h3 id="population-context-heading" className="text-xs font-semibold uppercase tracking-wide text-slate-500">Population context</h3>{loading ? <p className="mt-2 text-xs text-slate-600" role="status">Loading county context…</p> : error ? <p className="mt-2 text-xs text-slate-700" role="alert">County context could not be loaded.</p> : <><dl className="mt-1"><Field label="Containing county population">{count(county?.metrics.total_population)}</Field><Field label="Margin of error">{margin(county?.metrics.total_population)}</Field></dl>{county && <p className="mt-2 text-[11px] leading-relaxed text-slate-500">County values describe the whole county, not the population inside the selected radius.</p>}</>}</section>

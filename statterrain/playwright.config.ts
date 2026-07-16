@@ -17,15 +17,17 @@ export default defineConfig({
   reporter: process.env.CI ? [["html", { open: "never" }], ["list"]] : "list",
   timeout: 30_000,
   use: {
-    baseURL: "http://localhost:3000",
+    baseURL: "http://127.0.0.1:3100",
     trace: "retain-on-failure",
     screenshot: "only-on-failure",
     ...devices["Desktop Chrome"],
   },
   webServer: {
-    command: "npm run dev",
-    url: "http://localhost:3000",
+    // The browser suite exercises the same production server that is shipped.
+    // `npm run build` is intentionally a separate, conclusive release check.
+    command: "npx next start -p 3100 -H 127.0.0.1",
+    url: "http://127.0.0.1:3100/api/health",
     reuseExistingServer: !process.env.CI,
-    timeout: 60_000,
+    timeout: 90_000,
   },
 });
