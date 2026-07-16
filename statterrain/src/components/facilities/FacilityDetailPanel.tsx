@@ -90,10 +90,16 @@ export function FacilityDetailPanel({
   facility,
   onClose,
   headingRef,
+  scenarioIncluded = false,
+  onAddToScenario,
+  onRemoveFromScenario,
 }: {
   facility: Facility | null;
   onClose?: () => void;
   headingRef?: React.RefObject<HTMLHeadingElement>;
+  scenarioIncluded?: boolean;
+  onAddToScenario?: (facility: Facility) => void;
+  onRemoveFromScenario?: (facility: Facility) => void;
 }) {
   if (!facility) {
     return (
@@ -159,6 +165,7 @@ export function FacilityDetailPanel({
           </button>
         )}
       </div>
+      {(onAddToScenario || onRemoveFromScenario) && <button type="button" onClick={() => scenarioIncluded ? onRemoveFromScenario?.(facility) : onAddToScenario?.(facility)} className="mb-3 w-fit rounded border border-terrain-700 bg-white px-3 py-2 text-sm font-semibold text-terrain-800">{scenarioIncluded ? "Remove from scenario" : "Add to scenario"}</button>}
       <section aria-labelledby="facility-detail-heading">
         <dl className="mt-3 rounded-lg border border-slate-200 bg-white px-4">
           <DetailRow

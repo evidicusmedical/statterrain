@@ -43,6 +43,7 @@ import {
   classifyHospitalRecords,
   hospitalSourceMetadata,
 } from "@/lib/provenance";
+import type { PlanningScenario } from "@/lib/scenarios/planningScenario";
 
 export interface BriefContext {
   locationLabel: string;
@@ -56,6 +57,7 @@ export interface BriefContext {
   planningLocation?: PlanningLocation | null;
   containingCounty?: AcsCountyRecord | null;
   intersectingCounties?: AcsCountyRecord[];
+  planningScenario?: PlanningScenario | null;
 }
 
 function activeFilterSummary(filters: AppFilters) {
@@ -110,6 +112,11 @@ export function buildMarkdownBrief(ctx: BriefContext): string {
   const lines: string[] = [];
   lines.push(`# ${product.name} Regional Emergency Care Evidence Brief`);
   lines.push("");
+  if (ctx.planningScenario) {
+    const scenario = ctx.planningScenario;
+    lines.push("## Planning scenario"); lines.push("");
+    lines.push(`- Scenario title: ${scenario.title || "Untitled draft"}`); lines.push(`- Status: ${scenario.status}`); lines.push(`- Scenario ID: ${scenario.scenarioId}`); if (scenario.purpose) lines.push(`- Research purpose: ${scenario.purpose}`); lines.push(`- Selected facilities: ${scenario.selectedFacilities.length}`); lines.push("- This planning scenario is a research record and does not provide clinical, dispatch, routing, transfer, or real-time operational guidance."); lines.push("");
+  }
   lines.push(`**${product.tagline}**`);
   lines.push("");
   lines.push(`- Search location: ${locationLabel}`);
@@ -411,7 +418,7 @@ export function buildMarkdownBrief(ctx: BriefContext): string {
   lines.push("");
 
   const traceability = getTraceabilitySummary();
-  const relevantRequirements = selectRelevantRequirements({ hasHospitals: true, hasCountyContext: Boolean(ctx.containingCounty), hasNationalBenchmark: Boolean(ctx.containingCounty), hasEvidence: true });
+  const relevantRequirements = selectRelevantRequirements({ hasHospitals: true, hasCountyContext: Boolean(ctx.containingCounty), hasNationalBenchmark: Boolean(ctx.containingCounty), hasEvidence: true, hasPlanningScenario: Boolean(ctx.planningScenario) });
   lines.push("## Requirements traceability");
   lines.push("");
   lines.push(`Registry: ${SOO_REGISTRY_VERSION}. ${traceability.total} requirements. Supported: ${traceability.byStatus.supported}; Partially supported: ${traceability.byStatus["partially-supported"]}; Planned: ${traceability.byStatus.planned}; Data dependent: ${traceability.byStatus["data-dependent"]}; Out of scope: ${traceability.byStatus["out-of-scope"]}.`);
@@ -451,6 +458,7 @@ export function buildEvidenceSchema(ctx: BriefContext) {
     generatedAt: new Date().toISOString(),
     productVersion: product.prototypeVersion,
     requirementsTraceability: (() => { const summary = getTraceabilitySummary(); const relevant = selectRelevantRequirements({ hasHospitals: true, hasCountyContext: Boolean(ctx.containingCounty), hasNationalBenchmark: Boolean(ctx.containingCounty), hasEvidence: true }); return { registryVersion: SOO_REGISTRY_VERSION, generatedAt: new Date().toISOString(), summary: { total: summary.total, supported: summary.byStatus.supported, partiallySupported: summary.byStatus["partially-supported"], planned: summary.byStatus.planned, dataDependent: summary.byStatus["data-dependent"], unsupported: summary.byStatus.unsupported, outOfScope: summary.byStatus["out-of-scope"] }, relevantRequirementIds: relevant.relevantRequirementIds, requirements: sooRequirements.map(({ id, title, domain, status, evidenceFields, limitations }) => ({ id, title, domain, status, evidenceFields, limitations })) }; })(),
+    planningScenario: ctx.planningScenario ?? null,
     researchArea: {
       planningLocation,
       radiusMiles: ctx.radiusMiles,

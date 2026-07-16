@@ -4,7 +4,7 @@ import { SOO_REGISTRY_VERSION, getTraceabilitySummary, selectRelevantRequirement
 test("SOO requirements registry is valid and complete", () => {
   assert.deepEqual(validateSooRequirements(), []);
   assert.equal(sooRequirements.length, 30);
-  assert.equal(SOO_REGISTRY_VERSION, "v0.3.9 prototype");
+  assert.equal(SOO_REGISTRY_VERSION, "v0.3.9.1 prototype");
   assert.equal(sooRequirements.find((r) => r.id === "ST-SOO-006")?.status, "data-dependent");
   assert.equal(sooRequirements.find((r) => r.id === "ST-SOO-021")?.status, "out-of-scope");
   assert.equal(sooRequirements.find((r) => r.id === "ST-SOO-027")?.status, "data-dependent");

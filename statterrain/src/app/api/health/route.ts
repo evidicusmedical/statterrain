@@ -5,6 +5,6 @@ export function GET() {
   return NextResponse.json({
     status: "ok",
     product: "StatTerrain",
-    version: "v0.3.9 prototype",
+    version: "v0.3.9.1 prototype",
   });
 }

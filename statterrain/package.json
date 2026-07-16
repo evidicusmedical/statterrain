@@ -109,7 +109,16 @@
     "test:soo-registry": "node --experimental-transform-types --test tests/soo-requirements.test.mjs",
     "test:requirements-export": "node --experimental-transform-types --test tests/soo-requirements.test.mjs",
     "test:traceability-ui-contract": "node --test tests/evidence-contract.test.mjs",
-    "test:active-version-guard": "node --test tests/evidence-contract.test.mjs"
+    "test:active-version-guard": "node --test tests/evidence-contract.test.mjs",
+    "test:planning-scenario-schema": "node --experimental-transform-types --test tests/planning-scenario.test.mjs",
+    "test:planning-scenario-validation": "node --experimental-transform-types --test tests/planning-scenario.test.mjs",
+    "test:planning-scenario-synchronization": "node --experimental-transform-types --test tests/planning-scenario.test.mjs",
+    "test:planning-scenario-persistence": "node --experimental-transform-types --test tests/planning-scenario.test.mjs",
+    "test:planning-scenario-import": "node --experimental-transform-types --test tests/planning-scenario.test.mjs",
+    "test:planning-scenario-export": "node --experimental-transform-types --test tests/planning-scenario.test.mjs",
+    "test:planning-scenario-evidence": "node --experimental-transform-types --test tests/planning-scenario.test.mjs",
+    "test:planning-scenario-soo-integration": "node --experimental-transform-types --test tests/planning-scenario.test.mjs",
+    "test:planning-scenario-ui-contract": "node --experimental-transform-types --test tests/planning-scenario.test.mjs"
   },
   "dependencies": {
     "leaflet": "^1.9.4",
