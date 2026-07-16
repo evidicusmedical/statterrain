@@ -2,7 +2,7 @@ import { readFile } from "node:fs/promises";
 import path from "node:path";
 import { NextResponse } from "next/server";
 
-const ALLOWED_ROOTS = new Set(["acs-county-population-national", "county-boundaries"]);
+const ALLOWED_ROOTS = new Set(["acs-county-population-national", "county-boundaries", "acs-national-benchmarks"]);
 
 export async function GET(_request: Request, { params }: { params: { path: string[] } }) {
   const parts = params.path ?? [];
