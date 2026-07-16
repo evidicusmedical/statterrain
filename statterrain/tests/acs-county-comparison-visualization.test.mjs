@@ -51,5 +51,5 @@ test('no browser Census API call is introduced',()=>{
 });
 
 test('active version guard text updated',()=>{
-  assert.match(product,/v0\.3\.8 prototype/);
+  assert.match(product,/v0\.3\.8\.1 prototype/);
 });

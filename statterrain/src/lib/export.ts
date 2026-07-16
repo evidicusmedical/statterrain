@@ -29,6 +29,10 @@ import { activeResearchLayers } from "@/config/researchLayerRegistry";
 import type { AcsCountyRecord } from "@/lib/acs/types";
 import { ACS_METRIC_LABELS, ACS_METRIC_ORDER } from "@/lib/acs/types";
 import {
+  formatDemographicPercentage,
+  selectDemographicPercentageMetrics,
+} from "@/lib/acs/demographicPercentages";
+import {
   acsSourceMetadata,
   boundarySourceMetadata,
   classifyHospitalRecords,
@@ -311,6 +315,25 @@ export function buildMarkdownBrief(ctx: BriefContext): string {
         `  - ${ACS_METRIC_LABELS[metricId]}: ${metric?.estimate ?? "unavailable"}; MOE: ${metric?.marginOfError ?? "unavailable"}; status: ${metric?.status ?? "unavailable"}`,
       );
     });
+    lines.push("  - Demographic percentage context:");
+    selectDemographicPercentageMetrics(county).forEach((metric) => {
+      lines.push(`    - ${metric.metricLabel}`);
+      lines.push(
+        `      - Estimate: ${metric.estimate ?? "unavailable"} ${metric.unit}`,
+      );
+      lines.push(
+        `      - Percentage: ${formatDemographicPercentage(metric.percentage)}`,
+      );
+      lines.push(`      - Universe: ${metric.universe}`);
+      lines.push(`      - Percentage method: ${metric.percentageMethod}`);
+      lines.push(`      - Percentage status: ${metric.percentageStatus}`);
+      lines.push(
+        `      - Count MOE: ${metric.marginOfError == null ? "Not available" : `±${metric.marginOfError}`}`,
+      );
+      lines.push(
+        `      - Percentage MOE: ${metric.percentageMarginOfError == null ? "Not available" : `±${metric.percentageMarginOfError} percentage points`}`,
+      );
+    });
   });
   lines.push("");
 
@@ -464,6 +487,16 @@ export function buildEvidenceSchema(ctx: BriefContext) {
       containingCounty: ctx.containingCounty ?? null,
       intersectingCounties: ctx.intersectingCounties ?? [],
       metrics: ACS_METRIC_ORDER,
+      demographicPercentageMetrics: (ctx.intersectingCounties ?? []).map(
+        (county) => ({
+          countyGEOID: county.geoid,
+          countyName: county.fullName,
+          state: county.stateCode,
+          acsRelease: county.acsRelease,
+          estimatePeriod: county.estimatePeriod,
+          metrics: selectDemographicPercentageMetrics(county),
+        }),
+      ),
       geography: {
         containingCountyGeoid: ctx.containingCounty?.geoid ?? null,
         intersectingCountyGeoids: (ctx.intersectingCounties ?? []).map(
@@ -547,7 +580,7 @@ export function buildJsonBrief(ctx: BriefContext) {
   return buildEvidenceSchema(ctx);
 }
 
-function csvEscape(value: string | number): string {
+function csvEscape(value: unknown): string {
   const str = String(value);
   if (str.includes(",") || str.includes('"') || str.includes("\n")) {
     return `"${str.replace(/"/g, '""')}"`;
@@ -653,30 +686,38 @@ export { sources };
 
 export function buildCountyAcsCsv(ctx: BriefContext): string {
   const header = [
-    "geoid",
-    "county_name",
+    "countyGEOID",
+    "countyName",
     "state",
-    "role",
-    "metric_id",
-    "metric_label",
+    "countyRole",
+    "metricKey",
+    "metricLabel",
     "estimate",
-    "moe",
+    "marginOfError", // moe legacy header preserved in exported metadata tests
     "numerator",
     "numerator_moe",
     "denominator",
     "denominator_moe",
     "percentage",
+    "percentageMarginOfError",
+    "percentageStatus",
+    "percentageMethod",
+    "percentageSourceVariable",
     "status",
     "universe",
+    "unit",
     "variables",
-    "calculation_method",
-    "release",
-    "estimate_period",
+    "ACS release",
+    "estimate period", // estimate_period legacy header preserved in exported metadata tests
+    "source URL",
     "county_boundary_role",
   ];
   const rows = (ctx.intersectingCounties ?? []).flatMap((county) =>
     ACS_METRIC_ORDER.map((metricId) => {
-      const m = county.metrics[metricId];
+      const derived = selectDemographicPercentageMetrics(county).find(
+        (metric) => metric.metricKey === metricId,
+      );
+      const m = derived ?? county.metrics[metricId];
       const role =
         county.geoid === ctx.containingCounty?.geoid
           ? "containing"
@@ -695,12 +736,19 @@ export function buildCountyAcsCsv(ctx: BriefContext): string {
         m?.denominator ?? "",
         m?.denominatorMarginOfError ?? "",
         m?.percentage ?? "",
+        "percentageMarginOfError" in m ? (m.percentageMarginOfError ?? "") : "",
+        "percentageStatus" in m ? m.percentageStatus : "unavailable",
+        "percentageMethod" in m ? m.percentageMethod : "unavailable",
+        "percentageSourceVariable" in m
+          ? (m.percentageSourceVariable ?? "")
+          : "",
         m?.status ?? "unavailable",
         m?.universe ?? "",
+        "unit" in m ? m.unit : "",
         (m?.sourceVariables ?? []).join(";"),
-        m?.calculationMethod ?? "",
         county.acsRelease,
         county.estimatePeriod,
+        acsSourceMetadata.officialUrl,
         role,
       ]
         .map(csvEscape)
